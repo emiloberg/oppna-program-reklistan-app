@@ -1,3 +1,4 @@
+'use strict';
 
 var files = [
 	'app/*.{js,xml,css}',
@@ -42,8 +43,8 @@ gulp.task('default', function(device) {
     console.log('Tip: Run "gulp help" to show help');
     console.log();
 
-    gulp.watch(files, function(e) {
-        var child = spawn("tns", ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
+    gulp.watch(files, function() {
+        var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
         var stdout = '';
         var stderr = '';
 
@@ -61,7 +62,7 @@ gulp.task('default', function(device) {
         });
 
         child.on('close', function(code) {
-            console.log("Done with exit code", code);
+            console.log('Done with exit code', code);
         });
 
 
