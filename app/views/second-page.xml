@@ -14,7 +14,7 @@
 
                         <ListView id="apa" items="{{ menuItems }}">
                             <ListView.itemTemplate>
-                                <Label cssClass="listviewLabel" text="{{ name }}" />
+                                <Label cssClass="listviewLabel" text="{{ title }}" />
                             </ListView.itemTemplate>
                         </ListView>
 
