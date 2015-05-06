@@ -14,3 +14,21 @@ button {
     color: #284848;
     horizontal-align: center;
 }
+
+Page {
+    background-color: white;
+}
+
+
+.listviewLabel {
+    /*font-size: 40;*/
+    /*color: green;*/
+    /*background-color: red;*/
+    margin: 8 16;
+    font-size: 16;
+    color: #131313;
+}
+
+#apa {
+
+}

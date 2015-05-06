@@ -20,6 +20,7 @@ var HelloWorldModel = (function (_super) {
         else {
             this.set("message", this.counter + " taps left");
         }
+        console.log('CLICKAD');
     };
     return HelloWorldModel;
 })(observable.Observable);

@@ -1,0 +1,33 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
+
+    <!--
+    <StackLayout>
+        <Button text="SECOND PAGE" tap="navigateAway" />
+    </StackLayout>
+    -->
+
+    <TabView id="tabView1">
+        <TabView.items>
+            <TabViewItem title="Tab 1">
+                <TabViewItem.view>
+
+
+                        <ListView id="apa" items="{{ menuItems }}">
+                            <ListView.itemTemplate>
+                                <Label cssClass="listviewLabel" text="{{ name }}" />
+                            </ListView.itemTemplate>
+                        </ListView>
+
+
+                </TabViewItem.view>
+            </TabViewItem>
+            <TabViewItem title="Tab 2">
+                <TabViewItem.view>
+                    <Label text="This is Label in Tab 2" />
+                </TabViewItem.view>
+            </TabViewItem>
+        </TabView.items>
+    </TabView>
+
+</Page>
+
