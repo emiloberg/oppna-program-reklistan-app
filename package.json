@@ -1,0 +1,41 @@
+{
+  "name": "nativescript-emulator-reload",
+  "version": "1.0.1",
+  "description": "This small gulp script will monitor the source files of a NativeScript project and when a file is changed it'll rebuild and reload the emulator.",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-param": "^0.6.3",
+    "gulp-util": "^3.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Emil Oberg"
+  },
+  "license": "WTFPL ( http://www.wtfpl.net/ )",
+  "bugs": {
+    "url": "https://github.com/emiloberg/nativescript-emulator-reload/issues"
+  },
+  "homepage": "https://github.com/emiloberg/nativescript-emulator-reload",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emiloberg/nativescript-emulator-reload.git"
+  },
+  "keywords": [
+    "nativescript",
+    "gulp",
+    "emulator",
+    "reload",
+    "liveview",
+    "ios"
+  ],
+  "readme": "#nativescript-emulator-reload\n\nThis small gulp script will monitor the source files of a [NativeScript](https://www.nativescript.org/) project and when a file is changed it'll rebuild and reload the emulator.\n\nCurrently only supports iOS emulators.\n\n## Install\n```\ncd /your/project/root\nnpm install nativescript-emulator-reload\n```\n\n## Run\n```\ngulp\n```\n\nor with a device flag:\n\n```\ngulp -d iPad-Retina\n```\n\nlist valid devices with `gulp help`\n\n",
+  "readmeFilename": "README.md",
+  "gitHead": "43a6ba7c6d0c7c26a3ae9d193062db28e7338147",
+  "_id": "nativescript-emulator-reload@1.0.1",
+  "_shasum": "f1d67d0bc49470755354958bbde11976c67cd726",
+  "_from": "nativescript-emulator-reload@*"
+}
