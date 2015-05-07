@@ -13,6 +13,7 @@ var pageLoaded = function(args) {
 		secondLink: 'Second'
 	};
 	rekdata.getJSONData();
+	frameModule.topmost().navigate('views/dummy');
 };
 
 

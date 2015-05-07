@@ -1,0 +1,7 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="pageNavigatedTo" loaded="pageLoaded">
+    <ListView itemTap="menuItemTap" items="{{ fields }}">
+        <ListView.itemTemplate>
+            <Label cssClass="listviewLabel" text="{{ value }}" />
+        </ListView.itemTemplate>
+    </ListView>
+</Page>

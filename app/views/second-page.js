@@ -3,18 +3,14 @@
 var frameModule = require('ui/frame');
 var MainMenu = require('./../shared/models/MainMenu');
 
-
-
-function navigateAway() {
-	console.log('navigateAway');
-	frameModule.topmost().navigate('third-page');
-}
-exports.navigateAway = navigateAway;
-
-
-
-
-
 exports.pageLoaded = function( args ) {
 	args.object.bindingContext = MainMenu.get();
 };
+
+
+function menuItemTap(args) {
+	console.log('tapped');
+	MainMenu.setSelected(args.view.bindingContext);
+	frameModule.topmost().navigate('views/menu-sections');
+}
+exports.menuItemTap = menuItemTap;

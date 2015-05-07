@@ -3,37 +3,51 @@
 var observableModule = require('data/observable');
 var observableArray = require('data/observable-array');
 
-var MainMenuItems = new observableModule.Observable();
+var MainMenu = new observableModule.Observable();
 var items = new observableArray.ObservableArray();
-MainMenuItems.set('menuItems', items);
+MainMenu.set('menuItems', items);
 
-/**
- * Create a new menu item
- * @constructor
- */
-var MainMenuItem = (function () {
-	function ViewModelItem(title) {
-		this.title = title;
-	}
-	return ViewModelItem;
-})();
 
+var selectedItem;
+
+function setSelected(selected) {
+	//console.log('SELECTED');
+	//console.log(JSON.stringify(selected));
+	//MainMenu.set('selected', selected);
+	//
+	selectedItem = selected;
+}
+
+function getSelected() {
+	return selectedItem;
+	//
+	//console.log('-----');
+	//
+	//
+	//var temp = MainMenu.get('selected');
+	//Object.keys(temp).forEach(function (key) {
+	//	console.log(key + ': ' + temp[key]);
+	//});
+	//
+	//console.log('-----');
+	//
+	//return MainMenu.get('selected');
+}
 
 /**
  * Get all main menu items
  *
  * @returns {*[]} Observable
- * @returns {string} Observable.title Title of the menu item
  */
 function get() {
-	return MainMenuItems;
+	return MainMenu;
 }
 
 
 /**
  * Clear and set a new main menu
  *
- * @param {MainMenuItem[]} data
+ * @param {Object[]} data
  */
 function set(data) {
 
@@ -47,6 +61,8 @@ function set(data) {
 
 }
 
+
 module.exports.get = get;
 module.exports.set = set;
-module.exports.MainMenuItem = MainMenuItem;
+module.exports.setSelected = setSelected;
+module.exports.getSelected = getSelected;
