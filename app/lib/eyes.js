@@ -1,3 +1,13 @@
+/**
+ * This is a modified Eyes.js!
+ *
+ * It is modified to work in a non-node.js environment such as this.
+ *
+ * Only one small change: eyes.defaults.stream's value is changed from
+ * 'process.stdout' to 'null'
+ *
+ */
+
 //
 // Eyes.js - a customizable value inspector for Node.js
 //
