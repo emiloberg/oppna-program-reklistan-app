@@ -5,6 +5,7 @@ var labelModule = require('ui/label');
 var pageModule = require('ui/page');
 
 var rekdata = require('./../shared/controllers/rekdata');
+var initApp = require('./../shared/utils/appInit');
 
 var pageLoaded = function(args) {
 	var page = args.object;
@@ -13,7 +14,9 @@ var pageLoaded = function(args) {
 		secondLink: 'Second'
 	};
 	rekdata.getJSONData();
-	frameModule.topmost().navigate('views/dummy');
+	// frameModule.topmost().navigate('views/dummy');
+
+	initApp.init();
 };
 
 
