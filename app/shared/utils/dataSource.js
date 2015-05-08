@@ -91,48 +91,40 @@ function convertREKJsonToModelObj(data) {
 		entries: []
 	};
 
+	function addDataToObj(obj, data, type) {
+		data.forEach(function(chapter) {
+			if (!obj[chapter.title]) {
+				obj[chapter.title] = {
+					name: chapter.title,
+					chapters: {}
+				};
+			}
+			chapter.fields.forEach(function(details) {
+				if (!obj[chapter.title].chapters[details.value]) {
+					console.log('FINNS INTE: ' + details.value);
+					obj[chapter.title].chapters[details.value] = {
+						name: details.value,
+						id: utils.makeUrlSafe(chapter.title) + '/' + utils.makeUrlSafe(details.value)
+					};
+				}
+				if (type === 'drugs') {
+					obj[chapter.title].chapters[details.value].drugs = true;
+				} else if (type === 'advice') {
+					obj[chapter.title].chapters[details.value].advice = true;
+				}
+			});
+		});
+		return obj;
+	}
+
 	var entries = {};
 	entries = addDataToObj(entries, data.drugs, 'drugs');
-	entries = addDataToObj(entries, data.advice , 'advice');
+	entries = addDataToObj(entries, data.advice, 'advice');
 
 	debug.inspect(entries);
 }
 
-function addDataToObj(obj, data, type) {
-	data.forEach(function(chapter) {
 
-		if (!obj[chapter.title]) {
-			obj[chapter.title] = {
-				name: chapter.title,
-				chapters: {}
-			};
-		}
-
-		console.log(chapter.title);
-		console.log('---');
-
-		chapter.fields.forEach(function(details) {
-			if (!obj[chapter.title].chapters[details.value]) {
-				console.log('FINNS INTE: ' + details.value);
-				obj[chapter.title].chapters[details.value] = {
-					name: details.value,
-					id: utils.makeUrlSafe(chapter.title) + '/' + utils.makeUrlSafe(details.value)
-				};
-			}
-
-			if (type === 'drugs') {
-				obj[chapter.title].chapters[details.value].drugs = true;
-			} else if (type === 'advice') {
-				obj[chapter.title].chapters[details.value].advice = true;
-			}
-
-
-		});
-
-	});
-
-	return obj;
-}
 
 
 //data = {
