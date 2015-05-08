@@ -25,7 +25,6 @@ function get() {
 	var rekData; // todo read from file
 
 	if (!rekData) {
-		console.log('APA APA APA');
 		fetchFromServer();
 	}
 }
@@ -85,43 +84,58 @@ function fetchFromServer() {
  * @param {string} data.hbsDrugs
  */
 function convertREKJsonToModelObj(data) {
+
 	var dataOut = {
 		hbs: {},
 		meta: {},
 		entries: []
 	};
 
-	function addDataToObj(obj, data, type) {
-		data.forEach(function(chapter) {
-			if (!obj[chapter.title]) {
-				obj[chapter.title] = {
+	['drugs', 'advice'].forEach(function (type) {
+		var chapterIndex = 0;
+		var detailsIndex = 0;
+
+		data[type].forEach(function (chapter) {
+			var curChapterIndex = dataOut.entries.indexOf(chapter.title);
+			if(curChapterIndex === -1) {
+				chapterIndex = dataOut.entries.length;
+				dataOut.entries.push({
 					name: chapter.title,
-					chapters: {}
-				};
+					chapters: []
+				});
+			} else {
+				chapterIndex = curChapterIndex;
 			}
+
 			chapter.fields.forEach(function(details) {
-				if (!obj[chapter.title].chapters[details.value]) {
-					console.log('FINNS INTE: ' + details.value);
-					obj[chapter.title].chapters[details.value] = {
+
+				var curDetailsIndex = dataOut.entries[chapterIndex].chapters.indexOf(details.value);
+
+				if(curChapterIndex === -1) {
+					detailsIndex = dataOut.entries[chapterIndex].chapters.length;
+					var saveObj = {
 						name: details.value,
 						id: utils.makeUrlSafe(chapter.title) + '/' + utils.makeUrlSafe(details.value)
 					};
+					dataOut.entries[chapterIndex].chapters.push(saveObj);
+				} else {
+					detailsIndex = curDetailsIndex;
 				}
+
 				if (type === 'drugs') {
-					obj[chapter.title].chapters[details.value].drugs = true;
+					dataOut.entries[chapterIndex].chapters[detailsIndex].drugs = true;
 				} else if (type === 'advice') {
-					obj[chapter.title].chapters[details.value].advice = true;
+					dataOut.entries[chapterIndex].chapters[detailsIndex].advice = true;
 				}
+
 			});
 		});
-		return obj;
-	}
 
-	var entries = {};
-	entries = addDataToObj(entries, data.drugs, 'drugs');
-	entries = addDataToObj(entries, data.advice, 'advice');
+	});
 
-	debug.inspect(entries);
+
+	debug.inspect(dataOut.entries);
+
 }
 
 
