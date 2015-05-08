@@ -3,25 +3,36 @@ var PageModule = require('ui/page');
 var LabelModule = require('ui/label');
 var StackLayoutModule = require('ui/layouts/stack-layout');
 var webViewModule = require("ui/web-view");
+var fs = require( "file-system" );
 
-var testPage;
 var pageFactory = function () {
-	testPage = new PageModule.Page();
-	var layout = new StackLayoutModule.StackLayout();
-
-	var label1 = new LabelModule.Label();
-	label1.text = 'Label1';
-	var label2 = new LabelModule.Label();
-	label2.text = 'Label2';
-
-	layout.addChild(label1);
-	layout.addChild(label2);
-
-
+	var testPage = new PageModule.Page();
 
 	var webView = new webViewModule.WebView();
-	webView.url = 'http://www.dn.se';
+	
+	Object.keys(fs.knownFolders.documents).forEach(function(f) {
+		console.log(f);
+	});
 
+	webView.url = 'file:///tmp/dump.html';
+	webView.on(webViewModule.WebView.loadStartedEvent, function(e) {
+
+		if (e.url.indexOf('tjohej://') > -1) {
+			e.object.ios.stopLoading();
+		}
+
+		//var topFrame = FrameModule.topmost();
+		//topFrame.navigate({
+		//	create: function() {
+		//		var testPage2 = new PageModule.Page();
+		//		var webView2 = new webViewModule.WebView();
+		//		webView2.url = 'file:///tmp/hej.html';
+		//		testPage2.content = webView2;
+		//		return testPage2;
+		//	}
+		//});
+
+	});
 
 	testPage.content = webView;
 	return testPage;
