@@ -18,11 +18,8 @@ function itemInspector(name, item) {
 }
 
 
-
-
-function inspect(something, label) {
-	label = label || '';
-	console.log(eyes.inspect(something, label));
+function inspect(something) {
+	console.log(eyes.inspect(something));
 }
 
 
