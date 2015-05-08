@@ -24,5 +24,11 @@
   "homepage": "https://github.com/NativeScript/template-hello-world",
   "dependencies": {
     "handlebars": "^3.0.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest-cli": "^0.4.1"
   }
 }
