@@ -1,8 +1,7 @@
 'use strict';
 
 var files = [
-	'app/*.{js,xml,css}',
-	'app/**/*.{js,xml,css}'
+	'app/src/**/*.{js,xml,css}'
 ];
 
 var emulator = 'iPhone-5'; // Default emulator
@@ -23,8 +22,9 @@ var validEmulators = [
 var gulp = require('gulp-param')(require('gulp'), process.argv);
 var spawn = require('child_process').spawn;
 var gutil = require('gulp-util');
+var babel = require('gulp-babel');
 
-gulp.task('default', function(device) {
+gulp.task('emulate', function(device) {
     if (device !== null) {
         if (validEmulators.indexOf(device) === -1) {
             console.log();
@@ -68,6 +68,15 @@ gulp.task('default', function(device) {
 
     });
 });
+
+gulp.task('build', function() {
+    gulp.src(files)
+        .pipe(babel({
+            optional: ["es7.decorators"]
+        }))
+        .pipe(gulp.dest('app'));
+});
+
 
 gulp.task('help', function() {
     console.log();
