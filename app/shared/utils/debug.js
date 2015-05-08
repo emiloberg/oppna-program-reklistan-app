@@ -1,4 +1,5 @@
 'use strict';
+var eyes = require('./../../lib/eyes');
 
 function itemInspector(name, item) {
 	console.log('inspecting ' + name + ' started');
@@ -16,4 +17,14 @@ function itemInspector(name, item) {
 	console.log('inspecting ' + name + ' finished');
 }
 
+
+
+
+function inspect(something, label) {
+	label = label || '';
+	console.log(eyes.inspect(something, label));
+}
+
+
 module.exports.itemInspector = itemInspector;
+module.exports.inspect = inspect;
