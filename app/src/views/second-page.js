@@ -1,6 +1,6 @@
 'use strict';
 
-var frameModule = require('ui/frame');
+let frameModule = require('ui/frame');
 var MainMenu = require('./../shared/models/MainMenu');
 
 exports.pageLoaded = function( args ) {

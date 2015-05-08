@@ -2,7 +2,7 @@
 
 var Handlebars = require('../../node_modules/handlebars');
 
-function HtmlRenderer() {}
+function HtmlRenderer() {
 
 	var templates = {};
 

@@ -10,7 +10,7 @@ describe('htmlRenderer', function() {
 		renderer.registerTemplate('name', '{{property}}');
 
 		expect(function() {
-			//renderer.registerTemplate();
+			renderer.registerTemplate();
 		}).toThrow();
 	});
 });

@@ -56,11 +56,8 @@ function fetchFromServer() {
 					data: resData
 				};
 			});
-	}))
-	.catch(function (e) {
-		console.log('CATCHING');
-		console.log(e);
-	})
+		})
+	)
 	.then(function(e) {
 
 			var data = {
@@ -73,9 +70,10 @@ function fetchFromServer() {
 			});
 
 			return convertREKJsonToModelObj(data);
-
-
-
+	})
+	.catch(function (e) {
+		console.log('CATCHING');
+		console.log(e);
 	});
 
 }
@@ -114,7 +112,7 @@ function convertREKJsonToModelObj(data) {
 
 				var curDetailsIndex = dataOut.entries[chapterIndex].chapters.indexOf(details.value);
 
-				if(curChapterIndex === -1) {
+				if(curChapterIndex === -1) { // TODO: curDetailsIndex??
 					detailsIndex = dataOut.entries[chapterIndex].chapters.length;
 					var saveObj = {
 						name: details.value,
@@ -132,7 +130,7 @@ function convertREKJsonToModelObj(data) {
 				}
 
 			});
-		});
+		}); 
 
 	});
 
