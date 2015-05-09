@@ -1,10 +1,10 @@
 'use strict';
 
-var Handlebars = require('../../node_modules/handlebars');
+const Handlebars = require('../../node_modules/handlebars');
 
 function HtmlRenderer() {
 
-	var templates = {};
+	const templates = {};
 
 	function registerTemplate(name, templateContent) {
 		if (name === undefined || name === '') {
@@ -22,9 +22,9 @@ function HtmlRenderer() {
 	}
 
 	return {
-		registerTemplate: registerTemplate,
-		processTemplate: processTemplate
-	}
+		registerTemplate,
+		processTemplate
+	};
 }
 
 module.exports = HtmlRenderer;
