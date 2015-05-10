@@ -30,6 +30,7 @@ var gulp = require('gulp-param')(require('gulp'), process.argv);
 var spawn = require('child_process').spawn;
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
+var mocha = require('gulp-mocha');
 
 gulp.task('emulate', function(device) {
     if (device !== null) {
@@ -75,7 +76,9 @@ gulp.task('emulate', function(device) {
 //    });
 });
 
-gulp.task('build', function() {
+gulp.task('clean', function() {/* TODO */});
+
+gulp.task('compile', function() {
     var js = gulp.src(babelSrc)
         .pipe(babel({
             optional: ["es7.decorators"]
@@ -86,8 +89,17 @@ gulp.task('build', function() {
         .pipe(gulp.dest('app'));
 });
 
+gulp.task('test', function() {
+    return gulp.src(['app/test/*.js'], { read: false })
+        .pipe(mocha({
+            reporter: 'spec'
+        }));
+});
+
+gulp.task('build', ['clean', 'compile', 'test']);
+
 gulp.task('watch', function() {
-    gulp.watch(watchedFiles, ['build', 'emulate']);
+    gulp.watch(watchedFiles, ['compile', 'emulate']);
 });
 
 gulp.task('help', function() {

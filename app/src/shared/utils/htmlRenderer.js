@@ -12,12 +12,12 @@ class HtmlRenderer {
 		this.templates[name] = Handlebars.compile(templateContent);
 	}
 
-	processTemplate(templateName, templateContent) {
+	processTemplate(templateName, templateContext) {
 		var template = this.templates[templateName];
 		if (template === undefined) {
 			throw Error('No such Template registered');
 		}
-		return template(templateContent);
+		return template(templateContext);
 	}
 }
 
