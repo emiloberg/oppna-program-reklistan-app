@@ -2,29 +2,23 @@
 
 const Handlebars = require('../../node_modules/handlebars');
 
-function HtmlRenderer() {
+class HtmlRenderer {
 
-	const templates = {};
-
-	function registerTemplate(name, templateContent) {
-		if (name === undefined || name === '') {
-			throw Error('Name cannot be empty!');
-		}
-		templates[name] = Handlebars.compile(templateContent);
+	constructor() {
+		this.templates = {};
 	}
 
-	function processTemplate(templateName, templateContent) {
-		var template = templates[templateName];
+	registerTemplate(name, templateContent) {
+		this.templates[name] = Handlebars.compile(templateContent);
+	}
+
+	processTemplate(templateName, templateContent) {
+		var template = this.templates[templateName];
 		if (template === undefined) {
 			throw Error('No such Template registered');
 		}
 		return template(templateContent);
 	}
-
-	return {
-		registerTemplate,
-		processTemplate
-	};
 }
 
 module.exports = HtmlRenderer;
