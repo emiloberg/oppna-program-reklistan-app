@@ -1,5 +1,5 @@
 function makeUrlSafe(str /*, dontURIEncode*/) {
-	var ret = str || '';
+	let ret = str || '';
 	ret = ret.replace(/ /g, '_');
 	ret = removeDiacritics(ret);
 
@@ -10,8 +10,7 @@ function makeUrlSafe(str /*, dontURIEncode*/) {
 	return ret;
 }
 
-
-var defaultDiacriticsRemovalap = [
+const defaultDiacriticsRemovalap = [
 	{'base':'A', 'letters':'\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F'},
 	{'base':'AA','letters':'\uA732'},
 	{'base':'AE','letters':'\u00C6\u01FC\u01E2'},
@@ -85,33 +84,30 @@ var defaultDiacriticsRemovalap = [
 	{'base':'oi','letters':'\u01A3'},
 	{'base':'ou','letters':'\u0223'},
 	{'base':'oo','letters':'\uA74F'},
-	{'base':'p','letters':'\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755'},
-	{'base':'q','letters':'\u0071\u24E0\uFF51\u024B\uA757\uA759'},
-	{'base':'r','letters':'\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783'},
-	{'base':'s','letters':'\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B'},
-	{'base':'t','letters':'\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787'},
+	{'base':'p', 'letters':'\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755'},
+	{'base':'q', 'letters':'\u0071\u24E0\uFF51\u024B\uA757\uA759'},
+	{'base':'r', 'letters':'\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783'},
+	{'base':'s', 'letters':'\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B'},
+	{'base':'t', 'letters':'\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787'},
 	{'base':'tz','letters':'\uA729'},
-	{'base':'u','letters': '\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289'},
-	{'base':'v','letters':'\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C'},
+	{'base':'u', 'letters':'\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289'},
+	{'base':'v', 'letters':'\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C'},
 	{'base':'vy','letters':'\uA761'},
-	{'base':'w','letters':'\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73'},
-	{'base':'x','letters':'\u0078\u24E7\uFF58\u1E8B\u1E8D'},
-	{'base':'y','letters':'\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF'},
-	{'base':'z','letters':'\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763'}
+	{'base':'w', 'letters':'\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73'},
+	{'base':'x', 'letters':'\u0078\u24E7\uFF58\u1E8B\u1E8D'},
+	{'base':'y', 'letters':'\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF'},
+	{'base':'z', 'letters':'\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763'}
 ];
 
-var diacriticsMap = {};
-for (var i=0; i < defaultDiacriticsRemovalap.length; i++){
-	var letters = defaultDiacriticsRemovalap[i].letters.split("");
-	for (var j=0; j < letters.length ; j++){
-		diacriticsMap[letters[j]] = defaultDiacriticsRemovalap[i].base;
+const diacriticsMap = {};
+for (let letterClass of defaultDiacriticsRemovalap){
+	for (let variant of letterClass.letters){
+		diacriticsMap[variant] = letterClass.base;
 	}
 }
 
 function removeDiacritics (str) {
-	return str.replace(/[^\u0000-\u007E]/g, function(a){
-		return diacriticsMap[a] || a;
-	});
+	return str.replace(/[^\u0000-\u007E]/g, a => diacriticsMap[a] || a);
 }
 
 module.exports.makeUrlSafe = makeUrlSafe;

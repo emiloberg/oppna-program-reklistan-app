@@ -26,7 +26,6 @@ describe('htmlRenderer', () => {
 
 		htmlRenderer.registerTemplate('name', '{{#each this}}{{p}}{{/each}}');
 		result = htmlRenderer.processTemplate('name', [{p: 1}, {p: 2}, {p: 3}]);
-		expect(result).to.equal('123');		
+		expect(result).to.equal('123');
 	});
-
 });
