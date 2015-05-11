@@ -1,7 +1,17 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="pageNavigatedTo" loaded="pageLoaded">
-    <ListView itemTap="menuItemTap" items="{{ fields }}">
-        <ListView.itemTemplate>
-            <Label cssClass="listviewLabel" text="{{ value }}" />
-        </ListView.itemTemplate>
-    </ListView>
+
+    <Page>
+        <GridLayout rows="48, *">
+            <GridLayout cssClass="custom-tabs" row="0" columns="*, *">
+                <Button cssClass="custom-tabs--tab-button" col="0" text="1" />
+                <Button cssClass="custom-tabs--tab-button" col="1" text="2" />
+            </GridLayout>
+            <ListView row="1" itemTap="menuItemTap" items="{{ data }}">
+                <ListView.itemTemplate>
+                    <Label cssClass="listviewLabel" text="{{ name }}" />
+                </ListView.itemTemplate>
+            </ListView>
+        </GridLayout>
+    </Page>
 </Page>
+
