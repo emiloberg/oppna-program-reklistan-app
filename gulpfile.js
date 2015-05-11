@@ -27,8 +27,8 @@ var validEmulators = [
 ];
 
 var gulp = require('gulp-param')(require('gulp'), process.argv);
+var chalk = require('chalk');
 var spawn = require('child_process').spawn;
-var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 
@@ -36,8 +36,8 @@ gulp.task('emulate', function(device) {
     if (device !== null) {
         if (validEmulators.indexOf(device) === -1) {
             console.log();
-            console.log(gutil.colors.red('Error!'));
-            console.log(gutil.colors.red('"' + device + '" did not match a valid device'));
+            console.log(chalk.red('Error!'));
+            console.log(chalk.red('"' + device + '" did not match a valid device'));
             console.log('Valid devices are: ' + validEmulators.join(', '));
             console.log();
             return true;
@@ -46,12 +46,6 @@ gulp.task('emulate', function(device) {
         }
     }
 
-//    console.log();
-//    console.log(gutil.colors.blue('Watcher started, will restart emulator "' + emulator + '" when files change'));
-//    console.log('Tip: Run "gulp help" to show help');
-//    console.log();
-
-//    gulp.watch(watchedFiles, function() {
     var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
     var stdout = '';
     var stderr = '';
@@ -65,8 +59,7 @@ gulp.task('emulate', function(device) {
     child.stderr.setEncoding('utf8');
     child.stderr.on('data', function (data) {
         stderr += data;
-        gutil.log(gutil.colors.red(data));
-        gutil.beep();
+        console.log(chalk.red(data));
     });
 
     child.on('close', function(code) {
@@ -79,13 +72,13 @@ gulp.task('emulate', function(device) {
 gulp.task('clean', function() {/* TODO */});
 
 gulp.task('compile', function() {
-    var js = gulp.src(babelSrc)
+    gulp.src(babelSrc)
         .pipe(babel({
             optional: ["es7.decorators"]
         }))
         .pipe(gulp.dest('app'));
 
-    var res = gulp.src(resources)
+    gulp.src(resources)
         .pipe(gulp.dest('app'));
 });
 
@@ -99,21 +92,34 @@ gulp.task('test', function() {
 gulp.task('build', ['clean', 'compile', 'test']);
 
 gulp.task('watch', function() {
+    console.log();
+    console.log(chalk.blue('Watcher started, will restart emulator ') + chalk.yellow(emulator) + chalk.blue(' when files change'));
+    console.log('Tip: Run "gulp help" to show help');
+    console.log();
     gulp.watch(watchedFiles, ['compile', 'emulate']);
 });
 
-gulp.task('help', function() {
+gulp.task('default', function() {
     console.log();
+	console.log(chalk.magenta('  Main tasks'));
     console.log();
-    console.log('    gulp               - run to start watching files and restart');
-    console.log('                         default emulator (' + emulator + ') when files change.');
+    console.log('    ' + chalk.blue('gulp watch') + '               - Start watching files, recompile Javascript and restart');
+    console.log('                               default emulator (' + emulator + ') when files change.');
+	console.log('    ' + chalk.blue('gulp watch -d ') + chalk.yellow('<device>') + '   - run with specific emulator.');
     console.log();
-    console.log('    gulp -d <device>   - run with specific emulator.');
-    console.log('                         Valid emulators are: ' + validEmulators.join(', '));
+	console.log('    ' + chalk.blue('gulp build') + '               - Clean target folder, rebuild Javascript and run tests');
     console.log();
+	console.log(chalk.magenta('  Sub-tasks') + ' (primarily run by main tasks)');
+    console.log();
+	console.log('    ' + chalk.blue('gulp test') + '                - Run tests');
+	console.log();
+	console.log('    ' + chalk.blue('gulp compile') + '             - Compile Javascript');
+	console.log();
+	console.log('    ' + chalk.blue('gulp emulate') + '             - Run default emulator (' + emulator + ')');
+	console.log('    ' + chalk.blue('gulp emulate -d ') + chalk.yellow('<device>') + ' - Run specific emulator.');
+    console.log();
+	console.log(chalk.magenta('  Emulators'));
+    console.log();
+	console.log('    Valid emulators are: ' + chalk.yellow(validEmulators.join(', ')));
     console.log();
 });
-
-
-
-//tns emulate ios --device iPhone-6
