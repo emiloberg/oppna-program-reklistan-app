@@ -15,7 +15,6 @@ describe('htmlRenderer', () => {
 		htmlRenderer.registerTemplate('name', 'templateContent');
 	});
 
-
 	it('should process templates correctly', () => {
 
 		htmlRenderer.registerTemplate('name', '{{key}}');
@@ -24,6 +23,10 @@ describe('htmlRenderer', () => {
 
 		result = htmlRenderer.processTemplate('name', {key: 'value'});
 		expect(result).to.equal('value');		
+
+		htmlRenderer.registerTemplate('name', '{{#each this}}{{p}}{{/each}}');
+		result = htmlRenderer.processTemplate('name', [{p: 1}, {p: 2}, {p: 3}]);
+		expect(result).to.equal('123');		
 	});
 
-}) 
+});
