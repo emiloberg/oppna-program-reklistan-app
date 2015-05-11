@@ -36,5 +36,3 @@ function typeTap(args) {
 exports.pageNavigatedTo = pageNavigatedTo;
 exports.menuItemTap = menuItemTap;
 exports.typeTap = typeTap;
-
-

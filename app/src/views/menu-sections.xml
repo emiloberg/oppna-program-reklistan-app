@@ -3,6 +3,7 @@
     <Page>
         <GridLayout rows="48, *">
 
+
             <SegmentedBar row="0" cssClass="type-segmented-bar" selectedBackgroundColor="#851A31" selectedIndex="{{ selectedIndex }}">
                 <SegmentedBar.items>
                     <SegmentedBarItem title="DRUGS" />
@@ -18,5 +19,3 @@
         </GridLayout>
     </Page>
 </Page>
-
-

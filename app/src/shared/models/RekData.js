@@ -36,12 +36,12 @@ var observableArray = require('data/observable-array');
 var RekData = new observableModule.Observable();
 var items = new observableArray.ObservableArray();
 RekData.set('data', items);
+
 RekData.set('selectedIndex', 1);
 
 RekData.on(observableModule.Observable.propertyChangeEvent, function(propertyChangeData) {
 	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
 });
-
 
 /**
  * Get all RekData items

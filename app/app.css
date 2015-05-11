@@ -31,6 +31,7 @@ Page {
 }
 
 
+
 .type-segmented-bar {
     margin: 8 16;
 }
@@ -40,6 +41,13 @@ Page {
     /*color: #ffffff;*/
     /*horizontal-align: stretch;*/
 /*}*/
+
+
+.custom-tabs--tab-button {
+    background-color: rgb(133, 26, 49);
+    color: #ff0000;
+}
+
 
 /*$color-vgr-red:		rgb(133, 26, 49);*/
 /*$color-vgr-blue: 	rgb(0, 82, 146);*/
