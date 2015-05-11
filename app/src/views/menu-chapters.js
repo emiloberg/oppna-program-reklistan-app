@@ -5,8 +5,9 @@ let customUiModule = require('./../shared/modules/ui');
 function pageNavigatedTo(args) {
 	let page = args.object;
 	let context = RekData.getFromPathId(args.context.pathId);
+	debug.inspect(args.context.pathId);
 	page.bindingContext = context;
-	customUiModule.topbar.setText(page, context.name);
+	//customUiModule.topbar.setText(page, context.name);
 }
 
 
