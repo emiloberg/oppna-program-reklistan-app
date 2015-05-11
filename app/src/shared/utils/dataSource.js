@@ -9,15 +9,18 @@ var utils = require('./utils');
 
 var RESOURCE_URLS = {
 		drugs: {
-			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
+			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
+			url: 'http://localhost:5656/drugs.json',
 			isJson: true
 		},
 		advice: {
-			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
+			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
+			url: 'http://localhost:5656/advice.json',
 			isJson: true
 		},
 		hbsDrugs: {
-			url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
+			//url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
+			url: 'http://localhost:5656/details-drugs.hbs',
 		}
 };
 
@@ -53,11 +56,8 @@ function fetchFromServer() {
 					data: resData
 				};
 			});
-	}))
-	.catch(function (e) {
-		console.log('CATCHING');
-		console.log(e);
-	})
+		})
+	)
 	.then(function(e) {
 
 			var data = {
@@ -70,9 +70,10 @@ function fetchFromServer() {
 			});
 
 			return convertREKJsonToModelObj(data);
-
-
-
+	})
+	.catch(function (e) {
+		console.log('CATCHING');
+		console.log(e);
 	});
 
 }
@@ -111,7 +112,7 @@ function convertREKJsonToModelObj(data) {
 
 				var curDetailsIndex = dataOut.entries[chapterIndex].chapters.indexOf(details.value);
 
-				if(curChapterIndex === -1) {
+				if(curChapterIndex === -1) { // TODO: curDetailsIndex??
 					detailsIndex = dataOut.entries[chapterIndex].chapters.length;
 					var saveObj = {
 						name: details.value,
@@ -129,7 +130,7 @@ function convertREKJsonToModelObj(data) {
 				}
 
 			});
-		});
+		}); 
 
 	});
 

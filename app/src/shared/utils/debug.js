@@ -1,5 +1,5 @@
 'use strict';
-var eyes = require('./../../lib/eyes');
+var eyes = require('./../../thirdparty/eyes');
 
 function itemInspector(name, item) {
 	console.log('inspecting ' + name + ' started');
