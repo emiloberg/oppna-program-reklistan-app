@@ -21,4 +21,4 @@ class HtmlRenderer {
 	}
 }
 
-module.exports = HtmlRenderer;
+export default HtmlRenderer;
