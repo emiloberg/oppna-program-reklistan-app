@@ -9,7 +9,7 @@
     "gulp-babel": "^5.1.0",
     "gulp-param": "^0.6.3",
     "gulp-util": "^3.0.4",
-    "chai": "^2.3 .0",
+    "chai": "^2.3.0",
     "gulp-mocha": "^2.0.1",
     "mocha": "^2.2.4"
   },
