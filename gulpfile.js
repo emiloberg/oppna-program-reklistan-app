@@ -66,10 +66,11 @@ gulp.task('emulate', function(device) {
         console.log('Done with exit code', code);
     });
 
-//    });
 });
 
+
 gulp.task('clean', function() {/* TODO */});
+
 
 gulp.task('compile', function() {
     gulp.src(babelSrc)
@@ -82,6 +83,7 @@ gulp.task('compile', function() {
         .pipe(gulp.dest('app'));
 });
 
+
 gulp.task('test', function() {
     return gulp.src(['app/test/*.js'], { read: false })
         .pipe(mocha({
@@ -89,7 +91,9 @@ gulp.task('test', function() {
         }));
 });
 
+
 gulp.task('build', ['clean', 'compile', 'test']);
+
 
 gulp.task('watch', function() {
     console.log();
@@ -98,6 +102,7 @@ gulp.task('watch', function() {
     console.log();
     gulp.watch(watchedFiles, ['compile', 'emulate']);
 });
+
 
 gulp.task('default', function() {
     console.log();
