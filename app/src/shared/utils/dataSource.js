@@ -4,36 +4,39 @@
 
 
 
-var debug = require('./debug');
-var utils = require('./utils');
+let debug = require('./debug');
+let utils = require('./utils');
+let RekData = require('./../models/RekData');
 
-var RESOURCE_URLS = {
+const RESOURCE_URLS = {
 		drugs: {
-			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
-			url: 'http://localhost:5656/drugs.json',
+			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
+			//url: 'http://localhost:5656/drugs.json',
 			isJson: true
 		},
 		advice: {
-			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
-			url: 'http://localhost:5656/advice.json',
+			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
+			//url: 'http://localhost:5656/advice.json',
 			isJson: true
 		},
 		hbsDrugs: {
-			//url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
-			url: 'http://localhost:5656/details-drugs.hbs',
+			url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
+			//url: 'http://localhost:5656/details-drugs.hbs',
 		}
 };
 
 function get() {
-	var rekData; // todo read from file
+	let rekData;
+
+	//TODO Read from file here
 
 	if (!rekData) {
-		fetchFromServer();
+		fetchDataFromServer();
 	}
 }
 
-function fetchFromServer() {
-	var http = require('http');
+function fetchDataFromServer() {
+	let http = require('http');
 
 	Promise.all(
 		Object.keys(RESOURCE_URLS).map(function(name) {
@@ -41,10 +44,10 @@ function fetchFromServer() {
 			.then(function(response) {
 
 				if (response.statusCode < 200 || response.statusCode >= 300) {
-					throw new Error('Could not load resource ' + name);
+					return new Error('Could not load resource ' + name);
 				}
 
-				var resData;
+				let resData;
 				if (RESOURCE_URLS[name].isJson) {
 					resData = response.content.toJSON();
 				} else {
@@ -60,120 +63,78 @@ function fetchFromServer() {
 	)
 	.then(function(e) {
 
-			var data = {
-				drugs: {},
-				advice: {},
-				hbsDrugs: ''
-			};
-			e.forEach(function (response) {
-				data[response.name] = response.data;
-			});
+		// Convert response array to object
+		let data = {
+			drugs: {},
+			advice: {},
+			hbsDrugs: ''
+		};
+		e.forEach(function (response) {
+			data[response.name] = response.data;
+		});
 
-			return convertREKJsonToModelObj(data);
+		RekData.set(convertREKJsonToModelObj(data));
+
+		debug.inspect(RekData.get());
+
 	})
 	.catch(function (e) {
 		console.log('CATCHING');
-		console.log(e);
+		//console.log(e);
+		console.error(e);
+		console.error(e.stack);
 	});
-
 }
 
 /**
+ * Takes Skinny JSON Response JSON and Convert to data model object.
+ *
  * @param {object} data
  * @param {object} data.drugs
  * @param {object} data.advice
- * @param {string} data.hbsDrugs
  */
 function convertREKJsonToModelObj(data) {
-
-	var dataOut = {
-		hbs: {},
-		meta: {},
-		entries: []
-	};
-
+	let dataOut = [];
 	['drugs', 'advice'].forEach(function (type) {
-		var chapterIndex = 0;
-		var detailsIndex = 0;
-
+		let chapterIndex = 0;
+		let detailsIndex = 0;
 		data[type].forEach(function (chapter) {
-			var curChapterIndex = dataOut.entries.indexOf(chapter.title);
+
+			// Add chapter or get array index of chapter if chapter already exists
+			let curChapterIndex = dataOut.map(e => e.name).indexOf(chapter.title);
 			if(curChapterIndex === -1) {
-				chapterIndex = dataOut.entries.length;
-				dataOut.entries.push({
+				dataOut.push({
 					name: chapter.title,
 					chapters: []
 				});
+				chapterIndex = dataOut.length - 1;
 			} else {
 				chapterIndex = curChapterIndex;
 			}
 
 			chapter.fields.forEach(function(details) {
-
-				var curDetailsIndex = dataOut.entries[chapterIndex].chapters.indexOf(details.value);
-
-				if(curChapterIndex === -1) { // TODO: curDetailsIndex??
-					detailsIndex = dataOut.entries[chapterIndex].chapters.length;
-					var saveObj = {
+				// Add details or get array index of details if details already exists
+				let curDetailsIndex = dataOut[chapterIndex].chapters.map(e => e.name).indexOf(details.value);
+				if(curDetailsIndex === -1) {
+					dataOut[chapterIndex].chapters.push({
 						name: details.value,
 						id: utils.makeUrlSafe(chapter.title) + '/' + utils.makeUrlSafe(details.value)
-					};
-					dataOut.entries[chapterIndex].chapters.push(saveObj);
+					});
+					detailsIndex = dataOut[chapterIndex].chapters.length - 1;
 				} else {
 					detailsIndex = curDetailsIndex;
 				}
 
+				// Add drug/advice to indicate details have drug/advice information.
 				if (type === 'drugs') {
-					dataOut.entries[chapterIndex].chapters[detailsIndex].drugs = true;
+					dataOut[chapterIndex].chapters[detailsIndex].drugs = true;
 				} else if (type === 'advice') {
-					dataOut.entries[chapterIndex].chapters[detailsIndex].advice = true;
+					dataOut[chapterIndex].chapters[detailsIndex].advice = true;
 				}
-
 			});
-		}); 
-
+		});
 	});
-
-
-	debug.inspect(dataOut.entries);
-
+	return dataOut;
 }
-
-
-
-
-//data = {
-//	hbs: {
-//		details: '<html>...'
-//		drugs: '<html>...'
-//		advice: '<html>...'
-//	},
-//	meta: {}
-//	entries: [
-//		{
-//			name: 'Diabetes',
-//			chapters: [
-//				{
-//					name: 'Insuliner',
-//					id: 'diabetes/insuliner',
-//					drugs: true
-//				},
-//				{
-//					name: 'Riktvärden och omvandlingstabell',
-//					id: 'diabetes/rikt..',
-//					advice: true
-//				},
-//				{
-//					name: 'Obesitas',
-//					id: 'diabetes/obesitas',
-//					advice: true,
-//					drugs: true
-//				},
-//			]
-//		}
-//	]
-//}
-
-
 
 module.exports.get = get;
