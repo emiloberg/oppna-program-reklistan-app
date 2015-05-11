@@ -4,8 +4,7 @@
 
 
 <StackLayout>
-  <Button text="{{ firstLink }}" tap="navigateAway" />
-  <Button text="{{ secondLink }}" tap="navigate2" />
+  <Button text="{{ showRekMenu }}" tap="showRekMenu" />
 </StackLayout>
 
 </Page>

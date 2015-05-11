@@ -75,8 +75,6 @@ function fetchDataFromServer() {
 
 		RekData.set(convertREKJsonToModelObj(data));
 
-		debug.inspect(RekData.get());
-
 	})
 	.catch(function (e) {
 		console.log('CATCHING');
@@ -87,11 +85,15 @@ function fetchDataFromServer() {
 }
 
 /**
+ *
+ /**
  * Takes Skinny JSON Response JSON and Convert to data model object.
  *
  * @param {object} data
  * @param {object} data.drugs
  * @param {object} data.advice
+ *
+ * @returns {object[]}
  */
 function convertREKJsonToModelObj(data) {
 	let dataOut = [];
@@ -105,11 +107,21 @@ function convertREKJsonToModelObj(data) {
 			if(curChapterIndex === -1) {
 				dataOut.push({
 					name: chapter.title,
+					id: utils.makeUrlSafe(chapter.title),
+					drugs: false,
+					advice: false,
 					chapters: []
 				});
 				chapterIndex = dataOut.length - 1;
 			} else {
 				chapterIndex = curChapterIndex;
+			}
+
+			// Add drug/advice to indicate details have drug/advice information.
+			if (type === 'drugs') {
+				dataOut[chapterIndex].drugs = true;
+			} else if (type === 'advice') {
+				dataOut[chapterIndex].advice = true;
 			}
 
 			chapter.fields.forEach(function(details) {
@@ -118,6 +130,8 @@ function convertREKJsonToModelObj(data) {
 				if(curDetailsIndex === -1) {
 					dataOut[chapterIndex].chapters.push({
 						name: details.value,
+						drugs: false,
+						advice: false,
 						id: utils.makeUrlSafe(chapter.title) + '/' + utils.makeUrlSafe(details.value)
 					});
 					detailsIndex = dataOut[chapterIndex].chapters.length - 1;
