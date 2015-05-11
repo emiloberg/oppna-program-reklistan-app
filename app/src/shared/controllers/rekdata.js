@@ -7,11 +7,11 @@ function getJSONData(){
 	http.getJSON('http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE')
 	.then(function (r) {
 
-		console.log('Downloaded JSON data');
-		var menuData = getMenu(r);
-		console.log(JSON.stringify(menuData));
+		//console.log('Downloaded JSON data');
+//		var menuData = getMenu(r);
+		//console.log(JSON.stringify(menuData));
 
-		MainMenu.set(menuData);
+		MainMenu.set(r);
 
 	}, function (e) {
 		console.log('ERROR');
@@ -20,11 +20,10 @@ function getJSONData(){
 	});
 }
 
-function getMenu(data) {
-	return data.map(function (entry) {
-		//return {title: entry.title};
-		return new MainMenu.MainMenuItem(entry.title);
-	});
-}
+//function getMenu(data) {
+//	return data.map(function (entry) {
+//		return new MainMenu.MainMenuItem(entry.title);
+//	});
+//}
 
 module.exports.getJSONData = getJSONData;

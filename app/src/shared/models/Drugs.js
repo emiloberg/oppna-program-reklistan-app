@@ -3,37 +3,40 @@
 var observableModule = require('data/observable');
 var observableArray = require('data/observable-array');
 
-var MainMenuItems = new observableModule.Observable();
+var DrugsItems = new observableModule.Observable();
 var items = new observableArray.ObservableArray();
-MainMenuItems.set('menuItems', items);
+DrugsItems.set('drugsItems', items);
+
 
 /**
  * Create a new menu item
  * @constructor
  */
-var MainMenuItem = (function () {
-	function ViewModelItem(title) {
+var DrugsItem = (function () {
+	function ViewModelItem(title, uuid, sections) {
 		this.title = title;
+		this.uuid = uuid;
+		this.sections = sections;
 	}
 	return ViewModelItem;
 })();
 
 
 /**
- * Get all main menu items
+ * Get all Drugs
  *
  * @returns {*[]} Observable
- * @returns {string} Observable.title Title of the menu item
+ * @returns {string} Observable.title
  */
 function get() {
-	return MainMenuItems;
+	return DrugsItems;
 }
 
 
 /**
  * Clear and set a new main menu
  *
- * @param {MainMenuItem[]} data
+ * @param {DrugsItem[]} data
  */
 function set(data) {
 
@@ -47,6 +50,8 @@ function set(data) {
 
 }
 
+
 module.exports.get = get;
 module.exports.set = set;
-module.exports.MainMenuItem = MainMenuItem;
+module.exports.DrugsItem = DrugsItem;
+

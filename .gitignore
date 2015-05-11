@@ -1,1 +1,4 @@
 platforms/
+app/views
+app/shared
+app/test

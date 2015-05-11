@@ -9,6 +9,8 @@
     "rules": {
         "quotes": [1, "single", "avoid-escape"],
         "no-use-before-define": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "eol-last": 1,
+        "no-trailing-spaces": 1
     }    
 }

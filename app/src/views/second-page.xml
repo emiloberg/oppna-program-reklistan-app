@@ -1,24 +1,15 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
 
-    <!--
-    <StackLayout>
-        <Button text="SECOND PAGE" tap="navigateAway" />
-    </StackLayout>
-    -->
-
+<!--
     <TabView id="tabView1">
         <TabView.items>
             <TabViewItem title="Tab 1">
                 <TabViewItem.view>
-
-
-                        <ListView id="apa" items="{{ menuItems }}">
-                            <ListView.itemTemplate>
-                                <Label cssClass="listviewLabel" text="{{ title }}" />
-                            </ListView.itemTemplate>
-                        </ListView>
-
-
+                    <ListView itemTap="menuItemTap" items="{{ menuItems }}">
+                        <ListView.itemTemplate>
+                            <Label cssClass="listviewLabel" text="{{ title }}" />
+                        </ListView.itemTemplate>
+                    </ListView>
                 </TabViewItem.view>
             </TabViewItem>
             <TabViewItem title="Tab 2">
@@ -28,6 +19,13 @@
             </TabViewItem>
         </TabView.items>
     </TabView>
+-->
+
+    <ListView itemTap="menuItemTap" items="{{ menuItems }}">
+        <ListView.itemTemplate>
+            <Label cssClass="listviewLabel" text="{{ title }}" />
+        </ListView.itemTemplate>
+    </ListView>
 
 </Page>
 
