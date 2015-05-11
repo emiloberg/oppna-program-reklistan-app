@@ -1,7 +1,7 @@
 'use strict';
 
 var watchedFiles = [
-	'app/src/*.{js,xml,css}'
+	'app/src/*.{js,xml,css}',
 	'app/src/**/*.{js,xml,css}'
 ];
 
@@ -9,7 +9,7 @@ var babelSrc = [
     'app/src/**/*.js'
 ];
 var resources = [
-    'app/src/*.{xml,css}'
+    'app/src/*.{xml,css}',
     'app/src/**/*.{xml,css}'
 ];
 
