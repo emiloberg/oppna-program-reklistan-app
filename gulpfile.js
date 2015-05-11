@@ -13,6 +13,10 @@ var resources = [
     'app/src/**/*.{xml,css}'
 ];
 
+var generatedSources = [
+    './app/{shared,test,views}'
+];
+
 var emulator = 'iPhone-5'; // Default emulator
 
 var validEmulators = [
@@ -34,6 +38,7 @@ var spawn = require('child_process').spawn;
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 var mergeStream = require('merge-stream');
+var del = require('del');
 
 gulp.task('emulate', function(device) {
     if (device !== null) {
@@ -72,7 +77,9 @@ gulp.task('emulate', function(device) {
 });
 
 
-gulp.task('clean', function() {/* TODO */});
+gulp.task('clean', function(cb) {
+    del(generatedSources, cb);
+});
 
 gulp.task('compile', ['clean'], function() {
     var js = gulp.src(babelSrc)
