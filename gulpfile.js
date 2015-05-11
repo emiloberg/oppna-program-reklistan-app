@@ -31,6 +31,7 @@ var spawn = require('child_process').spawn;
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
+var mergeStream = require('merge-stream');
 
 gulp.task('emulate', function(device) {
     if (device !== null) {
@@ -78,7 +79,7 @@ gulp.task('emulate', function(device) {
 
 gulp.task('clean', function() {/* TODO */});
 
-gulp.task('compile', function() {
+gulp.task('compile', ['clean'], function() {
     var js = gulp.src(babelSrc)
         .pipe(babel({
             optional: ["es7.decorators"]
@@ -87,16 +88,18 @@ gulp.task('compile', function() {
 
     var res = gulp.src(resources)
         .pipe(gulp.dest('app'));
+
+    return mergeStream(js, res);
 });
 
-gulp.task('test', function() {
+gulp.task('test', ['compile'], function() {
     return gulp.src(['app/test/*.js'], { read: false })
         .pipe(mocha({
             reporter: 'spec'
         }));
 });
 
-gulp.task('build', ['clean', 'compile', 'test']);
+gulp.task('build', ['test']);
 
 gulp.task('watch', function() {
     gulp.watch(watchedFiles, ['compile', 'emulate']);
