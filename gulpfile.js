@@ -84,8 +84,8 @@ gulp.task('clean', function(cb) {
 gulp.task('compile', ['clean'], function() {
     var js = gulp.src(babelSrc)
         .pipe(babel({
-            optional: ["es7.decorators"]
-        }))
+            stage: 1 
+         }))
         .pipe(gulp.dest('app'));
 
     var res = gulp.src(resources)
