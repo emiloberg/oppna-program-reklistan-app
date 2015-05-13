@@ -32,27 +32,29 @@ var validEmulators = [
     'Resizable-iPad'
 ];
 
-var gulp = require('gulp-param')(require('gulp'), process.argv);
+//var gulp = require('gulp-param')(require('gulp'), process.argv);
+var gulp = require('gulp');
 var chalk = require('chalk');
 var spawn = require('child_process').spawn;
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 var mergeStream = require('merge-stream');
 var del = require('del');
+var runSequence = require('run-sequence');
 
-gulp.task('emulate', function(device) {
-    if (device !== null) {
-        if (validEmulators.indexOf(device) === -1) {
-            console.log();
-            console.log(chalk.red('Error!'));
-            console.log(chalk.red('"' + device + '" did not match a valid device'));
-            console.log('Valid devices are: ' + validEmulators.join(', '));
-            console.log();
-            return true;
-        } else {
-            emulator = device;
-        }
-    }
+gulp.task('_emulate', function(cb) {
+    //if (device !== null) {
+    //    if (validEmulators.indexOf(device) === -1) {
+    //        console.log();
+    //        console.log(chalk.red('Error!'));
+    //        console.log(chalk.red('"' + device + '" did not match a valid device'));
+    //        console.log('Valid devices are: ' + validEmulators.join(', '));
+    //        console.log();
+    //        return true;
+    //    } else {
+    //        emulator = device;
+    //    }
+    //}
 
     var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
     var stdout = '';
@@ -74,17 +76,19 @@ gulp.task('emulate', function(device) {
         console.log('Done with exit code', code);
     });
 
+    cb();
+
 });
 
 
-gulp.task('clean', function(cb) {
+gulp.task('_clean', function(cb) {
     del(generatedSources, cb);
 });
 
-gulp.task('compile', ['clean'], function() {
+gulp.task('_compile', function() {
     var js = gulp.src(babelSrc)
         .pipe(babel({
-            stage: 1 
+            stage: 1
          }))
         .pipe(gulp.dest('app'));
 
@@ -95,7 +99,7 @@ gulp.task('compile', ['clean'], function() {
 });
 
 
-gulp.task('test', ['compile'], function() {
+gulp.task('_test', function() {
     return gulp.src(['app/test/*.js'], { read: false })
         .pipe(mocha({
             reporter: 'spec'
@@ -103,16 +107,29 @@ gulp.task('test', ['compile'], function() {
 });
 
 
-gulp.task('build', ['test']);
+gulp.task('test', function(callback) {
+    runSequence(
+        '_clean',
+        '_compile',
+        '_test',
+        callback);
+});
 
 
 
-gulp.task('watch', function() {
+gulp.task('watch', function(callback) {
     console.log();
     console.log(chalk.blue('Watcher started, will restart emulator ') + chalk.yellow(emulator) + chalk.blue(' when files change'));
     console.log('Tip: Run "gulp help" to show help');
     console.log();
-    gulp.watch(watchedFiles, ['compile', 'emulate']);
+    gulp.watch(watchedFiles, function () {
+            runSequence(
+                '_clean',
+                '_compile',
+                '_emulate',
+                callback);
+        }
+    );
 });
 
 
