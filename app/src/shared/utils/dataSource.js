@@ -10,18 +10,18 @@ let RekData = require('./../models/RekData');
 
 const RESOURCE_URLS = {
 		drugs: {
-			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
-			//url: 'http://localhost:5656/drugs.json',
+			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/11571/locale/sv_SE',
+			url: 'http://localhost:5656/drugs.json',
 			isJson: true
 		},
 		advice: {
-			url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
-			//url: 'http://localhost:5656/advice.json',
+			//url: 'http://local.dev:8080/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/10155/group-name/Guest/ddm-structure-id/12602/locale/sv_SE',
+			url: 'http://localhost:5656/advice.json',
 			isJson: true
 		},
 		hbsDrugs: {
-			url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
-			//url: 'http://localhost:5656/details-drugs.hbs',
+			//url: 'http://local.dev:8080/reklistan-theme/handlebars/details-drugs.hbs'
+			url: 'http://localhost:5656/details-drugs.hbs',
 		}
 };
 
@@ -44,7 +44,7 @@ function fetchDataFromServer() {
 			.then(function(response) {
 
 				if (response.statusCode < 200 || response.statusCode >= 300) {
-					return new Error('Could not load resource ' + name);
+					throw new Error('Could not load resource ' + name);
 				}
 				let resData;
 				if (RESOURCE_URLS[name].isJson) {
@@ -71,7 +71,7 @@ function fetchDataFromServer() {
 		e.forEach(function (response) {
 			data[response.name] = response.data;
 		});
-
+		debug.inspect(e);
 		RekData.setMasterData(convertREKJsonToModelObj(data));
 
 	})
@@ -94,9 +94,11 @@ function fetchDataFromServer() {
  */
 function convertREKJsonToModelObj(data) {
 	let dataOut = [];
+
 	['drugs', 'advice'].forEach(function (type) {
 		let chapterIndex = 0;
 		let detailsIndex = 0;
+
 		data[type].forEach(function (chapter) {
 
 			// Add chapter or get array index of chapter if chapter already exists
