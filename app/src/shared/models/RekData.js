@@ -1,83 +1,71 @@
 'use strict';
 
-let debug = require('./../utils/debug');
-var observableModule = require('data/observable');
-var observableArray = require('data/observable-array');
+console.log('RUNNING REKDATA');
 
+//let debug = require('./../utils/debug');
 
+import {inspect, saveFile} from './../utils/debug';
+import {Observable} from 'data/observable'
+
+//var observableModule = require('data/observable');
+//var observableArray = require('data/observable-array');
 
 
 let masterData = [];
+const typeNames = ['drugs', 'advice'];
 
-var RekData = new observableModule.Observable();
-RekData.set('data', []);
-
-let selectedIndex = 1;
-
-RekData.set('selectedIndex', selectedIndex);
-
-RekData.on(observableModule.Observable.propertyChangeEvent, function(propertyChangeData) {
-	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
-
+var dataMainMenu = new Observable();
+dataMainMenu.set('data', []);
+dataMainMenu.on(Observable.propertyChangeEvent, function(propertyChangeData) {
 	if (propertyChangeData.propertyName === 'selectedIndex') {
-		setDataToCurrentType();
+		let typeName = typeNames[dataMainMenu.get('selectedIndex')];
+		let filteredData = masterData.filter(e => (e[typeName] === true));
+		dataMainMenu.set('data', filteredData);
 	}
 });
 
+
+let dataSubmenu = new Observable();
+
+dataSubmenu.set('data', {});
+dataSubmenu.on(Observable.propertyChangeEvent, function(propertyChangeData) {
+	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
+
+	if (propertyChangeData.propertyName === 'selectedIndex') {
+		let pathId = dataSubmenu.get('pathId');
+		let filteredData = masterData.filter(item => (item.id === pathId));
+		filteredData = filteredData[0]; // todo, check that we got exactly one
+		let typeName = typeNames[dataSubmenu.get('selectedIndex')];
+		let filteredOnTypes = filteredData.chapters.filter(chap => chap[typeName] === true);
+		dataSubmenu.set('data', filteredOnTypes);
+	}
+});
+
+
 /**
- * Get all RekData items
+ * Get all dataMainMenu items
  *
  * @returns {*[]} Observable
  */
-function get() {
-	return RekData;
+function getMainMenu() {
+	return dataMainMenu;
 }
 
-//
-///**
-// * Add a single entry
-// *
-// * @param {object} data Data object
-// * @param {string} data.name Section name
-// * @param {string} data.id Section Id
-// * @param {object} data.chapters Chapters object
-// * @param {string} [data.chapters.name] Chapter name
-// * @param {string} [data.chapters.id] Chapter Id
-// * @param {boolean} [data.chapters.drugs] Chapter has drugs information
-// * @param {boolean} [data.chapters.advice] Chapter has advice information
-// */
-//function add(data) {
-//	console.log('Added data');
-//	items.push(data);
-//}
 
-function getTypeName() {
-	if (RekData.get('selectedIndex') === 0) {
-		return 'drugs';
-	} else if (RekData.get('selectedIndex') === 1) {
-		return 'advice';
-	}
-}
 
-function setDataToCurrentType() {
-	let typeName = getTypeName();
-	let filteredData = masterData.filter(e => (e[typeName] === true));
-	
-	filteredData.map(function (chapter) {
-		let filteredChapters = chapter.chapters.filter(e => (e[typeName] === true));
-		chapter.chapters = filteredChapters;
-		return chapter;
-	});
-	
-	RekData.set('data', filteredData);
-}
+
+
+
+
 
 /**
- * Clear and set RekData
+ * Clear and set dataMainMenu
  *
  * @param {Object[]} data
  */
-function set(data) {
+
+function setMasterData(data) {
+
 	while (masterData.length > 0) {
 		masterData.pop();
 	}
@@ -85,22 +73,35 @@ function set(data) {
 		masterData.push(entry);
 	});
 
-	setDataToCurrentType();
-}
+	dataMainMenu.set('selectedIndex', 0);
 
-function getFromPathId(pathId) {
-	// todo, check that we're getting exactly one result back
-	let ret = RekData.get('data').filter(item => (item.id === pathId));
+	saveFile('masterdata.json', JSON.stringify(data));
+//	setDataToCurrentType();
 
-	debug.inspect(ret);
-
-	return ret[0];
 }
 
 
-module.exports.get = get;
-module.exports.set = set;
-module.exports.getFromPathId = getFromPathId;
+function getSubmenu(pathId, selectedIndex) {
+	dataSubmenu.set('pathId', pathId);
+
+	if (dataSubmenu.get('selectedIndex') === selectedIndex) {
+		dataSubmenu.notify({
+			eventName: Observable.propertyChangeEvent,
+			object: dataSubmenu,
+			propertyName: 'selectedIndex',
+			value: selectedIndex
+		});
+	} else {
+		dataSubmenu.set('selectedIndex', selectedIndex);
+	}
+	return dataSubmenu;
+}
+
+
+
+module.exports.getMainMenu = getMainMenu;
+module.exports.setMasterData = setMasterData;
+module.exports.getSubmenu = getSubmenu;
 
 
 

@@ -12,9 +12,14 @@ var pageLoaded = function(args) {
 		showRekMenu: 'REK-listan'
 	};
 
-	initApp.init();
+	initApp.init()
+	.then(function () {
+		frameModule.topmost().navigate('views/menu-sections');
+	})
+	.catch(function (e) {
+		console.dir(e);
+	});
 
-	frameModule.topmost().navigate('views/menu-sections');
 };
 
 

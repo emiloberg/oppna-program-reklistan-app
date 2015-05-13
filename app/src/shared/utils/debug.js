@@ -1,7 +1,9 @@
 'use strict';
 var eyes = require('./../../thirdparty/eyes');
+var fs = require("file-system");
 
-function itemInspector(name, item) {
+
+export function itemInspector(name, item) {
 	console.log('inspecting ' + name + ' started');
 	if (item == null) {
 		console.log(name + ' is null');
@@ -18,10 +20,24 @@ function itemInspector(name, item) {
 }
 
 
-function inspect(something) {
+export function inspect(something) {
 	console.log(eyes.inspect(something));
 }
 
 
-module.exports.itemInspector = itemInspector;
-module.exports.inspect = inspect;
+export function saveFile(filename, content) {
+	var root = '/tmp/';
+	var path = fs.path.join(root, filename);
+	var file = fs.File.fromPath(path);
+
+	file.writeText(content).then(function () {
+
+	}, function (error) {
+		throw new Error('Could not write file!')
+	});
+}
+
+//module.exports.itemInspector = itemInspector;
+//module.exports.inspect = inspect;
+//module.exports.saveFile = saveFile;
+

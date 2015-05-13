@@ -1,6 +1,6 @@
 {
-	"id": "org.nativescript.oppnaprogramreklistanapp",
+	"id": "org.nativescript.rekapp",
 	"tns-ios": {
-		"version": "1.0.0"
+		"version": "1.0.1"
 	}
 }
