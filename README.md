@@ -6,6 +6,7 @@ Work in progress!
 We're currently not including the Babel polyfill in the App runtime, which means that you cannot use these:
 
 |Feature | Requirements |
+|--------|--------------|
 |Abstract References | Symbol |
 |Array destructuring | Symbol |
 |Async functions, Generators | regenerator runtime |
