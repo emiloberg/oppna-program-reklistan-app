@@ -1,15 +1,9 @@
 'use strict';
 
-console.log('RUNNING REKDATA');
-
-//let debug = require('./../utils/debug');
-
 import {inspect, saveFile} from './../utils/debug';
 import {Observable} from 'data/observable'
 
-//var observableModule = require('data/observable');
 //var observableArray = require('data/observable-array');
-
 
 let masterData = [];
 const typeNames = ['drugs', 'advice'];
@@ -22,25 +16,16 @@ dataMainMenu.on(Observable.propertyChangeEvent, function(propertyChangeData) {
 		let filteredData = masterData.filter(e => (e[typeName] === true));
 		dataMainMenu.set('data', filteredData);
 	}
+	console.log('main menu property updated: ' + propertyChangeData.propertyName);
 });
 
 
 let dataSubmenu = new Observable();
 
 dataSubmenu.set('data', {});
-dataSubmenu.on(Observable.propertyChangeEvent, function(propertyChangeData) {
-	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
-
-	if (propertyChangeData.propertyName === 'selectedIndex') {
-		let pathId = dataSubmenu.get('pathId');
-		let filteredData = masterData.filter(item => (item.id === pathId));
-		filteredData = filteredData[0]; // todo, check that we got exactly one
-		let typeName = typeNames[dataSubmenu.get('selectedIndex')];
-		let filteredOnTypes = filteredData.chapters.filter(chap => chap[typeName] === true);
-		dataSubmenu.set('data', filteredOnTypes);
-	}
-});
-
+//dataSubmenu.on(Observable.propertyChangeEvent, function(propertyChangeData) {
+//	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
+//});
 
 /**
  * Get all dataMainMenu items
@@ -51,12 +36,14 @@ function getMainMenu() {
 	return dataMainMenu;
 }
 
-
-
-
-
-
-
+/**
+ * Get all submenu items
+ *
+ * @returns {*[]} Observable
+ */
+function getSubmenu() {
+	return dataSubmenu;
+}
 
 /**
  * Clear and set dataMainMenu
@@ -80,28 +67,23 @@ function setMasterData(data) {
 
 }
 
+function updateSubmenu(pathId, selectedIndex) {
+	
+	let filteredData = masterData.filter(item => (item.id === pathId));
+	
+	filteredData = filteredData[0]; // todo, check that we got exactly one
 
-function getSubmenu(pathId, selectedIndex) {
-	dataSubmenu.set('pathId', pathId);
-
-	if (dataSubmenu.get('selectedIndex') === selectedIndex) {
-		dataSubmenu.notify({
-			eventName: Observable.propertyChangeEvent,
-			object: dataSubmenu,
-			propertyName: 'selectedIndex',
-			value: selectedIndex
-		});
-	} else {
-		dataSubmenu.set('selectedIndex', selectedIndex);
-	}
-	return dataSubmenu;
+	const typeName = typeNames[selectedIndex];
+	console.log(typeName);
+	const filteredOnTypes = filteredData.chapters.filter(chap => chap[typeName] === true);
+	inspect(filteredOnTypes);
+	dataSubmenu.set('data', filteredOnTypes);
 }
 
-
-
 module.exports.getMainMenu = getMainMenu;
-module.exports.setMasterData = setMasterData;
 module.exports.getSubmenu = getSubmenu;
+module.exports.setMasterData = setMasterData;
+module.exports.updateSubmenu = updateSubmenu;
 
 
 
