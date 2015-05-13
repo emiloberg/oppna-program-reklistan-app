@@ -3,7 +3,7 @@ var eyes = require('./../../thirdparty/eyes');
 var fs = require("file-system");
 
 
-function itemInspector(name, item) {
+export function itemInspector(name, item) {
 	console.log('inspecting ' + name + ' started');
 	if (item == null) {
 		console.log(name + ' is null');
@@ -20,12 +20,12 @@ function itemInspector(name, item) {
 }
 
 
-function inspect(something) {
+export function inspect(something) {
 	console.log(eyes.inspect(something));
 }
 
 
-function saveFile(filename, content) {
+export function saveFile(filename, content) {
 	var root = '/tmp/';
 	var path = fs.path.join(root, filename);
 	var file = fs.File.fromPath(path);
@@ -37,6 +37,7 @@ function saveFile(filename, content) {
 	});
 }
 
-module.exports.itemInspector = itemInspector;
-module.exports.inspect = inspect;
-module.exports.saveFile = saveFile;
+//module.exports.itemInspector = itemInspector;
+//module.exports.inspect = inspect;
+//module.exports.saveFile = saveFile;
+

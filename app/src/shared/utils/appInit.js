@@ -3,9 +3,8 @@
 var dataSource = require('./dataSource');
 
 function init() {
-	console.log("HEJ");
-	dataSource.get();
+	return dataSource.init();
 }
 
 module.exports.init = init;
-  
+

@@ -25,20 +25,20 @@ const RESOURCE_URLS = {
 		}
 };
 
-function get() {
+function init() {
 	let rekData;
 
 	//TODO Read from file here
 
 	if (!rekData) {
-		fetchDataFromServer();
+		return fetchDataFromServer();
 	}
 }
 
 function fetchDataFromServer() {
 	let http = require('http');
 
-	Promise.all(
+	return Promise.all(
 		Object.keys(RESOURCE_URLS).map(function(name) {
 			return http.request({ url: RESOURCE_URLS[name].url, method: 'GET' })
 			.then(function(response) {
@@ -77,9 +77,7 @@ function fetchDataFromServer() {
 	})
 	.catch(function (e) {
 		console.log('CATCHING');
-		//console.log(e);
-		console.error(e);
-		console.error(e.stack);
+		throw new Error(e);
 	});
 }
 
@@ -151,4 +149,4 @@ function convertREKJsonToModelObj(data) {
 	return dataOut;
 }
 
-module.exports.get = get;
+module.exports.init = init;
