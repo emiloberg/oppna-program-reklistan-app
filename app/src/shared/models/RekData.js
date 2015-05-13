@@ -6,32 +6,49 @@ var observableArray = require('data/observable-array');
 
 
 
-
+let selectedIndex = 1;
 let masterData = [];
 
-var RekData = new observableModule.Observable();
-RekData.set('data', []);
-
-let selectedIndex = 1;
-
-RekData.set('selectedIndex', selectedIndex);
-
-RekData.on(observableModule.Observable.propertyChangeEvent, function(propertyChangeData) {
+var dataMainMenu = new observableModule.Observable();
+dataMainMenu.set('data', []);
+dataMainMenu.set('selectedIndex', selectedIndex);
+dataMainMenu.on(observableModule.Observable.propertyChangeEvent, function(propertyChangeData) {
+	console.log('HEJ');
 	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
-
 	if (propertyChangeData.propertyName === 'selectedIndex') {
-		setDataToCurrentType();
+		selectedIndex  = propertyChangeData.value;
+		let filteredData = masterData.filter(e => (e[typeName] === true));
+		dataMainMenu.set('data', filteredData);
+	}
+});
+
+
+let dataSubmenu = new observableModule.Observable();
+dataSubmenu.set('data', []);
+dataSubmenu.set('selectedIndex', selectedIndex);
+dataSubmenu.on(observableModule.Observable.propertyChangeEvent, function(propertyChangeData) {
+	console.log(propertyChangeData.propertyName + " has been changed and the new value is: " + propertyChangeData.value);
+	if (propertyChangeData.propertyName === 'selectedIndex') {
+		selectedIndex  = propertyChangeData.value;
+//		setDataToCurrentType();
 	}
 });
 
 /**
- * Get all RekData items
+ * Get all dataMainMenu items
  *
  * @returns {*[]} Observable
  */
-function get() {
-	return RekData;
+function getMainMenu() {
+	let typeName = getTypeName();
+	let filteredData = masterData.filter(e => (e[typeName] === true));
+	dataMainMenu.set('data', filteredData);
+
+	//dataMainMenu.set('data', masterData);
+	return dataMainMenu;
 }
+
+
 
 //
 ///**
@@ -52,32 +69,32 @@ function get() {
 //}
 
 function getTypeName() {
-	if (RekData.get('selectedIndex') === 0) {
+	if (selectedIndex === 0) {
 		return 'drugs';
-	} else if (RekData.get('selectedIndex') === 1) {
+	} else if (selectedIndex === 1) {
 		return 'advice';
 	}
 }
 
-function setDataToCurrentType() {
-	let typeName = getTypeName();
-	let filteredData = masterData.filter(e => (e[typeName] === true));
-	
-	filteredData.map(function (chapter) {
-		let filteredChapters = chapter.chapters.filter(e => (e[typeName] === true));
-		chapter.chapters = filteredChapters;
-		return chapter;
-	});
-	
-	RekData.set('data', filteredData);
-}
+//function setDataToCurrentType() {
+//	let typeName = getTypeName();
+//	let filteredData = masterData.filter(e => (e[typeName] === true));
+//
+//	filteredData.map(function (chapter) {
+//		chapter.chapters = chapter.chapters.filter(e => (e[typeName] === true));
+//		return chapter;
+//	});
+//
+//	dataMainMenu.set('data', filteredData);
+//}
 
 /**
- * Clear and set RekData
+ * Clear and set dataMainMenu
  *
  * @param {Object[]} data
  */
-function set(data) {
+function setMasterData(data) {
+
 	while (masterData.length > 0) {
 		masterData.pop();
 	}
@@ -85,22 +102,25 @@ function set(data) {
 		masterData.push(entry);
 	});
 
-	setDataToCurrentType();
+	debug.saveFile('masterdata.json', JSON.stringify(data));
+
+//	setDataToCurrentType();
 }
 
-function getFromPathId(pathId) {
+
+function getSubmenu(pathId) {
 	// todo, check that we're getting exactly one result back
-	let ret = RekData.get('data').filter(item => (item.id === pathId));
+	let data = masterData.filter(item => (item.id === pathId));
+	dataSubmenu.set('data', data[0]);
+	dataSubmenu.set('selectedIndex', selectedIndex);
 
-	debug.inspect(ret);
-
-	return ret[0];
+	return dataSubmenu;
 }
 
 
-module.exports.get = get;
-module.exports.set = set;
-module.exports.getFromPathId = getFromPathId;
+module.exports.getMainMenu = getMainMenu;
+module.exports.setMasterData = setMasterData;
+module.exports.getSubmenu = getSubmenu;
 
 
 

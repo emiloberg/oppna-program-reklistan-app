@@ -6,7 +6,9 @@ let uiModule = require('./../shared/modules/ui');
 function pageNavigatedTo(args) {
 	var page = args.object;
 	uiModule.topbar.setText(page, 'Toppen');
-	page.bindingContext = RekData.get();
+	let context = RekData.getMainMenu();
+	page.bindingContext = context;
+	//debug.inspect(context);
 }
 
 function menuItemTap(args) {
@@ -23,13 +25,11 @@ function menuItemTap(args) {
 		}
 	};
 	topmost.navigate(navigationEntry);
-
-
 }
 
 function typeTap(args) {
 	console.log('TAP');
-		debug.inspect(args.view.bindingContext);
+		//debug.inspect(args.view.bindingContext);
 
 }
 

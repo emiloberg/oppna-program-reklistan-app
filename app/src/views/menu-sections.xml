@@ -1,21 +1,19 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="pageNavigatedTo" loaded="pageLoaded">
-
-    <Page>
-        <GridLayout rows="48, *">
+    <GridLayout rows="48, *">
 
 
-            <SegmentedBar row="0" cssClass="type-segmented-bar" selectedBackgroundColor="#851A31" selectedIndex="{{ selectedIndex }}">
-                <SegmentedBar.items>
-                    <SegmentedBarItem title="DRUGS" />
-                    <SegmentedBarItem title="ADVICE" />
-                </SegmentedBar.items>
-            </SegmentedBar>
+        <SegmentedBar row="0" cssClass="type-segmented-bar" selectedBackgroundColor="#851A31" selectedIndex="{{ selectedIndex }}">
+            <SegmentedBar.items>
+                <SegmentedBarItem title="DRUGS" />
+                <SegmentedBarItem title="ADVICE" />
+            </SegmentedBar.items>
+        </SegmentedBar>
 
-            <ListView row="1" itemTap="menuItemTap" items="{{ data }}">
-                <ListView.itemTemplate>
-                    <Label cssClass="listviewLabel" text="{{ name }}" />
-                </ListView.itemTemplate>
-            </ListView>
-        </GridLayout>
-    </Page>
+        <ListView row="1" itemTap="menuItemTap" items="{{ data }}">
+            <ListView.itemTemplate>
+                <Label cssClass="listviewLabel" text="{{ name }}" />
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+
 </Page>

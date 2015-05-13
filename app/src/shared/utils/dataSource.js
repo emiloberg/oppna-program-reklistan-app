@@ -46,7 +46,6 @@ function fetchDataFromServer() {
 				if (response.statusCode < 200 || response.statusCode >= 300) {
 					return new Error('Could not load resource ' + name);
 				}
-
 				let resData;
 				if (RESOURCE_URLS[name].isJson) {
 					resData = response.content.toJSON();
@@ -73,7 +72,7 @@ function fetchDataFromServer() {
 			data[response.name] = response.data;
 		});
 
-		RekData.set(convertREKJsonToModelObj(data));
+		RekData.setMasterData(convertREKJsonToModelObj(data));
 
 	})
 	.catch(function (e) {
@@ -148,6 +147,7 @@ function convertREKJsonToModelObj(data) {
 			});
 		});
 	});
+	//debug.saveFile('masterdata.json', JSON.stringify(dataOut));
 	return dataOut;
 }
 
