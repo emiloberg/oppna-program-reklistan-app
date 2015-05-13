@@ -5,7 +5,6 @@ var observableModule = require('data/observable');
 var observableArray = require('data/observable-array');
 
 
-
 let selectedIndex = 1;
 let masterData = [];
 
@@ -48,8 +47,6 @@ function getMainMenu() {
 	return dataMainMenu;
 }
 
-
-
 //
 ///**
 // * Add a single entry
@@ -76,6 +73,7 @@ function getTypeName() {
 	}
 }
 
+
 //function setDataToCurrentType() {
 //	let typeName = getTypeName();
 //	let filteredData = masterData.filter(e => (e[typeName] === true));
@@ -88,13 +86,14 @@ function getTypeName() {
 //	dataMainMenu.set('data', filteredData);
 //}
 
+
 /**
  * Clear and set dataMainMenu
  *
  * @param {Object[]} data
  */
-function setMasterData(data) {
 
+function setMasterData(data) {
 	while (masterData.length > 0) {
 		masterData.pop();
 	}
@@ -103,8 +102,8 @@ function setMasterData(data) {
 	});
 
 	debug.saveFile('masterdata.json', JSON.stringify(data));
-
 //	setDataToCurrentType();
+
 }
 
 
@@ -121,7 +120,6 @@ function getSubmenu(pathId) {
 module.exports.getMainMenu = getMainMenu;
 module.exports.setMasterData = setMasterData;
 module.exports.getSubmenu = getSubmenu;
-
 
 
 

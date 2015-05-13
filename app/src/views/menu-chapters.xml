@@ -1,4 +1,5 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="pageNavigatedTo" loaded="pageLoaded">
+
     <GridLayout rows="48, *">
 
 
@@ -15,4 +16,6 @@
             </ListView.itemTemplate>
         </ListView>
     </GridLayout>
+
+
 </Page>

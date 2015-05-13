@@ -100,9 +100,9 @@ const defaultDiacriticsRemovalap = [
 ];
 
 const diacriticsMap = {};
-for (let letterClass of defaultDiacriticsRemovalap){
-	for (let variant of letterClass.letters){
-		diacriticsMap[variant] = letterClass.base;
+for (let i = 0; i < defaultDiacriticsRemovalap.length; ++i){
+	for (let j = 0; j < defaultDiacriticsRemovalap[i].letters.length; ++j){
+		diacriticsMap[defaultDiacriticsRemovalap[i].letters[j]] = defaultDiacriticsRemovalap[i].base;
 	}
 }
 
