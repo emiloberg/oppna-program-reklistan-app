@@ -293,11 +293,6 @@ var Frame = (function (_super) {
     };
     Frame.prototype._clearAndroidReference = function () {
     };
-    Frame.prototype._invalidateOptionsMenu = function () {
-        if (this.android && this.android.activity) {
-            this.android.activity.invalidateOptionsMenu();
-        }
-    };
     return Frame;
 })(frameCommon.Frame);
 exports.Frame = Frame;

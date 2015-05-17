@@ -8,7 +8,9 @@ var common = require("ui/tab-view/tab-view-common");
 var trace = require("trace");
 var imageSource = require("image-source");
 var types = require("utils/types");
+var app = require("application");
 var VIEWS_STATES = "_viewStates";
+var RESOURCE_PREFIX = "res://";
 require("utils/module-merge").merge(common, exports);
 var ViewPagerClass = (function (_super) {
     __extends(ViewPagerClass, _super);
@@ -204,6 +206,9 @@ var TabView = (function (_super) {
         trace.write("TabView.onLoaded(); selectedIndex: " + this.selectedIndex + "; items: " + this.items + ";", common.traceCategory);
         _super.prototype.onLoaded.call(this);
         if (this.android && this.android.isShown()) {
+            if (!this._pagerAdapter && this.items) {
+                this._setAdapter(this.items);
+            }
             this._addTabsIfNeeded();
             this._setNativeSelectedIndex(this.selectedIndex);
         }
@@ -211,6 +216,7 @@ var TabView = (function (_super) {
     TabView.prototype.onUnloaded = function () {
         trace.write("TabView.onUnloaded();", common.traceCategory);
         this._removeTabsIfNeeded();
+        this._unsetAdapter();
         _super.prototype.onUnloaded.call(this);
     };
     TabView.prototype._addTabsIfNeeded = function () {
@@ -269,32 +275,42 @@ var TabView = (function (_super) {
         var length = newItems.length;
         var item;
         var tab;
+        var androidApp = app.android;
+        var resources = androidApp.context.getResources();
         for (i; i < length; i++) {
             item = newItems[i];
             tab = actionBar.newTab();
             tab.setText(item.title);
-            this._setIcon(item.iconSource, tab);
+            this._setIcon(item.iconSource, tab, resources, androidApp.packageName);
             tab.setTabListener(this._tabListener);
             actionBar.addTab(tab);
             this._tabsCache[tab.hashCode()] = i;
             this._tabsAddedByMe.push(tab);
         }
     };
-    TabView.prototype._setIcon = function (iconSource, tab) {
+    TabView.prototype._setIcon = function (iconSource, tab, resources, packageName) {
         if (!iconSource) {
             return;
         }
-        var drawable;
-        drawable = this._iconsCache[iconSource];
-        if (!drawable) {
-            var is = imageSource.fromFileOrResource(iconSource);
-            if (is) {
-                drawable = new android.graphics.drawable.BitmapDrawable(is.android);
-                this._iconsCache[iconSource] = drawable;
+        if (iconSource.indexOf(RESOURCE_PREFIX) === 0 && resources) {
+            var resourceId = resources.getIdentifier(iconSource.substr(RESOURCE_PREFIX.length), 'drawable', packageName);
+            if (resourceId > 0) {
+                tab.setIcon(resourceId);
             }
         }
-        if (drawable) {
-            tab.setIcon(drawable);
+        else {
+            var drawable;
+            drawable = this._iconsCache[iconSource];
+            if (!drawable) {
+                var is = imageSource.fromFileOrResource(iconSource);
+                if (is) {
+                    drawable = new android.graphics.drawable.BitmapDrawable(is.android);
+                    this._iconsCache[iconSource] = drawable;
+                }
+            }
+            if (drawable) {
+                tab.setIcon(drawable);
+            }
         }
     };
     TabView.prototype._removeTabs = function (oldItems) {

@@ -17,6 +17,11 @@ function fromData(data) {
     return image.loadFromData(data) ? image : null;
 }
 exports.fromData = fromData;
+function fromBase64(source) {
+    var image = new definition.ImageSource();
+    return image.loadFromBase64(source) ? image : null;
+}
+exports.fromBase64 = fromBase64;
 function fromNativeSource(source) {
     var image = new definition.ImageSource();
     return image.setNativeSource(source) ? image : null;
@@ -40,6 +45,8 @@ function isFileOrResourcePath(path) {
     if (!types.isString(path)) {
         return false;
     }
-    return path.indexOf("~/") === 0 || path.indexOf("/") === 0 || path.indexOf(RESOURCE_PREFIX) === 0;
+    return path.indexOf("~/") === 0 ||
+        path.indexOf("/") === 0 ||
+        path.indexOf(RESOURCE_PREFIX) === 0;
 }
 exports.isFileOrResourcePath = isFileOrResourcePath;

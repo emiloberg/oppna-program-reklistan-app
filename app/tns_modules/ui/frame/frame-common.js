@@ -302,8 +302,6 @@ var Frame = (function (_super) {
     Frame.prototype._removeViewFromNativeVisualTree = function (child) {
         child._isAddedToNativeVisualTree = false;
     };
-    Frame.prototype._invalidateOptionsMenu = function () {
-    };
     Frame.androidOptionSelectedEvent = "optionSelected";
     Frame.defaultAnimatedNavigation = true;
     return Frame;

@@ -5,6 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var pageCommon = require("ui/page/page-common");
+var imageSource = require("image-source");
 var trace = require("trace");
 require("utils/module-merge").merge(pageCommon, exports);
 var UIViewControllerImpl = (function (_super) {
@@ -28,6 +29,18 @@ var UIViewControllerImpl = (function (_super) {
         trace.write(this._owner + " viewDidLayoutSubviews, isLoaded = " + this._owner.isLoaded, trace.categories.ViewHierarchy);
         this._owner._updateLayout();
     };
+    UIViewControllerImpl.prototype.viewWillAppear = function () {
+        trace.write(this._owner + " viewWillAppear", trace.categories.Navigation);
+        this._owner._enableLoadedEvents = true;
+        this._owner.onLoaded();
+        this._owner._enableLoadedEvents = false;
+    };
+    UIViewControllerImpl.prototype.viewDidDisappear = function () {
+        trace.write(this._owner + " viewDidDisappear", trace.categories.Navigation);
+        this._owner._enableLoadedEvents = true;
+        this._owner.onUnloaded();
+        this._owner._enableLoadedEvents = false;
+    };
     return UIViewControllerImpl;
 })(UIViewController);
 var Page = (function (_super) {
@@ -40,6 +53,16 @@ var Page = (function (_super) {
         _super.prototype._onContentChanged.call(this, oldView, newView);
         this._removeNativeView(oldView);
         this._addNativeView(newView);
+    };
+    Page.prototype.onLoaded = function () {
+        if (this._enableLoadedEvents) {
+            _super.prototype.onLoaded.call(this);
+        }
+    };
+    Page.prototype.onUnloaded = function () {
+        if (this._enableLoadedEvents) {
+            _super.prototype.onUnloaded.call(this);
+        }
     };
     Page.prototype._addNativeView = function (view) {
         if (view) {
@@ -79,6 +102,49 @@ var Page = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Page.prototype._invalidateOptionsMenu = function () {
+        this.populateMenuItems();
+    };
+    Page.prototype.populateMenuItems = function () {
+        var items = this.optionsMenu.getItems();
+        var navigationItem = this.ios.navigationItem;
+        var array = items.length > 0 ? NSMutableArray.new() : null;
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var tapHandler = TapBarItemHandlerImpl.new().initWithOwner(item);
+            item.handler = tapHandler;
+            var barButtonItem;
+            if (item.icon) {
+                var img = imageSource.fromResource(item.icon);
+                barButtonItem = UIBarButtonItem.alloc().initWithImageStyleTargetAction(img.ios, UIBarButtonItemStyle.UIBarButtonItemStylePlain, tapHandler, "tap");
+            }
+            else {
+                barButtonItem = UIBarButtonItem.alloc().initWithTitleStyleTargetAction(item.text, UIBarButtonItemStyle.UIBarButtonItemStylePlain, tapHandler, "tap");
+            }
+            array.addObject(barButtonItem);
+        }
+        navigationItem.setRightBarButtonItemsAnimated(array, true);
+    };
     return Page;
 })(pageCommon.Page);
 exports.Page = Page;
+var TapBarItemHandlerImpl = (function (_super) {
+    __extends(TapBarItemHandlerImpl, _super);
+    function TapBarItemHandlerImpl() {
+        _super.apply(this, arguments);
+    }
+    TapBarItemHandlerImpl.new = function () {
+        return _super.new.call(this);
+    };
+    TapBarItemHandlerImpl.prototype.initWithOwner = function (owner) {
+        this._owner = owner;
+        return this;
+    };
+    TapBarItemHandlerImpl.prototype.tap = function (args) {
+        this._owner._raiseTap();
+    };
+    TapBarItemHandlerImpl.ObjCExposedMethods = {
+        "tap": { returns: interop.types.void, params: [interop.types.id] }
+    };
+    return TapBarItemHandlerImpl;
+})(NSObject);

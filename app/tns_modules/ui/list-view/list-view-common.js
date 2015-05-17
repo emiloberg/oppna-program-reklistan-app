@@ -42,9 +42,7 @@ var ListView = (function (_super) {
     function ListView() {
         var _this = this;
         _super.call(this);
-        this._itemsChanged = function (args) {
-            _this.refresh();
-        };
+        this._itemsChanged = function (args) { _this.refresh(); };
     }
     Object.defineProperty(ListView.prototype, "items", {
         get: function () {

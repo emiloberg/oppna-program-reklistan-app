@@ -12,7 +12,12 @@ var types = require("utils/types");
 var trace = require("trace");
 var polymerExpressions = require("js-libs/polymer-expressions");
 var bindingBuilder = require("../builder/binding-builder");
-var bindingContextProperty = new dependencyObservable.Property("bindingContext", "Bindable", new dependencyObservable.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.Inheritable));
+var viewModule = require("ui/core/view");
+var bindingContextProperty = new dependencyObservable.Property("bindingContext", "Bindable", new dependencyObservable.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.Inheritable, onBindingContextChanged));
+function onBindingContextChanged(data) {
+    var bindable = data.object;
+    bindable._onBindingContextChanged(data.oldValue, data.newValue);
+}
 var contextKey = "context";
 var resourcesKey = "resources";
 var Bindable = (function (_super) {
@@ -66,19 +71,20 @@ var Bindable = (function (_super) {
     Bindable.prototype._onPropertyChanged = function (property, oldValue, newValue) {
         trace.write("Bindable._onPropertyChanged(" + this + ") " + property.name, trace.categories.Binding);
         _super.prototype._onPropertyChanged.call(this, property, oldValue, newValue);
-        if (property === Bindable.bindingContextProperty) {
-            this._onBindingContextChanged(oldValue, newValue);
+        if (this instanceof viewModule.View) {
+            if (property.metadata.inheritable && this._isInheritedChange() === true) {
+                return;
+            }
         }
         var binding = this._bindings[property.name];
-        if (binding) {
-            var shouldRemoveBinding = !binding.updating && !binding.options.twoWay;
-            if (shouldRemoveBinding) {
-                trace.write("_onPropertyChanged(" + this + ") removing binding for property: " + property.name, trace.categories.Binding);
-                this.unbind(property.name);
-            }
-            else {
+        if (binding && !binding.updating) {
+            if (binding.options.twoWay) {
                 trace.write("_updateTwoWayBinding(" + this + "): " + property.name, trace.categories.Binding);
                 this._updateTwoWayBinding(property.name, newValue);
+            }
+            else {
+                trace.write("_onPropertyChanged(" + this + ") removing binding for property: " + property.name, trace.categories.Binding);
+                this.unbind(property.name);
             }
         }
     };
@@ -86,10 +92,13 @@ var Bindable = (function (_super) {
         var binding;
         for (var p in this._bindings) {
             binding = this._bindings[p];
-            if (binding.options.targetProperty === Bindable.bindingContextProperty.name && binding.updating) {
+            var sourceIsNotBindingContext = (binding.source && (binding.source.get() !== oldValue));
+            if (binding.updating || sourceIsNotBindingContext) {
                 continue;
             }
-            trace.write("Binding target: " + binding.target.get() + " targetProperty: " + binding.options.targetProperty + " to the changed context: " + newValue, trace.categories.Binding);
+            trace.write("Binding target: " + binding.target.get() +
+                " targetProperty: " + binding.options.targetProperty +
+                " to the changed context: " + newValue, trace.categories.Binding);
             binding.unbind();
             if (!types.isNullOrUndefined(newValue)) {
                 binding.bind(newValue);
@@ -249,7 +258,8 @@ var Binding = (function () {
             else if (sourceOptionsInstance instanceof observable.Observable) {
                 value = sourceOptionsInstance.get(this.sourceOptions.property);
             }
-            else if (sourceOptionsInstance && this.sourceOptions.property && this.sourceOptions.property in sourceOptionsInstance) {
+            else if (sourceOptionsInstance && this.sourceOptions.property &&
+                this.sourceOptions.property in sourceOptionsInstance) {
                 value = sourceOptionsInstance[this.sourceOptions.property];
             }
         }

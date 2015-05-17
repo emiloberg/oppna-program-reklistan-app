@@ -81,9 +81,7 @@ var Page = (function (_super) {
         }
         var cssString;
         if (fs.File.exists(cssFileName)) {
-            new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) {
-                cssString = r;
-            });
+            new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) { cssString = r; });
             this._addCssInternal(cssString, cssFileName);
         }
     };
@@ -112,6 +110,8 @@ var Page = (function (_super) {
     };
     Page.prototype._getStyleScope = function () {
         return this._styleScope;
+    };
+    Page.prototype._invalidateOptionsMenu = function () {
     };
     Page.prototype._applyCss = function () {
         if (this._cssApplied) {
@@ -190,8 +190,8 @@ var OptionsMenu = (function () {
         this.invalidate();
     };
     OptionsMenu.prototype.invalidate = function () {
-        if (this._page.frame) {
-            this._page.frame._invalidateOptionsMenu();
+        if (this._page) {
+            this._page._invalidateOptionsMenu();
         }
     };
     return OptionsMenu;

@@ -26,6 +26,11 @@ var Page = (function (_super) {
         this._isBackNavigation = isBackNavigation;
         _super.prototype.onNavigatedFrom.call(this, isBackNavigation);
     };
+    Page.prototype._invalidateOptionsMenu = function () {
+        if (this.frame && this.frame.android && this.frame.android.activity) {
+            this.frame.android.activity.invalidateOptionsMenu();
+        }
+    };
     return Page;
 })(pageCommon.Page);
 exports.Page = Page;
