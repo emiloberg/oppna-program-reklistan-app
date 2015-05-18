@@ -7,9 +7,9 @@
             </SegmentedBar.items>
         </SegmentedBar>
 
-        <ListView row="1" itemTap="menuItemTap" items="{{ data }}">
+        <ListView row="1" itemTap="menuItemTap" items="{{ items }}">
             <ListView.itemTemplate>
-                <Label cssClass="listviewLabel" text="{{ name }}" />
+                <Label cssClass="listviewLabel" text="{{ title }}" />
             </ListView.itemTemplate>
         </ListView>
     </GridLayout>

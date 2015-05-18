@@ -1,11 +1,12 @@
-var RekData = require('./../shared/models/RekData');
+//var RekData = require('./../shared/models/RekData');
+let RekAppViewModel = require('../alt/viewmodel/RekAppViewModel');
 var frameModule = require('ui/frame');
 let debug = require('./../shared/utils/debug');
 let uiModule = require('./../shared/modules/ui');
 
 function pageLoaded(args) {
 	var page = args.object;
-	page.bindingContext = RekData.getMainMenu();
+	page.bindingContext = RekAppViewModel.appViewModel.getMainDataList();
 }
 
 function pageNavigatedTo(args) {
@@ -15,16 +16,11 @@ function pageNavigatedTo(args) {
 
 function menuItemTap(args) {
 
-	let page = args.object;
-	let topmost = frameModule.topmost();
-	let navigationEntry = {
-		moduleName: 'views/menu-chapters',
-		context: {
-			pathId: args.view.bindingContext.id,
-			selectedIndex: page.bindingContext.selectedIndex
-		}
-	};
-	topmost.navigate(navigationEntry);
+    var section = args.view.bindingContext;
+    frameModule.topmost().navigate({
+        moduleName: "views/menu-chapters",
+        context: section
+    });
 }
 
 
