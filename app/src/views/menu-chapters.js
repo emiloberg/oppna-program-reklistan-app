@@ -1,27 +1,29 @@
 let RekData = require('./../shared/models/RekData');
 import {inspect, saveFile} from './../shared/utils/debug';
 let customUiModule = require('./../shared/modules/ui');
+var frameModule = require('ui/frame');
 
-//let htmlRenderer = require('./../shared/utils/htmlRenderer');
-
-//import {templatesViewModel} from './../alt/viewmodel/Templates'
-
-//let handlebars = require('./../node_modules/handlebars/dist/handlebars');
+let page;
 
 function pageLoaded(args) {
-//	const page = args.object;
-//	console.log('Chapters Page Loaded');
-//	page.bindingContext = RekData.getSubmenu();	
+
 }
 
 function pageNavigatedTo(args) {
-	var page = args.object;
-    page.bindingContext = page.navigationContext;
+	page = args.object;
 	customUiModule.topbar.setText(page, page.navigationContext.title);
+	page.bindingContext = page.navigationContext;
 }
 
 
 function menuItemTap(args) {
+	frameModule.topmost().navigate({
+		moduleName: "views/details",
+		context: {
+			item: args.view.bindingContext,
+			selectedIndex: page.bindingContext.selectedIndex
+		}
+	});
 
 //	var section = args.view.bindingContext;
 ////	inspect(section);
