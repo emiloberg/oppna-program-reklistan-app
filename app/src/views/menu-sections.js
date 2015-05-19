@@ -8,10 +8,7 @@ let customUiModule = require('./../shared/modules/ui');
 
 function pageLoaded(args) {
 	var page = args.object;
-	let mainDataList = RekAppViewModel.appViewModel.getMainDataList();
-    saveFile('maindatalist.json', JSON.stringify(mainDataList));
-    page.bindingContext = mainDataList;
-	saveFile('dump.json', JSON.stringify(mainDataList.items))
+    page.bindingContext = RekAppViewModel.appViewModel.getMainDataList();
 }
 
 function pageNavigatedTo(args) {

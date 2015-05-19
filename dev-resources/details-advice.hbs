@@ -15,6 +15,10 @@
 		</div>
 	{{/is}}
 
+	{{#is @root/isMobile true}}
+        <div class="mobile-container">
+        <div class="screen active">
+	{{/is}}
 	<div class="section-details section-details-advice">
 		{{#each children}}
 			<div class="item-{{@index}} advice-{{children.0.value}} body">
@@ -41,4 +45,8 @@
 			</div>
 		{{/each}}
     </div>
+	{{#is @root/isMobile true}}
+        </div>
+        </div>
+	{{/is}}
 {{/each}}

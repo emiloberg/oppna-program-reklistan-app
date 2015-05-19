@@ -8,10 +8,10 @@ function init() {
 	return DataLoader.loadViewModelFromServer([
 		{	
 			name: 'drugs',
-			url: 'http://localhost:5656/drugs-ogon.json'
+			url: 'http://localhost:5656/drugs.json'
 		},{
 			name: 'advice',
-			url: 'http://localhost:5656/advice-ogon.json'
+			url: 'http://localhost:5656/advice.json'
 		}
 	],[
 		{	
