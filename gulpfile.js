@@ -1,38 +1,37 @@
 'use strict';
 
+// What files to monitor - when to rebuild and reload emulator?
 var watchedFiles = [
 	'app/src/*.{js,xml,css}',
 	'app/src/**/*.{js,xml,css}'
 ];
 
+// Where are your ES6 files which are going to be translated?
 var babelSrc = [
     'app/src/**/*.js'
 ];
+
+// Where are your resource files which are just being
+// moved without any translation.
 var resources = [
     'app/src/*.{xml,css}',
     'app/src/**/*.{xml,css}'
 ];
 
+// These folders are cleaned every time a build is done.
+// This pattern should be all the folders you have in /app/src/ 
 var generatedSources = [
     './app/{shared,test,views}'
 ];
 
-var emulator = 'iPhone-5'; // Default emulator
+// Which emulator to run?
+// Valid emulators are 
+//    iPhone-4s, iPhone-5, iPhone-5s, iPhone-6-Plus, iPhone-6, 
+//    iPad-2, iPad-Retina, iPad-Air, Resizable-iPhone, Resizable-iPa
+var emulator = 'iPhone-5'; 
 
-var validEmulators = [
-    'iPhone-4s',
-    'iPhone-5',
-    'iPhone-5s',
-    'iPhone-6-Plus',
-    'iPhone-6',
-    'iPad-2',
-    'iPad-Retina',
-    'iPad-Air',
-    'Resizable-iPhone',
-    'Resizable-iPad'
-];
 
-//var gulp = require('gulp-param')(require('gulp'), process.argv);
+
 var gulp = require('gulp');
 var chalk = require('chalk');
 var spawn = require('child_process').spawn;
@@ -43,19 +42,6 @@ var del = require('del');
 var runSequence = require('run-sequence');
 
 gulp.task('_emulate', function(cb) {
-    //if (device !== null) {
-    //    if (validEmulators.indexOf(device) === -1) {
-    //        console.log();
-    //        console.log(chalk.red('Error!'));
-    //        console.log(chalk.red('"' + device + '" did not match a valid device'));
-    //        console.log('Valid devices are: ' + validEmulators.join(', '));
-    //        console.log();
-    //        return true;
-    //    } else {
-    //        emulator = device;
-    //    }
-    //}
-
     var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
     var stdout = '';
     var stderr = '';
@@ -138,22 +124,15 @@ gulp.task('default', function() {
 	console.log(chalk.magenta('  Main tasks'));
     console.log();
     console.log('    ' + chalk.blue('gulp watch') + '               - Start watching files, recompile Javascript and restart');
-    console.log('                               default emulator (' + emulator + ') when files change.');
-	console.log('    ' + chalk.blue('gulp watch -d ') + chalk.yellow('<device>') + '   - run with specific emulator.');
-    console.log();
-	console.log('    ' + chalk.blue('gulp build') + '               - Clean target folder, rebuild Javascript and run tests');
+    console.log('                               emulator (set to: ' + emulator + ') when files change.');
+	console.log('    ' + chalk.blue('gulp test ') + '               - Clean, compile and run tests in /app/tests');
     console.log();
 	console.log(chalk.magenta('  Sub-tasks') + ' (primarily run by main tasks)');
     console.log();
-	console.log('    ' + chalk.blue('gulp test') + '                - Run tests');
+	console.log('    ' + chalk.blue('gulp _clean') + '             - Clean target folders (' + generatedSources.join(', ') + ')');
 	console.log();
-	console.log('    ' + chalk.blue('gulp compile') + '             - Compile Javascript');
+	console.log('    ' + chalk.blue('gulp _compile') + '           - Compile Javascript');
 	console.log();
-	console.log('    ' + chalk.blue('gulp emulate') + '             - Run default emulator (' + emulator + ')');
-	console.log('    ' + chalk.blue('gulp emulate -d ') + chalk.yellow('<device>') + ' - Run specific emulator.');
-    console.log();
-	console.log(chalk.magenta('  Emulators'));
-    console.log();
-	console.log('    Valid emulators are: ' + chalk.yellow(validEmulators.join(', ')));
+	console.log('    ' + chalk.blue('gulp _test') + '              - Run emulator (set to: ' + emulator + ')');
     console.log();
 });
