@@ -1,7 +1,6 @@
 var http = require("http");
-var types = require("utils/types");
+var utils = require("utils/utils");
 var definition = require("image-source");
-var RESOURCE_PREFIX = "res://";
 function fromResource(name) {
     var image = new definition.ImageSource();
     return image.loadFromResource(name) ? image : null;
@@ -35,18 +34,13 @@ function fromFileOrResource(path) {
     if (!isFileOrResourcePath(path)) {
         throw new Error("Path \"" + "\" is not a valid file or resource.");
     }
-    if (path.indexOf(RESOURCE_PREFIX) === 0) {
-        return fromResource(path.substr(RESOURCE_PREFIX.length));
+    if (path.indexOf(utils.RESOURCE_PREFIX) === 0) {
+        return fromResource(path.substr(utils.RESOURCE_PREFIX.length));
     }
     return fromFile(path);
 }
 exports.fromFileOrResource = fromFileOrResource;
 function isFileOrResourcePath(path) {
-    if (!types.isString(path)) {
-        return false;
-    }
-    return path.indexOf("~/") === 0 ||
-        path.indexOf("/") === 0 ||
-        path.indexOf(RESOURCE_PREFIX) === 0;
+    return utils.isFileOrResourcePath(path);
 }
 exports.isFileOrResourcePath = isFileOrResourcePath;

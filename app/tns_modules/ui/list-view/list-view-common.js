@@ -94,7 +94,10 @@ var ListView = (function (_super) {
     };
     ListView.prototype._getDefaultItemContent = function (index) {
         var lbl = new label.Label();
-        lbl.text = this._getDataItem(index) + "";
+        lbl.bind({
+            targetProperty: "text",
+            sourceProperty: "$value"
+        });
         return lbl;
     };
     ListView.prototype._onItemsPropertyChanged = function (data) {

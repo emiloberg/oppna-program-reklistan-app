@@ -193,7 +193,7 @@ var UINavigationControllerImpl = (function (_super) {
         frame._currentEntry = newEntry;
         frame.updateNavigationBar();
         var newPage = newEntry.resolvedPage;
-        newPage.onNavigatedTo(newEntry.entry.context);
+        newPage.onNavigatedTo();
         frame._processNavigationQueue(newPage);
     };
     UINavigationControllerImpl.prototype.supportedInterfaceOrientation = function () {

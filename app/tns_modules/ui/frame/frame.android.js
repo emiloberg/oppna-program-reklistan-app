@@ -151,7 +151,7 @@ function onFragmentShown(fragment) {
     var page = entry.resolvedPage;
     frame._currentEntry = entry;
     frame._addView(page);
-    page.onNavigatedTo(entry.entry.context);
+    page.onNavigatedTo();
     frame._processNavigationQueue(page);
 }
 function onFragmentHidden(fragment) {

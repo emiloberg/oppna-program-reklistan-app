@@ -95,18 +95,32 @@ var Page = (function (_super) {
     });
     Page.prototype.onNavigatingTo = function (context) {
         this._navigationContext = context;
+        this.notify({
+            eventName: Page.navigatingToEvent,
+            object: this,
+            context: this.navigationContext
+        });
     };
-    Page.prototype.onNavigatedTo = function (context) {
-        this._navigationContext = context;
+    Page.prototype.onNavigatedTo = function () {
         this.notify({
             eventName: Page.navigatedToEvent,
             object: this,
-            context: context
+            context: this.navigationContext
         });
     };
     Page.prototype.onNavigatingFrom = function () {
+        this.notify({
+            eventName: Page.navigatingFromEvent,
+            object: this,
+            context: this.navigationContext
+        });
     };
     Page.prototype.onNavigatedFrom = function (isBackNavigation) {
+        this.notify({
+            eventName: Page.navigatedFromEvent,
+            object: this,
+            context: this.navigationContext
+        });
         this._navigationContext = undefined;
     };
     Page.prototype.showModal = function (moduleName, context, closeCallback) {
@@ -162,7 +176,10 @@ var Page = (function (_super) {
             this.optionsMenu.setItems(value);
         }
     };
+    Page.navigatingToEvent = "navigatingTo";
     Page.navigatedToEvent = "navigatedTo";
+    Page.navigatingFromEvent = "navigatingFrom";
+    Page.navigatedFromEvent = "navigatedFrom";
     Page.shownModallyEvent = "shownModally";
     return Page;
 })(contentView.ContentView);

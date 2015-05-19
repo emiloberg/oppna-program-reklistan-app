@@ -19,7 +19,6 @@ function onBindingContextChanged(data) {
     bindable._onBindingContextChanged(data.oldValue, data.newValue);
 }
 var contextKey = "context";
-var resourcesKey = "resources";
 var Bindable = (function (_super) {
     __extends(Bindable, _super);
     function Bindable() {
@@ -46,6 +45,7 @@ var Bindable = (function (_super) {
         var bindingSource = source;
         if (!bindingSource) {
             bindingSource = this.bindingContext;
+            binding.sourceIsBindingContext = true;
         }
         if (!types.isNullOrUndefined(bindingSource)) {
             binding.bind(bindingSource);
@@ -92,8 +92,7 @@ var Bindable = (function (_super) {
         var binding;
         for (var p in this._bindings) {
             binding = this._bindings[p];
-            var sourceIsNotBindingContext = (binding.source && (binding.source.get() !== oldValue));
-            if (binding.updating || sourceIsNotBindingContext) {
+            if (binding.updating || !binding.sourceIsBindingContext) {
                 continue;
             }
             trace.write("Binding target: " + binding.target.get() +
@@ -166,13 +165,18 @@ var Binding = (function () {
             return;
         }
         if (this.options.twoWay) {
-            if (this._isExpression(this.options.expression)) {
+            if (this.options.expression) {
                 var changedModel = {};
-                if (this.options.sourceProperty === bindingBuilder.bindingConstants.bindingValueKey) {
-                    changedModel[bindingBuilder.bindingConstants.bindingValueKey] = value;
+                changedModel[bindingBuilder.bindingConstants.bindingValueKey] = value;
+                var sourcePropertyName = "";
+                if (this.sourceOptions) {
+                    sourcePropertyName = this.sourceOptions.property;
                 }
-                else {
-                    changedModel[this.options.sourceProperty] = value;
+                else if (typeof this.options.sourceProperty === "string" && this.options.sourceProperty.indexOf(".") === -1) {
+                    sourcePropertyName = this.options.sourceProperty;
+                }
+                if (sourcePropertyName !== "") {
+                    changedModel[sourcePropertyName] = value;
                 }
                 var expressionValue = this._getExpressionValue(this.options.expression, true, changedModel);
                 if (expressionValue instanceof Error) {
@@ -187,23 +191,18 @@ var Binding = (function () {
             }
         }
     };
-    Binding.prototype._isExpression = function (expression) {
-        if (expression) {
-            var result = expression.indexOf(" ") !== -1;
-            return result;
-        }
-        else {
-            return false;
-        }
-    };
     Binding.prototype._getExpressionValue = function (expression, isBackConvert, changedModel) {
         try {
             var exp = polymerExpressions.PolymerExpressions.getExpression(expression);
             if (exp) {
                 var context = this.source && this.source.get && this.source.get() || global;
                 var model = {};
+                for (var prop in appModule.resources) {
+                    if (appModule.resources.hasOwnProperty(prop) && !context.hasOwnProperty(prop)) {
+                        context[prop] = appModule.resources[prop];
+                    }
+                }
                 model[contextKey] = context;
-                model[resourcesKey] = appModule.resources;
                 return exp.getValue(model, isBackConvert, changedModel);
             }
             return new Error(expression + " is not a valid expression.");
@@ -214,7 +213,7 @@ var Binding = (function () {
         }
     };
     Binding.prototype.onSourcePropertyChanged = function (data) {
-        if (this._isExpression(this.options.expression)) {
+        if (this.options.expression) {
             var expressionValue = this._getExpressionValue(this.options.expression, false, undefined);
             if (expressionValue instanceof Error) {
                 trace.write(expressionValue.message, trace.categories.Binding, trace.messageType.error);
@@ -228,11 +227,9 @@ var Binding = (function () {
         }
     };
     Binding.prototype.getSourceProperty = function () {
-        if (this._isExpression(this.options.expression)) {
+        if (this.options.expression) {
             var changedModel = {};
-            if (this.options.sourceProperty === bindingBuilder.bindingConstants.bindingValueKey) {
-                changedModel[bindingBuilder.bindingConstants.bindingValueKey] = this.source.get();
-            }
+            changedModel[bindingBuilder.bindingConstants.bindingValueKey] = this.source.get();
             var expressionValue = this._getExpressionValue(this.options.expression, false, changedModel);
             if (expressionValue instanceof Error) {
                 trace.write(expressionValue.message, trace.categories.Binding, trace.messageType.error);
@@ -287,7 +284,7 @@ var Binding = (function () {
             };
             return options;
         }
-        if (!this._isExpression(property) && types.isString(property) && property.indexOf(".") !== -1) {
+        if (types.isString(property) && property.indexOf(".") !== -1) {
             var properties = property.split(".");
             var i;
             var currentObject = obj.get();
