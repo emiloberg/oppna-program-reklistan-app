@@ -22,6 +22,7 @@ export function itemInspector(name, item) {
 
 export function inspect(something) {
 	console.log(eyes.inspect(something));
+	return something;
 }
 
 

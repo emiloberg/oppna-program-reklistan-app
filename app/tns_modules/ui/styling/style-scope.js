@@ -124,9 +124,7 @@ var StyleScope = (function () {
         for (i = 0; i < rules.length; i++) {
             rule = rules[i];
             if (rule.type === "rule") {
-                filteredDeclarations = rule.declarations.filter(function (val, i, arr) {
-                    return val.type === "declaration";
-                });
+                filteredDeclarations = rule.declarations.filter(function (val, i, arr) { return val.type === "declaration"; });
                 for (j = 0; j < rule.selectors.length; j++) {
                     result.push(cssSelector.createSelector(rule.selectors[j], filteredDeclarations));
                 }
@@ -144,9 +142,7 @@ exports.StyleScope = StyleScope;
 function applyInlineSyle(view, style) {
     try {
         var syntaxTree = cssParser.parse("local { " + style + " }", undefined);
-        var filteredDeclarations = syntaxTree.stylesheet.rules[0].declarations.filter(function (val, i, arr) {
-            return val.type === "declaration";
-        });
+        var filteredDeclarations = syntaxTree.stylesheet.rules[0].declarations.filter(function (val, i, arr) { return val.type === "declaration"; });
         cssSelector.applyInlineSyle(view, filteredDeclarations);
     }
     catch (ex) {

@@ -262,7 +262,10 @@ var Style = (function (_super) {
         });
     };
     Style.prototype._onPropertyChanged = function (property, oldValue, newValue) {
-        trace.write("Style._onPropertyChanged view:" + this._view + ", property: " + property.name + ", oldValue: " + oldValue + ", newValue: " + newValue, trace.categories.Style);
+        trace.write("Style._onPropertyChanged view:" + this._view +
+            ", property: " + property.name +
+            ", oldValue: " + oldValue +
+            ", newValue: " + newValue, trace.categories.Style);
         _super.prototype._onPropertyChanged.call(this, property, oldValue, newValue);
         this._view._checkMetadataOnPropertyChanged(property.metadata);
         this._applyProperty(property, newValue);

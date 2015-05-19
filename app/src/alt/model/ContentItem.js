@@ -13,10 +13,11 @@ export default class ContentItem {
 	}
 
 	getContent(typeName) {
-		return this._content[typeName];
+		return this._content[TYPENAMES[typeName]];
 	}
 
 	hasType(typeName) {
 		return this._content.hasOwnProperty(TYPENAMES[typeName]);
 	}
 }
+

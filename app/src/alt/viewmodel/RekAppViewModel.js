@@ -1,6 +1,6 @@
 
-import RekDataList from './RekDataList';
-import DataLoader from '../util/DataLoader';
+//import RekDataList from './RekDataList';
+//import DataLoader from '../util/DataLoader';
 
 let MAIN_DATA_LIST;
 

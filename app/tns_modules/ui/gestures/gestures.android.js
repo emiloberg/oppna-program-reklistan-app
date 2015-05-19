@@ -22,10 +22,11 @@ var GesturesObserver = (function () {
         enumerable: true,
         configurable: true
     });
-    GesturesObserver.prototype.observe = function (target, type) {
+    GesturesObserver.prototype.observe = function (target, type, thisArg) {
         var _this = this;
         if (target) {
             this._target = target;
+            this._context = thisArg;
             this._onTargetLoaded = function (args) {
                 trace.write(_this._target + ".target loaded. android:" + _this._target.android, "gestures");
                 _this._attach(target, type);
@@ -109,7 +110,7 @@ var GesturesObserver = (function () {
                     };
                     var observer = that.get();
                     if (observer && observer.callback) {
-                        observer.callback(args);
+                        observer.callback.call(observer._context, args);
                     }
                 }
                 return true;
@@ -146,7 +147,7 @@ function _getPanArgs(deltaX, deltaY, view, initialEvent, currentEvent) {
 }
 function _executeCallback(observer, args) {
     if (observer && observer.callback) {
-        observer.callback(args);
+        observer.callback.call(observer._context, args);
     }
 }
 var TapAndDoubleTapGestureListener = (function (_super) {
@@ -215,7 +216,8 @@ var SwipeGestureListener = (function (_super) {
             var deltaY = currentEvent.getY() - initialEvent.getY();
             var deltaX = currentEvent.getX() - initialEvent.getX();
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                if (Math.abs(deltaX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                if (Math.abs(deltaX) > SWIPE_THRESHOLD
+                    && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (deltaX > 0) {
                         args = _getSwipeArgs(definition.SwipeDirection.right, this._target, initialEvent, currentEvent);
                         _executeCallback(this._observer, args);
@@ -229,7 +231,8 @@ var SwipeGestureListener = (function (_super) {
                 }
             }
             else {
-                if (Math.abs(deltaY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                if (Math.abs(deltaY) > SWIPE_THRESHOLD
+                    && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                     if (deltaY > 0) {
                         args = _getSwipeArgs(definition.SwipeDirection.down, this._target, initialEvent, currentEvent);
                         _executeCallback(this._observer, args);

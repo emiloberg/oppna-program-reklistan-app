@@ -1,34 +1,34 @@
 var definition = require("ui/gestures");
 (function (GestureTypes) {
-    GestureTypes[GestureTypes["tap"] = 1 << 0] = "tap";
-    GestureTypes[GestureTypes["doubleTap"] = 1 << 1] = "doubleTap";
-    GestureTypes[GestureTypes["pinch"] = 1 << 2] = "pinch";
-    GestureTypes[GestureTypes["pan"] = 1 << 3] = "pan";
-    GestureTypes[GestureTypes["swipe"] = 1 << 4] = "swipe";
-    GestureTypes[GestureTypes["rotation"] = 1 << 5] = "rotation";
-    GestureTypes[GestureTypes["longPress"] = 1 << 6] = "longPress";
+    GestureTypes[GestureTypes["tap"] = 1] = "tap";
+    GestureTypes[GestureTypes["doubleTap"] = 2] = "doubleTap";
+    GestureTypes[GestureTypes["pinch"] = 4] = "pinch";
+    GestureTypes[GestureTypes["pan"] = 8] = "pan";
+    GestureTypes[GestureTypes["swipe"] = 16] = "swipe";
+    GestureTypes[GestureTypes["rotation"] = 32] = "rotation";
+    GestureTypes[GestureTypes["longPress"] = 64] = "longPress";
 })(exports.GestureTypes || (exports.GestureTypes = {}));
 var GestureTypes = exports.GestureTypes;
 (function (GestureStateTypes) {
-    GestureStateTypes[GestureStateTypes["possible"] = 1 << 0] = "possible";
-    GestureStateTypes[GestureStateTypes["recognized"] = 1 << 1] = "recognized";
-    GestureStateTypes[GestureStateTypes["failed"] = 1 << 2] = "failed";
-    GestureStateTypes[GestureStateTypes["cancelled"] = 1 << 3] = "cancelled";
-    GestureStateTypes[GestureStateTypes["began"] = 1 << 4] = "began";
-    GestureStateTypes[GestureStateTypes["changed"] = 1 << 5] = "changed";
-    GestureStateTypes[GestureStateTypes["ended"] = 1 << 6] = "ended";
+    GestureStateTypes[GestureStateTypes["possible"] = 1] = "possible";
+    GestureStateTypes[GestureStateTypes["recognized"] = 2] = "recognized";
+    GestureStateTypes[GestureStateTypes["failed"] = 4] = "failed";
+    GestureStateTypes[GestureStateTypes["cancelled"] = 8] = "cancelled";
+    GestureStateTypes[GestureStateTypes["began"] = 16] = "began";
+    GestureStateTypes[GestureStateTypes["changed"] = 32] = "changed";
+    GestureStateTypes[GestureStateTypes["ended"] = 64] = "ended";
 })(exports.GestureStateTypes || (exports.GestureStateTypes = {}));
 var GestureStateTypes = exports.GestureStateTypes;
 (function (SwipeDirection) {
-    SwipeDirection[SwipeDirection["right"] = 1 << 0] = "right";
-    SwipeDirection[SwipeDirection["left"] = 1 << 1] = "left";
-    SwipeDirection[SwipeDirection["up"] = 1 << 2] = "up";
-    SwipeDirection[SwipeDirection["down"] = 1 << 3] = "down";
+    SwipeDirection[SwipeDirection["right"] = 1] = "right";
+    SwipeDirection[SwipeDirection["left"] = 2] = "left";
+    SwipeDirection[SwipeDirection["up"] = 4] = "up";
+    SwipeDirection[SwipeDirection["down"] = 8] = "down";
 })(exports.SwipeDirection || (exports.SwipeDirection = {}));
 var SwipeDirection = exports.SwipeDirection;
-function observe(target, type, callback) {
+function observe(target, type, callback, thisArg) {
     var observer = new definition.GesturesObserver(callback);
-    observer.observe(target, type);
+    observer.observe(target, type, thisArg);
     return observer;
 }
 exports.observe = observe;

@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NativeScript/NativeScript/commit/2dd2bc006d8c9dee3dc90f7fbccdeb09b4e8c0da"
+		"url": "https://github.com/NativeScript/NativeScript/commit/cf30d7317205f9f58f62ff0657b5e723ecf29bb9"
 	},
 	"files": [
 		"**/*.*",
@@ -18,8 +18,8 @@
 		"grunt-exec": "0.4.5",
 		"grunt-multi-dest": "1.0.0",
 		"grunt-shell": "1.1.2",
-		"grunt-ts": "1.12.1",
+		"grunt-ts": "4.0.1",
 		"grunt-tslint": "0.4.2",
-		"typescript": "1.4.1"
+		"typescript": "1.5.0-beta"
 	}
 }

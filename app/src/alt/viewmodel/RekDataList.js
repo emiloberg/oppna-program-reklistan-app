@@ -44,7 +44,12 @@ export default class RekDataList extends Observable {
 			item.hasType(this._selectedIndex));
 	}
 
+	//get allItems() {
+	//	return this.allItems;
+	//}
+
 	hasType(type) {
 		return this._allItems.some(item => item.hasType(type));
 	}
 }
+

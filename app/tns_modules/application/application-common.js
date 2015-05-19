@@ -18,9 +18,7 @@ function loadCss() {
         var cssFileName = fs.path.join(fs.knownFolders.currentApp().path, definition.cssFile);
         var applicationCss;
         if (fs.File.exists(cssFileName)) {
-            new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) {
-                applicationCss = r;
-            });
+            new fileSystemAccess.FileSystemAccess().readText(cssFileName, function (r) { applicationCss = r; });
             definition.cssSelectorsCache = styleScope.StyleScope.createSelectorsFromCss(applicationCss, cssFileName);
         }
     }

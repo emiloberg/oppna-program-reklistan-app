@@ -1,17 +1,22 @@
 //var RekData = require('./../shared/models/RekData');
 let RekAppViewModel = require('../alt/viewmodel/RekAppViewModel');
 var frameModule = require('ui/frame');
-let debug = require('./../shared/utils/debug');
-let uiModule = require('./../shared/modules/ui');
+
+import {inspect, saveFile} from './../shared/utils/debug';
+
+let customUiModule = require('./../shared/modules/ui');
 
 function pageLoaded(args) {
 	var page = args.object;
-	page.bindingContext = RekAppViewModel.appViewModel.getMainDataList();
+	let mainDataList = RekAppViewModel.appViewModel.getMainDataList();
+    saveFile('maindatalist.json', JSON.stringify(mainDataList));
+    page.bindingContext = mainDataList;
+	saveFile('dump.json', JSON.stringify(mainDataList.items))
 }
 
 function pageNavigatedTo(args) {
 	var page = args.object;
-	uiModule.topbar.setText(page, 'Startmeny');
+	customUiModule.topbar.setText(page, 'Startmeny');
 }
 
 function menuItemTap(args) {
@@ -27,4 +32,5 @@ function menuItemTap(args) {
 exports.menuItemTap = menuItemTap;
 exports.pageLoaded = pageLoaded;
 exports.pageNavigatedTo = pageNavigatedTo;
+
 

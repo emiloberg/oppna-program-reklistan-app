@@ -2,15 +2,16 @@
 
 import DataLoader from '../../alt/util/DataLoader';
 import {appViewModel} from '../../alt/viewmodel/RekAppViewModel';
+import {inspect, saveFile} from './debug';
 
 function init() {
 	return DataLoader.loadViewModelFromServer([
 		{	
 			name: 'drugs',
-			url: 'http://localhost:5656/drugs.json'
+			url: 'http://localhost:5656/drugs-ogon.json'
 		},{
 			name: 'advice',
-			url: 'http://localhost:5656/advice.json'
+			url: 'http://localhost:5656/advice-ogon.json'
 		}
 	],[
 		{	
@@ -22,9 +23,9 @@ function init() {
 		}
 	])
 	.then(list => {
+
 		appViewModel.setMainDataList(list);
 	})
 }
 
 module.exports.init = init;
-

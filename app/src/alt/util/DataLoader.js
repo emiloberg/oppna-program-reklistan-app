@@ -1,15 +1,13 @@
 
-import HtmlRenderer from '../../shared/utils/htmlRenderer';
 import http from 'http';
 
 import ContentItem from '../model/ContentItem';
-import NavItem from '../model/NavItem';
+//import NavItem from '../model/NavItem';
 
 import RekDataList from '../viewmodel/RekDataList';
+import {templatesModel} from './../../shared/utils/htmlRenderer'
 
-import {inspect} from '../../shared/utils/debug';
-
-const htmlRenderer = new HtmlRenderer();
+import {inspect, saveFile} from '../../shared/utils/debug';
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
@@ -26,7 +24,8 @@ function loadTemplates(resources) {
 	return loadResources(resources, false)
 	.then(templates => {
 		templates.forEach(template => {
-			htmlRenderer.registerTemplate(template.name, template.data);
+		//	htmlRenderer.registerTemplate(template.name, template.data);
+			templatesModel.registerTemplate(template.name, template.data);
 		});
 	});
 }
@@ -49,6 +48,9 @@ function mergeArrays(target, source, locator, merger) {
 	return target;
 }
 
+
+
+
 const DataLoader = {
 
 	loadViewModelFromServer(json, templates) {
@@ -61,12 +63,14 @@ const DataLoader = {
 				title: section.title,
 				items: section.fields.map(field => {
 					const content = {};
-					content[resource.name] = field.children;
-
+					content[resource.name] = templatesModel.processTemplate(resource.name, {
+						fields: [field], // hbs template is expecting content in fields[].
+						isMobile: true
+					});
 					return {
 						title: field.value,
 						content: content
-					}
+					};
 				})
 			}));
 		}))

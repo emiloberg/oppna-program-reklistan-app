@@ -17,11 +17,14 @@ var UIGestureRecognizerImpl = (function (_super) {
     UIGestureRecognizerImpl.new = function () {
         return _super.new.call(this);
     };
-    UIGestureRecognizerImpl.prototype.initWithOwnerTypeCallback = function (owner, type, callback) {
+    UIGestureRecognizerImpl.prototype.initWithOwnerTypeCallback = function (owner, type, callback, thisArg) {
         this._owner = owner;
         this._type = type;
         if (callback) {
             this._callback = callback;
+        }
+        if (thisArg) {
+            this._context = thisArg;
         }
         return this;
     };
@@ -36,7 +39,7 @@ var UIGestureRecognizerImpl = (function (_super) {
             android: undefined
         };
         if (callback) {
-            callback(args);
+            callback.call(this._context, args);
         }
     };
     UIGestureRecognizerImpl.ObjCExposedMethods = {
@@ -49,10 +52,11 @@ var GesturesObserver = (function () {
         this._callback = callback;
         this._recognizers = {};
     }
-    GesturesObserver.prototype.observe = function (target, type) {
+    GesturesObserver.prototype.observe = function (target, type, thisArg) {
         var _this = this;
         if (target) {
             this._target = target;
+            this._context = thisArg;
             this._onTargetLoaded = function (args) {
                 trace.write(_this._target + ".target loaded. _nativeView:" + _this._target._nativeView, "gestures");
                 _this._attach(target, type);
@@ -142,13 +146,13 @@ var GesturesObserver = (function () {
     };
     GesturesObserver.prototype._executeCallback = function (args) {
         if (this._callback) {
-            this._callback(args);
+            this._callback.call(this._context, args);
         }
     };
     GesturesObserver.prototype._createRecognizer = function (type, callback, swipeDirection) {
         var recognizer;
         var name = definition.toString(type);
-        var target = _createUIGestureRecognizerTarget(this, type, callback);
+        var target = _createUIGestureRecognizerTarget(this, type, callback, this._context);
         var recognizerType = _getUIGestureRecognizerType(type);
         if (recognizerType) {
             if (type === definition.GestureTypes.swipe && swipeDirection) {
@@ -168,8 +172,8 @@ var GesturesObserver = (function () {
     return GesturesObserver;
 })();
 exports.GesturesObserver = GesturesObserver;
-function _createUIGestureRecognizerTarget(owner, type, callback) {
-    return UIGestureRecognizerImpl.new().initWithOwnerTypeCallback(owner, type, callback);
+function _createUIGestureRecognizerTarget(owner, type, callback, thisArg) {
+    return UIGestureRecognizerImpl.new().initWithOwnerTypeCallback(owner, type, callback, thisArg);
 }
 function _getUIGestureRecognizerType(type) {
     var nativeType = null;
