@@ -65,6 +65,7 @@ function resolvePageFromEntry(entry) {
     }
     return page;
 }
+exports.resolvePageFromEntry = resolvePageFromEntry;
 var fileNameResolver;
 function resolveFilePath(path, ext) {
     if (!fileNameResolver) {

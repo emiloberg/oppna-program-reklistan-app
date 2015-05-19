@@ -1,0 +1,6 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      loaded="loaded"
+      navigatedTo="navigatedTo">
+
+    <WebView id="detailsWV" />
+</Page>

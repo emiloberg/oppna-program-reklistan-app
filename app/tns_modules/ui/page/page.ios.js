@@ -7,6 +7,7 @@ var __extends = this.__extends || function (d, b) {
 var pageCommon = require("ui/page/page-common");
 var imageSource = require("image-source");
 var trace = require("trace");
+var utils = require("utils/utils");
 require("utils/module-merge").merge(pageCommon, exports);
 var UIViewControllerImpl = (function (_super) {
     __extends(UIViewControllerImpl, _super);
@@ -21,7 +22,14 @@ var UIViewControllerImpl = (function (_super) {
         this.automaticallyAdjustsScrollViewInsets = false;
         return this;
     };
+    UIViewControllerImpl.prototype.didRotateFromInterfaceOrientation = function (fromInterfaceOrientation) {
+        trace.write(this._owner + " didRotateFromInterfaceOrientation(" + fromInterfaceOrientation + ")", trace.categories.ViewHierarchy);
+        if (this._owner._isModal) {
+            utils.ios._layoutRootView(this._owner);
+        }
+    };
     UIViewControllerImpl.prototype.viewDidLoad = function () {
+        trace.write(this._owner + " viewDidLoad", trace.categories.ViewHierarchy);
         this.view.autoresizesSubviews = false;
         this.view.autoresizingMask = UIViewAutoresizing.UIViewAutoresizingNone;
     };
@@ -47,6 +55,7 @@ var Page = (function (_super) {
     __extends(Page, _super);
     function Page(options) {
         _super.call(this, options);
+        this._isModal = false;
         this._ios = UIViewControllerImpl.new().initWithOwner(this);
     }
     Page.prototype._onContentChanged = function (oldView, newView) {
@@ -124,6 +133,18 @@ var Page = (function (_super) {
             array.addObject(barButtonItem);
         }
         navigationItem.setRightBarButtonItemsAnimated(array, true);
+    };
+    Page.prototype._showNativeModalView = function (parent, context, closeCallback) {
+        this._isModal = true;
+        utils.ios._layoutRootView(this);
+        var that = this;
+        parent.ios.presentViewControllerAnimatedCompletion(this._ios, false, function completion() {
+            that._raiseShownModallyEvent(parent, context, closeCallback);
+        });
+    };
+    Page.prototype._hideNativeModalView = function (parent) {
+        parent._ios.dismissModalViewControllerAnimated(false);
+        this._isModal = false;
     };
     return Page;
 })(pageCommon.Page);

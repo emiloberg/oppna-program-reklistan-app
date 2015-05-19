@@ -3,7 +3,7 @@ import HtmlRenderer from '../shared/utils/htmlRenderer';
 
 import {expect} from '../../node_modules/chai';
 
-describe('htmlRenderer', () => {
+xdescribe('htmlRenderer', () => {
 
 	let htmlRenderer;
 

@@ -120,23 +120,6 @@ var Frame = (function (_super) {
             view.View.layoutChild(this, this._navigateToEntry.resolvedPage, 0, this.navigationBarHeight, right - left, bottom - top);
         }
     };
-    Frame.prototype.layoutNativeView = function (left, top, right, bottom) {
-        // We don't call super here because we set frame on our first subview.
-        // This is done because when rotated in iOS7 there is rotation applied on the first subview on the Window which is our frame.nativeView.view.
-        // If we set it it should be transformed so it is correct. 
-        var frame = CGRectMake(left, top, right - left, bottom - top);
-        var nativeView;
-        if (!this.parent && this._nativeView.subviews.count > 0) {
-            nativeView = this._nativeView.subviews[0];
-        }
-        else {
-            nativeView = this._nativeView;
-        }
-        if (!CGRectEqualToRect(nativeView.frame, frame)) {
-            trace.write(this + ", Native setFrame: " + NSStringFromCGRect(frame), trace.categories.Layout);
-            nativeView.frame = frame;
-        }
-    };
     Object.defineProperty(Frame.prototype, "navigationBarHeight", {
         get: function () {
             var navigationBar = this._ios.controller.navigationBar;
@@ -210,7 +193,7 @@ var UINavigationControllerImpl = (function (_super) {
         frame._currentEntry = newEntry;
         frame.updateNavigationBar();
         var newPage = newEntry.resolvedPage;
-        newPage.onNavigatedTo(newEntry.entry.context);
+        newPage.onNavigatedTo();
         frame._processNavigationQueue(newPage);
     };
     UINavigationControllerImpl.prototype.supportedInterfaceOrientation = function () {

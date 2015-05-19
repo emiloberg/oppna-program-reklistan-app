@@ -127,6 +127,7 @@ var ListView = (function (_super) {
     function ListView() {
         _super.call(this);
         this._preparingCell = false;
+        this._isDataDirty = false;
         this._ios = new UITableView();
         this._ios.registerClassForCellReuseIdentifier(ListViewCell.class(), CELLIDENTIFIER);
         this._ios.autoresizesSubviews = false;
@@ -139,6 +140,9 @@ var ListView = (function (_super) {
     }
     ListView.prototype.onLoaded = function () {
         _super.prototype.onLoaded.call(this);
+        if (this._isDataDirty) {
+            this.refresh();
+        }
         this._ios.delegate = this._delegate;
     };
     ListView.prototype.onUnloaded = function () {
@@ -153,8 +157,14 @@ var ListView = (function (_super) {
         configurable: true
     });
     ListView.prototype.refresh = function () {
-        this._ios.reloadData();
-        this.requestLayout();
+        if (this.isLoaded) {
+            this._ios.reloadData();
+            this.requestLayout();
+            this._isDataDirty = false;
+        }
+        else {
+            this._isDataDirty = true;
+        }
     };
     ListView.prototype.getHeight = function (index) {
         return this._heights[index];

@@ -71,7 +71,7 @@ function fetchDataFromServer() {
 		e.forEach(function (response) {
 			data[response.name] = response.data;
 		});
-		debug.inspect(e);
+		
 		RekData.setMasterData(convertREKJsonToModelObj(data));
 
 	})

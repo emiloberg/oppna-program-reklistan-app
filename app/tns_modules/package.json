@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NativeScript/NativeScript/commit/727145caeb817a67b2f90a4582b2dc65ee7909c4"
+		"url": "https://github.com/NativeScript/NativeScript/commit/ae2f4df2fb7186bc5cc8a34dec47d04a4ac1c22c"
 	},
 	"files": [
 		"**/*.*",
