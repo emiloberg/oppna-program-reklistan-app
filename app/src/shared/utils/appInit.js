@@ -21,6 +21,11 @@ function init() {
 			name: 'advice',
 			url: 'http://localhost:5656/details-advice.hbs'
 		}
+	],[
+		{
+			name: 'custom',
+			url: 'http://localhost:5656/custom.css'
+		}
 	])
 	.then(list => {
 

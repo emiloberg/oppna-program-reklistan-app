@@ -69,7 +69,7 @@ const swag = require('./../../node_modules/swag');
 })();
 
 
-
+let CSS = {};
 let TEMPLATES = {};
 
 export const templatesModel = {
@@ -79,6 +79,14 @@ export const templatesModel = {
 
 	processTemplate(templateName, templateContext) {
 		return TEMPLATES[templateName](templateContext);
+	},
+
+	registerCss(cssName, cssContent) {
+		CSS[cssName] = cssContent;
+	},
+
+	getCss(cssName) {
+		return CSS[cssName];
 	}
 };
 

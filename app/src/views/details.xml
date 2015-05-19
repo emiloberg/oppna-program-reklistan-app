@@ -1,5 +1,6 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="navigatedTo" loaded="loaded">
-    <StackLayout>
-        <WebView id="detailsWV" />
-    </StackLayout>
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      loaded="loaded"
+      navigatedTo="navigatedTo">
+
+    <WebView id="detailsWV" />
 </Page>

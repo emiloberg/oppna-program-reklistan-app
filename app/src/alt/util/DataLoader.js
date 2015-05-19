@@ -11,21 +11,25 @@ import {inspect, saveFile} from '../../shared/utils/debug';
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
+		console.log('LOAD RESOURCES ' + resource.name );
 		return (isJson ? http.getJSON : http.getString)(resource.url)
-		.then(data => ({
-				name: resource.name,
-				data: data
-			})
+		.then(data => {
+				console.log('DONE RESOURCES ' + resource.name);
+				return {
+					name: resource.name,
+					data: data
+				};
+			}
 		);
 	}));
 }
 
-function loadTemplates(resources) {
+function loadFiles(resources, registerWith) {
+	console.log('LOAD FILES');
 	return loadResources(resources, false)
 	.then(templates => {
 		templates.forEach(template => {
-		//	htmlRenderer.registerTemplate(template.name, template.data);
-			templatesModel.registerTemplate(template.name, template.data);
+			templatesModel[registerWith](template.name, template.data);
 		});
 	});
 }
@@ -53,9 +57,10 @@ function mergeArrays(target, source, locator, merger) {
 
 const DataLoader = {
 
-	loadViewModelFromServer(json, templates) {
+	loadViewModelFromServer(json, templates, css) {
 
-		return loadTemplates(templates)
+		return loadFiles(templates, 'registerTemplate')
+		.then(() => loadFiles(css, 'registerCss'))
 		.then(() => loadResources(json, true))
 		.then(resources => resources.map(resource => {
 
