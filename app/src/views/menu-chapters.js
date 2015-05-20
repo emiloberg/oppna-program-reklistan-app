@@ -1,12 +1,12 @@
-import {inspect, saveFile} from './../shared/utils/debug';
+//import {inspect, saveFile} from './../shared/utils/debug';
 let customUiModule = require('./../shared/modules/ui');
 var frameModule = require('ui/frame');
 
 let page;
 
-function pageLoaded(args) {
-
-}
+//function pageLoaded(args) {
+//
+//}
 
 function pageNavigatedTo(args) {
 	page = args.object;
@@ -17,7 +17,7 @@ function pageNavigatedTo(args) {
 
 function menuItemTap(args) {
 	frameModule.topmost().navigate({
-		moduleName: "views/details",
+		moduleName: 'views/details',
 		context: {
 			item: args.view.bindingContext,
 			selectedIndex: page.bindingContext.selectedIndex
@@ -26,6 +26,6 @@ function menuItemTap(args) {
 }
 
 
-module.exports.pageLoaded = pageLoaded;
+//module.exports.pageLoaded = pageLoaded;
 module.exports.pageNavigatedTo = pageNavigatedTo;
 module.exports.menuItemTap = menuItemTap;

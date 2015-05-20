@@ -3,8 +3,8 @@
 import http from 'http';
 import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
-import {templatesModel} from './htmlRenderer'
-import {inspect, saveFile} from './debug';
+import {templatesModel} from './htmlRenderer';
+//import {inspect, saveFile} from './debug';
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
@@ -71,13 +71,13 @@ const DataLoader = {
 			}));
 		}))
 		// .then process templates and store HTML in content objects directly??
-		.then(trees => trees.reduce((target, source) => 
-				mergeArrays(target, source, 
-					(haystack, needle) => 
+		.then(trees => trees.reduce((target, source) =>
+				mergeArrays(target, source,
+					(haystack, needle) =>
 						haystack.map(e => e.title).indexOf(needle.title),
 					(targetItem, sourceItem) => {
-						mergeArrays(targetItem.items, sourceItem.items, 
-							(haystack, needle) => 
+						mergeArrays(targetItem.items, sourceItem.items,
+							(haystack, needle) =>
 								haystack.map(e => e.title).indexOf(needle.title),
 							(innerTargetItem, innerSourceItem) => {
 								Object.keys(innerSourceItem.content).forEach(key => {
@@ -98,9 +98,9 @@ const DataLoader = {
 		).then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
 			loadFiles(css, 'registerCss');
-			return dataLists
+			return dataLists;
 		});
-	}	
+	}
 };
 export default DataLoader;
 

@@ -32,7 +32,7 @@ export default class RekDataList extends Observable {
 				eventName: 'propertyChange',
 				propertyName: 'items',
 				value: this.items
-			});					
+			});
 		}
 	}
 

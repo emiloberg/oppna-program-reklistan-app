@@ -1,7 +1,7 @@
 'use strict';
 
 var eyes = require('./../../thirdparty/eyes');
-var fs = require("file-system");
+var fs = require('file-system');
 
 
 export function itemInspector(name, item) {
@@ -34,7 +34,7 @@ export function saveFile(filename, content) {
 
 	file.writeText(content).then(function () {
 
-	}, function (error) {
-		throw new Error('Could not write file!')
+	}, function () {
+		throw new Error('Could not write file!');
 	});
 }

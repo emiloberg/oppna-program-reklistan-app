@@ -15,7 +15,7 @@ export default class ContentItem {
 
 	getContent(typeNameOrId) {
 		if (typeof typeNameOrId === 'number') {
-			return this._content[TYPENAMES[typeNameOrId]]
+			return this._content[TYPENAMES[typeNameOrId]];
 		} else {
 			return this._content[typeNameOrId];
 		}

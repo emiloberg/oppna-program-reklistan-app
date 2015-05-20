@@ -1,16 +1,16 @@
 'use strict';
 
-import {inspect, saveFile} from './../shared/utils/debug';
+import {inspect} from './../shared/utils/debug';
 let customUiModule = require('./../shared/modules/ui');
-var application = require('application');
-import {templatesModel} from './../shared/utils/htmlRenderer'
+//var application = require('application');
+import {templatesModel} from './../shared/utils/htmlRenderer';
 let webViewModule = require('ui/web-view');
 
 
 let page;
-
-function loaded(args) {
-}
+//
+//function loaded(args) {
+//}
 
 function navigatedTo(args) {
 	page = args.object;
@@ -39,7 +39,7 @@ function navigatedTo(args) {
 		</html>`;
 
 
-	var webView = page.getViewById("detailsWV");
+	var webView = page.getViewById('detailsWV');
 	webView.src = html;
 
 	webView.on(webViewModule.WebView.loadStartedEvent, function(e) {
@@ -64,6 +64,6 @@ function navigatedTo(args) {
 }
 
 
-module.exports.loaded = loaded;
+//module.exports.loaded = loaded;
 module.exports.navigatedTo = navigatedTo;
 

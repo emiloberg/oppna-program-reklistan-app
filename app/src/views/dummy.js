@@ -5,7 +5,6 @@ var PageModule = require('ui/page');
 //var LabelModule = require('ui/label');
 //var StackLayoutModule = require('ui/layouts/stack-layout');
 var webViewModule = require('ui/web-view');
-var fs = require( 'file-system' );
 
 var pageFactory = function () {
 	var testPage = new PageModule.Page();

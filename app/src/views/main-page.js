@@ -1,8 +1,8 @@
 'use strict';
 
 var frameModule = require('ui/frame');
-var labelModule = require('ui/label');
-var pageModule = require('ui/page');
+//var labelModule = require('ui/label');
+//var pageModule = require('ui/page');
 
 var initApp = require('./../shared/utils/appInit');
 
@@ -34,13 +34,11 @@ exports.showRekMenu = showRekMenu;
 
 
 
-
-
-var factoryFunc = function () {
-	var label = new labelModule.Label();
-	label.text = 'Hello, world!';
-	var page = new pageModule.Page();
-	page.content = label;
-	return page;
-};
-
+//var factoryFunc = function () {
+//	var label = new labelModule.Label();
+//	label.text = 'Hello, world!';
+//	var page = new pageModule.Page();
+//	page.content = label;
+//	return page;
+//};
+//

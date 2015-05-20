@@ -1,4 +1,4 @@
-
+/*global xdescribe, beforeEach, it*/
 import HtmlRenderer from '../shared/utils/htmlRenderer';
 
 import {expect} from '../../node_modules/chai';
@@ -22,7 +22,7 @@ xdescribe('htmlRenderer', () => {
 		expect(result).to.equal('');
 
 		result = htmlRenderer.processTemplate('name', {key: 'value'});
-		expect(result).to.equal('value');		
+		expect(result).to.equal('value');
 
 		htmlRenderer.registerTemplate('name', '{{#each this}}{{p}}{{/each}}');
 		result = htmlRenderer.processTemplate('name', [{p: 1}, {p: 2}, {p: 3}]);

@@ -1,7 +1,7 @@
 let RekAppViewModel = require('./../shared/viewmodel/RekAppViewModel');
 let frameModule = require('ui/frame');
 let customUiModule = require('./../shared/modules/ui');
-import {inspect, saveFile} from './../shared/utils/debug';
+//import {inspect, saveFile} from './../shared/utils/debug';
 
 function pageLoaded(args) {
 	var page = args.object;
@@ -17,7 +17,7 @@ function menuItemTap(args) {
 
     var section = args.view.bindingContext;
     frameModule.topmost().navigate({
-        moduleName: "views/menu-chapters",
+        moduleName: 'views/menu-chapters',
         context: section
     });
 }

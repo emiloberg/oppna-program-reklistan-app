@@ -3,6 +3,7 @@
 
 const handlebars = require('./../../node_modules/handlebars/dist/handlebars');
 const swag = require('./../../node_modules/swag');
+const customUtils = require('./utils');
 
 (function registerHelpers() {
 
@@ -16,12 +17,12 @@ const swag = require('./../../node_modules/swag');
 	 *
 	 */
 	handlebars.registerHelper('urlencode', function (context) {
-		var ret = context || '';
-		ret = ret.replace(/ /g, '_');
-		ret = removeDiacritics(ret);
-		ret = encodeURIComponent(ret);
+		//var ret = context || '';
+		//ret = ret.replace(/ /g, '_');
+		//ret = removeDiacritics(ret);
+		//ret = encodeURIComponent(ret);
 
-		return new handlebars.SafeString(ret);
+		return new handlebars.SafeString(customUtils.makeUrlSafe(context));
 	});
 
 	/**
