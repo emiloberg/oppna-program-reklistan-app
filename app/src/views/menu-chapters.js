@@ -1,4 +1,3 @@
-let RekData = require('./../shared/models/RekData');
 import {inspect, saveFile} from './../shared/utils/debug';
 let customUiModule = require('./../shared/modules/ui');
 var frameModule = require('ui/frame');
