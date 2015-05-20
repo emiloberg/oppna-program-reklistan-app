@@ -1,3 +1,4 @@
+'use strict';
 
 import {Observable} from 'data/observable';
 
@@ -52,4 +53,3 @@ export default class RekDataList extends Observable {
 		return this._allItems.some(item => item.hasType(type));
 	}
 }
-

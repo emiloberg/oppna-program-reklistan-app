@@ -1,3 +1,4 @@
+'use strict';
 
 const TYPENAMES = ['drugs', 'advice'];
 
@@ -27,7 +28,4 @@ export default class ContentItem {
 			return this._content.hasOwnProperty(typeNameOrId);
 		}
 	}
-
-
 }
-

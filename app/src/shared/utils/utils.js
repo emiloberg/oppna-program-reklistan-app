@@ -1,3 +1,5 @@
+'use strict';
+
 function makeUrlSafe(str /*, dontURIEncode*/) {
 	let ret = str || '';
 	ret = ret.replace(/ /g, '_');

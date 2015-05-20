@@ -1,20 +1,15 @@
+'use strict';
 
 import http from 'http';
-
 import ContentItem from '../model/ContentItem';
-//import NavItem from '../model/NavItem';
-
 import RekDataList from '../viewmodel/RekDataList';
-import {templatesModel} from './../../shared/utils/htmlRenderer'
-
-import {inspect, saveFile} from '../../shared/utils/debug';
+import {templatesModel} from './htmlRenderer'
+import {inspect, saveFile} from './debug';
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
-		console.log('LOAD RESOURCES ' + resource.name );
 		return (isJson ? http.getJSON : http.getString)(resource.url)
 		.then(data => {
-				console.log('DONE RESOURCES ' + resource.name);
 				return {
 					name: resource.name,
 					data: data
@@ -25,7 +20,6 @@ function loadResources(resources, isJson) {
 }
 
 function loadFiles(resources, registerWith) {
-	console.log('LOAD FILES');
 	return loadResources(resources, false)
 	.then(templates => {
 		templates.forEach(template => {

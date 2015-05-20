@@ -1,10 +1,7 @@
-//var RekData = require('./../shared/models/RekData');
-let RekAppViewModel = require('../alt/viewmodel/RekAppViewModel');
-var frameModule = require('ui/frame');
-
-import {inspect, saveFile} from './../shared/utils/debug';
-
+let RekAppViewModel = require('./../shared/viewmodel/RekAppViewModel');
+let frameModule = require('ui/frame');
 let customUiModule = require('./../shared/modules/ui');
+import {inspect, saveFile} from './../shared/utils/debug';
 
 function pageLoaded(args) {
 	var page = args.object;
@@ -29,5 +26,3 @@ function menuItemTap(args) {
 exports.menuItemTap = menuItemTap;
 exports.pageLoaded = pageLoaded;
 exports.pageNavigatedTo = pageNavigatedTo;
-
-
