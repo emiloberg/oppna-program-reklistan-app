@@ -53,14 +53,11 @@ function mergeArrays(target, source, locator, merger) {
 }
 
 
-
-
 const DataLoader = {
 
 	loadViewModelFromServer(json, templates, css) {
 
 		return loadFiles(templates, 'registerTemplate')
-		.then(() => loadFiles(css, 'registerCss'))
 		.then(() => loadResources(json, true))
 		.then(resources => resources.map(resource => {
 
@@ -104,7 +101,12 @@ const DataLoader = {
 
 				return new RekDataList(section.title, contentSections);
 			})
-		).then(dataLists => new RekDataList('REKListan', dataLists));
+		).then(dataLists => new RekDataList('REKListan', dataLists))
+		.then(dataLists => {
+			loadFiles(css, 'registerCss');
+			return dataLists
+		});
 	}	
 };
 export default DataLoader;
+
