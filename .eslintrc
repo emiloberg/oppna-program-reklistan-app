@@ -7,6 +7,9 @@
         "node": true,
     	"es6": true
     },
+    "ecmaFeatures": { 
+        modules: true 
+    },
     "rules": {
         "quotes": [1, "single", "avoid-escape"],
         "no-use-before-define": 0,

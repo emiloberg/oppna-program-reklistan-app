@@ -7,6 +7,7 @@ var watchedFiles = [
 ];
 
 // Where are your ES6 files which are going to be translated?
+// These are also the files which will be linted by eslint
 var babelSrc = [
     'app/src/**/*.js'
 ];
@@ -40,6 +41,7 @@ var mocha = require('gulp-mocha');
 var mergeStream = require('merge-stream');
 var del = require('del');
 var runSequence = require('run-sequence');
+var eslint = require('gulp-eslint');
 
 gulp.task('_emulate', function(cb) {
     var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
@@ -102,6 +104,12 @@ gulp.task('test', function(callback) {
 });
 
 
+gulp.task('lint', function () {
+    return gulp.src(babelSrc)
+        .pipe(eslint())
+        .pipe(eslint.format());
+});
+
 
 gulp.task('watch', function(callback) {
     console.log();
@@ -125,7 +133,10 @@ gulp.task('default', function() {
     console.log();
     console.log('    ' + chalk.blue('gulp watch') + '               - Start watching files, recompile Javascript and restart');
     console.log('                               emulator (set to: ' + emulator + ') when files change.');
-	console.log('    ' + chalk.blue('gulp test ') + '               - Clean, compile and run tests in /app/tests');
+    console.log();
+	console.log('    ' + chalk.blue('gulp test') + '                - Clean, compile and run tests in /app/tests');
+    console.log();
+    console.log('    ' + chalk.blue('gulp lint') + '                - Run eslint');    
     console.log();
 	console.log(chalk.magenta('  Sub-tasks') + ' (primarily run by main tasks)');
     console.log();
