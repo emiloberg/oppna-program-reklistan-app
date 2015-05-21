@@ -59,6 +59,11 @@ function navigatedTo(args) {
 		//	}
 		//});
 
+
+
+		// Todo: Same for android
+		//e.object.ios.stopLoading();
+
 	});
 
 }

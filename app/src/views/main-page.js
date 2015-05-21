@@ -6,19 +6,24 @@ var frameModule = require('ui/frame');
 
 var initApp = require('./../shared/utils/appInit');
 
+import {viewSettings} from './../shared/modules/ui';
+
 var pageLoaded = function(args) {
+	viewSettings.setDefaults();
+
 	var page = args.object;
 	page.bindingContext = {
 		showRekMenu: 'REK-listan'
 	};
 
-	initApp.init()
-	.then(function () {
-		frameModule.topmost().navigate('views/menu-sections');
-	})
-	.catch(function (e) {
-		console.dir(e);
-	});
+	frameModule.topmost().navigate('views/dummy');
+//	initApp.init()
+//	.then(function () {
+//		frameModule.topmost().navigate('views/menu-sections');
+//	})
+//	.catch(function (e) {
+//		console.dir(e);
+//	});
 
 };
 

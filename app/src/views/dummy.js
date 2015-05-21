@@ -1,56 +1,59 @@
 'use strict';
 
-var FrameModule = require('ui/frame');
-var PageModule = require('ui/page');
-//var LabelModule = require('ui/label');
-//var StackLayoutModule = require('ui/layouts/stack-layout');
-var webViewModule = require('ui/web-view');
+//var FrameModule = require('ui/frame');
+//var PageModule = require('ui/page');
+////var LabelModule = require('ui/label');
+////var StackLayoutModule = require('ui/layouts/stack-layout');
+//var webViewModule = require('ui/web-view');
 
-var pageFactory = function () {
-	var testPage = new PageModule.Page();
+var gestures = require('ui/gestures');
 
-	var webView = new webViewModule.WebView();
-	webView.url = 'file:///tmp/dump.html';
+import Images from './../shared/utils/images';
 
-	webView.on(webViewModule.WebView.loadStartedEvent, function(e) {
-		if (e.url.indexOf('tjohej://') > -1) {
-			// Todo: Same for android
-			e.object.ios.stopLoading();
+var page;
+
+function loaded() {}
+
+function navigatedTo(args) {
+	page = args.object;
+	page.bindingContext = {
+		actionBar: {
+			iconBack: Images.left,
+			iconSearch: Images.search,
+			iconMenu: Images.menu,
+			backTitle: 'FÖREGÅENDE SIDA',
+			pageTitle: 'DEN HÄR FINA SIDAN'
 		}
-
-		//var topFrame = FrameModule.topmost();
-		//topFrame.navigate({
-		//	create: function() {
-		//		var testPage2 = new PageModule.Page();
-		//		var webView2 = new webViewModule.WebView();
-		//		webView2.url = 'file:///tmp/hej.html';
-		//		testPage2.content = webView2;
-		//		return testPage2;
-		//	}
-		//});
-
-		Object.keys(e).forEach(function (k) {
-			console.log(k + ': ' + e[k]);
-		});
-
-	//Object.keys(fs.knownFolders.documents).forEach(function(f) {
-	//	console.log(f);
+	};
+	//
+	//let backButton = page.getViewById('action-bar--back-button');
+	//
+	//var observer = backButton.observe(gestures.GestureTypes.Tap, function (args) {
+	//	console.log("Tap");
 	//});
 
-	});
 
-	testPage.content = webView;
-	return testPage;
-};
-var navEntry = {
-	create: pageFactory,
-	animated: false
-};
+	//listView.on(listViewModule.ListView.itemTapEvent, function (args) {
+	//	var tappedItemIndex = args.index;
+	//	var tappedItemView = args.view;
+	//	// Do someting
+	//});
 
-function pageLoaded() {
-	var topFrame = FrameModule.topmost();
-	topFrame.navigate(navEntry);
 }
 
-module.exports.pageLoaded = pageLoaded;
+function drugsTap() {
+	console.log('DRUGS');
+}
 
+function adviceTap() {
+	console.log('ADVICE');
+}
+
+
+
+
+
+module.exports.loaded = loaded;
+module.exports.navigatedTo = navigatedTo;
+module.exports.drugsTap = drugsTap;
+module.exports.adviceTap = adviceTap;

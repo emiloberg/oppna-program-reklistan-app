@@ -1,6 +1,37 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd"  loaded="pageLoaded">
-    <StackLayout>
-        <Button text="Dummy"  />
-    </StackLayout>
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      xmlns:header="shared/view-utils/action-bar"
+      loaded="loaded"
+      navigatedTo="navigatedTo">
+
+
+    <GridLayout rows="auto, *">
+        <header:action-bar />
+        <StackLayout row="1">
+
+            <StackLayout id="head--title-bar" verticalAlignment="center">
+                <Label horizontalAlignment="center">
+                    <Label.formattedText>
+                        <FormattedString>
+                            <FormattedString.spans>
+                                <Span id="head--title-bar--label" text="{{actionBar.pageTitle}}" fontAttributes="Bold" foregroundColor="#4B5757" />
+                            </FormattedString.spans>
+                        </FormattedString>
+                    </Label.formattedText>
+                </Label>
+            </StackLayout>
+
+            <GridLayout id="head--tab-bar" columns="*, *" rows="*">
+                <StackLayout tap="drugsTap" col="0" orientation="vertical" verticalAlignment="center">
+                    <Label cssClass="head--tab-bar--label" col="0" row="0" text="DRUGS" horizontalAlignment="center" />
+                    <StackLayout cssClass="head--tab-bar--border-noactive" height="2"></StackLayout>
+                </StackLayout>
+                <StackLayout tap="adviceTap" col="1" orientation="vertical" verticalAlignment="center">
+                    <Label cssClass="head--tab-bar--label" col="1" row="0" text="ADVICE" horizontalAlignment="center" />
+                    <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+                </StackLayout>
+            </GridLayout>
+
+        </StackLayout>
+    </GridLayout>
 
 </Page>
