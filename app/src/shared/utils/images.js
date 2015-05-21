@@ -1,34 +1,25 @@
-let imageSource = require('image-source');
-let platform = require('platform');
-var app = require('application');
-
+import {fromFile as imageFromFile} from 'image-source';
+import {screen} from 'platform';
+import {android, ios} from 'application';
 //import {inspect} from './debug';
 
-
-let scale = platform.screen.mainScreen.scale;
-let os;
-if (app.android) {
-	os = 'android';
-} else if (app.ios) {
-	os = 'ios';
-}
+let scaleFactor = screen.mainScreen.scale;
 
 function getImage(category, name) {
-	let imagePath = '';
-	let scalePath = '';
-	if (os === 'ios') {
+	let scalePath;
+	let imagePath;
+	if (ios) {
 		imagePath = '~/images/md/' + category + '/ios/' + name + '.imageset/' + name;
-		if (scale >= 3) {
+		if (scaleFactor >= 3) {
 			scalePath = '_3x';
-		} else if (scale >= 2) {
+		} else if (scaleFactor >= 2) {
 			scalePath = '_2x';
 		}
 		imagePath = imagePath + scalePath + '.png';
-	} else {
-		// todo load android pictures
+	} else if (android) {
+		// todo load for android
 	}
-	//console.log('imagepath ' + imagePath );
-	return imageSource.fromFile(imagePath);
+	return imageFromFile(imagePath);
 }
 
 const Images = {

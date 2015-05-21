@@ -6,7 +6,6 @@ let ui = {
 	topbar: {
 		setText: function(page, text) {
 			// TODO, Implement for Android
-			let frameModule = require('ui/frame');
 			if (page.ios) {
 				// Change the UIViewController's title property
 				page.ios.title = text;

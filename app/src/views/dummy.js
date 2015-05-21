@@ -1,13 +1,5 @@
 'use strict';
 
-//var FrameModule = require('ui/frame');
-//var PageModule = require('ui/page');
-////var LabelModule = require('ui/label');
-////var StackLayoutModule = require('ui/layouts/stack-layout');
-//var webViewModule = require('ui/web-view');
-
-var gestures = require('ui/gestures');
-
 import Images from './../shared/utils/images';
 
 var page;
@@ -25,19 +17,6 @@ function navigatedTo(args) {
 			pageTitle: 'DEN HÄR FINA SIDAN'
 		}
 	};
-	//
-	//let backButton = page.getViewById('action-bar--back-button');
-	//
-	//var observer = backButton.observe(gestures.GestureTypes.Tap, function (args) {
-	//	console.log("Tap");
-	//});
-
-
-	//listView.on(listViewModule.ListView.itemTapEvent, function (args) {
-	//	var tappedItemIndex = args.index;
-	//	var tappedItemView = args.view;
-	//	// Do someting
-	//});
 
 }
 
