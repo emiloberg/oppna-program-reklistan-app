@@ -57,20 +57,23 @@ const DataLoader = {
 
 			return resource.data.map(section => ({
 				title: section.title,
-				items: section.fields.map(field => {
+				items: section.fields.map((field, fieldIndex) => {
 					const content = {};
 					content[resource.name] = templatesModel.processTemplate(resource.name, {
 						fields: [field], // hbs template is expecting content in fields[].
 						isMobile: true
 					});
+
+					const order = {};
+					order[resource.name] = fieldIndex;
 					return {
 						title: field.value,
-						content: content
+						content: content,
+						order: order
 					};
 				})
 			}));
 		}))
-		// .then process templates and store HTML in content objects directly??
 		.then(trees => trees.reduce((target, source) =>
 				mergeArrays(target, source,
 					(haystack, needle) =>
@@ -82,6 +85,7 @@ const DataLoader = {
 							(innerTargetItem, innerSourceItem) => {
 								Object.keys(innerSourceItem.content).forEach(key => {
 									innerTargetItem.content[key] = innerSourceItem.content[key];
+									innerTargetItem.order[key] = innerSourceItem.order[key];
 								});
 							}
 						);
@@ -91,9 +95,9 @@ const DataLoader = {
 		.then(mergedData => mergedData.map(section => {
 
 				const contentSections = section.items.map(
-					item => new ContentItem(item.title, item.content));
+					item => new ContentItem(item.title, item.content, item.order));
 
-				return new RekDataList(section.title, contentSections);
+				return new RekDataList(section.title, contentSections, true);
 			})
 		).then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {

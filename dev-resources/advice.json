@@ -35,54 +35,6 @@
                             {
                                 "children": [],
                                 "name": "type",
-                                "value": "for-childs"
-                            },
-                            {
-                                "children": [],
-                                "name": "subheading",
-                                "value": ""
-                            },
-                            {
-                                "children": [],
-                                "name": "image",
-                                "value": ""
-                            }
-                        ],
-                        "name": "body",
-                        "value": "<p>Sm\u00e5 barn (&lt;5-6 \u00e5r) som inte kan hantera en pulverinhalator kan anv\u00e4nda Airomir resp. Flutide Evohaler spray tillsammans med en spacer.</p> <p>F\u00f6r barn &lt;4 \u00e5r finns bristf\u00e4llig dokumentation av behandling med LABA. De sm\u00e5 barn som kr\u00e4ver till\u00e4ggsbehandling ska i&nbsp;f\u00f6rsta hand pr\u00f6va montelukast. Barn &gt;4 \u00e5r kan vid otillr\u00e4cklig&nbsp;effekt av ICS pr\u00f6va LABA.</p> <p>Vid behandling med b\u00e5de ICS och nasala steroider till barn, t\u00e4nk p\u00e5 att ta h\u00e4nsyn till den totala steroiddosen.</p>"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "type",
-                                "value": "drugs"
-                            },
-                            {
-                                "children": [],
-                                "name": "subheading",
-                                "value": "Andrahandsval astma barn"
-                            },
-                            {
-                                "children": [],
-                                "name": "image",
-                                "value": ""
-                            }
-                        ],
-                        "name": "body",
-                        "value": "<h2>Snabbverkande beta-2-stimulerare</h2> <ul> <li>terbutalin <ul> <li>Bricanyl/Turbuhaler</li> </ul> </li> </ul> <h2>Inhalationssteroider</h2> <ul> <li>budesonid <ul> <li>Pulmicort Turbuhaler</li> </ul> </li> </ul> <h2>L\u00e5ngverkande beta-2-stimulerare</h2> <ul> <li>formoterol <ul> <li>Oxis Turbuhaler</li> </ul> </li> <li>salmeterol <ul> <li>Serevent Diskus</li> </ul> </li> </ul> <h2>Kombinationspreparat</h2> <ul> <li>budesonid + formoterol <ul> <li>Bufomix Easyhaler, godk\u00e4nd&nbsp;f\u00f6r barn &gt;12 \u00e5r</li> <li>Symbicort Turbuhaler</li> </ul> </li> <li>flutikason + salmeterol <ul> <li>Seretide Diskus</li> <li>Seretide Evohaler spray</li> </ul> </li> </ul>"
-                    }
-                ],
-                "name": "heading",
-                "value": "Astma barn"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "type",
                                 "value": "normal"
                             },
                             {
@@ -123,6 +75,54 @@
                 ],
                 "name": "heading",
                 "value": "Astma vuxna"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "type",
+                                "value": "for-childs"
+                            },
+                            {
+                                "children": [],
+                                "name": "subheading",
+                                "value": ""
+                            },
+                            {
+                                "children": [],
+                                "name": "image",
+                                "value": ""
+                            }
+                        ],
+                        "name": "body",
+                        "value": "<p>Sm\u00e5 barn (&lt;5-6 \u00e5r) som inte kan hantera en pulverinhalator kan anv\u00e4nda Airomir resp. Flutide Evohaler spray tillsammans med en spacer.</p> <p>F\u00f6r barn &lt;4 \u00e5r finns bristf\u00e4llig dokumentation av behandling med LABA. De sm\u00e5 barn som kr\u00e4ver till\u00e4ggsbehandling ska i&nbsp;f\u00f6rsta hand pr\u00f6va montelukast. Barn &gt;4 \u00e5r kan vid otillr\u00e4cklig&nbsp;effekt av ICS pr\u00f6va LABA.</p> <p>Vid behandling med b\u00e5de ICS och nasala steroider till barn, t\u00e4nk p\u00e5 att ta h\u00e4nsyn till den totala steroiddosen.</p>"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "type",
+                                "value": "drugs"
+                            },
+                            {
+                                "children": [],
+                                "name": "subheading",
+                                "value": "Andrahandsval astma barn"
+                            },
+                            {
+                                "children": [],
+                                "name": "image",
+                                "value": ""
+                            }
+                        ],
+                        "name": "body",
+                        "value": "<h2>Snabbverkande beta-2-stimulerare</h2> <ul> <li>terbutalin <ul> <li>Bricanyl/Turbuhaler</li> </ul> </li> </ul> <h2>Inhalationssteroider</h2> <ul> <li>budesonid <ul> <li>Pulmicort Turbuhaler</li> </ul> </li> </ul> <h2>L\u00e5ngverkande beta-2-stimulerare</h2> <ul> <li>formoterol <ul> <li>Oxis Turbuhaler</li> </ul> </li> <li>salmeterol <ul> <li>Serevent Diskus</li> </ul> </li> </ul> <h2>Kombinationspreparat</h2> <ul> <li>budesonid + formoterol <ul> <li>Bufomix Easyhaler, godk\u00e4nd&nbsp;f\u00f6r barn &gt;12 \u00e5r</li> <li>Symbicort Turbuhaler</li> </ul> </li> <li>flutikason + salmeterol <ul> <li>Seretide Diskus</li> <li>Seretide Evohaler spray</li> </ul> </li> </ul>"
+                    }
+                ],
+                "name": "heading",
+                "value": "Astma barn"
             },
             {
                 "children": [
