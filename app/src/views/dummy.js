@@ -1,12 +1,15 @@
 'use strict';
 
 import Images from './../shared/utils/images';
+import customUi from './../shared/modules/ui';
 
 var page;
 
-function loaded() {}
+function loaded() {
+}
 
 function navigatedTo(args) {
+	customUi.setViewDefaults();
 	page = args.object;
 	page.bindingContext = {
 		actionBar: {

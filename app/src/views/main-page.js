@@ -5,11 +5,10 @@ var frameModule = require('ui/frame');
 //var pageModule = require('ui/page');
 
 var initApp = require('./../shared/utils/appInit');
-
-import {viewSettings} from './../shared/modules/ui';
+import customUi from './../shared/modules/ui';
 
 var pageLoaded = function(args) {
-	viewSettings.setDefaults();
+//	customUi.setViewDefaults();
 
 	var page = args.object;
 	page.bindingContext = {
