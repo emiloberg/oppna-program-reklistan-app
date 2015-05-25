@@ -3,7 +3,14 @@ import {screen} from 'platform';
 import {android, ios} from 'application';
 //import {inspect} from './debug';
 
-let scaleFactor = screen.mainScreen.scale;
+const scale = platform.screen.mainScreen.scale;
+let os;
+if (app.android) {
+	os = 'android';
+} else if (app.ios) {
+	os = 'ios';
+}
+
 
 function getImage(category, name) {
 	let scalePath;
@@ -18,6 +25,7 @@ function getImage(category, name) {
 		imagePath = imagePath + scalePath + '.png';
 	} else if (android) {
 		// todo load for android
+//		imagePath = '~/images/md/' + category + '/ios/' + name + '.imageset/' + name;
 	}
 	return imageFromFile(imagePath);
 }
