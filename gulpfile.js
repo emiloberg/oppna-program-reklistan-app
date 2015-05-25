@@ -20,16 +20,17 @@ var resources = [
 ];
 
 // These folders are cleaned every time a build is done.
-// This pattern should be all the folders you have in /app/src/ 
+// This pattern should be all the folders you have in /app/src/
 var generatedSources = [
     './app/{shared,test,views}'
 ];
 
 // Which emulator to run?
-// Valid emulators are 
-//    iPhone-4s, iPhone-5, iPhone-5s, iPhone-6-Plus, iPhone-6, 
+// Valid emulators are
+//    iPhone-4s, iPhone-5, iPhone-5s, iPhone-6-Plus, iPhone-6,
 //    iPad-2, iPad-Retina, iPad-Air, Resizable-iPhone, Resizable-iPa
-var emulator = 'iPhone-5'; 
+var iOSEmulator = 'iPhone-5';
+var androidEmulator = 'Nexus-5';
 
 
 
@@ -43,8 +44,8 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var eslint = require('gulp-eslint');
 
-gulp.task('_emulate', function(cb) {
-    var child = spawn('tns', ['emulate', 'ios', '--device', emulator], {cwd: process.cwd()});
+gulp.task('_emulateiOS', function(cb) {
+    var child = spawn('tns', ['emulate', 'ios', '--device', iOSEmulator], {cwd: process.cwd()});
     var stdout = '';
     var stderr = '';
 
@@ -67,6 +68,33 @@ gulp.task('_emulate', function(cb) {
     cb();
 
 });
+
+gulp.task('_emulateAndroid', function(cb) {
+    //▶ tns emulate android --geny Nexus-5
+    var child = spawn('tns', ['emulate', 'android', '--geny', androidEmulator], {cwd: process.cwd()});
+    var stdout = '';
+    var stderr = '';
+
+    child.stdout.setEncoding('utf8');
+    child.stdout.on('data', function (data) {
+        stdout += data;
+        console.log(data);
+    });
+
+    child.stderr.setEncoding('utf8');
+    child.stderr.on('data', function (data) {
+        stderr += data;
+        console.log(chalk.red(data));
+    });
+
+    child.on('close', function(code) {
+        console.log('Done with exit code', code);
+    });
+
+    cb();
+
+});
+
 
 
 gulp.task('_clean', function(cb) {
@@ -111,32 +139,47 @@ gulp.task('lint', function () {
 });
 
 
-gulp.task('watch', function(callback) {
+gulp.task('watchIOS', function(callback) {
     console.log();
-    console.log(chalk.blue('Watcher started, will restart emulator ') + chalk.yellow(emulator) + chalk.blue(' when files change'));
+    console.log(chalk.blue('Watcher started, will restart emulator ') + chalk.yellow(iOSEmulator) + chalk.blue(' when files change'));
     console.log('Tip: Run "gulp help" to show help');
     console.log();
     gulp.watch(watchedFiles, function () {
             runSequence(
                 '_clean',
                 '_compile',
-                '_emulate',
+                '_emulateiOS',
+                callback);
+        }
+    );
+});
+
+gulp.task('watchAndroid', function(callback) {
+    gulp.watch(watchedFiles, function () {
+            runSequence(
+                '_clean',
+                '_compile',
+                '_emulateAndroid',
                 callback);
         }
     );
 });
 
 
+
 gulp.task('default', function() {
     console.log();
 	console.log(chalk.magenta('  Main tasks'));
     console.log();
-    console.log('    ' + chalk.blue('gulp watch') + '               - Start watching files, recompile Javascript and restart');
-    console.log('                               emulator (set to: ' + emulator + ') when files change.');
+    console.log('    ' + chalk.blue('gulp watchIOS') + '            - Start watching files, recompile Javascript and restart');
+    console.log('                               emulator (set to: ' + iOSEmulator + ') when files change.');
+    console.log();
+    console.log('    ' + chalk.blue('gulp watchAndroid') + '        - Start watching files, recompile Javascript and restart');
+    console.log('                               emulator (set to: ' + androidEmulator + ') when files change.');
     console.log();
 	console.log('    ' + chalk.blue('gulp test') + '                - Clean, compile and run tests in /app/tests');
     console.log();
-    console.log('    ' + chalk.blue('gulp lint') + '                - Run eslint');    
+    console.log('    ' + chalk.blue('gulp lint') + '                - Run eslint');
     console.log();
 	console.log(chalk.magenta('  Sub-tasks') + ' (primarily run by main tasks)');
     console.log();
@@ -144,6 +187,6 @@ gulp.task('default', function() {
 	console.log();
 	console.log('    ' + chalk.blue('gulp _compile') + '           - Compile Javascript');
 	console.log();
-	console.log('    ' + chalk.blue('gulp _test') + '              - Run emulator (set to: ' + emulator + ')');
+	console.log('    ' + chalk.blue('gulp _test') + '              - Run tests');
     console.log();
 });
