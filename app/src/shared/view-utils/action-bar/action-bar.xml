@@ -2,7 +2,7 @@
 
     <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
         <StackLayout col="0" tap="backTap" orientation="horizontal">
-            <Image cssClass="head--icon" col="0" src="{{actionBar.iconBack}}" width="24" heigth="24" />
+            <Image cssClass="head--icon" col="0" src="{{actionBar.iconBack}}" width="12" heigth="12" />
             <Label col="1">
                 <Label.formattedText>
                     <FormattedString>

@@ -1,11 +1,33 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd"
-      xmlns:header="shared/view-utils/action-bar"
       loaded="loaded"
       navigatedTo="navigatedTo">
 
 
     <GridLayout rows="auto, *">
-        <header:action-bar />
+        <StackLayout orientation="vertical">
+
+            <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
+                <StackLayout col="0" tap="backTap" orientation="horizontal">
+                    <Image cssClass="head--icon" col="0" src="{{actionBar.iconBack}}" width="12" heigth="12" />
+                    <Label col="1">
+                        <Label.formattedText>
+                            <FormattedString>
+                                <FormattedString.spans>
+                                    <Span text="{{actionBar.backTitle}}" fontAttributes="Bold" foregroundColor="#879c9c" fontSize="12" />
+                                </FormattedString.spans>
+                            </FormattedString>
+                        </Label.formattedText>
+                    </Label>
+                </StackLayout>
+                <Image col="1" cssClass="head--margin" src="{{actionBar.iconSearch}}" width="24" heigth="24" />
+                <Image col="2" cssClass="head--margin" src="{{actionBar.iconMenu}}" width="24" heigth="24" />
+            </GridLayout>
+
+            <StackLayout cssClass="head--divider" height="2"></StackLayout>
+
+
+
+        </StackLayout>
         <StackLayout row="1">
 
             <StackLayout id="head--title-bar" verticalAlignment="center">
@@ -23,11 +45,11 @@
             <GridLayout id="head--tab-bar" columns="*, *" rows="*">
                 <StackLayout tap="drugsTap" col="0" orientation="vertical" verticalAlignment="center">
                     <Label cssClass="head--tab-bar--label" col="0" row="0" text="DRUGS" horizontalAlignment="center" />
-                    <StackLayout cssClass="head--tab-bar--border-noactive" height="2"></StackLayout>
+                    <StackLayout cssClass="{{ actionBar.drugsSelected ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
                 </StackLayout>
                 <StackLayout tap="adviceTap" col="1" orientation="vertical" verticalAlignment="center">
                     <Label cssClass="head--tab-bar--label" col="1" row="0" text="ADVICE" horizontalAlignment="center" />
-                    <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+                    <StackLayout cssClass="{{ actionBar.adviceSelected ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
                 </StackLayout>
             </GridLayout>
 

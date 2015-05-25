@@ -2,8 +2,11 @@
 
 import Images from './../shared/utils/images';
 import customUi from './../shared/modules/ui';
+import {inspect} from './../shared/utils/debug';
+import ActionBar from './../shared/viewmodel/ActionBar';
 
-var page;
+let page;
+let actionBar;
 
 function loaded() {
 }
@@ -11,27 +14,19 @@ function loaded() {
 function navigatedTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
+	actionBar = new ActionBar('Den här sidan', 'Förra sidan', 1);
 	page.bindingContext = {
-		actionBar: {
-			iconBack: Images.left,
-			iconSearch: Images.search,
-			iconMenu: Images.menu,
-			backTitle: 'FÖREGÅENDE SIDA',
-			pageTitle: 'DEN HÄR FINA SIDAN'
-		}
+		actionBar: actionBar
 	};
-
 }
 
 function drugsTap() {
-	console.log('DRUGS');
+	actionBar.selectedIndex = 0;
 }
 
 function adviceTap() {
-	console.log('ADVICE');
+	actionBar.selectedIndex = 1;
 }
-
-
 
 
 
