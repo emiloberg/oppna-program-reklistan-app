@@ -32,8 +32,17 @@ var generatedSources = [
 var iOSEmulator = 'iPhone-5';
 var androidEmulator = 'Nexus-5';
 
+// Images settings
+var iconColor = '#bb11aa';
+var destinationPath = './app/images';
+var svgPath = './app/src/images/md/*/svg/production/*_24px.svg';
 
+/**
+ * Dependencies
+ */
+var runSequence = require('run-sequence');
 
+// Build Dependencies
 var gulp = require('gulp');
 var chalk = require('chalk');
 var spawn = require('child_process').spawn;
@@ -41,8 +50,15 @@ var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 var mergeStream = require('merge-stream');
 var del = require('del');
-var runSequence = require('run-sequence');
 var eslint = require('gulp-eslint');
+
+// Image Dependencies
+var raster = require('gulp-raster');
+var rename = require('gulp-rename');
+var lazypipe = require('lazypipe');
+var clone = require('gulp-clone');
+var cheerio = require('gulp-cheerio');
+var rimraf = require('gulp-rimraf');
 
 gulp.task('_emulateiOS', function(cb) {
     var child = spawn('tns', ['emulate', 'ios', '--device', iOSEmulator], {cwd: process.cwd()});
@@ -165,8 +181,188 @@ gulp.task('watchAndroid', function(callback) {
     );
 });
 
+/**
+ * IMAGE TASKS
+ */
+gulp.task('images', function(callback) {
+    runSequence('_cleanImages',
+        '_ios1x',
+        '_ios2x',
+        '_ios3x',
+        '_android1x',
+        '_android15x',
+        '_android2x',
+        '_android3x',
+        '_android4x',
+        callback);
+});
 
 
+gulp.task('_ios1x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 1}))
+        .pipe(rename({extname: '.png', suffix: ''}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'ios';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_ios2x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 2}))
+        .pipe(rename({extname: '.png', suffix: '@2x'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'ios';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_ios3x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 3}))
+        .pipe(rename({extname: '.png', suffix: '@3x'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'ios';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_android1x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 1}))
+        .pipe(rename({extname: '.png'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'android/drawable-mdpi';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_android15x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 1.5}))
+        .pipe(rename({extname: '.png'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'android/drawable-hdpi';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_android2x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 2}))
+        .pipe(rename({extname: '.png'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'android/drawable-xhdpi';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_android3x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 3}))
+        .pipe(rename({extname: '.png'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'android/drawable-xxhdpi';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+gulp.task('_android4x', function () {
+    return gulp.src(svgPath)
+        .pipe(rename(function(opt) {
+            opt.basename = opt.basename.replace(/_24px$/, '');
+            opt.dirname = opt.dirname.replace(/svg\/production$/, '');
+            return opt;
+        }))
+        .pipe(colorize(iconColor))
+        .pipe(raster({format: 'png', scale: 4}))
+        .pipe(rename({extname: '.png'}))
+        .pipe(rename(function(opt) {
+            opt.dirname = opt.dirname + '/' + 'android/drawable-xxxhdpi';
+            return opt;
+        }))
+        .pipe(gulp.dest(destinationPath));
+});
+
+
+
+gulp.task('_cleanImages', function() {
+    return gulp.src(destinationPath, { read: false })
+        .pipe(rimraf());
+});
+
+
+function colorize (color) {
+    var sink;
+    return (lazypipe()
+        .pipe(function () {
+            sink = clone.sink();
+            return sink;
+        })
+        .pipe(cheerio, function ($) {
+            $('svg').attr('fill', color);
+        })
+        .pipe(function () {
+            return sink.tap();
+        })
+    )();
+}
+
+
+
+/**
+ * DEFAULT TASK
+ */
 gulp.task('default', function() {
     console.log();
 	console.log(chalk.magenta('  Main tasks'));
@@ -180,7 +376,11 @@ gulp.task('default', function() {
 	console.log('    ' + chalk.blue('gulp test') + '                - Clean, compile and run tests in /app/tests');
     console.log();
     console.log('    ' + chalk.blue('gulp lint') + '                - Run eslint');
-    console.log();
+	console.log();
+	console.log(chalk.magenta('  Main tasks'));
+	console.log();
+	console.log('    ' + chalk.blue('gulp images') + '              - Clean /app/images and regenerates images from SVG');
+	console.log();
 	console.log(chalk.magenta('  Sub-tasks') + ' (primarily run by main tasks)');
     console.log();
 	console.log('    ' + chalk.blue('gulp _clean') + '             - Clean target folders (' + generatedSources.join(', ') + ')');

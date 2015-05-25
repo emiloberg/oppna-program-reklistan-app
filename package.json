@@ -15,7 +15,13 @@
     "gulp-util": "^3.0.4",
     "merge-stream": "^0.1.7",
     "mocha": "^2.2.4",
-    "run-sequence": "^1.1.0"
+    "run-sequence": "^1.1.0",
+    "gulp-cheerio": "^0.6.2",
+    "gulp-clone": "^1.0.0",
+    "gulp-raster": "^0.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rimraf": "^0.1.1",
+    "lazypipe": "^0.2.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
