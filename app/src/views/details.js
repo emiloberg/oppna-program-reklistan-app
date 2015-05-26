@@ -132,9 +132,6 @@ function showVW(htmlContent) {
 	let webView = page.getViewById('detailsWV');
 	webView.src = html;
 
-	inspect(webView.src);
-
-
 	inspect('SETTING WEBVIEW');
 }
 

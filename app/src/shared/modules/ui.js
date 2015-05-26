@@ -23,7 +23,9 @@ let customUi = {
 			var iosFrame = frameModule.topmost().ios;
 			if (iosFrame) {
 				iosFrame.navBarVisibility = 'never';
+				iosFrame.controller.view.window.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0.945, 0.953, 0.953, 1);
 			}
+
 		},
 
 		setColor: function() {
