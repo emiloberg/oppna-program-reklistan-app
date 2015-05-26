@@ -73,17 +73,12 @@
 
         </GridLayout>
         <StackLayout id="pagecontent" row="1">
+
             <!-- PAGE CONTENT -->
             <Label text="{{apa}}" />
             <!-- /PAGE CONTENT -->
+
         </StackLayout>
     </GridLayout>
-
-
-
-
-
-
-
 
 </Page>
