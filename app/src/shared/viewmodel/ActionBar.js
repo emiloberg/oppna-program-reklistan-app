@@ -3,8 +3,6 @@ import Images from './../utils/images';
 
 import {Observable} from 'data/observable';
 
-const TABTYPES = ['_drugsSelected', '_adviceSelected'];
-
 export default class ActionBar extends Observable {
 
 	constructor(pageTitle, backTitle, selectedIndex) {
@@ -14,27 +12,19 @@ export default class ActionBar extends Observable {
 		this._iconMenu = Images.menu;
 		this._pageTitle = pageTitle;
 		this._backTitle = backTitle;
-		this._drugsSelected = (selectedIndex === 0);
-		this._adviceSelected = (selectedIndex === 1);
+		this._selectedIndex = selectedIndex;
 	}
 
 	set selectedIndex(index) {
-		this[TABTYPES[index]] = true;
-		this[TABTYPES[(index === 0) ? 1 : 0]] = false;
-
-		this.notify({
-			object: this,
-			eventName: 'propertyChange',
-			propertyName: TABTYPES[index],
-			value: true
-		});
-
-		this.notify({
-			object: this,
-			eventName: 'propertyChange',
-			propertyName: TABTYPES[(index === 0) ? 1 : 0],
-			value: false
-		});
+		if (this._selectedIndex !== index) {
+			this._selectedIndex = index;
+			this.notify({
+				object: this,
+				eventName: 'propertyChange',
+				propertyName: 'selectedIndex',
+				value: index
+			});
+		}
 	}
 
 	get iconBack() { return this._iconBack; }
@@ -42,13 +32,5 @@ export default class ActionBar extends Observable {
 	get iconMenu() { return this._iconMenu; }
 	get pageTitle() { return this._pageTitle; }
 	get backTitle() { return this._backTitle; }
-	get drugsSelected() { return this._drugsSelected; }
-	get adviceSelected() { return this._adviceSelected; }
-
-
-
-}
-
-function otherTab(index) {
-	return ;
+	get selectedIndex() { return this._selectedIndex; }
 }
