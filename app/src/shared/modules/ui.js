@@ -62,7 +62,7 @@ let customUi = {
 
 	setViewDefaults: function() {
 		customUi.navbar.removeIOSNavBar();
-		customUi.navbar.setColor();
+//		customUi.navbar.setColor();
 	}
 
 
