@@ -4,6 +4,7 @@ import {inspect} from './../shared/utils/debug';
 
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
+import navigation from './../shared/utils/navigation';
 const frameModule = require('ui/frame');
 
 let page;
@@ -59,14 +60,9 @@ function adviceTap() {
 	dataList.selectedIndex = 1;
 }
 
-function backTap() {
-	let topmost = frameModule.topmost();
-	topmost.goBack();
-}
-
 module.exports.navigatingTo = navigatingTo;
 module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
-module.exports.backTap = backTap;
 module.exports.menuItemTap = menuItemTap;
-
+module.exports.backTap = navigation.back;
+module.exports.swipe = navigation.swipe;

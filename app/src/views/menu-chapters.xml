@@ -3,7 +3,7 @@
       loaded="loaded">
 
 
-    <GridLayout rows="auto, *">
+    <GridLayout rows="auto, *" swipe="swipe">
 
         <GridLayout row="0" id="actionbar" rows="auto, auto, *">
             <!-- Tabs: Back, search and menu -->
