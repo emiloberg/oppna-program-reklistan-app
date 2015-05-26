@@ -1,0 +1,24 @@
+<StackLayout orientation="vertical">
+
+    <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
+        <StackLayout col="0" tap="backTap" orientation="horizontal">
+            <Image cssClass="head--icon" col="0" src="{{actionBar.iconBack}}" width="12" heigth="12" />
+            <Label col="1">
+                <Label.formattedText>
+                    <FormattedString>
+                        <FormattedString.spans>
+                            <Span text="{{actionBar.backTitle}}" fontAttributes="Bold" foregroundColor="#879c9c" fontSize="12" />
+                        </FormattedString.spans>
+                    </FormattedString>
+                </Label.formattedText>
+            </Label>
+        </StackLayout>
+        <Image col="1" cssClass="head--margin" src="{{actionBar.iconSearch}}" width="24" heigth="24" />
+        <Image col="2" cssClass="head--margin" src="{{actionBar.iconMenu}}" width="24" heigth="24" />
+    </GridLayout>
+
+    <StackLayout cssClass="head--divider" height="2"></StackLayout>
+
+
+
+</StackLayout>

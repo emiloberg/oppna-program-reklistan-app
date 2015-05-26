@@ -1,56 +1,30 @@
 'use strict';
 
-var FrameModule = require('ui/frame');
-var PageModule = require('ui/page');
-//var LabelModule = require('ui/label');
-//var StackLayoutModule = require('ui/layouts/stack-layout');
-var webViewModule = require('ui/web-view');
+import customUi from './../shared/modules/ui';
+import {inspect} from './../shared/utils/debug';
+import ActionBar from './../shared/viewmodel/ActionBar';
+const frameModule = require('ui/frame');
 
-var pageFactory = function () {
-	var testPage = new PageModule.Page();
+let page;
+let actionBar;
 
-	var webView = new webViewModule.WebView();
-	webView.url = 'file:///tmp/dump.html';
-
-	webView.on(webViewModule.WebView.loadStartedEvent, function(e) {
-		if (e.url.indexOf('tjohej://') > -1) {
-			// Todo: Same for android
-			e.object.ios.stopLoading();
-		}
-
-		//var topFrame = FrameModule.topmost();
-		//topFrame.navigate({
-		//	create: function() {
-		//		var testPage2 = new PageModule.Page();
-		//		var webView2 = new webViewModule.WebView();
-		//		webView2.url = 'file:///tmp/hej.html';
-		//		testPage2.content = webView2;
-		//		return testPage2;
-		//	}
-		//});
-
-		Object.keys(e).forEach(function (k) {
-			console.log(k + ': ' + e[k]);
-		});
-
-	//Object.keys(fs.knownFolders.documents).forEach(function(f) {
-	//	console.log(f);
-	//});
-
-	});
-
-	testPage.content = webView;
-	return testPage;
-};
-var navEntry = {
-	create: pageFactory,
-	animated: false
-};
-
-function pageLoaded() {
-	var topFrame = FrameModule.topmost();
-	topFrame.navigate(navEntry);
+function navigatingTo(args) {
+	customUi.setViewDefaults();
+	page = args.object;
+	actionBar = new ActionBar('Den här sidan', 'Förra sidan', 0);
+	let elActionbar = page.getViewById('actionbar');
+	let elPagecontent = page.getViewById('pagecontent');
+	elActionbar.bindingContext = actionBar;
+	elPagecontent.bindingContext = {
+		apa: 'boll'
+	};
 }
 
-module.exports.pageLoaded = pageLoaded;
+module.exports.navigatingTo = navigatingTo;
+module.exports.drugsTap = function drugsTap() { actionBar.selectedIndex = 0; };
+module.exports.adviceTap = function adviceTap() { actionBar.selectedIndex = 1; };
+module.exports.backTap = function backTap() {
+	let topmost = frameModule.topmost();
+	topmost.goBack();
+};
 

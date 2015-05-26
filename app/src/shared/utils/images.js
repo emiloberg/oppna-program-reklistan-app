@@ -1,35 +1,38 @@
-let imageSource = require('image-source');
-let platform = require('platform');
-var app = require('application');
-
+import {fromFile as imageFromFile} from 'image-source';
+import {screen} from 'platform';
+import {android, ios} from 'application';
 //import {inspect} from './debug';
 
-
-const scale = platform.screen.mainScreen.scale;
-let os;
-if (app.android) {
-	os = 'android';
-} else if (app.ios) {
-	os = 'ios';
-}
+const scaleFactor = screen.mainScreen.scale;
 
 function getImage(category, name) {
-	let imagePath = '';
-	let scalePath = '';
-	if (os === 'ios') {
-		imagePath = '~/images/md/' + category + '/ios/' + name + '.imageset/' + name;
-		if (scale >= 3) {
-			scalePath = '_3x';
-		} else if (scale >= 2) {
-			scalePath = '_2x';
+	let scalePath;
+	let imagePath;
+	if (ios) {
+		imagePath = '~/images/' + category + '/ios/' + name;
+		if (scaleFactor >= 3) {
+			scalePath = '@3x';
+		} else if (scaleFactor >= 2) {
+			scalePath = '@2x';
 		}
 		imagePath = imagePath + scalePath + '.png';
 	} else if (android) {
-		// todo load for android
-//		imagePath = '~/images/md/' + category + '/ios/' + name + '.imageset/' + name;
+		imagePath = '~/images/' + category + '/android/';
+
+		if (scaleFactor >= 4) {
+			scalePath = 'drawable-xxxhdpi';
+		} else if (scaleFactor >= 3) {
+			scalePath = 'drawable-xxhdpi';
+		} else if (scaleFactor >= 2) {
+			scalePath = 'drawable-xhdpi';
+		} else if (scaleFactor >= 1.5) {
+			scalePath = 'drawable-hdpi';
+		} else {
+			scalePath = 'drawable-mdpi';
+		}
+		imagePath = imagePath + scalePath + '/' + name + '.png';
 	}
-	//console.log('imagepath ' + imagePath );
-	return imageSource.fromFile(imagePath);
+	return imageFromFile(imagePath);
 }
 
 const Images = {

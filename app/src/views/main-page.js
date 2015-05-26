@@ -5,13 +5,17 @@ var frameModule = require('ui/frame');
 //var pageModule = require('ui/page');
 
 var initApp = require('./../shared/utils/appInit');
+import customUi from './../shared/modules/ui';
 
 var pageLoaded = function(args) {
+	customUi.setViewDefaults();
+
 	var page = args.object;
 	page.bindingContext = {
 		showRekMenu: 'REK-listan'
 	};
 
+//	frameModule.topmost().navigate('views/dummy');
 	initApp.init()
 	.then(function () {
 		frameModule.topmost().navigate('views/menu-sections');

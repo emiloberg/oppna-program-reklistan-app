@@ -1,21 +1,88 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatedTo="pageNavigatedTo" loaded="pageLoaded">
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      navigatingTo="navigatingTo"
+      loaded="loaded">
 
-    <GridLayout rows="48, *">
 
+    <GridLayout rows="auto, *" swipe="swipe">
 
-        <SegmentedBar row="0" cssClass="type-segmented-bar" selectedBackgroundColor="#851A31" selectedIndex="{{ selectedIndex }}">
-            <SegmentedBar.items>
-                <SegmentedBarItem title="DRUGS" />
-                <SegmentedBarItem title="ADVICE" />
-            </SegmentedBar.items>
-        </SegmentedBar>
+        <GridLayout row="0" id="actionbar" rows="auto, auto, *">
+            <!-- Tabs: Back, search and menu -->
+            <StackLayout row="0" orientation="vertical">
+                <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
+                    <StackLayout col="0" tap="backTap" orientation="horizontal">
+                        <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
+                        <Label col="1">
+                            <Label.formattedText>
+                                <FormattedString>
+                                    <FormattedString.spans>
+                                        <Span text="{{backTitle}}" fontAttributes="Bold" foregroundColor="#879c9c" fontSize="12" />
+                                    </FormattedString.spans>
+                                </FormattedString>
+                            </Label.formattedText>
+                        </Label>
+                    </StackLayout>
+                    <Image col="1" cssClass="head--margin" src="{{iconSearch}}" width="24" heigth="24" />
+                    <Image col="2" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
+                </GridLayout>
+                <StackLayout cssClass="head--divider" height="2"></StackLayout>
+            </StackLayout>
 
-        <ListView row="1" itemTap="menuItemTap" items="{{ items }}">
-            <ListView.itemTemplate>
-                <Label cssClass="listviewLabel" text="{{ title }}" />
-            </ListView.itemTemplate>
-        </ListView>
+            <StackLayout row="1">
+                <!-- Tabs: Page title -->
+                <StackLayout id="head--title-bar" verticalAlignment="center">
+                    <Label horizontalAlignment="center">
+                        <Label.formattedText>
+                            <FormattedString>
+                                <FormattedString.spans>
+                                    <Span id="head--title-bar--label" text="{{pageTitle}}" fontAttributes="Bold" foregroundColor="#4B5757" />
+                                </FormattedString.spans>
+                            </FormattedString>
+                        </Label.formattedText>
+                    </Label>
+                </StackLayout>
+
+                <!-- Tabs: Both -->
+                <GridLayout id="head--tab-bar" columns="*, *" rows="*" visibility="{{ (enabledTabs === 'both') ? 'visible' : 'collapsed' }}">
+                    <StackLayout tap="drugsTap" col="0" orientation="vertical" verticalAlignment="center">
+                        <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                        <StackLayout cssClass="{{ (selectedIndex === 0) ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
+                    </StackLayout>
+                    <StackLayout tap="adviceTap" col="1" orientation="vertical" verticalAlignment="center">
+                        <Label cssClass="head--tab-bar--label" col="1" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                        <StackLayout cssClass="{{ (selectedIndex === 1) ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
+                    </StackLayout>
+                </GridLayout>
+
+                <!-- Tabs: Only drugs -->
+                <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'drugs') ? 'visible' : 'collapsed' }}">
+                    <StackLayout col="0" orientation="vertical" verticalAlignment="center">
+                        <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                        <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+                    </StackLayout>
+                </GridLayout>
+
+                <!-- Tabs: Only advice -->
+                <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'advice') ? 'visible' : 'collapsed' }}">
+                    <StackLayout col="0" orientation="vertical" verticalAlignment="center">
+                        <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                        <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+                    </StackLayout>
+                </GridLayout>
+
+            </StackLayout>
+
+        </GridLayout>
+        <StackLayout id="pagecontent" row="1">
+
+            <!-- PAGE CONTENT -->
+            <ListView row="1" itemTap="menuItemTap" items="{{ items }}">
+                <ListView.itemTemplate>
+                    <Label cssClass="listviewLabel" text="{{ title }}" />
+                </ListView.itemTemplate>
+            </ListView>
+            <!-- /PAGE CONTENT -->
+
+        </StackLayout>
     </GridLayout>
-
 
 </Page>

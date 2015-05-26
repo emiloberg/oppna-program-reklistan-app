@@ -33,7 +33,7 @@ var iOSEmulator = 'iPhone-5';
 var androidEmulator = 'Nexus-5';
 
 // Images settings
-var iconColor = '#bb11aa';
+var iconColor = '#879c9c';
 var destinationPath = './app/images';
 var svgPath = './app/src/images/md/*/svg/production/*_24px.svg';
 
