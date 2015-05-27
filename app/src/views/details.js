@@ -1,77 +1,3 @@
-//'use strict';
-//
-//import {inspect} from './../shared/utils/debug';
-//let customUiModule = require('./../shared/modules/ui');
-//import {templatesModel} from './../shared/utils/htmlRenderer';
-//let webViewModule = require('ui/web-view');
-//
-//
-//let page;
-//
-//
-//function navigatedTo(args) {
-//	page = args.object;
-//	let context = page.navigationContext;
-//
-//	customUiModule.topbar.setText(page, context.item.title);
-//
-//	//inspect(context.selectedIndex);
-//	//inspect(context.item.title);
-//	//inspect(context.item.hasType('drugs'));
-//	//inspect(context.item.hasType('advice'));
-//	//inspect(context.item.getContent(context.selectedIndex));
-//
-//	let html = `<!DOCTYPE html>
-//		<html lang="en">
-//		<head>
-//			<meta charset="utf-8">
-//			<title>REKListan</title>
-//			<style>
-//			${templatesModel.getCss('custom')}
-//			</style>
-//		</head>
-//		<body>
-//			${context.item.getContent(context.selectedIndex)}
-//		</body>
-//		</html>`;
-//
-//
-//	var webView = page.getViewById('detailsWV');
-//	webView.src = html;
-//
-//	webView.on(webViewModule.WebView.loadStartedEvent, function(e) {
-//		inspect(e.url);
-//		//if (e.url.indexOf('tjohej://') > -1) {
-//		//	e.object.ios.stopLoading();
-//		//}
-//
-//		//var topFrame = FrameModule.topmost();
-//		//topFrame.navigate({
-//		//	create: function() {
-//		//		var testPage2 = new PageModule.Page();
-//		//		var webView2 = new webViewModule.WebView();
-//		//		webView2.url = 'file:///tmp/hej.html';
-//		//		testPage2.content = webView2;
-//		//		return testPage2;
-//		//	}
-//		//});
-//
-//
-//
-//		// Todo: Same for android
-//		//e.object.ios.stopLoading();
-//
-//	});
-//
-//}
-//
-//
-////module.exports.loaded = loaded;
-//module.exports.navigatedTo = navigatedTo;
-//
-
-
-
 'use strict';
 
 import {inspect} from './../shared/utils/debug';
@@ -80,27 +6,29 @@ import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-const frameModule = require('ui/frame');
+
+const webViewModule = require('ui/web-view');
+//const frameModule = require('ui/frame');
 
 let page;
 let actionBar;
-let dataList;
 let curPageName;
+let wv;
+let navContext;
 
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
-	let navContext = page.navigationContext;
-	dataList = navContext.data;
+	navContext = page.navigationContext;
 	curPageName = navContext.data.title;
 
 
 	let enabledTabs = '';
-	if (dataList.hasType(0) && dataList.hasType(1)) {
+	if (navContext.data.hasType(0) && navContext.data.hasType(1)) {
 		enabledTabs = 'both';
-	} else if (dataList.hasType(0)) {
+	} else if (navContext.data.hasType(0)) {
 		enabledTabs = 'drugs';
-	} else if (dataList.hasType(1)) {
+	} else if (navContext.data.hasType(1)) {
 		enabledTabs = 'advice';
 	}
 
@@ -108,47 +36,64 @@ function navigatingTo(args) {
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
-	//let elPageContent = page.getViewById('pagecontent');
-	//dataList.selectedIndex = navContext.selectedIndex;
-	//elPageContent.bindingContext = dataList;
+
+	wv = page.getViewById('detailsWV');
+
+	wv.on(webViewModule.WebView.loadStartedEvent, function(event) {
+		interjectLink(event);
+	});
 
 	showVW(navContext.data.getContent(navContext.selectedIndex));
 }
 
-function showVW(htmlContent) {
+function interjectLink(event) {
+	inspect(event.url);
+	//if (e.url.indexOf('tjohej://') > -1) {
+	//	e.object.ios.stopLoading();
+	//}
 
-	let html = `<!DOCTYPE html>
+	//var topFrame = FrameModule.topmost();
+	//topFrame.navigate({
+	//	create: function() {
+	//		var testPage2 = new PageModule.Page();
+	//		var webView2 = new webViewModule.WebView();
+	//		webView2.url = 'file:///tmp/hej.html';
+	//		testPage2.content = webView2;
+	//		return testPage2;
+	//	}
+	//});
+
+	//e.object.ios.stopLoading();
+	//e.object.android.stopLoading();
+}
+
+function showVW(htmlContent) {
+	wv.src = `<!DOCTYPE html>
 		<html lang="en">
 		<head>
 			<meta charset="utf-8">
 			<title>REKListan</title>
 			<style>
+			${templatesModel.getCss('custom')}
 			</style>
 		</head>
 		<body>
-			<h1>HEJ!</h1>
+			${htmlContent}
 		</body>
 		</html>`;
-
-	let webView = page.getViewById('detailsWV');
-	webView.src = html;
-
-	inspect('SETTING WEBVIEW');
 }
 
 
-function drugsTap() {
-	actionBar.selectedIndex = 0;
-	dataList.selectedIndex = 0;
-}
-
-function adviceTap() {
-	actionBar.selectedIndex = 1;
-	dataList.selectedIndex = 1;
+function setTab(index) {
+	if (navContext.selectedIndex !== index) {
+		actionBar.selectedIndex = index;
+		navContext.selectedIndex = index;
+		showVW(navContext.data.getContent(index));
+	}
 }
 
 module.exports.navigatingTo = navigatingTo;
-module.exports.drugsTap = drugsTap;
-module.exports.adviceTap = adviceTap;
+module.exports.drugsTap = function drugsTap() { setTab(0); };
+module.exports.adviceTap = function adviceTap() { setTab(1); };
 module.exports.backTap = navigation.back;
 module.exports.swipe = navigation.swipe;

@@ -72,13 +72,15 @@
         </StackLayout>
 
     </GridLayout>
-    <StackLayout id="pagecontent" row="1">
+
+    <!-- Needs to be GridLayout or WebView does not work ( https://github.com/NativeScript/NativeScript/issues/224 ) -->
+    <GridLayout id="pagecontent" row="1">
 
         <!-- PAGE CONTENT -->
         <WebView id="detailsWV" />
         <!-- /PAGE CONTENT -->
 
-    </StackLayout>
+    </GridLayout>
 </GridLayout>
 
 </Page>
