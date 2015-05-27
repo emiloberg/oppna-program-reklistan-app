@@ -4,12 +4,13 @@ import {Observable} from 'data/observable';
 
 export default class RekDataList extends Observable {
 
-	constructor(title, items, sort) {
+	constructor(title, items, sort, id) {
 		super();
 		this._title = title;
 		this._selectedIndex = 0;
 		this._allItems = items;
 		this._sort = sort === true;
+		this._id = id;
 	}
 
 	get selectedIndex() {
@@ -41,6 +42,10 @@ export default class RekDataList extends Observable {
 		return this._title;
 	}
 
+	get id() {
+		return this._id;
+	}
+
 	get items() {
 		let filteredItems = this._allItems.filter(item =>
 			item.hasType(this._selectedIndex));
@@ -49,6 +54,10 @@ export default class RekDataList extends Observable {
 				o1.getOrder(this._selectedIndex) - o2.getOrder(this._selectedIndex));
 		}
 		return filteredItems;
+	}
+
+	get allItems() {
+		return this._allItems;
 	}
 
 	hasType(type) {

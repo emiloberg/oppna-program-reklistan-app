@@ -15,10 +15,11 @@ var pageLoaded = function(args) {
 		showRekMenu: 'REK-listan'
 	};
 
-//	frameModule.topmost().navigate('views/dummy');
+	//frameModule.topmost().navigate('views/dummy2');
 	initApp.init()
 	.then(function () {
-		frameModule.topmost().navigate('views/menu-sections');
+//		frameModule.topmost().navigate('views/menu-sections');
+		frameModule.topmost().navigate('views/dummy3');
 	})
 	.catch(function (e) {
 		console.dir(e);

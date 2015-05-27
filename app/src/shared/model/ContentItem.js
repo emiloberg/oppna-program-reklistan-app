@@ -4,14 +4,19 @@ const TYPENAMES = ['drugs', 'advice'];
 
 export default class ContentItem {
 
-	constructor(title, content, order) {
+	constructor(title, content, order, id) {
 		this._title = title;
 		this._content = content;
 		this._order = order;
+		this._id = id;
 	}
 
 	get title() {
 		return this._title;
+	}
+
+	get id() {
+		return this._id;
 	}
 
 	getContent(typeNameOrId) {

@@ -6,6 +6,7 @@ import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
+import {android, ios} from 'application';
 
 const webViewModule = require('ui/web-view');
 //const frameModule = require('ui/frame');
@@ -31,7 +32,6 @@ function navigatingTo(args) {
 	} else if (navContext.data.hasType(1)) {
 		enabledTabs = 'advice';
 	}
-
 	actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
@@ -47,7 +47,27 @@ function navigatingTo(args) {
 }
 
 function interjectLink(event) {
-	inspect(event.url);
+	let linkType;
+	let link;
+	if (ios) {
+		if (event.url.indexOf('applewebdata://') === 0 ) {
+			event.object.ios.stopLoading();
+			link = event.url.substr(event.url.indexOf('#/'));
+			linkType = 'internal';
+		}
+	} else {
+		// Todo Implement for Android
+		//event.object.android.stopLoading();
+		inspect(event.url);
+	}
+
+	if (linkType === 'internal') {
+		inspect(link);
+	}
+
+
+	///app/shared/utils/debug.js:30:13: CONSOLE LOG 'applewebdata://3C4C6A36-E8F1-450C-B13E-0CFCFDC6527F#/advice/Fysisk_aktivitet'
+
 	//if (e.url.indexOf('tjohej://') > -1) {
 	//	e.object.ios.stopLoading();
 	//}
@@ -72,12 +92,13 @@ function showVW(htmlContent) {
 		<html lang="en">
 		<head>
 			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, user-scalable=0;" />
 			<title>REKListan</title>
 			<style>
 			${templatesModel.getCss('custom')}
 			</style>
 		</head>
-		<body>
+		<body style="background-color: #ffffff;">
 			${htmlContent}
 		</body>
 		</html>`;
