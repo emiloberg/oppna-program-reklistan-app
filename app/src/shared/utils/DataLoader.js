@@ -54,25 +54,31 @@ const DataLoader = {
 		return loadFiles(templates, 'registerTemplate')
 		.then(() => loadResources(json, true))
 		.then(resources => resources.map(resource => {
+			return resource.data.map(section => {
+				return {
+					title: section.title,
+					items: section.fields.map((field, fieldIndex) => {
+						if (field.value) { // has heading
+							const content = {};
+							content[resource.name] = templatesModel.processTemplate(resource.name, {
+								fields: [field], // hbs template is expecting content in fields[].
+								isMobile: true
+							});
 
-			return resource.data.map(section => ({
-				title: section.title,
-				items: section.fields.map((field, fieldIndex) => {
-					const content = {};
-					content[resource.name] = templatesModel.processTemplate(resource.name, {
-						fields: [field], // hbs template is expecting content in fields[].
-						isMobile: true
-					});
-
-					const order = {};
-					order[resource.name] = fieldIndex;
-					return {
-						title: field.value,
-						content: content,
-						order: order
-					};
-				})
-			}));
+							const order = {};
+							order[resource.name] = fieldIndex;
+							return {
+								title: field.value,
+								content: content,
+								order: order
+							};
+						} else {
+							return null;
+						}
+					})
+					.filter(item => item !== null) // remove entries without headings (empty ones)
+				};
+			});
 		}))
 		.then(trees => trees.reduce((target, source) =>
 				mergeArrays(target, source,
