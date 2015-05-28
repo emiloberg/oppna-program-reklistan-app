@@ -14,6 +14,7 @@ import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 function navigatingTo() {
 
 	navigation.navigateToUrl('advice/Diabetes/Riktvarden_och_omvandlingstabell', 'Previous page');
+	//navigation.navigateToUrl('advice/Diabetes/asdf/asdf', 'Previous page');
 
 	//appViewModel.getSpecific('advice', 'Diabetes', 'Riktvarden_och_omvandlingstabell')
 	//.then(function (e) {

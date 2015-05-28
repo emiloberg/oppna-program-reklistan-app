@@ -1,5 +1,6 @@
 'use strict';
 
+import {inspect} from './../shared/utils/debug';
 var frameModule = require('ui/frame');
 //var labelModule = require('ui/label');
 //var pageModule = require('ui/page');
@@ -15,7 +16,10 @@ var pageLoaded = function(args) {
 		showRekMenu: 'REK-listan'
 	};
 
-	//frameModule.topmost().navigate('views/dummy2');
+	inspect(global);
+
+
+	//frameModule.topmost().navigate('views/dummy4');
 	initApp.init()
 	.then(function () {
 //		frameModule.topmost().navigate('views/menu-sections');

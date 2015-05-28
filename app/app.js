@@ -8,5 +8,4 @@ application.onUncaughtError = function (error) {
     console.log("Application error: " + error.name + "; " + error.message + "; " + error.nativeError);
 };
 
-
 application.start();
