@@ -4,6 +4,8 @@
 const handlebars = require('./../../node_modules/handlebars/dist/handlebars');
 const swag = require('./../../node_modules/swag');
 const customUtils = require('./utils');
+import {inspect} from './debug';
+
 
 (function registerHelpers() {
 
@@ -55,7 +57,7 @@ export const templatesModel = {
 	},
 
 	processTemplate(templateName, templateContext) {
-		return TEMPLATES[templateName](templateContext);
+		return rewriteHTML(TEMPLATES[templateName](templateContext));
 	},
 
 	registerCss(cssName, cssContent) {
@@ -66,3 +68,28 @@ export const templatesModel = {
 		return CSS[cssName];
 	}
 };
+
+/**
+ * Rewrites html elements such as links to something NativeScript can
+ * understand
+ *
+ * @param html
+ * @returns {string}
+ */
+function rewriteHTML(html) {
+	const reInteralLinks = new RegExp(/href=([\"\'])#\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reInteralLinks, 'href="rek://$2"');
+
+	const reExternalHttpsLinks = new RegExp(/href=([\"\'])https\:\/\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reExternalHttpsLinks, 'href="rekhttps://$2"');
+
+	const reExternalHttpLinks = new RegExp(/href=([\"\'])http\:\/\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reExternalHttpLinks, 'href="rekhttp://$2"');
+
+	const reMailLinks = new RegExp(/href=([\"\'])mailto\:([^\"\']+)([\"\'])/gi);
+	html = html.replace(reMailLinks, 'href="rekmail://$2"');
+
+	// todo, rewrite images as well
+
+	return html;
+}

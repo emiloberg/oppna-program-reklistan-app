@@ -48,6 +48,16 @@ const navigation = {
 			//});
 
 		});
+	},
+
+	navigateToExternalUrl(url, prevPageTitle) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/external-web',
+			context: {
+				url: url,
+				prevPageTitle: prevPageTitle
+			}
+		});
 	}
 
 

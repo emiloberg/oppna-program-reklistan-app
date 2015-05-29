@@ -38,53 +38,60 @@ function navigatingTo(args) {
 
 
 	wv = page.getViewById('detailsWV');
-
+	wv.off(webViewModule.WebView.loadStartedEvent);
 	wv.on(webViewModule.WebView.loadStartedEvent, function(event) {
 		interjectLink(event);
 	});
 
 	showVW(navContext.data.getContent(navContext.selectedIndex));
+
+	inspect('Navigating to: ' + navContext.data.id);
+
 }
 
 function interjectLink(event) {
-	let linkType;
-	let link;
-	if (ios) {
-		if (event.url.indexOf('applewebdata://') === 0 ) {
-			event.object.ios.stopLoading();
-			link = event.url.substr(event.url.indexOf('#/'));
-			linkType = 'internal';
+
+	let linkObj = {
+		url: '',
+		internal: false,
+		external: false
+	};
+
+	[{
+		protocol: 'rek://',
+		type: 'internal',
+		prefix: ''
+	}, {
+		protocol: 'rekhttps://',
+		type: 'external',
+		prefix: 'https://'
+	}, {
+		protocol: 'rekhttp://',
+		type: 'external',
+		prefix: 'http://'
+	}]
+	.forEach(linkType => {
+		if (event.url.indexOf(linkType.protocol) === 0) {
+			linkObj.url = linkType.prefix + event.url.substr(linkType.protocol.length);
+			linkObj[linkType.type] = true;
 		}
-	} else {
-		// Todo Implement for Android
-		//event.object.android.stopLoading();
-		inspect(event.url);
+	});
+
+	if (linkObj.internal || linkObj.external) {
+		if (ios) {
+			event.object.ios.stopLoading();
+		} else if (android) {
+			event.object.android.stopLoading();
+		}
 	}
 
-	if (linkType === 'internal') {
-		inspect(link);
+	if (linkObj.internal) {
+		navigation.navigateToUrl(linkObj.url, curPageName);
+	} else if (linkObj.external) {
+		navigation.navigateToExternalUrl(linkObj.url, curPageName);
 	}
 
 
-	///app/shared/utils/debug.js:30:13: CONSOLE LOG 'applewebdata://3C4C6A36-E8F1-450C-B13E-0CFCFDC6527F#/advice/Fysisk_aktivitet'
-
-	//if (e.url.indexOf('tjohej://') > -1) {
-	//	e.object.ios.stopLoading();
-	//}
-
-	//var topFrame = FrameModule.topmost();
-	//topFrame.navigate({
-	//	create: function() {
-	//		var testPage2 = new PageModule.Page();
-	//		var webView2 = new webViewModule.WebView();
-	//		webView2.url = 'file:///tmp/hej.html';
-	//		testPage2.content = webView2;
-	//		return testPage2;
-	//	}
-	//});
-
-	//e.object.ios.stopLoading();
-	//e.object.android.stopLoading();
 }
 
 function showVW(htmlContent) {
