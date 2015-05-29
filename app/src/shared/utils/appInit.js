@@ -2,7 +2,7 @@
 
 import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
-//import {inspect, saveFile} from './debug';
+import {inspect, saveFile} from './debug';
 
 function init() {
 	return DataLoader.loadViewModelFromServer([
@@ -29,6 +29,7 @@ function init() {
 	])
 	.then(list => {
 		appViewModel.setMainDataList(list);
+		saveFile('nyRekDataList.json', JSON.stringify(list));
 	});
 }
 

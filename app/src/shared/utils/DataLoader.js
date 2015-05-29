@@ -4,6 +4,8 @@ import http from 'http';
 import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
+//import {makeUrlSafe} from './utils';
+const utils = require('./utils');
 //import {inspect, saveFile} from './debug';
 
 function loadResources(resources, isJson) {
@@ -57,6 +59,7 @@ const DataLoader = {
 			return resource.data.map(section => {
 				return {
 					title: section.title,
+					id: utils.makeUrlSafe(section.title),
 					items: section.fields.map((field, fieldIndex) => {
 						if (field.value) { // has heading
 							const content = {};
@@ -70,7 +73,8 @@ const DataLoader = {
 							return {
 								title: field.value,
 								content: content,
-								order: order
+								order: order,
+								id: utils.makeUrlSafe(field.value)
 							};
 						} else {
 							return null;
@@ -101,9 +105,9 @@ const DataLoader = {
 		.then(mergedData => mergedData.map(section => {
 
 				const contentSections = section.items.map(
-					item => new ContentItem(item.title, item.content, item.order));
+					item => new ContentItem(item.title, item.content, item.order, item.id));
 
-				return new RekDataList(section.title, contentSections, true);
+				return new RekDataList(section.title, contentSections, true, section.id);
 			})
 		).then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {

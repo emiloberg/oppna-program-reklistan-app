@@ -10,7 +10,7 @@ export default class ActionBar extends Observable {
 	 * @param {number} selectedIndex 0 for drugs and 1 for advice.
 	 * @param {string} enabledTabs One of: [both, drugs, advice, none].
 	 */
-	constructor(pageTitle, backTitle, selectedIndex, enabledTabs = 'both') {
+	constructor(pageTitle, backTitle, selectedIndex, enabledTabs = 'both', ActionBarType = 'normal') {
 		super();
 		this._iconBack = Images.left;
 		this._iconSearch = Images.search;
@@ -21,6 +21,10 @@ export default class ActionBar extends Observable {
 		this._enabledTabs = enabledTabs;
 		this._txtDrugs = 'DRUGS';
 		this._txtAdvice = 'ADVICE';
+
+		if (ActionBarType) {
+			this._iconClose = Images.close;
+		}
 	}
 
 	set selectedIndex(index) {
@@ -35,6 +39,7 @@ export default class ActionBar extends Observable {
 		}
 	}
 
+	get iconClose() { return this._iconClose; }
 	get iconBack() { return this._iconBack; }
 	get iconSearch() { return this._iconSearch; }
 	get iconMenu() { return this._iconMenu; }

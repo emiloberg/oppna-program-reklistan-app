@@ -36,6 +36,8 @@ function navigatingTo(args) {
 	let elPageContent = page.getViewById('pagecontent');
 	dataList.selectedIndex = navContext.selectedIndex;
 	elPageContent.bindingContext = dataList;
+
+	inspect('Navigating to: ' + dataList.id);
 }
 
 function menuItemTap(args) {

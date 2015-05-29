@@ -1,11 +1,13 @@
 'use strict';
 
+import {inspect} from './../shared/utils/debug';
 var frameModule = require('ui/frame');
 //var labelModule = require('ui/label');
 //var pageModule = require('ui/page');
 
 var initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
+import navigation from './../shared/utils/navigation';
 
 var pageLoaded = function(args) {
 	customUi.setViewDefaults();
@@ -15,10 +17,15 @@ var pageLoaded = function(args) {
 		showRekMenu: 'REK-listan'
 	};
 
-//	frameModule.topmost().navigate('views/dummy');
+
+	//frameModule.topmost().navigate('views/dummy4');
 	initApp.init()
 	.then(function () {
+		//navigation.navigateToUrl('advice/Diabetes/Rekommenderad_fysisk_traning_vid_diabetes', 'Previous page');
+//		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
 		frameModule.topmost().navigate('views/menu-sections');
+//		frameModule.topmost().navigate('views/dummy3');
+			//
 	})
 	.catch(function (e) {
 		console.dir(e);
