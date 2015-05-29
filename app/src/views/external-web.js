@@ -10,8 +10,6 @@ import {android, ios} from 'application';
 
 //const frameModule = require('ui/frame');
 
-
-
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	let page = args.object;
@@ -29,7 +27,8 @@ function navigatingTo(args) {
 }
 
 
-
 module.exports.navigatingTo = navigatingTo;
 module.exports.backTap = navigation.back;
-module.exports.swipe = navigation.swipe;
+module.exports.swipe = function(args) {
+	navigation.swipe(args, '', ['back']);
+};

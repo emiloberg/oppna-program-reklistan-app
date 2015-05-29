@@ -67,4 +67,9 @@ module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
 module.exports.menuItemTap = menuItemTap;
 module.exports.backTap = navigation.back;
-module.exports.swipe = navigation.swipe;
+module.exports.swipe = function(args) {
+	navigation.swipe(args, curPageName);
+};
+module.exports.searchTap = function() {
+	navigation.toSearch(curPageName);
+};

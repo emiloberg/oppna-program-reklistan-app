@@ -7,18 +7,32 @@ const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 
 const utils = require('./../utils/utils');
+import {inspect} from './../utils/debug';
 const dialogs = require('ui/dialogs');
 
 
 const navigation = {
-	swipe(args) {
-		if (args.direction === gestures.SwipeDirection.right) {
+	swipe(args, pageTitle, allowedGestures = ['back', 'search']) {
+		if (allowedGestures.indexOf('back') > -1 && args.direction === gestures.SwipeDirection.right) {
 			frameModule.topmost().goBack();
+		}
+
+		if (allowedGestures.indexOf('search') > -1 && args.direction === gestures.SwipeDirection.down) {
+			navigation.toSearch(pageTitle);
 		}
 	},
 
 	back() {
 		frameModule.topmost().goBack();
+	},
+
+	toSearch(prevPageTitle) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/search',
+			context: {
+				prevPageTitle: prevPageTitle
+			}
+		});
 	},
 
 	navigateToUrl(url, prevPageTitle) {

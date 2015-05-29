@@ -12,12 +12,13 @@ const frameModule = require('ui/frame');
 let page;
 let actionBar;
 let dataList;
+let curPageName = language.appTitle;
 
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 
-	actionBar = new ActionBar(language.appTitle, 'Förra sidan', 0);
+	actionBar = new ActionBar(curPageName, 'Förra sidan', 0);
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
@@ -33,7 +34,7 @@ function menuItemTap(args) {
         context: {
 			data: section,
 			selectedIndex: dataList.selectedIndex,
-			prevPageTitle: language.appTitle
+			prevPageTitle: curPageName
 		}
     });
 }
@@ -54,4 +55,9 @@ module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
 module.exports.menuItemTap = menuItemTap;
 module.exports.backTap = navigation.back;
-module.exports.swipe = navigation.swipe;
+module.exports.swipe = function(args) {
+	navigation.swipe(args, curPageName);
+};
+module.exports.searchTap = function() {
+	navigation.toSearch(curPageName);
+};

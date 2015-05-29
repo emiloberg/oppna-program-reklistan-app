@@ -37,6 +37,19 @@ function navigatingTo(args) {
 	elActionBar.bindingContext = actionBar;
 
 
+	// UIView *view1 = [[UIView alloc] init];
+	// var view1 = UIView.alloc().init();
+
+
+	//NSURL *url=[[NSBundle mainBundle] bundleURL];
+	//[webView loadHTMLString:string baseURL:url];
+
+	//NSUrl url = NSBundle.mainBundle().bundleURL();
+	//webView.loadHTMLStringWithBaseURL(String, url);
+
+	//	var baseUrl = UIView.alloc().init();
+
+
 	wv = page.getViewById('detailsWV');
 	wv.off(webViewModule.WebView.loadStartedEvent);
 	wv.on(webViewModule.WebView.loadStartedEvent, function(event) {
@@ -124,4 +137,9 @@ module.exports.navigatingTo = navigatingTo;
 module.exports.drugsTap = function drugsTap() { setTab(0); };
 module.exports.adviceTap = function adviceTap() { setTab(1); };
 module.exports.backTap = navigation.back;
-module.exports.swipe = navigation.swipe;
+module.exports.swipe = function(args) {
+	navigation.swipe(args, curPageName);
+};
+module.exports.searchTap = function() {
+	navigation.toSearch(curPageName);
+};
