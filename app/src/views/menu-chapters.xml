@@ -77,7 +77,7 @@
             <!-- PAGE CONTENT -->
             <ListView row="1" itemTap="menuItemTap" items="{{ items }}">
                 <ListView.itemTemplate>
-                    <Label cssClass="listviewLabel" text="{{ title }}" />
+                    <Label textWrap="true" cssClass="listviewLabel" text="{{ title }}" />
                 </ListView.itemTemplate>
             </ListView>
             <!-- /PAGE CONTENT -->
