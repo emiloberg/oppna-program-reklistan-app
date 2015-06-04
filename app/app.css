@@ -30,6 +30,9 @@ Page {
     color: #131313;
 }
 
+.searchResultsListViewLabel {
+    margin: 8 16;
+}
 
 
 .type-segmented-bar {
@@ -103,5 +106,9 @@ Page {
 }
 
 .head--icon {
+    margin: 12;
+}
+
+.list--icon {
     margin: 12;
 }

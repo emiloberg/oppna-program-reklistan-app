@@ -3,7 +3,9 @@
 // Todo, hide search button and maybe menu button and maybe back button
 
 import {inspect} from './../shared/utils/debug';
+import Images from './../shared/utils/images';
 import ActionBar from './../shared/viewmodel/ActionBar';
+import search from './../shared/viewmodel/Search';
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
 import language from './../shared/utils/language';
@@ -11,33 +13,29 @@ import navigation from './../shared/utils/navigation';
 
 let page;
 let curPageName = language.searchTitle;
-let searchResults = new ObservableArray([
-	{
-		chapter: 'String 1',
-		section: 'Something Else',
-		url: 'http1'
-	}, {
-		chapter: 'String 2',
-		section: 'Something Else',
-		url: 'http2'
-	}
-]);
+let searchResults = new ObservableArray([]);
 let pageContent = new Observable({
 	searchResults: searchResults
 });
+let lastSearchWord = '';
+
+var searchInput = new Observable({
+	searchPlaceholder: language.searchPlaceholder,
+	searchText: ''
+});
+
 
 function navigatingTo(args) {
 	page = args.object;
-	let navContext = page.navigationContext;
 
-	let actionBar = new ActionBar(curPageName, navContext.prevPageTitle, 0, 'none');
+	let prevPageTitle = '';
+	if (page.hasOwnProperty('navigationContext')) {
+		prevPageTitle = page.navContext.prevPageTitle || '';
+	}
+
+	let actionBar = new ActionBar(curPageName, prevPageTitle, 0, 'none');
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
-
-	var searchInput = new Observable({
-		searchPlaceholder: language.searchPlaceholder,
-		searchText: ''
-	});
 
 	let searchBar = page.getViewById('searchbar');
 	searchBar.bindingContext = searchInput;
@@ -49,23 +47,45 @@ function navigatingTo(args) {
 	let pagecontent = page.getViewById('pagecontent');
 	pagecontent.bindingContext = pageContent;
 
-	setTimeout(function () {
-		searchResults.push({
-			chapter: 'String 3',
-			section: 'Something Else',
-			url: 'http3'
-		});
-	}, 2000);
-
+	doSearch('diabetes'); //todo debug thing, remove
 }
+
 
 function doSearch(searchFor) {
-	//todo Perform search here
+	searchFor = searchFor.trim();
+	if (searchFor !== lastSearchWord && searchFor.length >= 3) {
+
+		while(searchResults.length > 0) {
+			searchResults.pop();
+		}
+
+		search.search(searchFor)
+		.then(results => {
+			results.forEach(result => {
+				searchResults.push({
+					chapter: result.chapter,
+					section: result.section,
+					url: result.url,
+					type: result.tabIndex,
+					iconAdvice: Images.close
+				});
+			});
+		});
+
+		lastSearchWord = searchFor;
+	}
 }
 
+
+function searchItemTap(args) {
+	var bc = args.view.bindingContext;
+	navigation.navigateToUrl(bc.url, curPageName);
+}
+
+
+module.exports.searchItemTap = searchItemTap;
 module.exports.navigatingTo = navigatingTo;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, curPageName);
 };
-
