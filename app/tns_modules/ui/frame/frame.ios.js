@@ -57,17 +57,24 @@ var Frame = (function (_super) {
         }
     };
     Frame.prototype.updateNavigationBar = function (page) {
+        var previousValue = !!this._ios.showNavigationBar;
+        var newValue = false;
         switch (this._ios.navBarVisibility) {
             case enums.NavigationBarVisibility.always:
-                this._ios.showNavigationBar = true;
+                newValue = true;
                 break;
             case enums.NavigationBarVisibility.never:
-                this._ios.showNavigationBar = false;
+                newValue = false;
                 break;
             case enums.NavigationBarVisibility.auto:
                 var pageInstance = page || this.currentPage;
-                this._ios.showNavigationBar = this.backStack.length > 0 || (pageInstance && pageInstance.optionsMenu.getItems().length > 0);
+                newValue = this.backStack.length > 0 || (pageInstance && pageInstance.optionsMenu.getItems().length > 0);
+                newValue = !!newValue;
                 break;
+        }
+        this._ios.showNavigationBar = newValue;
+        if (previousValue !== newValue) {
+            this.requestLayout();
         }
     };
     Object.defineProperty(Frame.prototype, "ios", {

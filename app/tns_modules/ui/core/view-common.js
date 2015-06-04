@@ -93,9 +93,35 @@ var View = (function (_super) {
         this._domId = viewIdCounter++;
         this._visualState = visualStateConstants.Normal;
     }
+    View.prototype.getGestureObservers = function (type) {
+        var result;
+        if (this._gestureObservers) {
+            result = this._gestureObservers.get(type) ? this._gestureObservers.get(type).slice(0) : undefined;
+        }
+        return result;
+    };
     View.prototype.observe = function (type, callback, thisArg) {
-        this._gesturesObserver = gestures.observe(this, type, callback, thisArg);
-        return this._gesturesObserver;
+        var gesturesList = this._getGesturesList(type, true);
+        gesturesList.push(gestures.observe(this, type, callback, thisArg));
+    };
+    View.prototype._getGesturesList = function (gestureType, createIfNeeded) {
+        if (!gestureType) {
+            throw new Error("GestureType must be a valid gesture!");
+        }
+        var list;
+        if (this._gestureObservers && this._gestureObservers.has(gestureType)) {
+            list = this._gestureObservers.get(gestureType);
+        }
+        else {
+            if (createIfNeeded) {
+                list = [];
+                if (!this._gestureObservers) {
+                    this._gestureObservers = new Map();
+                }
+                this._gestureObservers.set(gestureType, list);
+            }
+        }
+        return list;
     };
     View.prototype.getViewById = function (id) {
         return getViewById(this, id);

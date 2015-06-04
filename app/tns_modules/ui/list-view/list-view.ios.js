@@ -29,7 +29,7 @@ var ListViewCell = (function (_super) {
     return ListViewCell;
 })(UITableViewCell);
 function notifyForItemAtIndex(listView, cell, eventName, indexPath) {
-    var args = { eventName: eventName, object: listView, index: indexPath.row, view: cell.view };
+    var args = { eventName: eventName, object: listView, index: indexPath.row, view: cell.view, ios: cell, android: undefined };
     listView.notify(args);
     return args;
 }
@@ -79,15 +79,6 @@ var UITableViewDelegateImpl = (function (_super) {
         if (indexPath.row === this._owner.items.length - 1) {
             this._owner.notify({ eventName: LOADMOREITEMS, object: this._owner });
         }
-        if (cell.separatorInset) {
-            cell.separatorInset = UIEdgeInsetsZero;
-        }
-        if (cell.preservesSuperviewLayoutMargins) {
-            cell.preservesSuperviewLayoutMargins = false;
-        }
-        if (cell.layoutMargins) {
-            cell.layoutMargins = UIEdgeInsetsZero;
-        }
     };
     UITableViewDelegateImpl.prototype.tableViewWillSelectRowAtIndexPath = function (tableView, indexPath) {
         var cell = tableView.cellForRowAtIndexPath(indexPath);
@@ -96,18 +87,19 @@ var UITableViewDelegateImpl = (function (_super) {
         return indexPath;
     };
     UITableViewDelegateImpl.prototype.tableViewHeightForRowAtIndexPath = function (tableView, indexPath) {
-        if (utils.ios.MajorVersion < 8) {
+        var height = undefined;
+        if (utils.ios.MajorVersion >= 8) {
+            height = this._owner.getHeight(indexPath.row);
+        }
+        if (utils.ios.MajorVersion < 8 || height === undefined) {
             var cell = this._measureCell;
             if (!cell) {
                 this._measureCell = tableView.dequeueReusableCellWithIdentifier(CELLIDENTIFIER) || ListViewCell.new();
                 cell = this._measureCell;
             }
-            return this._owner._prepareCell(cell, indexPath);
+            height = this._owner._prepareCell(cell, indexPath);
         }
-        return this._owner.getHeight(indexPath.row);
-    };
-    UITableViewDelegateImpl.prototype.tableViewEstimatedHeightForRowAtIndexPath = function (tableView, indexPath) {
-        return DEFAULT_HEIGHT;
+        return height;
     };
     UITableViewDelegateImpl.ObjCProtocols = [UITableViewDelegate];
     return UITableViewDelegateImpl;
@@ -132,6 +124,7 @@ var ListView = (function (_super) {
         this._ios.registerClassForCellReuseIdentifier(ListViewCell.class(), CELLIDENTIFIER);
         this._ios.autoresizesSubviews = false;
         this._ios.autoresizingMask = UIViewAutoresizing.UIViewAutoresizingNone;
+        this._ios.estimatedRowHeight = DEFAULT_HEIGHT;
         var dataSource = DataSource.new().initWithOwner(this);
         this._dataSource = dataSource;
         this._ios.dataSource = this._dataSource;

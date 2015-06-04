@@ -80,7 +80,7 @@ var ListView = (function (_super) {
     ListView.prototype._getItemTemplateContent = function (index) {
         var v;
         if (this.itemTemplate && this.items) {
-            v = builder.parse(this.itemTemplate, getExports(this));
+            v = builder.parse(this.itemTemplate, this);
         }
         return v;
     };
@@ -122,10 +122,3 @@ var ListView = (function (_super) {
     return ListView;
 })(view.View);
 exports.ListView = ListView;
-function getExports(instance) {
-    var parent = instance.parent;
-    while (parent && parent.exports === undefined) {
-        parent = parent.parent;
-    }
-    return parent ? parent.exports : undefined;
-}

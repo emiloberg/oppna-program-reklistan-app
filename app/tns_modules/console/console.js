@@ -176,7 +176,7 @@ var Console = (function () {
     };
     Console.prototype.formatParams = function (message) {
         if (arguments.length <= 1) {
-            return message ? message : '';
+            return "" + message;
         }
         var res = this.sprintf.apply(this, arguments);
         if (res === message) {

@@ -217,6 +217,13 @@ var EditableTextBase = (function (_super) {
         }
         editableTextBase.android.setInputType(inputType);
     };
+    EditableTextBase.prototype._onHintPropertyChanged = function (data) {
+        var editableTextBase = data.object;
+        if (!editableTextBase.android) {
+            return;
+        }
+        editableTextBase.android.setHint(data.newValue);
+    };
     return EditableTextBase;
 })(common.EditableTextBase);
 exports.EditableTextBase = EditableTextBase;
