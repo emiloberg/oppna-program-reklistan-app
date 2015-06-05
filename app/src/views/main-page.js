@@ -23,8 +23,8 @@ var pageLoaded = function(args) {
 	.then(function () {
 //		navigation.navigateToUrl('advice/Diabetes/Diabetes_typ_2_behandlingsalgoritm_for_VGR', 'Previous page');
 //		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
-//		frameModule.topmost().navigate('views/menu-sections');
-		frameModule.topmost().navigate('views/search');
+		frameModule.topmost().navigate('views/menu-sections');
+//		frameModule.topmost().navigate('views/search');
 //		frameModule.topmost().navigate('views/dummy3');
 			//
 	})

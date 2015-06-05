@@ -29,8 +29,8 @@ function navigatingTo(args) {
 	page = args.object;
 
 	let prevPageTitle = '';
-	if (page.hasOwnProperty('navigationContext')) {
-		prevPageTitle = page.navContext.prevPageTitle || '';
+	if ('navigationContext' in page) {
+		prevPageTitle = page.navigationContext.prevPageTitle || '';
 	}
 
 	let actionBar = new ActionBar(curPageName, prevPageTitle, 0, 'none');
@@ -39,6 +39,7 @@ function navigatingTo(args) {
 
 	let searchBar = page.getViewById('searchbar');
 	searchBar.bindingContext = searchInput;
+	searchBar.focus();
 
 	searchInput.on(Observable.propertyChangeEvent, function (event) {
 		doSearch(event.value);
@@ -46,27 +47,29 @@ function navigatingTo(args) {
 
 	let pagecontent = page.getViewById('pagecontent');
 	pagecontent.bindingContext = pageContent;
-
-	doSearch('diabetes'); //todo debug thing, remove
 }
 
 
 function doSearch(searchFor) {
-	searchFor = searchFor.trim();
-	if (searchFor !== lastSearchWord && searchFor.length >= 3) {
+	const searchTerm = searchFor.trim();
 
-		while(searchResults.length > 0) {
-			searchResults.pop();
-		}
+	if (searchTerm === lastSearchWord) {
+		return;
+	}
 
-		search.search(searchFor)
+	while(searchResults.length > 0) {
+		searchResults.pop();
+	}
+
+	if (searchTerm.length >= 3) {
+		search.search(searchTerm)
 		.then(results => {
 			results.forEach(result => {
 				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
 		});
 
-		lastSearchWord = searchFor;
+		lastSearchWord = searchTerm;
 	}
 }
 
