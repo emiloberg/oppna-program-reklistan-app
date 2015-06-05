@@ -6,19 +6,42 @@ import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
 //import {makeUrlSafe} from './utils';
 const utils = require('./utils');
-//import {inspect, saveFile} from './debug';
+const appSettings = require('application-settings');
+import {inspect, saveFile} from './debug';
 
 function loadResources(resources, isJson) {
-	return Promise.all(resources.map(resource => {
-		return (isJson ? http.getJSON : http.getString)(resource.url)
-		.then(data => {
-				return {
-					name: resource.name,
-					data: data
-				};
-			}
-		);
-	}));
+
+	// Load from local files if boolean is set to do so.
+	// Used for development purposes.
+	if (appSettings.getBoolean('develLocalFiles', false)) {
+		const fs = require('file-system');
+		const appFolder = fs.knownFolders.currentApp();
+
+		return Promise.all(resources.map(resource => {
+			let localFilePath = resource.url.split('/');
+			return appFolder.getFile('dev-resources/' + localFilePath[localFilePath.length - 1]).readText()
+				.then(function (data) {
+					return {
+						name: resource.name,
+						data: (isJson) ? JSON.parse(data) : data
+					};
+				})
+				.catch(err => {
+					console.dir(err);
+				});
+		}));
+	} else {
+		return Promise.all(resources.map(resource => {
+			return (isJson ? http.getJSON : http.getString)(resource.url)
+			.then(data => {
+					return {
+						name: resource.name,
+						data: data
+					};
+				}
+			);
+		}));
+	}
 }
 
 function loadFiles(resources, registerWith) {
