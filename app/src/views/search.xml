@@ -47,7 +47,7 @@
                                 </FormattedString>
                             </Label.formattedText>
                         </Label>
-                        <Image col="1" row="0" cssClass="list--icon" src="{{iconAdvice}}" width="24" heigth="24" horizontalAlignment="right" />
+                        <Image col="1" row="0" cssClass="list--icon" src="{{icon}}" width="24" heigth="24" horizontalAlignment="right" />
                     </GridLayout>
                 </ListView.itemTemplate>
             </ListView>

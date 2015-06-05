@@ -3,8 +3,8 @@
 // Todo, hide search button and maybe menu button and maybe back button
 
 import {inspect} from './../shared/utils/debug';
-import Images from './../shared/utils/images';
 import ActionBar from './../shared/viewmodel/ActionBar';
+import SearchResultItem from './../shared/model/SearchResultItem';
 import search from './../shared/viewmodel/Search';
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
@@ -62,13 +62,7 @@ function doSearch(searchFor) {
 		search.search(searchFor)
 		.then(results => {
 			results.forEach(result => {
-				searchResults.push({
-					chapter: result.chapter,
-					section: result.section,
-					url: result.url,
-					type: result.tabIndex,
-					iconAdvice: Images.close
-				});
+				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
 		});
 
