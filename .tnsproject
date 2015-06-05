@@ -1,5 +1,5 @@
 {
-	"id": "org.nativescript.rekapp",
+	"id": "com.monator.vgr.rekapp",
 	"tns-ios": {
 		"version": "1.0.1"
 	}
