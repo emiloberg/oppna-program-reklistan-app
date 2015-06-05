@@ -27,8 +27,8 @@ var GestureStateTypes = exports.GestureStateTypes;
 })(exports.SwipeDirection || (exports.SwipeDirection = {}));
 var SwipeDirection = exports.SwipeDirection;
 function observe(target, type, callback, thisArg) {
-    var observer = new definition.GesturesObserver(callback);
-    observer.observe(target, type, thisArg);
+    var observer = new definition.GesturesObserver(target, callback, thisArg);
+    observer.observe(type);
     return observer;
 }
 exports.observe = observe;
@@ -84,3 +84,57 @@ function fromString(type) {
     return undefined;
 }
 exports.fromString = fromString;
+var GesturesObserver = (function () {
+    function GesturesObserver(target, callback, context) {
+        this._target = target;
+        this._callback = callback;
+        this._context = context;
+    }
+    Object.defineProperty(GesturesObserver.prototype, "callback", {
+        get: function () {
+            return this._callback;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GesturesObserver.prototype, "target", {
+        get: function () {
+            return this._target;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GesturesObserver.prototype, "context", {
+        get: function () {
+            return this._context;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    GesturesObserver.prototype.androidOnTouchEvent = function (motionEvent) {
+    };
+    GesturesObserver.prototype.observe = function (type) {
+    };
+    GesturesObserver.prototype.disconnect = function () {
+        if (this.target) {
+            var gestureObserversArray = this.target._gestureObservers.get(this.type);
+            if (gestureObserversArray) {
+                var i;
+                for (i = 0; i < gestureObserversArray.length; i++) {
+                    if (gestureObserversArray[i].callback === this.callback) {
+                        break;
+                    }
+                }
+                gestureObserversArray.splice(i, 1);
+                if (gestureObserversArray.length === 0) {
+                    this.target._gestureObservers.delete(this.type);
+                }
+            }
+        }
+        this._target = null;
+        this._callback = null;
+        this._context = null;
+    };
+    return GesturesObserver;
+})();
+exports.GesturesObserver = GesturesObserver;

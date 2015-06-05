@@ -8,6 +8,7 @@ var appModule = require("application/application-common");
 var frame = require("ui/frame");
 var utils = require("utils/utils");
 var types = require("utils/types");
+var definition = require("application");
 require("utils/module-merge").merge(appModule, exports);
 exports.mainModule;
 var Window = (function (_super) {
@@ -48,6 +49,7 @@ var TNSAppDelegate = (function (_super) {
         if (exports.onLaunch) {
             exports.onLaunch();
         }
+        exports.notify({ eventName: definition.launchEvent, object: this, ios: launchOptions });
         var topFrame = frame.topmost();
         if (!topFrame) {
             if (exports.mainModule) {
@@ -69,6 +71,7 @@ var TNSAppDelegate = (function (_super) {
         if (exports.onResume) {
             exports.onResume();
         }
+        exports.notify({ eventName: definition.resumeEvent, object: this, ios: application });
     };
     TNSAppDelegate.prototype.applicationWillResignActive = function (application) {
     };
@@ -76,6 +79,7 @@ var TNSAppDelegate = (function (_super) {
         if (exports.onSuspend) {
             exports.onSuspend();
         }
+        exports.notify({ eventName: definition.suspendEvent, object: this, ios: application });
     };
     TNSAppDelegate.prototype.applicationWillEnterForeground = function (application) {
     };
@@ -83,11 +87,13 @@ var TNSAppDelegate = (function (_super) {
         if (exports.onExit) {
             exports.onExit();
         }
+        exports.notify({ eventName: definition.exitEvent, object: this, ios: application });
     };
     TNSAppDelegate.prototype.applicationDidReceiveMemoryWarning = function (application) {
         if (exports.onLowMemory) {
             exports.onLowMemory();
         }
+        exports.notify({ eventName: definition.lowMemoryEvent, object: this, android: undefined, ios: application });
     };
     TNSAppDelegate.prototype.applicationOpenURLSourceApplicationAnnotation = function (application, url, sourceApplication, annotation) {
         var dictionary = new NSMutableDictionary();
@@ -121,5 +127,6 @@ exports.start = function () {
             return;
         }
         exports.onUncaughtError(error);
+        definition.notify({ eventName: definition.uncaughtErrorEvent, object: definition.ios, ios: error });
     }
 };

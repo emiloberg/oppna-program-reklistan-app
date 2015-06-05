@@ -39,7 +39,8 @@ const Images = {
 	left: getImage('navigation', 'ic_chevron_left'),
 	menu: getImage('navigation', 'ic_menu'),
 	close: getImage('navigation', 'ic_close'),
-	search: getImage('action', 'ic_search')
+	search: getImage('action', 'ic_search'),
+	advice: getImage('custom', 'advice')
 };
 
 export default Images;

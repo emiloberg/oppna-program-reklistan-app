@@ -182,6 +182,8 @@ var TabView = (function (_super) {
         }
         this._ios.selectedIndex = data.newValue;
         this.requestLayout();
+        var args = { eventName: TabView.selectedIndexChangedEvent, object: this, oldIndex: data.oldValue, newIndex: data.newValue };
+        this.notify(args);
     };
     TabView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         var nativeView = this._nativeView;

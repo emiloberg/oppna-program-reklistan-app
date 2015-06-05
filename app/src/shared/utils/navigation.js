@@ -36,7 +36,7 @@ const navigation = {
 	},
 
 	navigateToUrl(url, prevPageTitle) {
-		utils.internalUrlToArray(url)
+		utils.promiseInternalUrlToArray(url)
 		.then(appViewModel.getSpecific)
 		.then(function (specific) {
 			let moduleName;

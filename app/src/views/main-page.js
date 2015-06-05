@@ -21,9 +21,10 @@ var pageLoaded = function(args) {
 	//frameModule.topmost().navigate('views/dummy4');
 	initApp.init()
 	.then(function () {
-		//navigation.navigateToUrl('advice/Diabetes/Rekommenderad_fysisk_traning_vid_diabetes', 'Previous page');
+//		navigation.navigateToUrl('advice/Diabetes/Diabetes_typ_2_behandlingsalgoritm_for_VGR', 'Previous page');
 //		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
 		frameModule.topmost().navigate('views/menu-sections');
+//		frameModule.topmost().navigate('views/search');
 //		frameModule.topmost().navigate('views/dummy3');
 			//
 	})
@@ -53,3 +54,4 @@ exports.showRekMenu = showRekMenu;
 //	return page;
 //};
 //
+

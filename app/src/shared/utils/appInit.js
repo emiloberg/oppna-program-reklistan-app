@@ -2,6 +2,7 @@
 
 import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
+import search from '../viewmodel/Search';
 import {inspect, saveFile} from './debug';
 
 function init() {
@@ -34,7 +35,7 @@ function init() {
 	])
 	.then(list => {
 		appViewModel.setMainDataList(list);
-		saveFile('nyRekDataList.json', JSON.stringify(list));
+		search.addToIndex(list);
 	});
 }
 

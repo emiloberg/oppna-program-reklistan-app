@@ -176,6 +176,7 @@ var TabView = (function (_super) {
     TabView.prototype._onVisibilityChanged = function (changedView, visibility) {
         trace.write("TabView._onVisibilityChanged:" + this.android + " isShown():" + this.android.isShown(), common.traceCategory);
         if (this.isLoaded && this.android && this.android.isShown()) {
+            this._setAdapterIfNeeded();
             this._addTabsIfNeeded();
             this._setNativeSelectedIndex(this.selectedIndex);
         }
@@ -206,9 +207,7 @@ var TabView = (function (_super) {
         trace.write("TabView.onLoaded(); selectedIndex: " + this.selectedIndex + "; items: " + this.items + ";", common.traceCategory);
         _super.prototype.onLoaded.call(this);
         if (this.android && this.android.isShown()) {
-            if (!this._pagerAdapter && this.items) {
-                this._setAdapter(this.items);
-            }
+            this._setAdapterIfNeeded();
             this._addTabsIfNeeded();
             this._setNativeSelectedIndex(this.selectedIndex);
         }
@@ -246,6 +245,11 @@ var TabView = (function (_super) {
         }
         this._updateSelectedIndexOnItemsPropertyChanged(data.newValue);
         this._listenersSuspended = false;
+    };
+    TabView.prototype._setAdapterIfNeeded = function () {
+        if (!this._pagerAdapter && this.items && this.items.length > 0) {
+            this._setAdapter(this.items);
+        }
     };
     TabView.prototype._setAdapter = function (items) {
         this._pagerAdapter = new PagerAdapterClass(this, items);
@@ -347,6 +351,8 @@ var TabView = (function (_super) {
         trace.write("TabView._onSelectedIndexPropertyChangedSetNativeValue(" + data.oldValue + " ---> " + data.newValue + ");", common.traceCategory);
         _super.prototype._onSelectedIndexPropertyChangedSetNativeValue.call(this, data);
         this._setNativeSelectedIndex(data.newValue);
+        var args = { eventName: TabView.selectedIndexChangedEvent, object: this, oldIndex: data.oldValue, newIndex: data.newValue };
+        this.notify(args);
     };
     TabView.prototype._setNativeSelectedIndex = function (index) {
         if (types.isNullOrUndefined(index)) {
