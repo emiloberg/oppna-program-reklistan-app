@@ -5,9 +5,38 @@ import fs from 'file-system';
 import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
-//import {makeUrlSafe} from './utils';
+import {makeUrlSafe} from './utils';
 const utils = require('./utils');
 import {inspect, saveFile} from './debug';
+import RemoteImages from './remoteimages';
+
+
+const imgRequests = [];
+let pending = 0;
+
+function downloadImage(spec) {
+	if (pending > 1) {
+		imgRequests.push(spec);
+	} else {
+		_downloadNextImage(spec);
+	}
+}
+
+function _downloadNextImage(spec) {
+	pending++;
+	return http.getImage(spec.url)
+	.then(img => {
+		pending--;
+
+		RemoteImages.save(spec.path, img);
+	})
+	.done(err => {
+		pending--;
+		if (imgRequests.length > 0) {
+			_downloadNextImage(imgRequests.shift());
+		}
+	});
+}
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
@@ -103,6 +132,42 @@ const DataLoader = {
 				})
 			)
 		)
+		.then(mergedData => {
+			
+			mergedData
+				.map(section => section.items)
+				.reduce((a, b) => a.concat(b), [])
+				.map(item => item.content)
+				.forEach(contentSection => {
+					Object.keys(contentSection).forEach(key => {
+
+						const reSrc = /src=[\"\']([^\"\']+)[\"\']/g;
+						let match;
+						while (match = reSrc.exec(contentSection[key])) {
+
+							downloadImage({
+								url: 'https://reklistan.vgregion.se' + match[1],
+								path: makeUrlSafe(match[1])
+							});
+							
+							//downloadImage({
+							//	url: '',
+							//	path: ''
+							//});
+						}
+					});
+				});
+				
+			
+			//http.getImage('http://placekitten.com/g/200/300')
+			//.then(img => {
+			//	RemoteImages.save('/cat2.png', img)
+			//		.then(() => {console.log('JAA')})
+			//		.catch(() => {console.log('NEEJ')});
+			//});
+
+			return mergedData;
+		})
 		.then(mergedData => mergedData.map(section => {
 
 				const contentSections = section.items.map(
@@ -113,15 +178,6 @@ const DataLoader = {
 		).then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
 			loadFiles(css, 'registerCss');
-			return dataLists;
-		})
-		.then(dataLists => {
-			const docsPath = fs.knownFolders.documents().path;
-			http.getImage('http://placekitten.com/g/200/300')
-			.then(img => {
-				img.saveToFile(docsPath + '/cat.jpg', 'jpeg');
-			});
-
 			return dataLists;
 		});
 	}

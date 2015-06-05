@@ -104,7 +104,7 @@ function removeDiacritics (str) {
 
 function makeUrlSafe(str /*, dontURIEncode*/) {
 	let ret = str || '';
-	ret = ret.replace(/ /g, '_');
+	ret = ret.replace(/[ /?]/g, '_');
 	ret = removeDiacritics(ret);
 
 	//if (dontURIEncode === false) {
