@@ -1,12 +1,13 @@
 'use strict';
 
 import http from 'http';
+import fs from 'file-system';
 import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
 //import {makeUrlSafe} from './utils';
 const utils = require('./utils');
-//import {inspect, saveFile} from './debug';
+import {inspect, saveFile} from './debug';
 
 function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
@@ -112,6 +113,15 @@ const DataLoader = {
 		).then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
 			loadFiles(css, 'registerCss');
+			return dataLists;
+		})
+		.then(dataLists => {
+			const docsPath = fs.knownFolders.documents().path;
+			http.getImage('http://placekitten.com/g/200/300')
+			.then(img => {
+				img.saveToFile(docsPath + '/cat.jpg', 'jpeg');
+			});
+
 			return dataLists;
 		});
 	}
