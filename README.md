@@ -2,6 +2,9 @@
 
 Work in progress!
 
+### Release for production
+In `app.js`, remember to set all appSettings to production mode. 
+
 ### Note on Babel usage
 We're currently not including the Babel polyfill in the App runtime, which means that you cannot use these:
 
