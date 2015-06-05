@@ -27,11 +27,13 @@ function _downloadNextImage(spec) {
 	pending++;
 	return http.getImage(spec.url)
 	.then(img => {
-		pending--;
-
 		RemoteImages.save(spec.path, img);
+		pending--;
+		if (imgRequests.length > 0) {
+			_downloadNextImage(imgRequests.shift());
+		}
 	})
-	.done(err => {
+	.catch(() => {
 		pending--;
 		if (imgRequests.length > 0) {
 			_downloadNextImage(imgRequests.shift());
@@ -44,7 +46,6 @@ function loadResources(resources, isJson) {
 	// Load from local files if boolean is set to do so.
 	// Used for development purposes.
 	if (appSettings.getBoolean('develLocalFiles', false)) {
-		const fs = require('file-system');
 		const appFolder = fs.knownFolders.currentApp();
 
 		return Promise.all(resources.map(resource => {
@@ -156,7 +157,6 @@ const DataLoader = {
 			)
 		)
 		.then(mergedData => {
-			
 			mergedData
 				.map(section => section.items)
 				.reduce((a, b) => a.concat(b), [])
@@ -172,7 +172,7 @@ const DataLoader = {
 								url: 'https://reklistan.vgregion.se' + match[1],
 								path: makeUrlSafe(match[1])
 							});
-							
+
 							//downloadImage({
 							//	url: '',
 							//	path: ''
@@ -180,8 +180,7 @@ const DataLoader = {
 						}
 					});
 				});
-				
-			
+
 			//http.getImage('http://placekitten.com/g/200/300')
 			//.then(img => {
 			//	RemoteImages.save('/cat2.png', img)
