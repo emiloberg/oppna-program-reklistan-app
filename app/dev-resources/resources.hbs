@@ -1,0 +1,10 @@
+{{#each this}}
+    <div class="view-topper">
+        <div class="second-bar">
+            <h2 class="second-bar-title">{{title}}</h2>
+        </div>
+    </div>
+    <div class="section-details section-details-generic">
+        {{{markdownify fields.0.value}}}
+    </div>
+{{/each}}

@@ -1,83 +1,83 @@
 {{#each fields}}
-  {{#is @root/isPreview true}}
-      <h3 class="preview-title">{{value}}</h3>
-  {{/is}}
+    {{#is @root/isPreview true}}
+        <h3 class="preview-title">{{value}}</h3>
+    {{/is}}
 
-  {{#is @root/isWeb true}}
-    <div class="view-topper view-topper-details-drugs">
-        <div class="second-bar">
-            <h2 class="second-bar-title">{{value}}</h2>
+    {{#is @root/isWeb true}}
+        <div class="view-topper view-topper-details-drugs">
+            <div class="second-bar">
+                <h2 class="second-bar-title">{{value}}</h2>
+            </div>
+            <div class="js-submenu-tabs tabs">
+                <a href="#/drugs/{{_urlSafeChapter}}/{{urlencode value}}" class="tab js-tab-item js-tab-item-drugs {{tabClassDrugs}}">Rek. läkemedel</a>
+                <a href="#/advice/{{_urlSafeChapter}}/{{urlencode value}}" class="tab js-tab-item js-tab-item-advice {{tabClassAdvice}}">Terapiråd</a>
+            </div>
         </div>
-        <div class="js-submenu-tabs tabs">
-            <a href="#/drugs/{{_urlSafeChapter}}/{{urlencode value}}" class="tab js-tab-item js-tab-item-drugs {{tabClassDrugs}}">Rek. läkemedel</a>
-            <a href="#/advice/{{_urlSafeChapter}}/{{urlencode value}}" class="tab js-tab-item js-tab-item-advice {{tabClassAdvice}}">Terapiråd</a>
-        </div>
-    </div>
-  {{/is}}
+    {{/is}}
 
-  {{#is @root/isMobile true}}
-	  <div class="mobile-container">
-	  <div class="screen active">
-  {{/is}}
-  <div class="section-details section-details-drugs">
-    {{#each children}}
-      {{#is name 'subheading1'}}
-        {{#if value}}<div class="item-{{@index}} subheading">{{markdownify ../value}}</div>{{/if}}
-        {{#each children}}
-          {{#if value}}<div class="item-{{@index}} subheading-2">{{markdownify ../value}}</div>{{/if}}
-          {{#each children}}
-            {{#if value}}<div class="item-{{@index}} area">{{markdownify ../value}}</div>{{/if}}
+    {{#is @root/isMobile true}}
+        <div class="mobile-container">
+        <div class="screen active">
+    {{/is}}
+        <div class="section-details section-details-drugs">
             {{#each children}}
-              {{#if value}}<div class="item-{{@index}} recommended-for">{{markdownify ../value}}</div>{{/if}}
-              {{#each children}}
-                {{#if value}}
-                  <div class="item-{{@index}} substance">
-                    {{../value}}
-                    {{#is ../children.0.value 'true'}}
-                      <span class="replaceable">&#8860;</span>
-                    {{/is}}
-                  </div>
-                {{/if}}
-                {{#each children}}
-                  {{#is name 'drug'}}
+                {{#is name 'subheading1'}}
+                    {{#if value}}<div class="item-{{@index}} subheading">{{markdownify ../value}}</div>{{/if}}
+                    {{#each children}}
+                        {{#if value}}<div class="item-{{@index}} subheading-2">{{markdownify ../value}}</div>{{/if}}
+                        {{#each children}}
+                            {{#if value}}<div class="item-{{@index}} area">{{markdownify ../value}}</div>{{/if}}
+                            {{#each children}}
+                                {{#if value}}<div class="item-{{@index}} recommended-for">{{markdownify ../value}}</div>{{/if}}
+                                {{#each children}}
+                                    {{#if value}}
+                                        <div class="item-{{@index}} substance">
+                                            {{../value}}
+                                            {{#is ../children.0.value 'true'}}
+                                                <span class="replaceable">&#8860;</span>
+                                            {{/is}}
+                                        </div>
+                                    {{/if}}
+                                    {{#each children}}
+                                        {{#is name 'drug'}}
+                                            {{#if ../value}}
+                                                <div class="item-{{@index}} drug">
+                                                    {{../../value}}
+                                                    {{#is ../../children.0.value 'true'}}
+                                                        <span class="replaceable">&#8860;</span>
+                                                    {{/is}}
+                                                </div>
+                                            {{/if}}
+                                        {{/is}}
+                                        {{#each children}}
+                                            {{#is name 'infoboxDrug'}}
+                                                {{#if ../value}}
+                                                    <div class="infobox infobox-drug">
+                                                        {{markdownify ../value}}
+                                                    </div>
+                                                {{/if}}
+                                            {{/is}}
+                                        {{/each}}
+                                    {{/each}}
+                                {{/each}}
+                            {{/each}}
+                        {{/each}}
+                    {{/each}}
+                {{/is}}
+                {{#is name 'infoboxHeading'}}
                     {{#if ../value}}
-                      <div class="item-{{@index}} drug">
-                        {{../../value}}
-                        {{#is ../../children.0.value 'true'}}
-                          <span class="replaceable">&#8860;</span>
-                        {{/is}}
-                      </div>
-                    {{/if}}
-                  {{/is}}
-                  {{#each children}}
-                    {{#is name 'infoboxDrug'}}
-                      {{#if ../value}}
-                        <div class="infobox infobox-drug">
-                          {{markdownify ../value}}
+                        <div class="infobox infobox-heading">
+                            {{#if ../children.0.value}}
+                                <h3>{{../../children.0.value}}</h3>
+                            {{/if}}
+                            {{markdownify ../../value}}
                         </div>
-                      {{/if}}
-                    {{/is}}
-                  {{/each}}
-                {{/each}}
-              {{/each}}
+                    {{/if}}
+                {{/is}}
             {{/each}}
-          {{/each}}
-        {{/each}}
-      {{/is}}
-      {{#is name 'infoboxHeading'}}
-        {{#if ../value}}
-          <div class="infobox infobox-heading">
-            {{#if ../children.0.value}}
-              <h3>{{../../children.0.value}}</h3>
-            {{/if}}
-            {{markdownify ../../value}}
-          </div>
-        {{/if}}
-      {{/is}}
-    {{/each}}
-  </div>
+        </div>
 {{/each}}
 {{#is @root/isMobile true}}
-	</div>
-	</div>
+    </div>
+    </div>
 {{/is}}

@@ -15472,5 +15472,79 @@
         ],
         "title": "Alla f\u00e4llt",
         "uuid": "d927ca3d-addb-4b11-b1e9-1e11af5b85a4"
+    },
+    {
+        "fields": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "children": [
+                                            {
+                                                "children": [
+                                                    {
+                                                        "children": [
+                                                            {
+                                                                "children": [],
+                                                                "name": "replaceableSubstance",
+                                                                "value": ""
+                                                            },
+                                                            {
+                                                                "children": [
+                                                                    {
+                                                                        "children": [],
+                                                                        "name": "replaceableDrug",
+                                                                        "value": ""
+                                                                    },
+                                                                    {
+                                                                        "children": [],
+                                                                        "name": "infoboxDrug",
+                                                                        "value": ""
+                                                                    }
+                                                                ],
+                                                                "name": "drug",
+                                                                "value": ""
+                                                            }
+                                                        ],
+                                                        "name": "substance",
+                                                        "value": ""
+                                                    }
+                                                ],
+                                                "name": "recommendedFor",
+                                                "value": ""
+                                            }
+                                        ],
+                                        "name": "area",
+                                        "value": ""
+                                    }
+                                ],
+                                "name": "subheading2",
+                                "value": ""
+                            }
+                        ],
+                        "name": "subheading1",
+                        "value": ""
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "infoboxHeadingHeading",
+                                "value": ""
+                            }
+                        ],
+                        "name": "infoboxHeading",
+                        "value": ""
+                    }
+                ],
+                "name": "heading",
+                "value": "Bara drugs rubrik"
+            }
+        ],
+        "title": "AAA Bara drugs",
+        "uuid": "4dfaa32e-5584-4798-83c9-707753dfaba0"
     }
 ]

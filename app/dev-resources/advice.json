@@ -35,54 +35,6 @@
                             {
                                 "children": [],
                                 "name": "type",
-                                "value": "normal"
-                            },
-                            {
-                                "children": [],
-                                "name": "subheading",
-                                "value": ""
-                            },
-                            {
-                                "children": [],
-                                "name": "image",
-                                "value": ""
-                            }
-                        ],
-                        "name": "body",
-                        "value": "<p>Hos patienter med medelsv\u00e5r till sv\u00e5r astma \u00e4r ICS i kombination med LABA ofta indicerat. Patienten ska f\u00f6rst ha provat preparaten var f\u00f6r sig. D\u00e4refter kan kombinationsinhalator f\u00f6rskrivas f\u00f6r att f\u00f6renkla medicineringen. Bufomix Easyhaler rekommenderas vid nyins\u00e4ttning. Doser med beklometason, budesonid och mometason &gt;800 \u03bcg/dygn, flutikason &gt;500 \u03bcg/dygn eller ciklesonid &gt;320 \u03bcg/dygn \u00e4r s\u00e4llan indicerade.</p>"
-                    },
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "type",
-                                "value": "drugs"
-                            },
-                            {
-                                "children": [],
-                                "name": "subheading",
-                                "value": "Andrahandsval"
-                            },
-                            {
-                                "children": [],
-                                "name": "image",
-                                "value": ""
-                            }
-                        ],
-                        "name": "body",
-                        "value": "<h2>Snabbverkande beta-2-stimulerare</h2> <ul> <li>salbutamol <ul> <li>Airomir/Autohaler</li> <li>Ventoline/Evohaler</li> </ul> </li> <li>terbutalin <ul> <li>Bricanyl/Turbuhaler</li> </ul> </li> </ul> <h2>Inhalationssteroider</h2> <ul> <li>budesonid <ul> <li>Pulmicort Turbuhaler</li> </ul> </li> <li>ciklesonid <ul> <li>Alvesco spray</li> </ul> </li> <li>flutikason <ul> <li>Flutide/Evohaler</li> </ul> </li> <li>mometason <ul> <li>Asmanex Twisthaler</li> </ul> </li> </ul> <h2>L\u00e5ngverkande beta-2-stimulerare</h2> <ul> <li>formoterol <ul> <li>Oxis Turbuhaler</li> </ul> </li> <li>salmeterol <ul> <li>Serevent Diskus</li> </ul> </li> </ul> <h2>Kombinationspreparat</h2> <ul> <li>beklometason + formoterol <ul> <li>Innovair spray</li> </ul> </li> <li>budesonid + formoterol <ul> <li>Bufomix Easyhaler</li> <li>Duoresp Spiromax</li> <li>Symbicort Turbuhaler</li> </ul> </li> <li>flutikason + formoterol <ul> <li>Flutiform spray</li> </ul> </li> <li>flutikason + salmeterol <ul> <li>Airflusal Forspiro</li> <li>Seretide Evohaler spray</li> </ul> </li> </ul>"
-                    }
-                ],
-                "name": "heading",
-                "value": "Astma vuxna"
-            },
-            {
-                "children": [
-                    {
-                        "children": [
-                            {
-                                "children": [],
-                                "name": "type",
                                 "value": "for-childs"
                             },
                             {
@@ -123,6 +75,54 @@
                 ],
                 "name": "heading",
                 "value": "Astma barn"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "type",
+                                "value": "normal"
+                            },
+                            {
+                                "children": [],
+                                "name": "subheading",
+                                "value": ""
+                            },
+                            {
+                                "children": [],
+                                "name": "image",
+                                "value": ""
+                            }
+                        ],
+                        "name": "body",
+                        "value": "<p>Hos patienter med medelsv\u00e5r till sv\u00e5r astma \u00e4r ICS i kombination med LABA ofta indicerat. Patienten ska f\u00f6rst ha provat preparaten var f\u00f6r sig. D\u00e4refter kan kombinationsinhalator f\u00f6rskrivas f\u00f6r att f\u00f6renkla medicineringen. Bufomix Easyhaler rekommenderas vid nyins\u00e4ttning. Doser med beklometason, budesonid och mometason &gt;800 \u03bcg/dygn, flutikason &gt;500 \u03bcg/dygn eller ciklesonid &gt;320 \u03bcg/dygn \u00e4r s\u00e4llan indicerade.</p>"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "type",
+                                "value": "drugs"
+                            },
+                            {
+                                "children": [],
+                                "name": "subheading",
+                                "value": "Andrahandsval"
+                            },
+                            {
+                                "children": [],
+                                "name": "image",
+                                "value": ""
+                            }
+                        ],
+                        "name": "body",
+                        "value": "<h2>Snabbverkande beta-2-stimulerare</h2> <ul> <li>salbutamol <ul> <li>Airomir/Autohaler</li> <li>Ventoline/Evohaler</li> </ul> </li> <li>terbutalin <ul> <li>Bricanyl/Turbuhaler</li> </ul> </li> </ul> <h2>Inhalationssteroider</h2> <ul> <li>budesonid <ul> <li>Pulmicort Turbuhaler</li> </ul> </li> <li>ciklesonid <ul> <li>Alvesco spray</li> </ul> </li> <li>flutikason <ul> <li>Flutide/Evohaler</li> </ul> </li> <li>mometason <ul> <li>Asmanex Twisthaler</li> </ul> </li> </ul> <h2>L\u00e5ngverkande beta-2-stimulerare</h2> <ul> <li>formoterol <ul> <li>Oxis Turbuhaler</li> </ul> </li> <li>salmeterol <ul> <li>Serevent Diskus</li> </ul> </li> </ul> <h2>Kombinationspreparat</h2> <ul> <li>beklometason + formoterol <ul> <li>Innovair spray</li> </ul> </li> <li>budesonid + formoterol <ul> <li>Bufomix Easyhaler</li> <li>Duoresp Spiromax</li> <li>Symbicort Turbuhaler</li> </ul> </li> <li>flutikason + formoterol <ul> <li>Flutiform spray</li> </ul> </li> <li>flutikason + salmeterol <ul> <li>Airflusal Forspiro</li> <li>Seretide Evohaler spray</li> </ul> </li> </ul>"
+                    }
+                ],
+                "name": "heading",
+                "value": "Astma vuxna"
             },
             {
                 "children": [
@@ -956,7 +956,7 @@
                             {
                                 "children": [],
                                 "name": "image",
-                                "value": "/documents/10182/15169/Diabetes+-+s15+-+Omvandlingstabell.png/57243a47-42f7-4c92-ade2-924720ec4636?t=1421063178000"
+                                "value": "/images/image5.png"
                             }
                         ],
                         "name": "body",
@@ -1490,7 +1490,7 @@
                             {
                                 "children": [],
                                 "name": "image",
-                                "value": "/documents/10182/15192/Fysisk+aktivitet+-+stege.png/df7a105d-9a29-4381-9147-fa796c664da6?t=1421064227000"
+                                "value": "/images/image4.png"
                             }
                         ],
                         "name": "body",
@@ -2747,12 +2747,12 @@
                             {
                                 "children": [],
                                 "name": "image",
-                                "value": "/documents/10182/15275/Hjarta+-+karl+-+Riskskattning+vid+primarprevention+-+men.png/485c6530-4d55-4d6e-8ca8-897eefdde112?t=1421075137000"
+                                "value": "/images/image2.png"
                             },
                             {
                                 "children": [],
                                 "name": "image",
-                                "value": "/documents/10182/15275/Hjarta+-+karl+-+Riskskattning+vid+primarprevention+-+women.png/e1e08c7f-f6c5-449c-8b6d-659886c11cb8?t=1421075156000"
+                                "value": "/images/image3.png"
                             }
                         ],
                         "name": "body",
@@ -2800,7 +2800,7 @@
                             {
                                 "children": [],
                                 "name": "image",
-                                "value": "/documents/10182/15275/Hjarta+-+karl+-+Relativ+riskskattning+vid+primarprevention.png/f803ffe5-8fc8-466a-9e97-1fde654cc32b?t=1421075441000"
+                                "value": "/images/image1.png"
                             }
                         ],
                         "name": "body",
@@ -7001,5 +7001,38 @@
         ],
         "title": "V\u00e4tskor och nutrition",
         "uuid": "53a24773-1a92-4338-b20d-1a457f1604ab"
+    },
+    {
+        "fields": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "name": "type",
+                                "value": "normal"
+                            },
+                            {
+                                "children": [],
+                                "name": "subheading",
+                                "value": ""
+                            },
+                            {
+                                "children": [],
+                                "name": "image",
+                                "value": ""
+                            }
+                        ],
+                        "name": "body",
+                        "value": ""
+                    }
+                ],
+                "name": "heading",
+                "value": "Bara advice rubrik"
+            }
+        ],
+        "title": "AAA Bara Advice",
+        "uuid": "2a274242-e7aa-47da-84ff-a27ae3fb0ec8"
     }
 ]
