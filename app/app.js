@@ -26,6 +26,9 @@ var _properties = {
 };
 
 global.REK = {
+	properties: {
+		host: _properties.host
+	},
 	urls: {
 		drugs: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
 		'company-id/' + _properties.companyId +
