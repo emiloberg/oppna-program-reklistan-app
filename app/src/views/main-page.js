@@ -18,7 +18,6 @@ var pageLoaded = function(args) {
 	};
 
 
-	//frameModule.topmost().navigate('views/dummy4');
 	initApp.init()
 	.then(function () {
 //		navigation.navigateToUrl('advice/Diabetes/Diabetes_typ_2_behandlingsalgoritm_for_VGR', 'Previous page');

@@ -70,6 +70,7 @@ export const templatesModel = {
 	}
 };
 
+
 /**
  * Rewrites html elements to something NativeScript can understand
  *
@@ -101,9 +102,9 @@ function rewriteHTML(html) {
 
 	const reImages = new RegExp(/src=[\"\']([^\"\']+)[\"\']/gi);
 	html = html.replace(reImages, function (match, capture) {
-		inspect('src="file://' + RemoteImages.imageFolderPath() + '/' + utils.makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"');
 		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + utils.makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
 	});
 
 	return html;
 }
+

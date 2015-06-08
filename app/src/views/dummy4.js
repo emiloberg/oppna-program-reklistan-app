@@ -1,18 +1,14 @@
 'use strict';
 
 import {inspect} from './../shared/utils/debug';
-import fs from 'file-system';
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
-import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-import {android, ios} from 'application';
 import RemoteImages from './../shared/utils/remoteimages';
 
 const webViewModule = require('ui/web-view');
 
 let page;
-let actionBar;
 let curPageName;
 let wv;
 let navContext;
@@ -26,6 +22,8 @@ function navigatingTo(args) {
 	wv.off(webViewModule.WebView.loadStartedEvent);
 	showVW();
 }
+
+
 
 function showVW() {
 	wv.src = `<!DOCTYPE html>

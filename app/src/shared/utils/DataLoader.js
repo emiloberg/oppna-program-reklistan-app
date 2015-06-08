@@ -19,8 +19,7 @@ function loadResources(resources, isJson) {
 		const appFolder = fs.knownFolders.currentApp();
 
 		return Promise.all(resources.map(resource => {
-			let localFilePath = resource.url.split('/');
-			return appFolder.getFile('dev-resources/' + localFilePath[localFilePath.length - 1]).readText()
+			return appFolder.getFile('dev-resources/' + resource.develName).readText()
 				.then(function (data) {
 					return {
 						name: resource.name,
@@ -143,7 +142,6 @@ const DataLoader = {
 				.reduce((a, b) => a.concat(b), [])
 				.map(item => item.content)
 				.forEach(contentSection => {
-					//inspect(contentSection);
 					Object.keys(contentSection).forEach(key => {
 						// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
 						const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
