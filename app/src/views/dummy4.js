@@ -7,6 +7,7 @@ import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {android, ios} from 'application';
+import RemoteImages from './../shared/utils/remoteimages';
 
 const webViewModule = require('ui/web-view');
 
@@ -23,11 +24,10 @@ function navigatingTo(args) {
 
 	wv = page.getViewById('webview');
 	wv.off(webViewModule.WebView.loadStartedEvent);
-	showVW('/cat.jpg');
+	showVW();
 }
 
-function showVW(path) {
-	const docsFolder = fs.knownFolders.documents().path;
+function showVW() {
 	wv.src = `<!DOCTYPE html>
 		<html lang="en">
 		<head>
@@ -39,7 +39,7 @@ function showVW(path) {
 			</style>
 		</head>
 		<body style="background-color: #ffffff;">
-			<img src="file://${docsFolder}${path}"
+			<img src="file://${RemoteImages.imageFolderPath()}/_reklistan-theme_images_theme_child.png"
 		</body>
 		</html>`;
 }

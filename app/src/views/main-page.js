@@ -25,8 +25,9 @@ var pageLoaded = function(args) {
 //		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
 //		frameModule.topmost().navigate('views/menu-sections');
 //		frameModule.topmost().navigate('views/search');
+//		frameModule.topmost().navigate('views/dummy3');
 		frameModule.topmost().navigate('views/dummy4');
-			//
+
 	})
 	.catch(function (e) {
 		console.dir(e);

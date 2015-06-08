@@ -5,41 +5,11 @@ import fs from 'file-system';
 import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
-import {makeUrlSafe} from './utils';
 const utils = require('./utils');
 import {inspect, saveFile} from './debug';
 import RemoteImages from './remoteimages';
 const appSettings = require('application-settings');
 
-
-const imgRequests = [];
-let pending = 0;
-
-function downloadImage(spec) {
-	if (pending > 1) {
-		imgRequests.push(spec);
-	} else {
-		_downloadNextImage(spec);
-	}
-}
-
-function _downloadNextImage(spec) {
-	pending++;
-	return http.getImage(spec.url)
-	.then(img => {
-		RemoteImages.save(spec.path, img);
-		pending--;
-		if (imgRequests.length > 0) {
-			_downloadNextImage(imgRequests.shift());
-		}
-	})
-	.catch(() => {
-		pending--;
-		if (imgRequests.length > 0) {
-			_downloadNextImage(imgRequests.shift());
-		}
-	});
-}
 
 function loadResources(resources, isJson) {
 
@@ -156,6 +126,17 @@ const DataLoader = {
 				})
 			)
 		)
+		.then(mergedData => { // Todo, remove for production
+			if (appSettings.getBoolean('clearImageFolder', false)) {
+				inspect('Clearing Image Folder');
+				RemoteImages.clearImageFolder();
+			}
+			return mergedData;
+		})
+		.then(mergedData => {
+			RemoteImages.initKnownImages();
+			return mergedData;
+		})
 		.then(mergedData => {
 			mergedData
 				.map(section => section.items)
@@ -163,31 +144,16 @@ const DataLoader = {
 				.map(item => item.content)
 				.forEach(contentSection => {
 					Object.keys(contentSection).forEach(key => {
-
 						const reSrc = /src=[\"\']([^\"\']+)[\"\']/g;
 						let match;
-						while (match = reSrc.exec(contentSection[key])) {
-
-							downloadImage({
-								url: 'https://reklistan.vgregion.se' + match[1],
-								path: makeUrlSafe(match[1])
+						while (match = reSrc.exec(contentSection[key])) {  //eslint-disable-line
+							RemoteImages.queueImageForDownload({
+								url: global.REK.preferences.host + match[1],
+								filename: utils.makeUrlSafe(match[1])
 							});
-
-							//downloadImage({
-							//	url: '',
-							//	path: ''
-							//});
 						}
 					});
 				});
-
-			//http.getImage('http://placekitten.com/g/200/300')
-			//.then(img => {
-			//	RemoteImages.save('/cat2.png', img)
-			//		.then(() => {console.log('JAA')})
-			//		.catch(() => {console.log('NEEJ')});
-			//});
-
 			return mergedData;
 		})
 		.then(mergedData => mergedData.map(section => {

@@ -13,6 +13,7 @@ var appSettings = require('application-settings');
 
 // Load files from local file system instead of from the net
 appSettings.setBoolean('develLocalFiles', false); // TODO: Change for production
+appSettings.setBoolean('clearImageFolder', true); // TODO: Change for production
 
 
 var _properties = {
@@ -26,7 +27,7 @@ var _properties = {
 };
 
 global.REK = {
-	properties: {
+	preferences: {
 		host: _properties.host
 	},
 	urls: {
