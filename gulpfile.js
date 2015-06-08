@@ -3,7 +3,8 @@
 // What files to monitor - when to rebuild and reload emulator?
 var watchedFiles = [
 	'app/src/*.{js,xml,css}',
-	'app/src/**/*.{js,xml,css}'
+	'app/src/**/*.{js,xml,css}',
+    'app/app.js'
 ];
 
 // Where are your ES6 files which are going to be translated?
