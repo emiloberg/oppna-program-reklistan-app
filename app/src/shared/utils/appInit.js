@@ -6,31 +6,32 @@ import search from '../viewmodel/Search';
 import {inspect, saveFile} from './debug';
 
 function init() {
+
 	return DataLoader.loadViewModelFromServer([
 		{
 			name: 'drugs',
-			//url: 'http://192.168.1.68:5656/drugs.json'
-			url: 'http://192.168.56.1:5656/drugs.json'
+			//url: 'http://192.168.56.1:5656/drugs.json'
+			url: global.REK.urls.drugs
 		}, {
 			name: 'advice',
-			//url: 'http://192.168.1.68:5656/advice.json'
-			url: 'http://192.168.56.1:5656/advice.json'
+			//url: 'http://192.168.56.1:5656/advice.json'
+			url: global.REK.urls.advice
 		}
 	], [
 		{
 			name: 'drugs',
-			//url: 'http://192.168.1.68:5656/details-drugs.hbs'
-			url: 'http://192.168.56.1:5656/details-drugs.hbs'
+			//url: 'http://192.168.56.1:5656/details-drugs.hbs'
+			url: global.REK.urls.hbsDrugs
 		}, {
 			name: 'advice',
-			//url: 'http://192.168.1.68:5656/details-advice.hbs'
-			url: 'http://192.168.56.1:5656/details-advice.hbs'
+			//url: 'http://192.168.56.1:5656/details-advice.hbs'
+			url: global.REK.urls.hbsAdvice
 		}
 	], [
 		{
 			name: 'custom',
-			//url: 'http://192.168.1.68:5656/custom.css'
-			url: 'http://192.168.56.1:5656/custom.css'
+			//url: 'http://192.168.56.1:5656/custom.css'
+			url: global.REK.urls.css
 		}
 	])
 	.then(list => {
@@ -40,3 +41,4 @@ function init() {
 }
 
 module.exports.init = init;
+
