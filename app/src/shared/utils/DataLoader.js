@@ -143,8 +143,10 @@ const DataLoader = {
 				.reduce((a, b) => a.concat(b), [])
 				.map(item => item.content)
 				.forEach(contentSection => {
+					//inspect(contentSection);
 					Object.keys(contentSection).forEach(key => {
-						const reSrc = /src=[\"\']([^\"\']+)[\"\']/g;
+						// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
+						const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
 						let match;
 						while (match = reSrc.exec(contentSection[key])) {  //eslint-disable-line
 							RemoteImages.queueImageForDownload({
