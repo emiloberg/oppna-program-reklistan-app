@@ -1,6 +1,6 @@
 'use strict';
 
-import {getDebugLog} from './../shared/utils/debug';
+import * as debug from './../shared/utils/debug';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
@@ -15,8 +15,8 @@ function navigatingTo(args) {
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
-	let elPageContent = page.getViewById('pagecontent');
-	elPageContent.bindingContext = getDebugLog();
+	let elLog = page.getViewById('log');
+	elLog.bindingContext = debug.getDebugLog();
 }
 
 
@@ -25,3 +25,7 @@ module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, '', ['back']);
 };
+module.exports.removeLocalFilesTap = debug.removeLocalFiles;
+module.exports.removeLocalImagesTap = debug.removeLocalImages;
+module.exports.removeLocalCacheTap = debug.removeLocalCache;
+module.exports.clearDebugLogTap = debug.clearDebugLog;

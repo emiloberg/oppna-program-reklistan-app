@@ -31,6 +31,7 @@ const clearImageFolder = () => {
  */
 const initKnownImages = () => {
 	return new Promise((resolve/*, reject*/) => {
+		knownImages = {};
 		IMAGE_FOLDER.getEntities().then(function (entities) {
 			entities.forEach(function (entity) {
 				knownImages[entity.name] = true;
@@ -77,13 +78,15 @@ const _downloadNextImage = (spec) => {
 	pending++;
 	return http.getImage(spec.url)
 		.then(img => {
+			debug('Downloaded image: ' + spec.url);
 			saveImage(spec.filename, img);
 			pending--;
 			if (imgRequests.length > 0) {
 				_downloadNextImage(imgRequests.shift());
 			}
 		})
-		.catch(() => {
+		.catch((err) => {
+			debug('Could not download image: ' + spec.url + ' Error: ' + err);
 			pending--;
 			if (imgRequests.length > 0) {
 				_downloadNextImage(imgRequests.shift());

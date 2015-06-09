@@ -52,3 +52,33 @@ export function debug(msg, type = 'info') {
 export function getDebugLog(){
 	return DEBUG_OBJ;
 }
+
+export function clearDebugLog(){
+	while(DEBUG_LOG.length > 0) {
+		DEBUG_LOG.pop();
+	}
+}
+
+export function removeLocalCache() {
+	removeLocalFolder('rekcache');
+}
+
+export function removeLocalImages() {
+	removeLocalFolder('images');
+}
+
+export function removeLocalFiles() {
+	removeLocalFolder('images');
+	removeLocalFolder('rekcache');
+}
+
+function removeLocalFolder(folder) {
+	const fsFolder = fs.knownFolders.documents().getFolder(folder);
+	fsFolder.clear()
+	.then(function () {
+		debug('Removed local folder: ' + folder);
+	}, function () {
+		debug('Could not remove local folder: ' + folder, 'error');
+	});
+
+}

@@ -17,17 +17,29 @@
         </GridLayout>
 
         <GridLayout id="pagecontent" row="1">
-
-            <!-- PAGE CONTENT -->
-
-                <ListView items="{{ log }}">
-                    <ListView.itemTemplate>
-                        <Label textWrap="true" text="{{ $value }}" />
-                    </ListView.itemTemplate>
-                </ListView>
-
-            <!-- /PAGE CONTENT -->
-
+            <TabView>
+                <TabView.items>
+                    <TabViewItem title="Log">
+                        <TabViewItem.view>
+                            <ListView id="log" items="{{ log }}">
+                                <ListView.itemTemplate>
+                                    <Label textWrap="true" text="{{ $value }}" />
+                                </ListView.itemTemplate>
+                            </ListView>
+                        </TabViewItem.view>
+                    </TabViewItem>
+                    <TabViewItem title="Helpers">
+                        <TabViewItem.view>
+                            <StackLayout>
+                                <Button text="Remove all local files" tap="removeLocalFilesTap" />
+                                <Button text="Remove images" tap="removeLocalImagesTap" />
+                                <Button text="Remove cache" tap="removeLocalCacheTap" />
+                                <Button text="Clear Log" tap="clearDebugLogTap" />
+                            </StackLayout>
+                        </TabViewItem.view>
+                    </TabViewItem>
+                </TabView.items>
+            </TabView>
         </GridLayout>
     </GridLayout>
 
