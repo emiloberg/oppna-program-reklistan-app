@@ -4,38 +4,55 @@ import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
 import search from '../viewmodel/Search';
 import {inspect, saveFile, debug} from './debug';
+//
+//import fs from 'file-system';
+//const DOCUMENTS_FOLDER = fs.knownFolders.documents();
+
+
+
+//var file = documents.getFile("NewFileToCreate.txt");
 
 function init() {
 
+	let forceDownload = false;
+
 	debug('INITIALIZING APP');
 
-	return DataLoader.loadViewModelFromServer([
-		{
+	const sourceSpec = {
+		json: [{
 			name: 'drugs',
-			develName: 'drugs.json',
-			url: global.REK.urls.drugs
+			localFileName: 'drugs.json',
+			url: global.REK.urls.drugs,
+			download: forceDownload
 		}, {
 			name: 'advice',
-			develName: 'advice.json',
-			url: global.REK.urls.advice
-		}
-	], [
-		{
+			localFileName: 'advice.json',
+			url: global.REK.urls.advice,
+			download: forceDownload
+		}],
+
+		templates: [{
 			name: 'drugs',
-			develName: 'details-drugs.hbs',
-			url: global.REK.urls.hbsDrugs
+			localFileName: 'details-drugs.hbs',
+			url: global.REK.urls.hbsDrugs,
+			download: forceDownload
 		}, {
 			name: 'advice',
-			develName: 'details-advice.hbs',
-			url: global.REK.urls.hbsAdvice
-		}
-	], [
-		{
+			localFileName: 'details-advice.hbs',
+			url: global.REK.urls.hbsAdvice,
+			download: forceDownload
+		}],
+
+		css: [{
 			name: 'custom',
-			develName: 'custom.css',
-			url: global.REK.urls.css
-		}
-	])
+			localFileName: 'custom.css',
+			url: global.REK.urls.css,
+			download: forceDownload
+		}]
+	};
+
+
+	return DataLoader.loadViewModel(sourceSpec)
 	.then(list => {
 		appViewModel.setMainDataList(list);
 		search.addToIndex(list);

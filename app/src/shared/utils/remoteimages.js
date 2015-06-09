@@ -1,7 +1,5 @@
 import http from 'http';
 import fs from 'file-system';
-import fsAccess from 'file-system/file-system-access';
-import {ImageFormat} from 'ui/enums';
 import {inspect, debug} from './debug';
 
 const IMAGE_FOLDER = fs.knownFolders.documents().getFolder('images');

@@ -6,66 +6,106 @@ import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
 const utils = require('./utils');
-import {inspect, saveFile, debug} from './debug';
+import {inspect, debug} from './debug';
 import RemoteImages from './remoteimages';
-const appSettings = require('application-settings');
-
 import REKError from './Errors';
 
+const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
 
+/**
+ * Loads a resource (json/handlebars/css file), from local storage if available, else load
+ * from the interwebs. If `download` param is set to true; force download from the net.
+ *
+ * @param {Object[]} resources
+ * @param {string} resources.name Resource name
+ * @param {string} resources.localFileName Resource local file name for loading/saving locally
+ * @param {string} resources.url Full url to download resource from
+ * @param {boolean} resources.download Force download (or get from local if available)
+ * @param {boolean} isJson Is JSON and therefor parse
+ * @returns {Promise}
+ */
 function loadResources(resources, isJson) {
-
-	//// Load from local files if boolean is set to do so.
-	//// Used for development purposes.
-	//if (appSettings.getBoolean('develLocalFiles', false)) {
-	//	const appFolder = fs.knownFolders.currentApp();
-	//
-	//	return Promise.all(resources.map(resource => {
-	//		return appFolder.getFile('dev-resources/' + resource.develName).readText()
-	//			.then(function (data) {
-	//				return {
-	//					name: resource.name,
-	//					data: (isJson) ? JSON.parse(data) : data
-	//				};
-	//			})
-	//			.catch(err => {
-	//				console.dir(err);
-	//			});
-	//	}));
-	//} else {
-
-	/*
-	 http.request({ url: "https://httpbin.org/get", method: "GET" }).then(function (response) {
-	 // Argument (response) is HttpResponse!
-	 var statusCode = response.statusCode;
-	 }, function (e) {
-	 // Argument (e) is Error!
-	 });
-	 */
-
-
-
-		return Promise.all(resources.map(resource => {
-			debug('Load resource: ' + resource.name + ' - ' + resource.url);
-			return http.request({ url: resource.url, method: 'GET' })
-			.then(data => {
-				if (data.statusCode >= 200 && data.statusCode < 300) {
-					debug('Success: ' + resource.name + ' - ' + resource.url);
-					return {
-						name: resource.name,
-						data: isJson ? data.content.toJSON() : data.content.toString()
-					};
-				} else {
-					let errMsg = 'Could not download ' + resource.url + ' [StatusCode: ' + data.statusCode + ']';
-					debug(errMsg, 'error');
-					throw new REKError.HTTPGENERIC(errMsg);
+	return Promise.all(resources.map(resource => {
+		const localFilePath = fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName);
+		if (resource.download) { // If force download
+			debug('Getting server resource: ' + resource.name + ' - ' + resource.url);
+			return downloadResource(resource, isJson);
+		} else {
+			debug('Getting local resource: ' + resource.name + ' - ' + resource.url);
+			if(fs.File.exists(localFilePath)) { // If file exist
+				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
+				try {
+					return localFile.readText()
+					.then(function (content) {
+						debug('Loading local data: ' + resource.name);
+						let outStr;
+						try {
+							outStr = (isJson) ? JSON.parse(content) : content;
+							let dataOut = {
+								name: resource.name,
+								data: outStr,
+								loadedFrom: 'local'
+							};
+							debug('Success loading local data: ' + resource.name + ' ' + resource.url);
+							return Promise.resolve(dataOut);
+						} catch(err) {
+							debug('Error loading local data: ' + resource.name + ' ' + resource.url);
+							return downloadResource(resource, isJson);
+						}
+					}, function () {
+						throw 'Could not read file';
+					});
+				} catch (error) {
+					return downloadResource(resource, isJson);
 				}
-			})
-			.catch(err => {
-				throw new REKError.HTTPGENERIC(err);
-			});
-		}));
-	//}
+			} else { // If not file exists, download it
+				return downloadResource(resource, isJson);
+			}
+		}
+	}));
+}
+
+
+/**
+ * Download a resource (json/handlebars/css file) from the interwebs.
+ *
+ * @param {Object} resource
+ * @param {string} resource.name Resource name
+ * @param {string} resource.localFileName Resource local file name for loading/saving locally
+ * @param {string} resource.url Full url to download resource from
+ * @param {boolean} resource.download Force download (or get from local if available)
+ * @param {boolean} isJson Is JSON and therefor parse
+ * @returns {Promise}
+ */
+function downloadResource(resource, isJson) {
+	return http.request({url: resource.url, method: 'GET'})
+		.then(data => {
+			if (data.statusCode >= 200 && data.statusCode < 300) {
+				debug('Downloaded file: ' + resource.name + ' - ' + resource.url);
+				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
+				localFile.writeText(data.content.toString())
+					.then(() => {
+						debug('Saved file ' + fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName));
+					}, (error) => {
+						//Silent error
+						debug(error, 'error');
+						debug('Error saving file ' + fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName), 'error');
+					});
+				debug('Success loading server data: ' + resource.name + ' ' + resource.url);
+				return {
+					name: resource.name,
+					data: isJson ? data.content.toJSON() : data.content.toString(),
+					loadedFrom: 'server'
+				};
+			} else {
+				let errMsg = 'Could not download ' + resource.url + ' [StatusCode: ' + data.statusCode + ']';
+				debug(errMsg, 'error');
+				throw new REKError.HTTPGENERIC(errMsg);
+			}
+		})
+		.catch(err => {
+			throw new REKError.HTTPGENERIC(err);
+		});
 }
 
 function loadFiles(resources, registerWith) {
@@ -100,11 +140,9 @@ function mergeArrays(target, source, locator, merger) {
 
 
 const DataLoader = {
-
-	loadViewModelFromServer(json, templates, css) {
-
-		return loadFiles(templates, 'registerTemplate')
-		.then(() => loadResources(json, true))
+	loadViewModel(spec) {
+		return loadFiles(spec.templates, 'registerTemplate')
+		.then(() => loadResources(spec.json, true))
 		.then(resources => resources.map(resource => {
 			return resource.data.map(section => {
 				return {
@@ -152,7 +190,7 @@ const DataLoader = {
 				})
 			)
 		)
-		.then(mergedData => { // Todo, remove for production
+		.then(mergedData => {
 			if (global.REK.dev.clearImageFolder) {
 				debug('Clearing Image Folder');
 				RemoteImages.clearImageFolder();
@@ -191,14 +229,9 @@ const DataLoader = {
 		}))
 		.then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
-			loadFiles(css, 'registerCss');
+			loadFiles(spec.css, 'registerCss');
 			return dataLists;
 		});
-		//}).catch(err => {
-		//		return err;
-		//	console.log(err);
-		//	console.log('SOMETHING WENT WRONG'); // todo better
-		//});
 	}
 };
 export default DataLoader;

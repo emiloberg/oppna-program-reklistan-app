@@ -19,7 +19,7 @@ global.REK.dev = {
 	server: 'dev',
 	devServer: 'http://labs.emiloberg.se/rekdata',
 	//devServer: 'http://local.dev:5656',
-	clearImageFolder: true
+	clearImageFolder: false
 };
 
 

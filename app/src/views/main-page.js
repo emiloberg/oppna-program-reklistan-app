@@ -31,8 +31,8 @@ var pageLoaded = function(args) {
 
 	})
 	.catch(function (e) {
-		console.dir(e.friendlyMessage);
-		console.dir('BOLL');
+		console.dir(e.message);
+		console.log('ERROR');
 		contextObj.set('error', e.message);
 	});
 
