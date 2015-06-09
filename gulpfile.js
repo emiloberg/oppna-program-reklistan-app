@@ -170,6 +170,40 @@ gulp.task('watchIOS', function(callback) {
     );
 });
 
+gulp.task('deployToIphone', function(callback) {
+    runSequence(
+        '_clean',
+        '_compile',
+        '_deployToIphone',
+        callback);
+});
+
+gulp.task('_deployToIphone', function(cb) {
+    var child = spawn('tns', ['deploy', 'ios', '--device', '1'], {cwd: process.cwd()});
+    var stdout = '';
+    var stderr = '';
+
+    child.stdout.setEncoding('utf8');
+    child.stdout.on('data', function (data) {
+        stdout += data;
+        console.log(data);
+    });
+
+    child.stderr.setEncoding('utf8');
+    child.stderr.on('data', function (data) {
+        stderr += data;
+        console.log(chalk.red(data));
+    });
+
+    child.on('close', function(code) {
+        console.log('Done with exit code', code);
+    });
+
+    cb();
+
+});
+
+
 gulp.task('watchAndroid', function(callback) {
     gulp.watch(watchedFiles, function () {
             runSequence(
