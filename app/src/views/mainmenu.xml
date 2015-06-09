@@ -1,0 +1,28 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      navigatingTo="navigatingTo"
+      loaded="loaded">
+
+
+    <GridLayout rows="auto, *" swipe="swipe">
+
+        <GridLayout row="0" id="actionbar" rows="auto, auto, *">
+            <!-- Tabs: Back, search and menu -->
+            <StackLayout row="0" orientation="vertical">
+                <GridLayout id="head--action-bar" columns="*" orientation="horizontal">
+                    <Image tap="backTap" cssClass="head--icon" col="0" src="{{iconClose}}" width="24" heigth="24" horizontalAlignment="right"/>
+                </GridLayout>
+                <StackLayout cssClass="head--divider" height="2"></StackLayout>
+            </StackLayout>
+
+        </GridLayout>
+
+        <GridLayout id="pagecontent" row="1">
+
+            <!-- PAGE CONTENT -->
+
+            <!-- /PAGE CONTENT -->
+
+        </GridLayout>
+    </GridLayout>
+
+</Page>

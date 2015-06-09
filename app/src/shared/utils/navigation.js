@@ -35,6 +35,15 @@ const navigation = {
 		});
 	},
 
+	toMenu(prevPageTitle) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/mainmenu',
+			context: {
+				prevPageTitle: prevPageTitle
+			}
+		});
+	},
+
 	navigateToUrl(url, prevPageTitle) {
 		utils.promiseInternalUrlToArray(url)
 		.then(appViewModel.getSpecific)

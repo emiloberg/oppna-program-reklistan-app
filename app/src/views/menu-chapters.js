@@ -73,3 +73,6 @@ module.exports.swipe = function(args) {
 module.exports.searchTap = function() {
 	navigation.toSearch(curPageName);
 };
+module.exports.menuTap = function() {
+	navigation.toMenu(curPageName);
+};

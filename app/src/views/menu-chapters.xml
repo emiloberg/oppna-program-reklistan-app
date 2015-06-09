@@ -22,7 +22,7 @@
                         </Label>
                     </StackLayout>
                     <Image col="1" tap="searchTap" cssClass="head--margin" src="{{iconSearch}}" width="24" heigth="24" />
-                    <Image col="2" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
+                    <Image col="2" tap="menuTap" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
                 </GridLayout>
                 <StackLayout cssClass="head--divider" height="2"></StackLayout>
             </StackLayout>
