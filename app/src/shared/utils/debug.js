@@ -3,24 +3,6 @@
 var eyes = require('./../../thirdparty/eyes');
 var fs = require('file-system');
 
-
-export function itemInspector(name, item) {
-	console.log('inspecting ' + name + ' started');
-	if (item == null) {
-		console.log(name + ' is null');
-		return;
-	}
-	var arrKeys = [];
-	for (var p in item) {
-		arrKeys.push(p);
-	}
-
-
-	console.log(arrKeys.join('\n'));
-	console.log('inspecting ' + name + ' finished');
-}
-
-
 export function inspect(something) {
 	console.log(eyes.inspect(something));
 	return something;
@@ -37,4 +19,12 @@ export function saveFile(filename, content) {
 	}, function () {
 		throw new Error('Could not write file!');
 	});
+}
+
+export function debug(msg, type = 'info') {
+	if (type === 'error') {
+		console.log('######################## [ERROR] ' + msg);
+	} else {
+		console.log(msg);
+	}
 }

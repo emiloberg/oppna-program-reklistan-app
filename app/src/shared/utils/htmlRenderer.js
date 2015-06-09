@@ -3,8 +3,9 @@
 
 const handlebars = require('./../../node_modules/handlebars/dist/handlebars');
 const swag = require('./../../node_modules/swag');
-const customUtils = require('./utils');
+const utils = require('./utils');
 import {inspect} from './debug';
+import RemoteImages from './remoteimages';
 
 
 (function registerHelpers() {
@@ -24,7 +25,7 @@ import {inspect} from './debug';
 		//ret = removeDiacritics(ret);
 		//ret = encodeURIComponent(ret);
 
-		return new handlebars.SafeString(customUtils.makeUrlSafe(context));
+		return new handlebars.SafeString(utils.makeUrlSafe(context));
 	});
 
 	/**
@@ -69,11 +70,21 @@ export const templatesModel = {
 	}
 };
 
+
 /**
- * Rewrites html elements such as links to something NativeScript can
- * understand
+ * Rewrites html elements to something NativeScript can understand
  *
- * @param html
+ * Prefixing links with
+ * 		rek:// for internal links,
+ * 		rekhttps:// for externa https links
+ * 		rekhttp:// for externa http links
+ * 		rekmail:// for mailto links
+ *
+ * Setting image src to file://... internal urls. Also setting
+ * the original url in 'data-remotesrc' property, to be able to fetch
+ * it and download the links in other function.
+ *
+ * @param {string} html
  * @returns {string}
  */
 function rewriteHTML(html) {
@@ -89,7 +100,12 @@ function rewriteHTML(html) {
 	const reMailLinks = new RegExp(/href=([\"\'])mailto\:([^\"\']+)([\"\'])/gi);
 	html = html.replace(reMailLinks, 'href="rekmail://$2"');
 
-	// todo, rewrite images as well
+	const reImages = new RegExp(/src=[\"\']([^\"\']+)[\"\']/gi);
+	html = html.replace(reImages, function (match, capture) {
+		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + utils.makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
+	});
 
 	return html;
 }
+
+

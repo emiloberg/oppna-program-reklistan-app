@@ -9,15 +9,16 @@ const lunr = require('./../../thirdparty/lunr');
 let SEARCHINDEX;
 const TABTYPES = ['drugs', 'advice'];
 
-SEARCHINDEX = lunr(function () {
-	this.field('chapter', { boost: 20 });
-	this.field('section', { boost: 10 });
-	this.field('body');
-	this.ref('id');
-});
-
 const search = {
 	addToIndex(list) {
+
+		SEARCHINDEX = lunr(function () {
+			this.field('chapter', { boost: 20 });
+			this.field('section', { boost: 10 });
+			this.field('body');
+			this.ref('id');
+		});
+
 		list.allItems.forEach(section => {
 			section.allItems.forEach(chapter => {
 				TABTYPES.forEach(tabType => {

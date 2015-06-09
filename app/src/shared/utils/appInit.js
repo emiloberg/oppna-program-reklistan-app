@@ -3,34 +3,36 @@
 import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
 import search from '../viewmodel/Search';
-import {inspect, saveFile} from './debug';
+import {inspect, saveFile, debug} from './debug';
 
 function init() {
+
+	debug('INITIALIZING APP');
 
 	return DataLoader.loadViewModelFromServer([
 		{
 			name: 'drugs',
-			//url: 'http://192.168.56.1:5656/drugs.json'
+			develName: 'drugs.json',
 			url: global.REK.urls.drugs
 		}, {
 			name: 'advice',
-			//url: 'http://192.168.56.1:5656/advice.json'
+			develName: 'advice.json',
 			url: global.REK.urls.advice
 		}
 	], [
 		{
 			name: 'drugs',
-			//url: 'http://192.168.56.1:5656/details-drugs.hbs'
+			develName: 'details-drugs.hbs',
 			url: global.REK.urls.hbsDrugs
 		}, {
 			name: 'advice',
-			//url: 'http://192.168.56.1:5656/details-advice.hbs'
+			develName: 'details-advice.hbs',
 			url: global.REK.urls.hbsAdvice
 		}
 	], [
 		{
 			name: 'custom',
-			//url: 'http://192.168.56.1:5656/custom.css'
+			develName: 'custom.css',
 			url: global.REK.urls.css
 		}
 	])
@@ -38,6 +40,10 @@ function init() {
 		appViewModel.setMainDataList(list);
 		search.addToIndex(list);
 	});
+	//.catch(err => {
+	//	console.log(err);
+	//	console.log('FEL I INIT()');
+	//});
 }
 
 module.exports.init = init;
