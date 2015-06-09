@@ -3,6 +3,16 @@
 var eyes = require('./../../thirdparty/eyes');
 var fs = require('file-system');
 
+
+import {Observable} from 'data/observable';
+import {ObservableArray} from 'data/observable-array';
+
+var DEBUG_LOG = new ObservableArray([]);
+var DEBUG_OBJ = new Observable({
+	log: DEBUG_LOG
+});
+
+
 export function inspect(something) {
 	console.log(eyes.inspect(something));
 	return something;
@@ -22,9 +32,23 @@ export function saveFile(filename, content) {
 }
 
 export function debug(msg, type = 'info') {
+	const currentdate = new Date();
+	const time = '[' +
+		(currentdate.getHours() < 10 ? '0' : '') + currentdate.getHours() + ':' +
+		(currentdate.getMinutes() < 10 ? '0' : '') + currentdate.getMinutes() + ':' +
+		(currentdate.getSeconds() < 10 ? '0' : '') + currentdate.getSeconds() +
+		'] ';
+
+	msg = time + msg;
+
 	if (type === 'error') {
-		console.log('######################## [ERROR] ' + msg);
-	} else {
-		console.log(msg);
+		msg = '## [ERROR] ' + msg;
 	}
+
+	console.log(msg);
+	DEBUG_LOG.unshift(msg);
+}
+
+export function getDebugLog(){
+	return DEBUG_OBJ;
 }

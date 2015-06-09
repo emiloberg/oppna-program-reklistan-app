@@ -1,14 +1,10 @@
 'use strict';
 
-import {inspect} from './../shared/utils/debug';
-
-import {templatesModel} from './../shared/utils/htmlRenderer';
+import {getDebugLog} from './../shared/utils/debug';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-import {android, ios} from 'application';
 
-//const frameModule = require('ui/frame');
 
 function navigatingTo(args) {
 	customUi.setViewDefaults();
@@ -19,8 +15,8 @@ function navigatingTo(args) {
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
-	inspect('Navigating to main menu');
-
+	let elPageContent = page.getViewById('pagecontent');
+	elPageContent.bindingContext = getDebugLog();
 }
 
 
@@ -28,7 +24,4 @@ module.exports.navigatingTo = navigatingTo;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, '', ['back']);
-};
-module.exports.developerTap = function() {
-	navigation.toDeveloper('');
 };

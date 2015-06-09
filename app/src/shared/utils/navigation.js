@@ -44,6 +44,15 @@ const navigation = {
 		});
 	},
 
+	toDeveloper(prevPageTitle) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/developer',
+			context: {
+				prevPageTitle: prevPageTitle
+			}
+		});
+	},
+
 	navigateToUrl(url, prevPageTitle) {
 		utils.promiseInternalUrlToArray(url)
 		.then(appViewModel.getSpecific)
