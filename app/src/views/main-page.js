@@ -8,14 +8,16 @@ var frameModule = require('ui/frame');
 var initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
 import navigation from './../shared/utils/navigation';
+import {Observable} from 'data/observable';
+var contextObj = new Observable({});
 
 var pageLoaded = function(args) {
 	customUi.setViewDefaults();
 
+
+
 	var page = args.object;
-	page.bindingContext = {
-		showRekMenu: 'REK-listan'
-	};
+	page.bindingContext = contextObj;
 
 
 	initApp.init()
@@ -29,14 +31,15 @@ var pageLoaded = function(args) {
 
 	})
 	.catch(function (e) {
-		console.dir(e);
+		console.dir(e.friendlyMessage);
+		console.dir('BOLL');
+		contextObj.set('error', e.message);
 	});
 
 };
 
 
 exports.pageLoaded = pageLoaded;
-
 
 function showRekMenu() {
 	frameModule.topmost().navigate('views/menu-sections');

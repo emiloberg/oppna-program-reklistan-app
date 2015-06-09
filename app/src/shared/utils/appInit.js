@@ -3,9 +3,12 @@
 import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
 import search from '../viewmodel/Search';
-import {inspect, saveFile} from './debug';
+import {inspect, saveFile, debug} from './debug';
 
 function init() {
+
+	debug('INITIALIZING APP');
+
 	return DataLoader.loadViewModelFromServer([
 		{
 			name: 'drugs',
@@ -37,6 +40,10 @@ function init() {
 		appViewModel.setMainDataList(list);
 		search.addToIndex(list);
 	});
+	//.catch(err => {
+	//	console.log(err);
+	//	console.log('FEL I INIT()');
+	//});
 }
 
 module.exports.init = init;

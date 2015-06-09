@@ -6,46 +6,73 @@ import ContentItem from '../model/ContentItem';
 import RekDataList from '../viewmodel/RekDataList';
 import {templatesModel} from './htmlRenderer';
 const utils = require('./utils');
-import {inspect, saveFile} from './debug';
+import {inspect, saveFile, debug} from './debug';
 import RemoteImages from './remoteimages';
 const appSettings = require('application-settings');
+
+import REKError from './Errors';
 
 
 function loadResources(resources, isJson) {
 
-	// Load from local files if boolean is set to do so.
-	// Used for development purposes.
-	if (appSettings.getBoolean('develLocalFiles', false)) {
-		const appFolder = fs.knownFolders.currentApp();
+	//// Load from local files if boolean is set to do so.
+	//// Used for development purposes.
+	//if (appSettings.getBoolean('develLocalFiles', false)) {
+	//	const appFolder = fs.knownFolders.currentApp();
+	//
+	//	return Promise.all(resources.map(resource => {
+	//		return appFolder.getFile('dev-resources/' + resource.develName).readText()
+	//			.then(function (data) {
+	//				return {
+	//					name: resource.name,
+	//					data: (isJson) ? JSON.parse(data) : data
+	//				};
+	//			})
+	//			.catch(err => {
+	//				console.dir(err);
+	//			});
+	//	}));
+	//} else {
+
+	/*
+	 http.request({ url: "https://httpbin.org/get", method: "GET" }).then(function (response) {
+	 // Argument (response) is HttpResponse!
+	 var statusCode = response.statusCode;
+	 }, function (e) {
+	 // Argument (e) is Error!
+	 });
+	 */
+
+
 
 		return Promise.all(resources.map(resource => {
-			return appFolder.getFile('dev-resources/' + resource.develName).readText()
-				.then(function (data) {
-					return {
-						name: resource.name,
-						data: (isJson) ? JSON.parse(data) : data
-					};
-				})
-				.catch(err => {
-					console.dir(err);
-				});
-		}));
-	} else {
-		return Promise.all(resources.map(resource => {
-			return (isJson ? http.getJSON : http.getString)(resource.url)
+			debug('Load resource: ' + resource.name + ' - ' + resource.url);
+			return http.request({ url: resource.url, method: 'GET' })
 			.then(data => {
+				if (data.statusCode >= 200 && data.statusCode < 300) {
+					debug('Success: ' + resource.name + ' - ' + resource.url);
 					return {
 						name: resource.name,
-						data: data
+						data: isJson ? data.content.toJSON() : data.content.toString()
 					};
+				} else {
+					let errMsg = 'Could not download ' + resource.url + ' [StatusCode: ' + data.statusCode + ']';
+					debug(errMsg, 'error');
+					throw new REKError.HTTPGENERIC(errMsg);
 				}
-			);
+			})
+			.catch(err => {
+				throw new REKError.HTTPGENERIC(err);
+			});
 		}));
-	}
+	//}
 }
 
 function loadFiles(resources, registerWith) {
 	return loadResources(resources, false)
+	.then(templates => {
+		return templates;
+	})
 	.then(templates => {
 		templates.forEach(template => {
 			templatesModel[registerWith](template.name, template.data);
@@ -126,8 +153,8 @@ const DataLoader = {
 			)
 		)
 		.then(mergedData => { // Todo, remove for production
-			if (appSettings.getBoolean('clearImageFolder', false)) {
-				inspect('Clearing Image Folder');
+			if (global.REK.dev.clearImageFolder) {
+				debug('Clearing Image Folder');
 				RemoteImages.clearImageFolder();
 			}
 			return mergedData;
@@ -157,17 +184,21 @@ const DataLoader = {
 			return mergedData;
 		})
 		.then(mergedData => mergedData.map(section => {
+			const contentSections = section.items.map(
+				item => new ContentItem(item.title, item.content, item.order, item.id));
 
-				const contentSections = section.items.map(
-					item => new ContentItem(item.title, item.content, item.order, item.id));
-
-				return new RekDataList(section.title, contentSections, true, section.id);
-			})
-		).then(dataLists => new RekDataList('REKListan', dataLists))
+			return new RekDataList(section.title, contentSections, true, section.id);
+		}))
+		.then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
 			loadFiles(css, 'registerCss');
 			return dataLists;
 		});
+		//}).catch(err => {
+		//		return err;
+		//	console.log(err);
+		//	console.log('SOMETHING WENT WRONG'); // todo better
+		//});
 	}
 };
 export default DataLoader;

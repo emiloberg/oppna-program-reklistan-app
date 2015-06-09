@@ -2,7 +2,7 @@ import http from 'http';
 import fs from 'file-system';
 import fsAccess from 'file-system/file-system-access';
 import {ImageFormat} from 'ui/enums';
-import {inspect} from './debug';
+import {inspect, debug} from './debug';
 
 const IMAGE_FOLDER = fs.knownFolders.documents().getFolder('images');
 const IMAGE_FOLDER_PATH = IMAGE_FOLDER.path;
@@ -75,6 +75,7 @@ const queueImageForDownload = (spec) => {
  * @private
  */
 const _downloadNextImage = (spec) => {
+	debug('Downloading image: ' + spec.url);
 	pending++;
 	return http.getImage(spec.url)
 		.then(img => {
