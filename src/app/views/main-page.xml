@@ -1,0 +1,10 @@
+
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
+
+
+
+<StackLayout>
+    <Label textWrap="true" cssClass="errorLabel" text="{{ error }}" />
+</StackLayout>
+
+</Page>
