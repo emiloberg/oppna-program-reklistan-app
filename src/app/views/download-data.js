@@ -3,9 +3,9 @@
 var frameModule = require('ui/frame');
 var initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
-import navigation from './../shared/utils/navigation';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
+import * as debug from './../shared/utils/debug';
 var contextObj = new Observable({
 	rek: language.splashREK,
 	listan: language.splashListan
@@ -24,17 +24,14 @@ var pageLoaded = function(args) {
 		contextObj.set('loadingCount', curLoadingCount);
 	}, 200);
 
-	initApp.init()
+
+	debug.removeLocalFiles()
+	.then(initApp.init)
 	.then(function () {
+		debug.debug('All done. Success downloading data');
 		clearInterval(loadingInterval);
 		contextObj.set('loadingCount', 0);
-//		navigation.navigateToUrl('advice/Diabetes/Diabetes_typ_2_behandlingsalgoritm_for_VGR', 'Previous page');
-//		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
-		frameModule.topmost().navigate('views/menu-sections');
-// 		frameModule.topmost().navigate('views/search');
-//		frameModule.topmost().navigate('views/dummy3');
-//		frameModule.topmost().navigate('views/dummy4');
-//		frameModule.topmost().navigate('views/dummy4');
+		//frameModule.topmost().navigate('views/menu-sections');
 	})
 	.catch(function (e) {
 		clearInterval(loadingInterval);
@@ -47,6 +44,4 @@ var pageLoaded = function(args) {
 };
 
 
-
 exports.pageLoaded = pageLoaded;
-
