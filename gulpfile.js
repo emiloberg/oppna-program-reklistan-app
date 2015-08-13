@@ -294,7 +294,7 @@ gulp.task('_test', function() {
 });
 
 gulp.task('_deployToIphone', function(cb) {
-    var child = spawn('tns', ['deploy', 'ios', '--device', '1'], {cwd: process.cwd()});
+    var child = spawn('tns', ['deploy', 'ios', '--device', '1'], {cwd: process.cwd() + '/' + pathToStartAppFrom});
     var stdout = '';
     var stderr = '';
 
