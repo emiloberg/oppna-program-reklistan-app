@@ -60,25 +60,30 @@ export function clearDebugLog(){
 }
 
 export function removeLocalCache() {
-	removeLocalFolder('rekcache');
+	return removeLocalFolder('rekcache');
 }
 
 export function removeLocalImages() {
-	removeLocalFolder('images');
+	return removeLocalFolder('images');
 }
 
 export function removeLocalFiles() {
-	removeLocalFolder('images');
-	removeLocalFolder('rekcache');
+	return removeLocalFolder('images')
+	.then(function() {
+		return removeLocalFolder('rekcache');
+	})
 }
 
 function removeLocalFolder(folder) {
-	const fsFolder = fs.knownFolders.documents().getFolder(folder);
-	fsFolder.clear()
-	.then(function () {
-		debug('Removed local folder: ' + folder);
-	}, function () {
-		debug('Could not remove local folder: ' + folder, 'error');
+	return new Promise((resolve/*, reject*/) => {
+		const fsFolder = fs.knownFolders.documents().getFolder(folder);
+		fsFolder.clear()
+			.then(function () {
+				debug('Removed local folder: ' + folder);
+				resolve();
+			}, function () {
+				debug('Could not remove local folder: ' + folder, 'error');
+				resolve();
+			});
 	});
-
 }
