@@ -2,9 +2,6 @@
 
 import {inspect} from './../shared/utils/debug';
 var frameModule = require('ui/frame');
-//var labelModule = require('ui/label');
-//var pageModule = require('ui/page');
-
 var initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
 import navigation from './../shared/utils/navigation';
@@ -50,22 +47,6 @@ var pageLoaded = function(args) {
 };
 
 
+
 exports.pageLoaded = pageLoaded;
-
-function showRekMenu() {
-	frameModule.topmost().navigate('views/menu-sections');
-}
-exports.showRekMenu = showRekMenu;
-
-
-
-
-//var factoryFunc = function () {
-//	var label = new labelModule.Label();
-//	label.text = 'Hello, world!';
-//	var page = new pageModule.Page();
-//	page.content = label;
-//	return page;
-//};
-//
 
