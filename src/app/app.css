@@ -21,9 +21,6 @@ Page {
 
 
 .listviewLabel {
-    /*font-size: 40;*/
-    /*color: green;*/
-    /*background-color: red;*/
     margin: 8 16;
     font-size: 16;
     color: #131313;
@@ -51,8 +48,8 @@ Page {
 }
 
 
-/*$color-vgr-red:		rgb(133, 26, 49);   #851A31*/
-/*$color-vgr-blue: 	rgb(0, 82, 146);*/
+/*$color-vgr-red:		rgb(133, 26, 49);   #851A31    0.52156862745, 0.10196078431, 0.19215686274*/
+/*$color-vgr-blue: 	    rgb(0, 82, 146);*/
 /*$color-vgr-green: 	rgb(096, 117, 57);*/
 /*$color-vgr-yellow: 	rgb(225, 168, 0);*/
 
@@ -115,9 +112,37 @@ Page {
 }
 
 .head--title-bar--label {
-    font-size: 12;
+    font-size: 13;
     font-weight: bold;
     color: #4B5757;
     height: 30;
     padding-top: 12;
+}
+
+#start-page {
+    background-color: #851A31;
+}
+
+
+.splash--rek {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 40;
+    padding-bottom: 0;
+}
+
+.splash--listan {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 23;
+}
+
+.splash--loading-bullet {
+    font-size: 100;
+    color: #851A31;
+}
+
+.splash--loading-bullet--active {
+    font-size: 100;
+    color: #ffffff;
 }

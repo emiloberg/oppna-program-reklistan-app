@@ -1,5 +1,6 @@
 'use strict';
 import Images from './../utils/images';
+import language from './../utils/language';
 
 import {Observable} from 'data/observable';
 
@@ -19,8 +20,8 @@ export default class ActionBar extends Observable {
 		this._backTitle = backTitle;
 		this._selectedIndex = selectedIndex;
 		this._enabledTabs = enabledTabs;
-		this._txtDrugs = 'DRUGS';
-		this._txtAdvice = 'ADVICE';
+		this._txtDrugs = language.drugs;
+		this._txtAdvice = language.advice;
 
 		if (ActionBarType) {
 			this._iconClose = Images.close;

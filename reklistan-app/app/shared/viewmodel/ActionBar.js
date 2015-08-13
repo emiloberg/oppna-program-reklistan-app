@@ -17,6 +17,10 @@ var _utilsImages = require('./../utils/images');
 
 var _utilsImages2 = _interopRequireDefault(_utilsImages);
 
+var _utilsLanguage = require('./../utils/language');
+
+var _utilsLanguage2 = _interopRequireDefault(_utilsLanguage);
+
 var _dataObservable = require('data/observable');
 
 var ActionBar = (function (_Observable) {
@@ -43,8 +47,8 @@ var ActionBar = (function (_Observable) {
 		this._backTitle = backTitle;
 		this._selectedIndex = selectedIndex;
 		this._enabledTabs = enabledTabs;
-		this._txtDrugs = 'DRUGS';
-		this._txtAdvice = 'ADVICE';
+		this._txtDrugs = _utilsLanguage2['default'].drugs;
+		this._txtAdvice = _utilsLanguage2['default'].advice;
 
 		if (ActionBarType) {
 			this._iconClose = _utilsImages2['default'].close;
