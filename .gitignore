@@ -1,1 +1,6 @@
 reklistan-app/platforms
+reklistan-app/app/shared
+reklistan-app/app/test
+reklistan-app/app/views
+reklistan-app/app/thirdparty
+reklistan-app/app/dev-resources
