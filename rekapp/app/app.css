@@ -87,7 +87,7 @@ Page {
 }
 
 .head--tab-bar--label {
-    font-size: 12;
+    font-size: 14;
     color: #4B5757;
     height: 46;
 }
@@ -112,11 +112,10 @@ Page {
 }
 
 .head--title-bar--label {
-    font-size: 13;
+    font-size: 14;
     font-weight: bold;
     color: #4B5757;
-    height: 30;
-    padding-top: 12;
+    margin-top: 12;
 }
 
 #start-page {
