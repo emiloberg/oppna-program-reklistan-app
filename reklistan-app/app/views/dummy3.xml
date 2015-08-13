@@ -1,9 +1,0 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd"
-      navigatingTo="navigatingTo"
-      loaded="loaded">
-
-    <StackLayout>
-                <Label text="HEJ" />
-    </StackLayout>
-
-</Page>

@@ -1,4 +1,4 @@
-# oppna-program-reklistan-app
+# oppna-program-rekapp
 
 Work in progress!
 
@@ -9,7 +9,7 @@ Work in progress!
 npm install
 
 # Cd to the actual app dir
-cd reklistan-app
+cd rekapp
 
 # Install App Dependencies
 npm install
@@ -45,18 +45,18 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 | - gulpfile.js - Development gulp file (for recompiling, etc)
 | - node_modules - Development modules
 | - package.json - Development package.json
-| - reklistan-app - The actual app.
+| - rekapp - The actual app.
   | - app - The actual app
   | - node_modules - App modules
   | - package.json - App package json
 | - resources - Resources which are not bundled with the app
-| - src - Source of the app. Files gets moved from here to 'reklistan-app'
+| - src - Source of the app. Files gets moved from here to 'rekapp'
 
 ```
 
-* Javascript source files (ES2015) gets compiled and moved from `src` to `reklistan-app`. XML and CSS files gets copied without alternation.
-* Javascript files in `src/thirdparty` gets moved from `src` to `reklistan-app` _without_ compilation.
-* To install app dependencies, run `npm install [package] --save` from the `reklistan-app` folder. The NativeScript build process will copy them  to the correct places in the app. They may be required in the normal way (`let theModules = require('theModule')`)
+* Javascript source files (ES2015) gets compiled and moved from `src` to `rekapp`. XML and CSS files gets copied without alternation.
+* Javascript files in `src/thirdparty` gets moved from `src` to `rekapp` _without_ compilation.
+* To install app dependencies, run `npm install [package] --save` from the `rekapp` folder. The NativeScript build process will copy them  to the correct places in the app. They may be required in the normal way (`let theModules = require('theModule')`)
 
 
 

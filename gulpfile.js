@@ -29,14 +29,14 @@ var resources = [
 // These folders are cleaned every time a build is done.
 // This pattern should be all the folders you have in /app/src/
 var generatedSources = [
-    './reklistan-app/app/{shared,test,views,thirdparty,dev-resources}'
+    './rekapp/app/{shared,test,views,thirdparty,dev-resources}'
 ];
 
 // Destination to save files
-var destination = './reklistan-app';
+var destination = './rekapp';
 
 // Concatinated with CWD
-var pathToStartAppFrom = 'reklistan-app';
+var pathToStartAppFrom = 'rekapp';
 
 // Which emulator to run?
 // Valid emulators are
@@ -47,7 +47,7 @@ var androidEmulator = 'Nexus-5';
 
 // Images settings
 var iconColor = '#879c9c';
-var imageDestinationPath = './reklistan-app/app/images';
+var imageDestinationPath = './rekapp/app/images';
 var svgPath = './src/app/images/md/*/svg/production/*_24px.svg';
 
 /**
