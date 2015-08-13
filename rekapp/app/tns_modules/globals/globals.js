@@ -1,3 +1,8 @@
+global.moduleMerge = function (sourceExports, destExports) {
+    for (var key in sourceExports) {
+        destExports[key] = sourceExports[key];
+    }
+};
 var types = require("utils/types");
 var timer = require("timer");
 var consoleModule = require("console");
