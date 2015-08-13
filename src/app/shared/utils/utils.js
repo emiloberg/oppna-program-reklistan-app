@@ -151,8 +151,18 @@ function internalUrlToArray(url) {
 		return slugs;
 }
 
+function getLastSlugFromPath(path) {
+	if (path.indexOf('/') > -1) {
+		let paths = path.split('/');
+		return paths[paths.length - 1];
+	}
+
+	return path;
+}
+
 
 
 module.exports.makeUrlSafe = makeUrlSafe;
 module.exports.promiseInternalUrlToArray = promiseInternalUrlToArray;
 module.exports.internalUrlToArray = internalUrlToArray;
+module.exports.getLastSlugFromPath = getLastSlugFromPath;

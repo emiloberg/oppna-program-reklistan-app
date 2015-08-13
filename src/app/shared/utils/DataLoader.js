@@ -25,19 +25,19 @@ const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
  * @returns {Promise}
  */
 function loadResources(resources, isJson) {
+
 	return Promise.all(resources.map(resource => {
 		const localFilePath = fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName);
 		if (resource.download) { // If force download
-			debug('Getting server resource: ' + resource.name + ' - ' + resource.url);
+			debug('Get from server: ' + utils.getLastSlugFromPath(resource.url));
 			return downloadResource(resource, isJson);
 		} else {
-			debug('Getting local resource: ' + resource.name + ' - ' + resource.url);
 			if(fs.File.exists(localFilePath)) { // If file exist
+				debug('Get from local: ' + utils.getLastSlugFromPath(resource.url));
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
 				try {
 					return localFile.readText()
 					.then(function (content) {
-						debug('Loading local data: ' + resource.name);
 						let outStr;
 						try {
 							outStr = (isJson) ? JSON.parse(content) : content;
@@ -46,19 +46,21 @@ function loadResources(resources, isJson) {
 								data: outStr,
 								loadedFrom: 'local'
 							};
-							debug('Success loading local data: ' + resource.name + ' ' + resource.url);
+							debug('Success get from local: ' + utils.getLastSlugFromPath(resource.url));
 							return Promise.resolve(dataOut);
 						} catch(err) {
-							debug('Error loading local data: ' + resource.name + ' ' + resource.url);
+							debug('ERROR get from local, will download instead: ' + utils.getLastSlugFromPath(resource.url), 'error');
 							return downloadResource(resource, isJson);
 						}
 					}, function () {
 						throw 'Could not read file';
 					});
 				} catch (error) {
+					debug('ERROR parsing local, will download instead: ' + utils.getLastSlugFromPath(resource.url), 'error');
 					return downloadResource(resource, isJson);
 				}
 			} else { // If not file exists, download it
+				debug('Get from server: ' + utils.getLastSlugFromPath(resource.url));
 				return downloadResource(resource, isJson);
 			}
 		}
@@ -81,24 +83,23 @@ function downloadResource(resource, isJson) {
 	return http.request({url: resource.url, method: 'GET'})
 		.then(data => {
 			if (data.statusCode >= 200 && data.statusCode < 300) {
-				debug('Downloaded file: ' + resource.name + ' - ' + resource.url);
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
 				localFile.writeText(data.content.toString())
 					.then(() => {
-						debug('Saved file ' + fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName));
+						debug('Sucess saved file ' + resource.localFileName);
 					}, (error) => {
 						//Silent error
 						debug(error, 'error');
-						debug('Error saving file ' + fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName), 'error');
+						debug('ERROR saved file ' + resource.localFileName, 'error');
 					});
-				debug('Success loading server data: ' + resource.name + ' ' + resource.url);
+				debug('Success get from server: ' + utils.getLastSlugFromPath(resource.url));
 				return {
 					name: resource.name,
 					data: isJson ? data.content.toJSON() : data.content.toString(),
 					loadedFrom: 'server'
 				};
 			} else {
-				let errMsg = 'Could not download ' + resource.url + ' [StatusCode: ' + data.statusCode + ']';
+				let errMsg = 'ERROR get from download ' + resource.url + ' [StatusCode: ' + data.statusCode + ']';
 				debug(errMsg, 'error');
 				throw new REKError.HTTPGENERIC(errMsg);
 			}

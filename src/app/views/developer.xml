@@ -23,7 +23,7 @@
                         <TabViewItem.view>
                             <ListView id="log" items="{{ log }}">
                                 <ListView.itemTemplate>
-                                    <Label textWrap="true" text="{{ $value }}" />
+                                    <Label cssClass="developer--log--logitem" textWrap="true" text="{{ $value }}" />
                                 </ListView.itemTemplate>
                             </ListView>
                         </TabViewItem.view>

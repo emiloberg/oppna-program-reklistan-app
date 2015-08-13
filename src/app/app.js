@@ -85,14 +85,6 @@ if (global.REK.dev.server = 'dev') {
 }
 
 
-debug.debug('APP SETTINGS');
-debug.debug('global.REK.preferences.host: ' + global.REK.preferences.host);
-debug.debug('global.REK.urls.drugs: ' + global.REK.urls.drugs);
-debug.debug('global.REK.urls.advice: ' + global.REK.urls.advice);
-debug.debug('global.REK.urls.resources: ' + global.REK.urls.resources);
-debug.debug('global.REK.urls.hbsDrugs: ' + global.REK.urls.hbsDrugs);
-debug.debug('global.REK.urls.hbsAdvice: ' + global.REK.urls.hbsAdvice);
-debug.debug('global.REK.urls.hbsResources: ' + global.REK.urls.hbsResources);
-debug.debug('global.REK.urls.css: ' + global.REK.urls.css);
+debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 
 application.start();

@@ -145,3 +145,16 @@ Page {
     font-size: 100;
     color: #ffffff;
 }
+
+.splash--error {
+    font-size: 13;
+    color: #ffffff;
+    margin-top: 20
+}
+
+
+
+.developer--log--logitem {
+    margin: 3 12;
+    font-size: 10;
+}

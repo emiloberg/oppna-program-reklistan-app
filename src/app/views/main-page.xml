@@ -10,7 +10,7 @@
     <StackLayout horizontalAlignment="center" verticalAlignment="center">
         <Label horizontalAlignment="center" cssClass="splash--rek" text="{{ rek }}" />
         <Label horizontalAlignment="center" cssClass="splash--listan" text="{{ listan }}" />
-        <Label textWrap="true" cssClass="errorLabel" text="{{ error }}" />
+        <Label textWrap="true" cssClass="splash--error" text="{{ error }}" />
 
         <StackLayout orientation="horizontal">
             <Label text="•" cssClass="{{ (loadingCount &gt; 0) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}" />

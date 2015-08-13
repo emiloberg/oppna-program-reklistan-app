@@ -16,7 +16,7 @@ function init() {
 
 	let forceDownload = false;
 
-	debug('INITIALIZING APP');
+	debug('#### INITIALIZING APP ####');
 
 	const sourceSpec = {
 		json: [{
