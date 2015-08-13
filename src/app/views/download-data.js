@@ -14,6 +14,11 @@ var contextObj = new Observable({
 var pageLoaded = function(args) {
 	customUi.setViewDefaults();
 
+	var connectivity = require("connectivity");
+	var connectionType = connectivity.getConnectionType();
+	console.log('CONNECTION:');
+	console.dir(connectionType);
+
 	var page = args.object;
 	page.bindingContext = contextObj;
 
