@@ -28,8 +28,17 @@ gulp startIOS
 # To watch for file changes. When a file is changed
 # the source is recomipled (from ES2015 to ES5) and 
 # changes pushed to the emulator.
-gulp watchIOS
+gulp livesyncIOS
 ```
+
+or run:
+
+```
+gulp watchFullIOS
+```
+
+Currently, NativeScript does unfortunately not display `console.log` or exception statements in the terminal when running with livesync. Therefor we still have to do full rebuilds with the `watchFullIOS` command to get terminal outputs.
+
 
 ### File structure
 ```

@@ -102,7 +102,7 @@ gulp.task('startIOS', function(cb) {
     cb();
 });
 
-gulp.task('watchIOS', function(callback) {
+gulp.task('livesyncIOS', function(callback) {
     console.log();
     console.log(chalk.blue('Watcher started, will restart emulator when files change'));
     console.log();
@@ -115,6 +115,21 @@ gulp.task('watchIOS', function(callback) {
         }
     );
 });
+
+gulp.task('watchFullIOS', function(callback) {
+    console.log();
+    console.log(chalk.blue('Watcher started, will restart emulator when files change'));
+    console.log();
+    gulp.watch(watchedFiles, function () {
+            runSequence(
+                '_clean',
+                '_compile',
+                '_watchFullIOS',
+                callback);
+        }
+    );
+});
+
 
 gulp.task('lint', function () {
     return gulp.src(babelSrc)
@@ -177,6 +192,31 @@ gulp.task('images', function(callback) {
 
 gulp.task('_livesyncIOS', function(cb) {
     var child = spawn('tns', ['livesync', 'ios', '--emulator'], {cwd: process.cwd() + '/' + pathToStartAppFrom});
+    var stdout = '';
+    var stderr = '';
+
+    child.stdout.setEncoding('utf8');
+    child.stdout.on('data', function (data) {
+        stdout += data;
+        console.log(data);
+    });
+
+    child.stderr.setEncoding('utf8');
+    child.stderr.on('data', function (data) {
+        stderr += data;
+        console.log(chalk.red(data));
+    });
+
+    child.on('close', function(code) {
+        console.log('Done with exit code', code);
+    });
+
+    cb();
+
+});
+
+gulp.task('_watchFullIOS', function(cb) {
+    var child = spawn('tns', ['emulate', 'ios', '--device', iOSEmulator], {cwd: process.cwd() + '/' + pathToStartAppFrom});
     var stdout = '';
     var stderr = '';
 
@@ -448,7 +488,7 @@ gulp.task('default', function() {
     console.log();
     console.log(chalk.magenta('  Main tasks'));
     console.log();
-    console.log('    ' + chalk.blue('gulp watchIOS') + '            - Start watching files, recompile Javascript and restart');
+    console.log('    ' + chalk.blue('gulp livesyncIOS') + '            - Start watching files, recompile Javascript and restart');
     console.log('                               emulator (set to: ' + iOSEmulator + ') when files change.');
     console.log();
     console.log('    ' + chalk.blue('gulp watchAndroid') + '        - Start watching files, recompile Javascript and restart');
