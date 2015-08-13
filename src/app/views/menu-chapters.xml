@@ -11,15 +11,7 @@
                 <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
                     <StackLayout col="0" tap="backTap" orientation="horizontal">
                         <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
-                        <Label col="1">
-                            <Label.formattedText>
-                                <FormattedString>
-                                    <FormattedString.spans>
-                                        <Span text="{{backTitle}}" fontAttributes="Bold" foregroundColor="#879c9c" fontSize="12" />
-                                    </FormattedString.spans>
-                                </FormattedString>
-                            </Label.formattedText>
-                        </Label>
+                        <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
                     </StackLayout>
                     <Image col="1" tap="searchTap" cssClass="head--margin" src="{{iconSearch}}" width="24" heigth="24" />
                     <Image col="2" tap="menuTap" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
@@ -29,16 +21,8 @@
 
             <StackLayout row="1">
                 <!-- Tabs: Page title -->
-                <StackLayout id="head--title-bar" verticalAlignment="center">
-                    <Label horizontalAlignment="center">
-                        <Label.formattedText>
-                            <FormattedString>
-                                <FormattedString.spans>
-                                    <Span id="head--title-bar--label" text="{{pageTitle}}" fontAttributes="Bold" foregroundColor="#4B5757" />
-                                </FormattedString.spans>
-                            </FormattedString>
-                        </Label.formattedText>
-                    </Label>
+                <StackLayout id="head--title-bar">
+                    <Label horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
                 </StackLayout>
 
                 <!-- Tabs: Both -->
@@ -72,6 +56,7 @@
             </StackLayout>
 
         </GridLayout>
+
         <StackLayout id="pagecontent" row="1">
 
             <!-- PAGE CONTENT -->

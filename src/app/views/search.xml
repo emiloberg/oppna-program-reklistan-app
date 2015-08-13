@@ -11,15 +11,7 @@
                 <GridLayout id="head--action-bar" columns="*, 48" orientation="horizontal">
                     <StackLayout col="0" tap="backTap" orientation="horizontal">
                         <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
-                        <Label col="1">
-                            <Label.formattedText>
-                                <FormattedString>
-                                    <FormattedString.spans>
-                                        <Span text="{{backTitle}}" fontAttributes="Bold" foregroundColor="#879c9c" fontSize="12" />
-                                    </FormattedString.spans>
-                                </FormattedString>
-                            </Label.formattedText>
-                        </Label>
+                        <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
                     </StackLayout>
                     <Image col="1" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
                 </GridLayout>
