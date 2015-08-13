@@ -9,7 +9,7 @@ var _utilsDebug = require('./../utils/debug');
 var _viewmodelRekAppViewModel = require('./../viewmodel/RekAppViewModel');
 
 var utils = require('./../utils/utils');
-var lunr = require('./../../thirdparty/lunr');
+var lunr = require('lunr');
 
 var SEARCHINDEX = undefined;
 var TABTYPES = ['drugs', 'advice'];

@@ -4,7 +4,7 @@ import {inspect} from './../utils/debug';
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 
 const utils = require('./../utils/utils');
-const lunr = require('./../../thirdparty/lunr');
+const lunr = require('lunr');
 
 let SEARCHINDEX;
 const TABTYPES = ['drugs', 'advice'];
@@ -38,7 +38,7 @@ const search = {
 
 		});
 	},
-
+	
 	search(searchStr) {
 		return new Promise(function (resolve/*, reject*/) {
 			let ret = SEARCHINDEX.search(searchStr).map(ref => {
