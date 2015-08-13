@@ -1,0 +1,46 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      navigatingTo="navigatingTo"
+      loaded="loaded">
+
+
+    <GridLayout rows="auto, *" swipe="swipe">
+
+        <GridLayout row="0" id="actionbar" rows="auto, auto, *">
+            <!-- Tabs: Back, search and menu -->
+            <StackLayout row="0" orientation="vertical">
+                <GridLayout id="head--action-bar" columns="*" orientation="horizontal">
+                    <Image tap="backTap" cssClass="head--icon" col="0" src="{{iconClose}}" width="24" heigth="24" horizontalAlignment="right"/>
+                </GridLayout>
+                <StackLayout cssClass="head--divider" height="2"></StackLayout>
+            </StackLayout>
+
+        </GridLayout>
+
+        <GridLayout id="pagecontent" row="1">
+            <TabView>
+                <TabView.items>
+                    <TabViewItem title="Log">
+                        <TabViewItem.view>
+                            <ListView id="log" items="{{ log }}">
+                                <ListView.itemTemplate>
+                                    <Label textWrap="true" text="{{ $value }}" />
+                                </ListView.itemTemplate>
+                            </ListView>
+                        </TabViewItem.view>
+                    </TabViewItem>
+                    <TabViewItem title="Helpers">
+                        <TabViewItem.view>
+                            <StackLayout>
+                                <Button text="Remove all local files" tap="removeLocalFilesTap" />
+                                <Button text="Remove images" tap="removeLocalImagesTap" />
+                                <Button text="Remove cache" tap="removeLocalCacheTap" />
+                                <Button text="Clear Log" tap="clearDebugLogTap" />
+                            </StackLayout>
+                        </TabViewItem.view>
+                    </TabViewItem>
+                </TabView.items>
+            </TabView>
+        </GridLayout>
+    </GridLayout>
+
+</Page>

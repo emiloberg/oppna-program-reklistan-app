@@ -1,0 +1,16 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.reklistanapp",
+    "tns-ios": {
+      "version": "1.2.1"
+    },
+    "tns-android": {
+      "version": "1.2.1"
+    }
+  },
+  "dependencies": {
+    "handlebars": "^3.0.3",
+    "lunr": "^0.5.12",
+    "swag": "^0.7.0"
+  }
+}

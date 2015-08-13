@@ -1,0 +1,11 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
+    <GridLayout columns="*, *" rows="80, 80, 80, 80, auto">
+        <Label text="Username" row="0" col="0" />
+        <TextField row="1" col="0"  />
+
+        <Label text="Password" row="2"  col="0" />
+        <TextField row="3" col="0" />
+    </GridLayout>
+</Page>
+
+
