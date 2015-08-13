@@ -72,15 +72,6 @@ Page {
     height: 56;
 }
 
-#head--title-bar {
-    background-color: #F1F3F3;
-    /*background-color: #F1F3F3;*/
-    /*background-color: #4B5757;*/
-    height: 30;
-    padding-top: 12;
-}
-
-
 #head--tab-bar {
     background-color: #F1F3F3;
     height: 48;
@@ -110,4 +101,23 @@ Page {
 
 .list--icon {
     margin: 12;
+}
+
+
+.head--action-bar--back {
+    font-weight: bold;
+    font-size: 12;
+    color: #879c9c;
+}
+
+#head--title-bar {
+    background-color: #F1F3F3;
+}
+
+.head--title-bar--label {
+    font-size: 12;
+    font-weight: bold;
+    color: #4B5757;
+    height: 30;
+    padding-top: 12;
 }
