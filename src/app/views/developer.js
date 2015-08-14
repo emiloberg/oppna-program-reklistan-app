@@ -28,7 +28,7 @@ function shareLog() {
 
 	let logStr = `
 	Date: ${now}
-	
+
 	Device model: ${device.model}
 	Device type: ${device.deviceType}
 	OS: ${device.os}

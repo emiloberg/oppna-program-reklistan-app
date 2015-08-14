@@ -42,7 +42,7 @@ if (global.REK.dev.server = 'dev') {
 	global.REK.urls = {
 		drugs: global.REK.dev.devServer + '/drugs.json',
 		advice: global.REK.dev.devServer + '/advice.json',
-		resources: global.REK.dev.devServer + '/resrouces.json',
+		resources: global.REK.dev.devServer + '/resources.json',
 		hbsDrugs: global.REK.dev.devServer + '/details-drugs.hbs',
 		hbsAdvice: global.REK.dev.devServer + '/details-advice.hbs',
 		hbsResources: global.REK.dev.devServer + '/resources.hbs',

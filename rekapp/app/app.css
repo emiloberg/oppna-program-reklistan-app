@@ -158,3 +158,29 @@ Page {
     margin: 3 12;
     font-size: 10;
 }
+
+
+.mainmenu {
+    margin: 12;
+}
+
+.mainmenu--list-item {
+    /*background-color: #F1F3F3;*/
+    padding: 6;
+}
+
+.mainmenu--list-item--label {
+    color: #4B5757;
+    font-size: 13;
+}
+
+.mainmenu--list-item--divider {
+    background-color: #F1F3F3;
+}
+
+.mainmenu--heading {
+    font-size: 14;
+    font-weight: bold;
+    color: #4B5757;
+    margin-bottom: 6;
+}

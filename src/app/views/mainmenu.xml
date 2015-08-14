@@ -1,7 +1,4 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd"
-      navigatingTo="navigatingTo"
-      loaded="loaded">
-
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="pageLoaded">
 
     <GridLayout rows="auto, *" swipe="swipe">
 
@@ -13,18 +10,27 @@
                 </GridLayout>
                 <StackLayout cssClass="head--divider" height="2"></StackLayout>
             </StackLayout>
-
         </GridLayout>
 
-        <GridLayout id="pagecontent" row="1">
-            <StackLayout>
-                <Label tap="developerTap" text="Developer" />
-            </StackLayout>
-            <!-- PAGE CONTENT -->
-
-            <!-- /PAGE CONTENT -->
-
+        <GridLayout id="pagecontent" cssClass="mainmenu" row="1">
+            <ScrollView>
+                <StackLayout>
+                    <Label text="Övrigt" cssClass="mainmenu--heading" />
+                    <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                    <Repeater items="{{ resourceArticles }}">
+                        <Repeater.itemTemplate>
+                            <StackLayout>
+                                <StackLayout cssClass="mainmenu--list-item" tap="resourceArticleTap">
+                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                                </StackLayout>
+                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                            </StackLayout>
+                        </Repeater.itemTemplate>
+                    </Repeater>
+                    <Label text="Developer" tap="developerTap" />
+                </StackLayout>
+            </ScrollView>
         </GridLayout>
+
     </GridLayout>
-
 </Page>
