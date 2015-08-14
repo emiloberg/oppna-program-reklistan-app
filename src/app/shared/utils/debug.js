@@ -3,7 +3,6 @@
 var eyes = require('./../../thirdparty/eyes');
 var fs = require('file-system');
 
-
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
 

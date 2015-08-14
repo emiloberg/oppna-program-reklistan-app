@@ -21,11 +21,14 @@
                 <TabView.items>
                     <TabViewItem title="Log">
                         <TabViewItem.view>
-                            <ListView id="log" items="{{ log }}">
-                                <ListView.itemTemplate>
-                                    <Label cssClass="developer--log--logitem" textWrap="true" text="{{ $value }}" />
-                                </ListView.itemTemplate>
-                            </ListView>
+                            <StackLayout>
+                                <Button text="Skicka log" tap="shareLog" />
+                                <ListView id="log" items="{{ log }}">
+                                    <ListView.itemTemplate>
+                                        <Label cssClass="developer--log--logitem" textWrap="true" text="{{ $value }}" />
+                                    </ListView.itemTemplate>
+                                </ListView>
+                            </StackLayout>
                         </TabViewItem.view>
                     </TabViewItem>
                     <TabViewItem title="Helpers">
