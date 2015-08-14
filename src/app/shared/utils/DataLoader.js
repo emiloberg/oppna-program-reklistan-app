@@ -29,7 +29,7 @@ function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
 		const localFilePath = fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName);
 		if (resource.download) { // If force download
-			debug('Get from server: ' + utils.getLastSlugFromPath(resource.url));
+			debug('Get from server (force download): ' + utils.getLastSlugFromPath(resource.url));
 			return downloadResource(resource, isJson);
 		} else {
 			if(fs.File.exists(localFilePath)) { // If file exist
@@ -68,6 +68,18 @@ function loadResources(resources, isJson) {
 }
 
 
+function saveResourceFile(filename, content) {
+	let localFile = DOCUMENTS_FOLDER.getFile(filename);
+	localFile.writeText(content)
+		.then(() => {
+			debug('Sucess saved file ' + filename);
+		}, (error) => {
+			//Silent error
+			debug(error, 'error');
+			debug('ERROR saved file ' + filename, 'error');
+		});
+}
+
 /**
  * Download a resource (json/handlebars/css file) from the interwebs.
  *
@@ -84,15 +96,21 @@ function downloadResource(resource, isJson) {
 		.then(data => {
 			if (data.statusCode >= 200 && data.statusCode < 300) {
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
-				localFile.writeText(data.content.toString())
-					.then(() => {
-						debug('Sucess saved file ' + resource.localFileName);
-					}, (error) => {
-						//Silent error
-						debug(error, 'error');
-						debug('ERROR saved file ' + resource.localFileName, 'error');
-					});
-				debug('Success get from server: ' + utils.getLastSlugFromPath(resource.url));
+				if (fs.File.exists(localFile.path)) {
+					localFile.remove()
+						.then(function () {
+							// Success removing the file.
+							debug('Removed local file ' + resource.localFileName);
+							saveResourceFile(resource.localFileName, data.content.toString())
+						}, function (err) {
+							debug('Could not remove local file ' + resource.localFileName, 'error');
+							debug(err);
+							saveResourceFile(resource.localFileName, data.content.toString())
+						});
+				} else {
+					saveResourceFile(resource.localFileName, data.content.toString())
+				}
+
 				return {
 					name: resource.name,
 					data: isJson ? data.content.toJSON() : data.content.toString(),

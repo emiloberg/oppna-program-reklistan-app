@@ -31,11 +31,14 @@ var pageLoaded = function(args) {
 
 
 	debug.removeLocalFiles()
-	.then(initApp.init)
+	.then(function() {
+		initApp.init('force');
+	})
 	.then(function () {
 		debug.debug('All done. Success downloading data');
 		clearInterval(loadingInterval);
 		contextObj.set('loadingCount', 0);
+		frameModule.topmost().goBack();
 		//frameModule.topmost().navigate('views/menu-sections');
 	})
 	.catch(function (e) {
@@ -47,6 +50,5 @@ var pageLoaded = function(args) {
 	});
 
 };
-
 
 exports.pageLoaded = pageLoaded;
