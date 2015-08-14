@@ -35,7 +35,7 @@ function pageLoaded(args) {
 }
 
 function resourceArticleTap(args) {
-	inspect(args.object);
+	inspect(args.view.bindingContext);
 	// TODO WORK HERE.
 }
 
