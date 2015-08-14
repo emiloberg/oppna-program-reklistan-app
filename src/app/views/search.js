@@ -84,5 +84,5 @@ module.exports.searchItemTap = searchItemTap;
 module.exports.navigatingTo = navigatingTo;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName);
+	navigation.swipe(args, curPageName, ['back']);
 };
