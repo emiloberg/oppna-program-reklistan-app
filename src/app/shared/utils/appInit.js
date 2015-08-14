@@ -12,11 +12,12 @@ import {inspect, saveFile, debug} from './debug';
 
 //var file = documents.getFile("NewFileToCreate.txt");
 
-function init() {
+function init(forceDownloadStr = '') {
 
-	let forceDownload = false;
+	let forceDownload = (forceDownloadStr === 'force');
 
 	debug('#### INITIALIZING APP ####');
+	debug('Forcing download: ' + forceDownload);
 
 	const sourceSpec = {
 		json: [{
