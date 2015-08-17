@@ -184,3 +184,25 @@ Page {
     color: #4B5757;
     margin-bottom: 6;
 }
+
+
+.temp-menubg {
+    /*background-color: #c0c0c0;*/
+}
+
+.temp-pagebg {
+    background: #005292;
+}
+
+.mainmenu--menu {
+    background-color: #000000;
+}
+
+.mainmenu--menu--button {
+    color: #ffffff;
+}
+
+.mainmenu--whiteout {
+    background-color: #005292;
+    opacity: 0.5;
+}

@@ -48,6 +48,3 @@ module.exports.swipe = function(args) {
 module.exports.developerTap = function() {
 	navigation.toDeveloper('');
 };
-
-
-

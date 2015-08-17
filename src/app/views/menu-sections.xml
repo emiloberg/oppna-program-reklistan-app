@@ -2,6 +2,9 @@
       navigatingTo="navigatingTo"
       loaded="loaded">
 
+<AbsoluteLayout>
+    <Label text="HEJ PÅ DIG" left="100" top="100" />
+</AbsoluteLayout>
 
 <GridLayout rows="auto, *" swipe="swipe">
 

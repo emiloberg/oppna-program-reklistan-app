@@ -1,7 +1,8 @@
 'use strict';
+var application = require('application');
+
 var debug = require('./shared/utils/debug');
 
-var application = require('application');
 application.mainModule = 'views/main-page';
 application.cssFile = './app.css';
 
