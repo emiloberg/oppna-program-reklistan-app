@@ -2,26 +2,23 @@
       navigatingTo="navigatingTo"
       loaded="loaded">
 
-<AbsoluteLayout>
-    <StackLayout cssClass="temp-pagebg" left="0" top="0">
-        <Button text="Animate out" tap="animateOut" />
-    </StackLayout>
+    <AbsoluteLayout>
 
-    <GridLayout columns="80, *" rows="*" cssClass="temp-menubg" left="0" top="0" id="menuwrapper">
-        <StackLayout tap="whiteoutTap" col="0" cssClass="mainmenu--whiteout">
-        </StackLayout>
-        <StackLayout col="1" cssClass="mainmenu--menu">
-            <Button text="Apa 1" cssClass="mainmenu--menu--button" />
-            <Button text="Apa 2" cssClass="mainmenu--menu--button" />
-            <Button text="Apa 3" cssClass="mainmenu--menu--button" />
+        <StackLayout id="maincontent" left="0" top="0">
+            <Button text="Show menu" tap="showMenuTap" />
         </StackLayout>
 
+        <GridLayout columns="80, *" rows="*" left="0" top="0" id="menuwrapper">
+            <StackLayout col="0" tap="hideMenuTap"></StackLayout>
+            <StackLayout col="1" cssClass="mainmenu--menu">
+                <Button text="Apa 1" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 2" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 3" cssClass="mainmenu--menu--button" />
+            </StackLayout>
+        </GridLayout>
 
-    </GridLayout>
-
-</AbsoluteLayout>
+    </AbsoluteLayout>
 
 </Page>
-
 
 

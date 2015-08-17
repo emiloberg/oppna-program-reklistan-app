@@ -16,7 +16,7 @@ button {
 }
 
 Page {
-    background-color: white;
+    background-color: #ffffff;
 }
 
 
@@ -186,13 +186,6 @@ Page {
 }
 
 
-.temp-menubg {
-    /*background-color: #c0c0c0;*/
-}
-
-.temp-pagebg {
-    background: #005292;
-}
 
 .mainmenu--menu {
     background-color: #000000;
@@ -200,9 +193,4 @@ Page {
 
 .mainmenu--menu--button {
     color: #ffffff;
-}
-
-.mainmenu--whiteout {
-    background-color: #005292;
-    opacity: 0.5;
 }
