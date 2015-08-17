@@ -1,13 +1,11 @@
 var trace = require("trace");
 var cssSelector = require("ui/styling/css-selector");
-var cssParser = require("js-libs/reworkcss");
+var cssParser = require("css");
 var visual_state_1 = require("ui/styling/visual-state");
 var application = require("application");
 var utils = require("utils/utils");
 var types = require("utils/types");
 var fs = require("file-system");
-var file_access_module = require("file-system/file-system-access");
-var fileAccess = new file_access_module.FileSystemAccess();
 var pattern = /url\(('|")(.*?)\1\)/;
 var StyleScope = (function () {
     function StyleScope() {
@@ -32,7 +30,12 @@ var StyleScope = (function () {
         this._cssFileName = cssFileName;
         this._reset();
         if (!this._cssSelectors) {
-            this._cssSelectors = new Array();
+            if (application.cssSelectorsCache) {
+                this._cssSelectors = StyleScope._joinCssSelectorsArrays([application.cssSelectorsCache]);
+            }
+            else {
+                this._cssSelectors = new Array();
+            }
         }
         var selectorsFromFile = StyleScope.createSelectorsFromCss(cssString, cssFileName);
         this._cssSelectors = StyleScope._joinCssSelectorsArrays([this._cssSelectors, selectorsFromFile]);
@@ -65,9 +68,13 @@ var StyleScope = (function () {
                         if (fileName.indexOf("~/") === 0) {
                             fileName = fs.path.join(fs.knownFolders.currentApp().path, fileName.replace("~/", ""));
                         }
-                        fileAccess.readText(fileName, function (result) {
-                            selectors = StyleScope._joinCssSelectorsArrays([selectors, StyleScope.createSelectorsFromCss(result, fileName)]);
-                        });
+                        if (fs.File.exists(fileName)) {
+                            var file = fs.File.fromPath(fileName);
+                            var text = file.readTextSync();
+                            if (text) {
+                                selectors = StyleScope._joinCssSelectorsArrays([selectors, StyleScope.createSelectorsFromCss(text, fileName)]);
+                            }
+                        }
                     }
                 }
             }

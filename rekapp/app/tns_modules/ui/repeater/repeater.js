@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var proxy = require("ui/core/proxy");
 var dependencyObservable = require("ui/core/dependency-observable");
 var viewModule = require("ui/core/view");
@@ -112,8 +106,8 @@ var Repeater = (function (_super) {
                 for (i = 0; i < this.items.length; i++) {
                     var viewToAdd = !types.isNullOrUndefined(this.itemTemplate) ? builder.parse(this.itemTemplate, this) : this._getDefaultItemContent(i);
                     if (!types.isNullOrUndefined(viewToAdd)) {
-                        this.itemsLayout.addChild(viewToAdd);
                         viewToAdd.bindingContext = this._getDataItem(i);
+                        this.itemsLayout.addChild(viewToAdd);
                     }
                 }
             }
@@ -155,7 +149,7 @@ var Repeater = (function (_super) {
         }
     };
     Repeater.prototype.onLayout = function (left, top, right, bottom) {
-        viewModule.View.layoutChild(this, this.itemsLayout, 0, 0, right, bottom);
+        viewModule.View.layoutChild(this, this.itemsLayout, 0, 0, right - left, bottom - top);
     };
     Repeater.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
         var result = viewModule.View.measureChild(this, this.itemsLayout, widthMeasureSpec, heightMeasureSpec);
