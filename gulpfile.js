@@ -49,6 +49,7 @@ var androidEmulator = 'Nexus-5';
 var iconColor = '#879c9c';
 var imageDestinationPath = './rekapp/app/images';
 var svgPath = './src/app/images/md/*/svg/production/*_24px.svg';
+var fixedImagesPath = './src/app/images-fixed/**'; // Images which just should be copied.
 
 /**
  * Dependencies
@@ -180,6 +181,7 @@ gulp.task('images', function(callback) {
         '_android2x',
         '_android3x',
         '_android4x',
+        '_copyFixedImages',
         callback);
 });
 
@@ -460,6 +462,16 @@ gulp.task('_cleanImages', function() {
     return gulp.src(imageDestinationPath, { read: false })
         .pipe(rimraf());
 });
+
+gulp.task('_copyFixedImages', function() {
+    return gulp.src(fixedImagesPath)
+        .pipe(debug({title: 'Copying fixed image:'}))
+        .pipe(gulp.dest(imageDestinationPath));
+
+});
+
+
+
 
 
 function colorize (color) {
