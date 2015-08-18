@@ -18,7 +18,7 @@ function navigatingTo(args) {
 	let wv = page.getViewById('externalWV');
 	wv.src = navContext.url;
 
-	let actionBar = new ActionBar('', navContext.prevPageTitle, 0);
+	let actionBar = new ActionBar('', '', 0);
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 

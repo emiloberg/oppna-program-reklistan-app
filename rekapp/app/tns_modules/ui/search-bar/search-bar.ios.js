@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/search-bar/search-bar-common");
 var color = require("color");
 var types = require("utils/types");
@@ -15,7 +9,7 @@ common.SearchBar.textProperty.metadata.onSetNativeValue = onTextPropertyChanged;
 function onTextFieldBackgroundColorPropertyChanged(data) {
     var bar = data.object;
     if (data.newValue instanceof color.Color) {
-        var tf = getUITextField(bar.ios);
+        var tf = bar._textField;
         if (tf) {
             tf.backgroundColor = data.newValue.ios;
         }
@@ -40,13 +34,7 @@ function onHintPropertyChanged(data) {
     }
 }
 common.SearchBar.hintProperty.metadata.onSetNativeValue = onHintPropertyChanged;
-function getUITextField(bar) {
-    if (bar) {
-        return bar.valueForKey("_searchField");
-    }
-    return undefined;
-}
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var UISearchBarDelegateImpl = (function (_super) {
     __extends(UISearchBarDelegateImpl, _super);
     function UISearchBarDelegateImpl() {
@@ -87,6 +75,7 @@ var SearchBar = (function (_super) {
     SearchBar.prototype.onLoaded = function () {
         _super.prototype.onLoaded.call(this);
         this._ios.delegate = this._delegate;
+        this._textField = SearchBar.findTextField(this.ios);
     };
     SearchBar.prototype.onUnloaded = function () {
         this._ios.delegate = null;
@@ -99,6 +88,18 @@ var SearchBar = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    SearchBar.findTextField = function (view) {
+        for (var i = 0, l = view.subviews.count; i < l; i++) {
+            var v = view.subviews[i];
+            if (v instanceof UITextField) {
+                return v;
+            }
+            else if (v.subviews.count > 0) {
+                return SearchBar.findTextField(v);
+            }
+        }
+        return undefined;
+    };
     return SearchBar;
 })(common.SearchBar);
 exports.SearchBar = SearchBar;

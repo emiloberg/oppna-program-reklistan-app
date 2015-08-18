@@ -3,7 +3,9 @@
 import http from 'http';
 import fs from 'file-system';
 import ContentItem from '../model/ContentItem';
+import ResourceArticle from '../model/ResourceArticle';
 import RekDataList from '../viewmodel/RekDataList';
+import ResourceArticles from '../viewmodel/ResourceArticles';
 import {templatesModel} from './htmlRenderer';
 const utils = require('./utils');
 import {inspect, debug} from './debug';
@@ -157,10 +159,36 @@ function mergeArrays(target, source, locator, merger) {
 	return target;
 }
 
-
 const DataLoader = {
 	loadViewModel(spec) {
 		return loadFiles(spec.templates, 'registerTemplate')
+
+		// Fetch Support JSONs
+		.then(() => loadResources(spec.supportJson, true))
+
+		// Mangle and populate support JSONs
+		.then(supportResources => {
+			supportResources.forEach(resource => {
+				if(resource.name === 'resources') { // Resource Articles
+					const resourceArticles = resource.data.map(article => {
+						let fieldOut = {
+							uuid: article.uuid,
+							title: article.title,
+							body: '',
+							externallink: '',
+							sortOrder: 0
+						};
+						article.fields.forEach(field => {
+							fieldOut[field.name] = field.value
+						});
+						return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
+					});
+					ResourceArticles.addAll(resourceArticles);
+				}
+			});
+		})
+
+		// Load Data JSON
 		.then(() => loadResources(spec.json, true))
 		.then(resources => resources.map(resource => {
 			return resource.data.map(section => {

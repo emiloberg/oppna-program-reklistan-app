@@ -14,6 +14,9 @@ var contextObj = new Observable({
 var pageLoaded = function(args) {
 	customUi.setViewDefaults();
 
+	//frameModule.topmost().navigate('views/dummy');
+
+
 	var page = args.object;
 	page.bindingContext = contextObj;
 

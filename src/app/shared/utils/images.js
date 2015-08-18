@@ -37,10 +37,13 @@ function getImage(category, name) {
 
 const Images = {
 	left: getImage('navigation', 'ic_chevron_left'),
+	right: getImage('navigation', 'ic_chevron_right'),
 	menu: getImage('navigation', 'ic_menu'),
 	close: getImage('navigation', 'ic_close'),
 	search: getImage('action', 'ic_search'),
-	advice: getImage('custom', 'advice')
+	external: getImage('action', 'ic_launch'),
+	advice: getImage('custom', 'advice'),
+	mainmenuVGRLogo: getImage('fixed', 'vgrlogo')
 };
 
 export default Images;

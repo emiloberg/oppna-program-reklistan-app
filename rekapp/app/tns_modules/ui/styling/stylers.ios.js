@@ -2,7 +2,7 @@ var style = require("ui/styling/style");
 var stylersCommon = require("ui/styling/stylers-common");
 var enums = require("ui/enums");
 var background = require("ui/styling/background");
-require("utils/module-merge").merge(stylersCommon, exports);
+global.moduleMerge(stylersCommon, exports);
 var DefaultStyler = (function () {
     function DefaultStyler() {
     }
@@ -164,10 +164,21 @@ var ButtonStyler = (function () {
             contentAlign: btn.contentHorizontalAlignment
         };
     };
+    ButtonStyler.setPaddingProperty = function (view, newValue) {
+        var top = newValue.top + view.borderWidth;
+        var left = newValue.left + view.borderWidth;
+        var bottom = newValue.bottom + view.borderWidth;
+        var right = newValue.right + view.borderWidth;
+        view._nativeView.contentEdgeInsets = UIEdgeInsetsFromString("{" + top + "," + left + "," + bottom + "," + right + "}");
+    };
+    ButtonStyler.resetPaddingProperty = function (view, nativeValue) {
+        view._nativeView.contentEdgeInsets = UIEdgeInsetsFromString("{0,0,0,0}");
+    };
     ButtonStyler.registerHandlers = function () {
         style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setColorProperty, ButtonStyler.resetColorProperty, ButtonStyler.getNativeColorValue), "Button");
         style.registerHandler(style.fontInternalProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setFontInternalProperty, ButtonStyler.resetFontInternalProperty, ButtonStyler.getNativeFontInternalValue), "Button");
         style.registerHandler(style.textAlignmentProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setTextAlignmentProperty, ButtonStyler.resetTextAlignmentProperty, ButtonStyler.getNativeTextAlignmentValue), "Button");
+        style.registerHandler(style.nativePaddingsProperty, new stylersCommon.StylePropertyChangedHandler(ButtonStyler.setPaddingProperty, ButtonStyler.resetPaddingProperty), "Button");
     };
     return ButtonStyler;
 })();
@@ -290,30 +301,47 @@ var SearchBarStyler = (function () {
         bar.barTintColor = nativeValue;
     };
     SearchBarStyler.getColorProperty = function (view) {
-        var bar = view.ios;
-        var sf = bar.valueForKey("_searchField");
+        var sf = view._textField;
         if (sf) {
             return sf.textColor;
         }
         return undefined;
     };
     SearchBarStyler.setColorProperty = function (view, newValue) {
-        var bar = view.ios;
-        var sf = bar.valueForKey("_searchField");
+        var sf = view._textField;
         if (sf) {
             sf.textColor = newValue;
         }
     };
     SearchBarStyler.resetColorProperty = function (view, nativeValue) {
-        var bar = view.ios;
-        var sf = bar.valueForKey("_searchField");
+        var sf = view._textField;
         if (sf) {
             sf.textColor = nativeValue;
         }
     };
+    SearchBarStyler.setFontInternalProperty = function (view, newValue, nativeValue) {
+        var sf = view._textField;
+        if (sf) {
+            sf.font = newValue.getUIFont(nativeValue);
+        }
+    };
+    SearchBarStyler.resetFontInternalProperty = function (view, nativeValue) {
+        var sf = view._textField;
+        if (sf) {
+            sf.font = nativeValue;
+        }
+    };
+    SearchBarStyler.getNativeFontInternalValue = function (view) {
+        var sf = view._textField;
+        if (sf) {
+            return sf.font;
+        }
+        return undefined;
+    };
     SearchBarStyler.registerHandlers = function () {
         style.registerHandler(style.backgroundColorProperty, new stylersCommon.StylePropertyChangedHandler(SearchBarStyler.setBackgroundColorProperty, SearchBarStyler.resetBackgroundColorProperty, SearchBarStyler.getBackgroundColorProperty), "SearchBar");
         style.registerHandler(style.colorProperty, new stylersCommon.StylePropertyChangedHandler(SearchBarStyler.setColorProperty, SearchBarStyler.resetColorProperty, SearchBarStyler.getColorProperty), "SearchBar");
+        style.registerHandler(style.fontInternalProperty, new stylersCommon.StylePropertyChangedHandler(SearchBarStyler.setFontInternalProperty, SearchBarStyler.resetFontInternalProperty, SearchBarStyler.getNativeFontInternalValue), "SearchBar");
     };
     return SearchBarStyler;
 })();

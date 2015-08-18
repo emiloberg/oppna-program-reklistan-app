@@ -7,6 +7,7 @@ import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {android, ios} from 'application';
+import Mainmenu from './../shared/viewmodel/Mainmenu';
 
 const webViewModule = require('ui/web-view');
 //const frameModule = require('ui/frame');
@@ -20,45 +21,48 @@ let navContext;
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
+	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
 	navContext = page.navigationContext;
 	curPageName = navContext.data.title;
 
-
-	let enabledTabs = '';
-	if (navContext.data.hasType(0) && navContext.data.hasType(1)) {
-		enabledTabs = 'both';
-	} else if (navContext.data.hasType(0)) {
-		enabledTabs = 'drugs';
-	} else if (navContext.data.hasType(1)) {
-		enabledTabs = 'advice';
-	}
-	actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
 	let elActionBar = page.getViewById('actionbar');
+	let htmlData;
+
+	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
+		actionBar = new ActionBar(curPageName, '', 0, 'none', 'normal', 'useLastPageTitle');
+		htmlData = `
+        <div class="mobile-container">
+        <div class="screen active">
+        <div class="section-details">
+        	${navContext.data.body}
+		</div>
+		</div>
+		</div>`;
+	} else { // Is drugs/advice article
+
+		let enabledTabs = '';
+		if (navContext.data.hasType(0) && navContext.data.hasType(1)) {
+			enabledTabs = 'both';
+		} else if (navContext.data.hasType(0)) {
+			enabledTabs = 'drugs';
+		} else if (navContext.data.hasType(1)) {
+			enabledTabs = 'advice';
+		}
+		actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
+		htmlData = navContext.data.getContent(navContext.selectedIndex);
+	}
+
 	elActionBar.bindingContext = actionBar;
-
-
-	// UIView *view1 = [[UIView alloc] init];
-	// var view1 = UIView.alloc().init();
-
-
-	//NSURL *url=[[NSBundle mainBundle] bundleURL];
-	//[webView loadHTMLString:string baseURL:url];
-
-	//NSUrl url = NSBundle.mainBundle().bundleURL();
-	//webView.loadHTMLStringWithBaseURL(String, url);
-
-	//	var baseUrl = UIView.alloc().init();
-
 
 	wv = page.getViewById('detailsWV');
 	wv.off(webViewModule.WebView.loadStartedEvent);
-	wv.on(webViewModule.WebView.loadStartedEvent, function(event) {
+	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
 		interjectLink(event);
 	});
 
-	showVW(navContext.data.getContent(navContext.selectedIndex));
+	showVW(htmlData);
 
-	inspect('Navigating to: ' + navContext.data.id);
+	inspect('Navigating to: details');
 
 }
 
@@ -101,7 +105,7 @@ function interjectLink(event) {
 	if (linkObj.internal) {
 		navigation.navigateToUrl(linkObj.url, curPageName);
 	} else if (linkObj.external) {
-		navigation.navigateToExternalUrl(linkObj.url, curPageName);
+		navigation.navigateToExternalUrl(linkObj.url);
 	}
 
 
@@ -143,6 +147,8 @@ module.exports.swipe = function(args) {
 module.exports.searchTap = function() {
 	navigation.toSearch(curPageName);
 };
-module.exports.menuTap = function() {
-	navigation.toMenu(curPageName);
+module.exports.menuTap = Mainmenu.show;
+module.exports.hideMenuTap = Mainmenu.hide;
+module.exports.swipeMenu = function(args) {
+	Mainmenu.swipe(args);
 };

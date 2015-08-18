@@ -1,8 +1,10 @@
+var xml = require("xml");
 var KNOWNTEMPLATES = "knownTemplates";
 var TemplateBuilder = (function () {
     function TemplateBuilder(templateProperty) {
         this._items = new Array();
         this._templateProperty = templateProperty;
+        this._nestingLevel = 0;
     }
     Object.defineProperty(TemplateBuilder.prototype, "elementName", {
         get: function () {
@@ -11,7 +13,23 @@ var TemplateBuilder = (function () {
         enumerable: true,
         configurable: true
     });
+    TemplateBuilder.prototype.handleElement = function (args) {
+        if (args.eventType === xml.ParserEventType.StartElement) {
+            this.addStartElement(args.prefix, args.namespace, args.elementName, args.attributes);
+        }
+        else if (args.eventType === xml.ParserEventType.EndElement) {
+            this.addEndElement(args.prefix, args.elementName);
+        }
+        if (this.hasFinished()) {
+            this.build();
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     TemplateBuilder.prototype.addStartElement = function (prefix, namespace, elementName, attributes) {
+        this._nestingLevel++;
         this._items.push("<" +
             getElementNameWithPrefix(prefix, elementName) +
             (namespace ? " " + getNamespace(prefix, namespace) : "") +
@@ -19,7 +37,13 @@ var TemplateBuilder = (function () {
             ">");
     };
     TemplateBuilder.prototype.addEndElement = function (prefix, elementName) {
-        this._items.push("</" + getElementNameWithPrefix(prefix, elementName) + ">");
+        this._nestingLevel--;
+        if (!this.hasFinished()) {
+            this._items.push("</" + getElementNameWithPrefix(prefix, elementName) + ">");
+        }
+    };
+    TemplateBuilder.prototype.hasFinished = function () {
+        return this._nestingLevel < 0;
     };
     TemplateBuilder.prototype.build = function () {
         if (this._templateProperty.name in this._templateProperty.parent.component) {

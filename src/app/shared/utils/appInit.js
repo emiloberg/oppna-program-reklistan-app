@@ -20,6 +20,13 @@ function init(forceDownloadStr = '') {
 	debug('Forcing download: ' + forceDownload);
 
 	const sourceSpec = {
+		supportJson: [{
+			name: 'resources',
+			localFileName: 'resources.json',
+			url: global.REK.urls.resources,
+			download: forceDownload
+		}],
+
 		json: [{
 			name: 'drugs',
 			localFileName: 'drugs.json',

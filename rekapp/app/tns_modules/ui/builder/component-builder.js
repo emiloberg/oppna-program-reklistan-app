@@ -10,34 +10,12 @@ var platform = require("platform");
 var EVENT = "Event";
 var UI_PATH = "ui/";
 var MODULES = {
-    "ActivityIndicator": "ui/activity-indicator",
-    "ListView": "ui/list-view",
-    "GridLayout": "ui/layouts/grid-layout",
-    "DockLayout": "ui/layouts/dock-layout",
-    "WrapLayout": "ui/layouts/wrap-layout",
-    "AbsoluteLayout": "ui/layouts/absolute-layout",
-    "StackLayout": "ui/layouts/stack-layout",
-    "ScrollView": "ui/scroll-view",
-    "SearchBar": "ui/search-bar",
-    "SlideOut": "ui/slide-out",
-    "TabView": "ui/tab-view",
     "TabViewItem": "ui/tab-view",
-    "TextField": "ui/text-field",
-    "TextView": "ui/text-view",
     "FormattedString": "text/formatted-string",
     "Span": "text/span",
-    "WebView": "ui/web-view",
-    "HtmlView": "ui/html-view",
-    "SegmentedBar": "ui/segmented-bar",
-    "SegmentedBarItem": "ui/segmented-bar",
-    "ToolBar": "ui/tool-bar",
-    "ToolBarItem": "ui/tool-bar",
-    "TimePicker": "ui/time-picker",
-    "DatePicker": "ui/date-picker",
-    "ListPicker": "ui/list-picker",
-    "ActionBar": "ui/action-bar",
     "ActionItem": "ui/action-bar",
     "NavigationButton": "ui/action-bar",
+    "SegmentedBarItem": "ui/segmented-bar",
 };
 var ROW = "row";
 var COL = "col";
@@ -46,11 +24,15 @@ var ROW_SPAN = "rowSpan";
 var DOCK = "dock";
 var LEFT = "left";
 var TOP = "top";
+var eventHandlers = {}, gestureHandlers = {};
 function getComponentModule(elementName, namespace, attributes, exports) {
     var instance;
     var instanceModule;
     var componentModule;
-    var moduleId = MODULES[elementName] || UI_PATH + elementName.toLowerCase();
+    elementName = elementName.split("-").map(function (s) { return s[0].toUpperCase() + s.substring(1); }).join("");
+    var moduleId = MODULES[elementName] || UI_PATH +
+        (elementName.toLowerCase().indexOf("layout") !== -1 ? "layouts/" : "") +
+        elementName.split(/(?=[A-Z])/).join("-").toLowerCase();
     try {
         if (types.isString(namespace)) {
             var pathInsideTNSModules = fs.path.join(fs.knownFolders.currentApp().path, "tns_modules", namespace);
@@ -99,6 +81,7 @@ function getComponentModule(elementName, namespace, attributes, exports) {
                 setPropertyValue(instance, instanceModule, exports, attr, attrValue);
             }
         }
+        eventHandlers, gestureHandlers = {};
         componentModule = { component: instance, exports: instanceModule, bindings: bindings };
     }
     return componentModule;
@@ -177,28 +160,28 @@ function setPropertyValue(instance, instanceModule, exports, propertyName, prope
 }
 exports.setPropertyValue = setPropertyValue;
 function attachEventBinding(instance, eventName, value) {
-    var propertyChangeHandler = function (args) {
+    eventHandlers[eventName] = function (args) {
         if (args.propertyName === "bindingContext") {
             var handler = instance.bindingContext && instance.bindingContext[getBindingExpressionFromAttribute(value)];
             if (types.isFunction(handler)) {
                 instance.on(eventName, handler, instance.bindingContext);
             }
-            instance.off(observable.Observable.propertyChangeEvent, propertyChangeHandler);
+            instance.off(observable.Observable.propertyChangeEvent, eventHandlers[eventName]);
         }
     };
-    instance.on(observable.Observable.propertyChangeEvent, propertyChangeHandler);
+    instance.on(observable.Observable.propertyChangeEvent, eventHandlers[eventName]);
 }
 function attachGestureBinding(instance, gestureName, value) {
-    var propertyChangeHandler = function (args) {
+    gestureHandlers[gestureName] = function (args) {
         if (args.propertyName === "bindingContext") {
             var handler = instance.bindingContext && instance.bindingContext[getBindingExpressionFromAttribute(value)];
             if (types.isFunction(handler)) {
                 instance.observe(gestures.fromString(gestureName.toLowerCase()), handler, instance.bindingContext);
             }
-            instance.off(observable.Observable.propertyChangeEvent, propertyChangeHandler);
+            instance.off(observable.Observable.propertyChangeEvent, gestureHandlers[gestureName]);
         }
     };
-    instance.on(observable.Observable.propertyChangeEvent, propertyChangeHandler);
+    instance.on(observable.Observable.propertyChangeEvent, gestureHandlers[gestureName]);
 }
 function isGesture(name, instance) {
     return gestures.fromString(name.toLowerCase()) !== undefined;

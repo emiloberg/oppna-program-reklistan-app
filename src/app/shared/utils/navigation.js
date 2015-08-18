@@ -5,20 +5,24 @@
 const gestures = require('ui/gestures');
 const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
-
+const Mainmenu = require('./../viewmodel/Mainmenu');
 const utils = require('./../utils/utils');
 import {inspect} from './../utils/debug';
 const dialogs = require('ui/dialogs');
 
 
 const navigation = {
-	swipe(args, pageTitle, allowedGestures = ['back', 'search']) {
+	swipe(args, pageTitle, allowedGestures = ['back', 'search', 'menu']) {
 		if (allowedGestures.indexOf('back') > -1 && args.direction === gestures.SwipeDirection.right) {
 			frameModule.topmost().goBack();
 		}
 
 		if (allowedGestures.indexOf('search') > -1 && args.direction === gestures.SwipeDirection.down) {
 			navigation.toSearch(pageTitle);
+		}
+
+		if (allowedGestures.indexOf('menu') > -1 && args.direction === gestures.SwipeDirection.left) {
+			Mainmenu.show();
 		}
 	},
 
@@ -44,11 +48,11 @@ const navigation = {
 		});
 	},
 
-	toDeveloper(prevPageTitle) {
+	toDeveloper() {
 		frameModule.topmost().navigate({
 			moduleName: 'views/developer',
 			context: {
-				prevPageTitle: prevPageTitle
+				prevPageTitle: ''
 			}
 		});
 	},
@@ -82,12 +86,11 @@ const navigation = {
 		});
 	},
 
-	navigateToExternalUrl(url, prevPageTitle) {
+	navigateToExternalUrl(url) {
 		frameModule.topmost().navigate({
 			moduleName: 'views/external-web',
 			context: {
-				url: url,
-				prevPageTitle: prevPageTitle
+				url: url
 			}
 		});
 	}

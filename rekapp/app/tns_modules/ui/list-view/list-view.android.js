@@ -1,18 +1,12 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/list-view/list-view-common");
-var layout = require("ui/layouts/layout");
+var layoutBaseModule = require("ui/layouts/layout-base");
 var stackLayout = require("ui/layouts/stack-layout");
 var color = require("color");
 var ITEMLOADING = common.ListView.itemLoadingEvent;
 var LOADMOREITEMS = common.ListView.loadMoreItemsEvent;
 var ITEMTAP = common.ListView.itemTapEvent;
 var REALIZED_INDEX = "realizedIndex";
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 function onSeparatorColorPropertyChanged(data) {
     var bar = data.object;
     if (!bar.android) {
@@ -166,7 +160,7 @@ var ListViewAdapter = (function (_super) {
         }
         if (args.view) {
             if (!args.view.parent) {
-                if (args.view instanceof layout.Layout) {
+                if (args.view instanceof layoutBaseModule.LayoutBase) {
                     this._listView._addView(args.view);
                     convertView = args.view.android;
                 }

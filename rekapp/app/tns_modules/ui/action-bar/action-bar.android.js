@@ -1,9 +1,3 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var common = require("ui/action-bar/action-bar-common");
 var trace = require("trace");
 var frame = require("ui/frame");
@@ -14,7 +8,7 @@ var enums = require("ui/enums");
 var application = require("application");
 var ACTION_ITEM_ID_OFFSET = 1000;
 var API_LVL = android.os.Build.VERSION.SDK_INT;
-require("utils/module-merge").merge(common, exports);
+global.moduleMerge(common, exports);
 var ActionItem = (function (_super) {
     __extends(ActionItem, _super);
     function ActionItem() {
@@ -171,8 +165,12 @@ var ActionBar = (function (_super) {
                 actionBar.setTitle(title);
             }
             else {
-                var defaultLabel = application.android.nativeApp.getApplicationInfo().labelRes;
-                actionBar.setTitle(defaultLabel);
+                var appContext = application.android.context;
+                var appInfo = appContext.getApplicationInfo();
+                var appLabel = appContext.getPackageManager().getApplicationLabel(appInfo);
+                if (appLabel) {
+                    actionBar.setTitle(appLabel);
+                }
             }
         }
     };
@@ -192,12 +190,14 @@ var ActionBar = (function (_super) {
         }
     };
     ActionBar.prototype._onTitlePropertyChanged = function () {
-        if (frame.topmost().currentPage === this.page) {
+        var topFrame = frame.topmost();
+        if (topFrame && topFrame.currentPage === this.page) {
             this._updateTitleAndTitleView(frame.topmost().android.actionBar);
         }
     };
     ActionBar.prototype._onIconPropertyChanged = function () {
-        if (frame.topmost().currentPage === this.page) {
+        var topFrame = frame.topmost();
+        if (topFrame && topFrame.currentPage === this.page) {
             this._updateIcon(frame.topmost().android.actionBar);
         }
     };
