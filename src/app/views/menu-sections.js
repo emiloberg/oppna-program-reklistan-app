@@ -19,8 +19,6 @@ let curPageName = language.appTitle;
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
-	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
-
 
 	actionBar = new ActionBar(curPageName, 'Förra sidan', 0);
 	let elActionBar = page.getViewById('actionbar');
@@ -29,6 +27,11 @@ function navigatingTo(args) {
 	let elPageContent = page.getViewById('pagecontent');
 	dataList = appViewModel.appViewModel.getMainDataList();
 	elPageContent.bindingContext = dataList;
+}
+
+function loaded(args) {
+	const elMenu = page.getViewById('menuwrapper');
+	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
 }
 
 function menuItemTap(args) {
@@ -54,6 +57,7 @@ function adviceTap() {
 }
 
 
+module.exports.loaded = loaded;
 module.exports.navigatingTo = navigatingTo;
 module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
@@ -69,3 +73,4 @@ module.exports.hideMenuTap = Mainmenu.hide;
 module.exports.swipeMenu = function(args) {
 	Mainmenu.swipe(args);
 };
+module.exports.logoTap = Mainmenu.logoTap;

@@ -48,11 +48,11 @@ const navigation = {
 		});
 	},
 
-	toDeveloper(prevPageTitle) {
+	toDeveloper() {
 		frameModule.topmost().navigate({
 			moduleName: 'views/developer',
 			context: {
-				prevPageTitle: prevPageTitle
+				prevPageTitle: ''
 			}
 		});
 	},
@@ -86,12 +86,11 @@ const navigation = {
 		});
 	},
 
-	navigateToExternalUrl(url, prevPageTitle) {
+	navigateToExternalUrl(url) {
 		frameModule.topmost().navigate({
 			moduleName: 'views/external-web',
 			context: {
-				url: url,
-				prevPageTitle: prevPageTitle
+				url: url
 			}
 		});
 	}

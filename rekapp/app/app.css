@@ -116,6 +116,16 @@ Page {
     font-weight: bold;
     color: #4B5757;
     margin-top: 12;
+    text-align: center;
+}
+
+.head--title-bar--label-no-tabs {
+    font-size: 14;
+    font-weight: bold;
+    color: #4B5757;
+    margin-top: 12;
+    margin-bottom: 12;
+    text-align: center;
 }
 
 #start-page {
@@ -188,9 +198,23 @@ Page {
 
 
 .mainmenu--menu {
-    background-color: #000000;
+    background-color: #F1F3F3;
 }
 
 .mainmenu--menu--button {
     color: #ffffff;
+}
+
+.mainmenu--side-divider {
+    background-color: #dadcdc;
+}
+
+
+.mainmenu--vgrlogo {
+    margin: 10 0;
+}
+
+.mainmenu--resource--icon {
+    margin-top: 3;
+    margin-left: 3;
 }

@@ -4,6 +4,12 @@ import {screen} from 'platform';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {Animation} from 'ui/animation';
 import {SwipeDirection} from 'ui/gestures';
+import {Observable} from 'data/observable';
+//import {ObservableArray} from 'data/observable-array';
+import ResourceArticles from './ResourceArticles';
+import {inspect} from './../utils/debug';
+import Images from './../utils/images';
+import navigation from './../utils/navigation';
 
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
@@ -12,12 +18,25 @@ let elMenu;
 let elMainContent;
 let curve;
 
+let enterDebugTapCounter = 0;
+let enterDebugLastTap = 0;
+
+const DEBUG_MODE_MAX_MS = 2000;
+const DEBUG_MODE_TAPS = 5;
+
+//var RESOURCE_ARTICLES = new ObservableArray(apa);
+var MAIN_MENU_DATA = new Observable({
+	resourceArticles: ResourceArticles.get(),
+	vgrLogoImage: Images.mainmenuVGRLogo
+});
+
 const Mainmenu = {
 	/**
 	 * Setup menu on every page.
 	 *
 	 * @param mainContent Main content element
 	 * @param menu Menu element
+	 * @return Main menu observable object
 	 */
 	setup(mainContent, menu) {
 		elMainContent = mainContent;
@@ -36,6 +55,8 @@ const Mainmenu = {
 
 		// Setup curve
 		curve = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseIn : new android.view.animation.AccelerateInterpolator(1);
+
+		return MAIN_MENU_DATA;
 	},
 
 	/**
@@ -71,7 +92,7 @@ const Mainmenu = {
 	/**
 	 * Hide Menu
 	 */
-	hide() {
+	hide(cb) {
 		const animationsSetup = [
 			{
 				target: elMenu,
@@ -93,16 +114,42 @@ const Mainmenu = {
 		const menuAnimation = new Animation(animationsSetup, false);
 
 		menuAnimation.play().finished
-			.then(function () { return console.log('Animation done'); })
-			.catch(function (e) { return console.log(e.message); });
+			.then(function () {
+				if(cb && typeof cb == 'function') {
+					cb(null, 'Done');
+				}
+			})
+			.catch(function (err) {
+				if(cb && typeof cb == 'function') {
+					cb(err);
+				}
+			});
 	},
-
 
 	swipe(args) {
 		if (args.direction === SwipeDirection.right) {
 			Mainmenu.hide();
 		}
 
+	},
+
+	/**
+	 * Will open the debug view if clicked more than X times.
+	 */
+	logoTap() {
+		const curTime = new Date().getTime();
+		if ((curTime - enterDebugLastTap) > DEBUG_MODE_MAX_MS) {
+			enterDebugLastTap = curTime;
+			enterDebugTapCounter = 1
+		} else {
+			enterDebugTapCounter += 1;
+		}
+
+		if (enterDebugTapCounter > DEBUG_MODE_TAPS) {
+			Mainmenu.hide(function() {
+				navigation.toDeveloper();
+			});
+		}
 	}
 
 };

@@ -21,8 +21,11 @@
                 <StackLayout row="1">
                     <!-- Tabs: Page title -->
                     <StackLayout id="head--title-bar">
-                        <Label horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
+                        <Label textWrap="true" horizontalAlignment="center" cssClass="{{ (enabledTabs === 'none' ? 'head--title-bar--label-no-tabs' : 'head--title-bar--label' ) }}" text="{{pageTitle}}" />
                     </StackLayout>
+
+                    <!-- Divider -->
+                    <StackLayout cssClass="head--divider" height="2" visibility="{{ (enabledTabs === 'none') ? 'visible' : 'collapsed' }}"></StackLayout>
 
                     <!-- Tabs: Both -->
                     <GridLayout id="head--tab-bar" columns="*, *" rows="*" visibility="{{ (enabledTabs === 'both') ? 'visible' : 'collapsed' }}">

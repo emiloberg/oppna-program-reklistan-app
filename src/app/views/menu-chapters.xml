@@ -21,7 +21,7 @@
                 <StackLayout row="1">
                     <!-- Tabs: Page title -->
                     <StackLayout id="head--title-bar">
-                        <Label horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
+                        <Label textWrap="true" horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
                     </StackLayout>
 
                     <!-- Tabs: Both -->

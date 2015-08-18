@@ -1,8 +1,9 @@
 'use strict';
 import Images from './../utils/images';
 import language from './../utils/language';
-
 import {Observable} from 'data/observable';
+
+let lastPageTitle = '';
 
 export default class ActionBar extends Observable {
 	/**
@@ -11,13 +12,13 @@ export default class ActionBar extends Observable {
 	 * @param {number} selectedIndex 0 for drugs and 1 for advice.
 	 * @param {string} enabledTabs One of: [both, drugs, advice, none].
 	 */
-	constructor(pageTitle, backTitle, selectedIndex, enabledTabs = 'both', ActionBarType = 'normal') {
+	constructor(pageTitle, backTitle, selectedIndex, enabledTabs = 'both', ActionBarType = 'normal', useLastPageTitle = '') {
 		super();
 		this._iconBack = Images.left;
 		this._iconSearch = Images.search;
 		this._iconMenu = Images.menu;
 		this._pageTitle = pageTitle;
-		this._backTitle = backTitle;
+		this._backTitle = (useLastPageTitle === 'useLastPageTitle') ? lastPageTitle : backTitle;
 		this._selectedIndex = selectedIndex;
 		this._enabledTabs = enabledTabs;
 		this._txtDrugs = language.drugs;
@@ -26,6 +27,8 @@ export default class ActionBar extends Observable {
 		if (ActionBarType) {
 			this._iconClose = Images.close;
 		}
+
+		lastPageTitle = pageTitle;
 	}
 
 	set selectedIndex(index) {

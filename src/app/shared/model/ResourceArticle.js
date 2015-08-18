@@ -1,5 +1,11 @@
 'use strict';
 
+import {inspect} from './../utils/debug';
+import Images from './../utils/images';
+import Mainmenu from './../viewmodel/Mainmenu';
+import navigation from './../utils/navigation';
+
+const frameModule = require('ui/frame');
 
 export default class ResourceArticle {
 
@@ -9,6 +15,12 @@ export default class ResourceArticle {
 		this._body = body;
 		this._externalLink = externalLink;
 		this._sortOrder = sortOrder;
+
+		if (externalLink.length > 0) {
+			this._icon = Images.external;
+		} else {
+			this._icon = '';
+		}
 	}
 
 	get uuid() { return this._uuid; }
@@ -16,4 +28,25 @@ export default class ResourceArticle {
 	get body() { return this._body; }
 	get externalLink() { return this._externalLink; }
 	get sortOrder() { return this._sortOrder; }
+	get icon() { return this._icon; }
+	get isExternal() {
+		return (this._externalLink.length > 0);
+	}
+
+	navigateToResourceArticle(args) {
+		Mainmenu.hide(function() {
+
+			if(args.view.bindingContext.isExternal) {
+				navigation.navigateToExternalUrl(args.view.bindingContext.externalLink);
+			} else {
+				frameModule.topmost().navigate({
+					moduleName: 'views/details',
+					context: {
+						type: 'plainArticle',
+						data: args.view.bindingContext
+					}
+				});
+			}
+		});
+	}
 }

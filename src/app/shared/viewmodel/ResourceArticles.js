@@ -1,5 +1,7 @@
 'use strict';
 
+import {inspect} from './../utils/debug';
+
 let RESOURCE_ARTICLES = [];
 
 const ResourceArticles = {

@@ -19,7 +19,7 @@
                 <StackLayout row="1">
                     <!-- Tabs: Page title -->
                     <StackLayout id="head--title-bar">
-                        <Label horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
+                        <Label textWrap="true" horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
                     </StackLayout>
 
                     <!-- Tabs: Both -->
@@ -70,16 +70,31 @@
 
 
         <!-- MENU -->
-        <GridLayout columns="80, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
+        <GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
             <StackLayout col="0" tap="hideMenuTap"></StackLayout>
-            <StackLayout col="1" cssClass="mainmenu--menu">
-                <Button text="Apa 1" cssClass="mainmenu--menu--button" />
-                <Button text="Apa 2" cssClass="mainmenu--menu--button" />
-                <Button text="Apa 3" cssClass="mainmenu--menu--button" />
-            </StackLayout>
+            <StackLayout col="1" cssClass="mainmenu--side-divider"></StackLayout>
+
+            <ScrollView col="2" cssClass="mainmenu--menu">
+                <StackLayout>
+                    <!--<Label text="Övrigt" cssClass="mainmenu&#45;&#45;heading" />-->
+                    <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="AspectFill" horizontalAlignment="center" />
+                    <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                    <Repeater items="{{ resourceArticles }}">
+                        <Repeater.itemTemplate>
+                            <StackLayout>
+                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
+                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                                    <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
+                                </StackLayout>
+                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                            </StackLayout>
+                        </Repeater.itemTemplate>
+                    </Repeater>
+                </StackLayout>
+            </ScrollView>
+
         </GridLayout>
         <!-- /MENU -->
-
 
     </AbsoluteLayout>
 
