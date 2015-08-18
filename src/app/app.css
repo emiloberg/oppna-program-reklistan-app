@@ -16,7 +16,7 @@ button {
 }
 
 Page {
-    background-color: white;
+    background-color: #ffffff;
 }
 
 
@@ -183,4 +183,14 @@ Page {
     font-weight: bold;
     color: #4B5757;
     margin-bottom: 6;
+}
+
+
+
+.mainmenu--menu {
+    background-color: #000000;
+}
+
+.mainmenu--menu--button {
+    color: #ffffff;
 }

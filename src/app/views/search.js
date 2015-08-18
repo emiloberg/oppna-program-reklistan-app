@@ -10,6 +10,7 @@ import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
 import language from './../shared/utils/language';
 import navigation from './../shared/utils/navigation';
+import Mainmenu from './../shared/viewmodel/Mainmenu';
 
 let page;
 let curPageName = language.searchTitle;
@@ -27,6 +28,7 @@ var searchInput = new Observable({
 
 function navigatingTo(args) {
 	page = args.object;
+	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
 
 	let prevPageTitle = '';
 	if ('navigationContext' in page) {
@@ -84,5 +86,10 @@ module.exports.searchItemTap = searchItemTap;
 module.exports.navigatingTo = navigatingTo;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName, ['back']);
+	navigation.swipe(args, curPageName, ['back', 'menu']);
+};
+module.exports.menuTap = Mainmenu.show;
+module.exports.hideMenuTap = Mainmenu.hide;
+module.exports.swipeMenu = function(args) {
+	Mainmenu.swipe(args);
 };

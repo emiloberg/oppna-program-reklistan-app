@@ -1,0 +1,24 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd"
+      navigatingTo="navigatingTo"
+      loaded="loaded">
+
+    <AbsoluteLayout>
+
+        <StackLayout id="maincontent" left="0" top="0">
+            <Button text="Show menu" tap="showMenuTap" />
+        </StackLayout>
+
+        <GridLayout columns="80, *" rows="*" left="0" top="0" id="menuwrapper">
+            <StackLayout col="0" tap="hideMenuTap"></StackLayout>
+            <StackLayout col="1" cssClass="mainmenu--menu">
+                <Button text="Apa 1" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 2" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 3" cssClass="mainmenu--menu--button" />
+            </StackLayout>
+        </GridLayout>
+
+    </AbsoluteLayout>
+
+</Page>
+
+

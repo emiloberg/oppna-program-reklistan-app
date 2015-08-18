@@ -1,52 +1,64 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd"
-      navigatingTo="navigatingTo"
-      loaded="loaded">
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded">
 
+    <AbsoluteLayout>
 
-    <GridLayout rows="auto, *" swipe="swipe">
+        <GridLayout id="maincontent" left="0" top="0" rows="auto, *" swipe="swipe">
 
-        <GridLayout row="0" id="actionbar" rows="auto, auto, *">
-            <!-- Tabs: Back, search and menu -->
-            <StackLayout row="0" orientation="vertical">
-                <GridLayout id="head--action-bar" columns="*, 48" orientation="horizontal">
-                    <StackLayout col="0" tap="backTap" orientation="horizontal">
-                        <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
-                        <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
-                    </StackLayout>
-                    <Image col="1" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
-                </GridLayout>
-                <StackLayout cssClass="head--divider" height="2"></StackLayout>
-            </StackLayout>
-
-            <StackLayout row="1">
-                <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
-            </StackLayout>
-
-        </GridLayout>
-        <GridLayout id="pagecontent" row="1">
-
-            <!-- PAGE CONTENT -->
-            <ListView row="1" itemTap="searchItemTap" items="{{ searchResults }}">
-                <ListView.itemTemplate>
-                    <GridLayout columns="*, 48" row="auto">
-                        <Label col="0" row="0" textWrap="true" cssClass="searchResultsListViewLabel">
-                            <Label.formattedText>
-                                <FormattedString>
-                                    <FormattedString.spans>
-                                        <Span text="{{ chapter }}" fontSize="16" />
-                                        <Span text="{{ ' (' + section + ')'}}" fontSize="14" foregroundColor="#879c9c" />
-                                    </FormattedString.spans>
-                                </FormattedString>
-                            </Label.formattedText>
-                        </Label>
-                        <Image col="1" row="0" cssClass="list--icon" src="{{icon}}" width="24" heigth="24" horizontalAlignment="right" />
+            <GridLayout row="0" id="actionbar" rows="auto, auto, *">
+                <!-- Tabs: Back, search and menu -->
+                <StackLayout row="0" orientation="vertical">
+                    <GridLayout id="head--action-bar" columns="*, 48" orientation="horizontal">
+                        <StackLayout col="0" tap="backTap" orientation="horizontal">
+                            <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
+                            <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
+                        </StackLayout>
+                        <Image col="1" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
                     </GridLayout>
-                </ListView.itemTemplate>
-            </ListView>
-            <!-- /PAGE CONTENT -->
+                    <StackLayout cssClass="head--divider" height="2"></StackLayout>
+                </StackLayout>
 
+                <StackLayout row="1">
+                    <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
+                </StackLayout>
+
+            </GridLayout>
+            <GridLayout id="pagecontent" row="1">
+
+                <!-- PAGE CONTENT -->
+                <ListView row="1" itemTap="searchItemTap" items="{{ searchResults }}">
+                    <ListView.itemTemplate>
+                        <GridLayout columns="*, 48" row="auto">
+                            <Label col="0" row="0" textWrap="true" cssClass="searchResultsListViewLabel">
+                                <Label.formattedText>
+                                    <FormattedString>
+                                        <FormattedString.spans>
+                                            <Span text="{{ chapter }}" fontSize="16" />
+                                            <Span text="{{ ' (' + section + ')'}}" fontSize="14" foregroundColor="#879c9c" />
+                                        </FormattedString.spans>
+                                    </FormattedString>
+                                </Label.formattedText>
+                            </Label>
+                            <Image col="1" row="0" cssClass="list--icon" src="{{icon}}" width="24" heigth="24" horizontalAlignment="right" />
+                        </GridLayout>
+                    </ListView.itemTemplate>
+                </ListView>
+                <!-- /PAGE CONTENT -->
+
+            </GridLayout>
         </GridLayout>
-    </GridLayout>
+
+        <!-- MENU -->
+        <GridLayout columns="80, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
+            <StackLayout col="0" tap="hideMenuTap"></StackLayout>
+            <StackLayout col="1" cssClass="mainmenu--menu">
+                <Button text="Apa 1" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 2" cssClass="mainmenu--menu--button" />
+                <Button text="Apa 3" cssClass="mainmenu--menu--button" />
+            </StackLayout>
+        </GridLayout>
+        <!-- /MENU -->
+
+    </AbsoluteLayout>
 
 </Page>
 

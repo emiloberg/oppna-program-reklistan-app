@@ -1,7 +1,6 @@
 var view = require("ui/core/view");
 var fs = require("file-system");
 var xml = require("xml");
-var file_access_module = require("file-system/file-system-access");
 var types = require("utils/types");
 var componentBuilder = require("ui/builder/component-builder");
 var templateBuilderDef = require("ui/builder/template-builder");
@@ -56,17 +55,12 @@ function parseInternal(value, context) {
             return;
         }
         if (templateBuilder) {
-            if (args.eventType === xml.ParserEventType.StartElement) {
-                templateBuilder.addStartElement(args.prefix, args.namespace, args.elementName, args.attributes);
+            var finished = templateBuilder.handleElement(args);
+            if (finished) {
+                templateBuilder = undefined;
             }
-            else if (args.eventType === xml.ParserEventType.EndElement) {
-                if (templateBuilder.elementName !== args.elementName) {
-                    templateBuilder.addEndElement(args.prefix, args.elementName);
-                }
-                else {
-                    templateBuilder.build();
-                    templateBuilder = undefined;
-                }
+            else {
+                return;
             }
         }
         var parent = parents[parents.length - 1];
@@ -150,9 +144,9 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     if (!fs.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
         fullComponentPathFilePathWithoutExt = fs.path.join(fs.knownFolders.currentApp().path, componentPath, componentName);
     }
-    var xmlFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "xml");
+    var xmlFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "xml");
     if (xmlFilePath) {
-        var jsFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "js");
+        var jsFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "js");
         var subExports;
         if (jsFilePath) {
             subExports = require(jsFilePath);
@@ -168,7 +162,7 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     else {
         result = componentBuilder.getComponentModule(componentName, componentPath, attributes, context);
     }
-    var cssFilePath = resolveFilePath(fullComponentPathFilePathWithoutExt, "css");
+    var cssFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "css");
     if (cssFilePath) {
         if (parentPage) {
             parentPage.addCssFile(cssFilePath);
@@ -178,18 +172,6 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
         }
     }
     return result;
-}
-var fileNameResolver;
-function resolveFilePath(path, ext) {
-    if (!fileNameResolver) {
-        fileNameResolver = new fileResolverModule.FileNameResolver({
-            width: platform.screen.mainScreen.widthDIPs,
-            height: platform.screen.mainScreen.heightDIPs,
-            os: platform.device.os,
-            deviceType: platform.device.deviceType
-        });
-    }
-    return fileNameResolver.resolveFileName(path, ext);
 }
 function load(pathOrOptions, context) {
     var viewToReturn;
@@ -217,12 +199,12 @@ exports.load = load;
 function loadInternal(fileName, context) {
     var componentModule;
     if (fs.File.exists(fileName)) {
-        var fileAccess = new file_access_module.FileSystemAccess();
-        fileAccess.readText(fileName, function (result) {
-            componentModule = parseInternal(result, context);
-        }, function (e) {
-            throw new Error("Error loading file " + fileName + " :" + e.message);
-        });
+        var file = fs.File.fromPath(fileName);
+        var onError = function (error) {
+            throw new Error("Error loading file " + fileName + " :" + error.message);
+        };
+        var text = file.readTextSync(onError);
+        componentModule = parseInternal(text, context);
     }
     if (componentModule && componentModule.component) {
         componentModule.component.exports = context;
