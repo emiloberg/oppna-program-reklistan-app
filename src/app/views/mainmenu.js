@@ -43,7 +43,7 @@ exports.pageLoaded = pageLoaded;
 module.exports.backTap = navigation.back;
 module.exports.resourceArticleTap = resourceArticleTap;
 module.exports.swipe = function(args) {
-	navigation.swipe(args, '', ['back']);
+	navigation.swipe(args, '', ['back', 'menu']);
 };
 module.exports.developerTap = function() {
 	navigation.toDeveloper('');

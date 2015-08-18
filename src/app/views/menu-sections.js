@@ -6,6 +6,7 @@ let appViewModel = require('./../shared/viewmodel/RekAppViewModel');
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
 import ActionBar from './../shared/viewmodel/ActionBar';
+import Mainmenu from './../shared/viewmodel/Mainmenu';
 import navigation from './../shared/utils/navigation';
 const frameModule = require('ui/frame');
 
@@ -14,9 +15,12 @@ let actionBar;
 let dataList;
 let curPageName = language.appTitle;
 
+
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
+	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
+
 
 	actionBar = new ActionBar(curPageName, 'Förra sidan', 0);
 	let elActionBar = page.getViewById('actionbar');
@@ -55,11 +59,13 @@ module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
 module.exports.menuItemTap = menuItemTap;
 module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName, ['search']);
+	navigation.swipe(args, curPageName, ['search', 'menu']);
 };
 module.exports.searchTap = function() {
 	navigation.toSearch(curPageName);
 };
-module.exports.menuTap = function() {
-	navigation.toMenu(curPageName);
+module.exports.menuTap = Mainmenu.show;
+module.exports.hideMenuTap = Mainmenu.hide;
+module.exports.swipeMenu = function(args) {
+	Mainmenu.swipe(args);
 };

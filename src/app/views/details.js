@@ -7,6 +7,7 @@ import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {android, ios} from 'application';
+import Mainmenu from './../shared/viewmodel/Mainmenu';
 
 const webViewModule = require('ui/web-view');
 //const frameModule = require('ui/frame');
@@ -20,6 +21,7 @@ let navContext;
 function navigatingTo(args) {
 	customUi.setViewDefaults();
 	page = args.object;
+	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
 	navContext = page.navigationContext;
 	curPageName = navContext.data.title;
 
@@ -143,6 +145,8 @@ module.exports.swipe = function(args) {
 module.exports.searchTap = function() {
 	navigation.toSearch(curPageName);
 };
-module.exports.menuTap = function() {
-	navigation.toMenu(curPageName);
+module.exports.menuTap = Mainmenu.show;
+module.exports.hideMenuTap = Mainmenu.hide;
+module.exports.swipeMenu = function(args) {
+	Mainmenu.swipe(args);
 };
