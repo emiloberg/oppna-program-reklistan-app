@@ -130,6 +130,16 @@ gulp.task('watchFullIOS', function(callback) {
     );
 });
 
+gulp.task('watchFullAndroid', function(callback) {
+    gulp.watch(watchedFiles, function () {
+            runSequence(
+                '_clean',
+                '_compile',
+                '_emulateAndroid',
+                callback);
+        }
+    );
+});
 
 gulp.task('lint', function () {
     return gulp.src(babelSrc)
@@ -158,17 +168,6 @@ gulp.task('cleanCompile', function(callback) {
         '_clean',
         '_compile',
         callback);
-});
-
-gulp.task('watchAndroid', function(callback) {
-    gulp.watch(watchedFiles, function () {
-            runSequence(
-                '_clean',
-                '_compile',
-                '_emulateAndroid',
-                callback);
-        }
-    );
 });
 
 gulp.task('images', function(callback) {
@@ -242,7 +241,7 @@ gulp.task('_watchFullIOS', function(cb) {
 
 gulp.task('_emulateAndroid', function(cb) {
     //▶ tns emulate android --geny Nexus-5
-    var child = spawn('tns', ['emulate', 'android', '--geny', androidEmulator], {cwd: process.cwd()});
+    var child = spawn('tns', ['emulate', 'android', '--geny', androidEmulator], {cwd: process.cwd() + '/' + pathToStartAppFrom});
     var stdout = '';
     var stderr = '';
 
