@@ -14,7 +14,7 @@ import navigation from './../utils/navigation';
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
-let elMenu;
+	let elMenu;
 let elMainContent;
 let curve;
 
@@ -68,7 +68,7 @@ const Mainmenu = {
 			{
 				target: elMenu,
 				translate: { x: -deviceWidth, y: 0 },
-				duration: 250,
+				duration: 350,
 				delay: 0,
 				iterations: 1,
 				curve: curve
@@ -76,7 +76,7 @@ const Mainmenu = {
 			{
 				target: elMainContent,
 				opacity: 0.4,
-				duration: 250,
+				duration: 350,
 				delay: 0,
 				iterations: 1,
 				curve: curve
@@ -97,7 +97,7 @@ const Mainmenu = {
 			{
 				target: elMenu,
 				translate: { x: 0, y: 0 },
-				duration: 250,
+				duration: 350,
 				delay: 0,
 				iterations: 1,
 				curve: curve
@@ -105,7 +105,7 @@ const Mainmenu = {
 			{
 				target: elMainContent,
 				opacity: 1,
-				duration: 250,
+				duration: 350,
 				delay: 0,
 				iterations: 1,
 				curve: curve
