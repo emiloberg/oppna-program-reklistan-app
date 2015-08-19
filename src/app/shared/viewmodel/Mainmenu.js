@@ -5,16 +5,18 @@ import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {Animation} from 'ui/animation';
 import {SwipeDirection} from 'ui/gestures';
 import {Observable} from 'data/observable';
-//import {ObservableArray} from 'data/observable-array';
+import {ObservableArray} from 'data/observable-array';
 import ResourceArticles from './ResourceArticles';
+import News from './News';
 import {inspect} from './../utils/debug';
 import Images from './../utils/images';
 import navigation from './../utils/navigation';
+import language from './../utils/language';
 
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
-	let elMenu;
+let elMenu;
 let elMainContent;
 let curve;
 
@@ -27,8 +29,15 @@ const DEBUG_MODE_TAPS = 5;
 //var RESOURCE_ARTICLES = new ObservableArray(apa);
 var MAIN_MENU_DATA = new Observable({
 	resourceArticles: ResourceArticles.get(),
-	vgrLogoImage: Images.mainmenuVGRLogo
+	vgrLogoImage: Images.mainmenuVGRLogo,
+	text: {
+		newsHeading: language.mainmenuNews,
+		resourceHeading: language.mainmenuResouceArticles
+	}
 });
+
+MAIN_MENU_DATA.news = News.get();
+
 
 const Mainmenu = {
 	/**
@@ -56,6 +65,8 @@ const Mainmenu = {
 		// Setup curve
 		curve = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseIn : new android.view.animation.AccelerateInterpolator(1);
 
+		News.loadIfNeeded();
+
 		return MAIN_MENU_DATA;
 	},
 
@@ -63,7 +74,6 @@ const Mainmenu = {
 	 * Show Menu
 	 */
 	show() {
-		console.log('SHOWING');
 		const animationsSetup = [
 			{
 				target: elMenu,
@@ -85,7 +95,7 @@ const Mainmenu = {
 		const menuAnimation = new Animation(animationsSetup, false);
 
 		menuAnimation.play().finished
-			.then(function () { return console.log('Animation done'); })
+			//.then(function () { return console.log('Animation done'); })
 			.catch(function (e) { return console.log(e.message); });
 	},
 

@@ -76,20 +76,42 @@
 
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
-                    <!--<Label text="Övrigt" cssClass="mainmenu&#45;&#45;heading" />-->
                     <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="AspectFill" horizontalAlignment="center" />
-                    <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
-                    <Repeater items="{{ resourceArticles }}">
+
+                    <StackLayout cssClass="mainmenu--heading">
+                        <Label text="{{ text.newsHeading }}" textWrap="true" cssClass="mainmenu--heading--label" />
+                    </StackLayout>
+                    <Repeater items="{{ news }}">
+                        <Repeater.itemsLayout>
+                            <StackLayout cssClass="mainmenu--news--wrapper" />
+                        </Repeater.itemsLayout>
                         <Repeater.itemTemplate>
                             <StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
+                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToNewsArticle }}">
                                     <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                                    <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
+                                    <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
                                 </StackLayout>
                                 <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
                             </StackLayout>
                         </Repeater.itemTemplate>
                     </Repeater>
+
+                    <StackLayout cssClass="mainmenu--heading">
+                        <Label text="{{ text.resourceHeading }}" textWrap="true" cssClass="mainmenu--heading--label" />
+                    </StackLayout>
+                    <StackLayout cssClass="mainmenu--resource--wrapper">
+                        <Repeater items="{{ resourceArticles }}">
+                            <Repeater.itemTemplate>
+                                <StackLayout>
+                                    <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
+                                        <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                                        <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
+                                    </StackLayout>
+                                    <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                                </StackLayout>
+                            </Repeater.itemTemplate>
+                        </Repeater>
+                    </StackLayout>
                 </StackLayout>
             </ScrollView>
 

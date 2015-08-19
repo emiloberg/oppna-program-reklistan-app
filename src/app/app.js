@@ -34,6 +34,7 @@ var _properties = {
 	drugsStructureId: 11571,
 	adviceStructureId: 12602,
 	resourcesStructureId: 14304,
+	newsStructureId: 19302,
 	locale: 'sv_SE'
 };
 
@@ -47,6 +48,7 @@ if (global.REK.dev.server = 'dev') {
 		drugs: global.REK.dev.devServer + '/drugs.json',
 		advice: global.REK.dev.devServer + '/advice.json',
 		resources: global.REK.dev.devServer + '/resources.json',
+		news: global.REK.dev.devServer + '/news.json',
 		hbsDrugs: global.REK.dev.devServer + '/details-drugs.hbs',
 		hbsAdvice: global.REK.dev.devServer + '/details-advice.hbs',
 		hbsResources: global.REK.dev.devServer + '/resources.hbs',
@@ -77,6 +79,12 @@ if (global.REK.dev.server = 'dev') {
 		'/ddm-structure-id/' + _properties.resourcesStructureId +
 		'/locale/' + _properties.locale,
 
+		news: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
+		'company-id/' + _properties.companyId +
+		'/group-name/' + _properties.groupName +
+		'/ddm-structure-id/' + _properties.newsStructureId +
+		'/locale/' + _properties.locale,
+
 		hbsDrugs: _properties.host + '/reklistan-theme/handlebars/details-drugs.hbs',
 		hbsAdvice: _properties.host + '/reklistan-theme/handlebars/details-advice.hbs',
 		hbsResources: _properties.host + '/reklistan-theme/handlebars/resources.hbs',
@@ -84,6 +92,13 @@ if (global.REK.dev.server = 'dev') {
 		css: _properties.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210'
 	};
 }
+
+global.REK.news = {
+	name: 'news',
+	localFileName: 'news.json',
+	url: global.REK.urls.news,
+	download: true
+};
 
 
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));

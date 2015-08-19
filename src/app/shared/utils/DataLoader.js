@@ -4,8 +4,10 @@ import http from 'http';
 import fs from 'file-system';
 import ContentItem from '../model/ContentItem';
 import ResourceArticle from '../model/ResourceArticle';
+import NewsArticle from '../model/NewsArticle';
 import RekDataList from '../viewmodel/RekDataList';
 import ResourceArticles from '../viewmodel/ResourceArticles';
+import News from '../viewmodel/News';
 import {templatesModel} from './htmlRenderer';
 const utils = require('./utils');
 import {inspect, debug} from './debug';
@@ -160,6 +162,36 @@ function mergeArrays(target, source, locator, merger) {
 }
 
 const DataLoader = {
+
+	loadNews(spec) {
+		debug('Start Loading News');
+		return loadResources(spec, true)
+		.then(allNews => {
+			const newsArticles = allNews[0].data.map(article => {
+				let fieldOut = {
+					uuid: article.uuid,
+					title: article.title,
+					body: '',
+					externallink: '',
+					medium: '',
+					lead: '',
+					date: '2010-01-01'
+				};
+				article.fields.forEach(field => {
+					fieldOut[field.name] = field.value
+				});
+
+				if (fieldOut.medium.indexOf('both') > 0  || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
+					return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
+				} else {
+					return undefined;
+				}
+			});
+			return News.addAll(newsArticles);
+		});
+	},
+
+
 	loadViewModel(spec) {
 		return loadFiles(spec.templates, 'registerTemplate')
 
