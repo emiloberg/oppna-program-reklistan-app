@@ -74,3 +74,4 @@ module.exports.swipeMenu = function(args) {
 	Mainmenu.swipe(args);
 };
 module.exports.logoTap = Mainmenu.logoTap;
+module.exports.reloadDataTap = Mainmenu.reloadDataTap;

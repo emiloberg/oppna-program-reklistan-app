@@ -161,8 +161,23 @@ function getLastSlugFromPath(path) {
 }
 
 
+function epochToFriendlyStamp(timestamp) {
+	const date = new Date(timestamp);
+
+	const year = date.getFullYear();
+	const month = '0' + date.getMonth();
+	const day = '0' + date.getDate();
+
+	const hours = date.getHours();
+	const minutes = '0' + date.getMinutes();
+	const seconds = '0' + date.getSeconds();
+	const formattedTime = year + '-' + month.substr(-2) + '-' + day.substr(-2) + ' ' +  hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+	return formattedTime;
+}
+
 
 module.exports.makeUrlSafe = makeUrlSafe;
 module.exports.promiseInternalUrlToArray = promiseInternalUrlToArray;
 module.exports.internalUrlToArray = internalUrlToArray;
 module.exports.getLastSlugFromPath = getLastSlugFromPath;
+module.exports.epochToFriendlyStamp = epochToFriendlyStamp;

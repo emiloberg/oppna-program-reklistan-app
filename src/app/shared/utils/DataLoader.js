@@ -7,6 +7,7 @@ import ResourceArticle from '../model/ResourceArticle';
 import NewsArticle from '../model/NewsArticle';
 import RekDataList from '../viewmodel/RekDataList';
 import ResourceArticles from '../viewmodel/ResourceArticles';
+import Metadata from '../viewmodel/Metadata';
 import News from '../viewmodel/News';
 import {templatesModel} from './htmlRenderer';
 const utils = require('./utils');
@@ -113,6 +114,11 @@ function downloadResource(resource, isJson) {
 						});
 				} else {
 					saveResourceFile(resource.localFileName, data.content.toString())
+				}
+
+				if (resource.name !== 'news') { // Set the last updated to now for everything but news.
+					debug('Setting last updated data');
+					Metadata.setDataUpdatedNow();
 				}
 
 				return {

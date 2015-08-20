@@ -57,6 +57,16 @@ const navigation = {
 		});
 	},
 
+	toReloadData() {
+		frameModule.topmost().navigate({
+			moduleName: 'views/download-data',
+			context: {
+				prevPageTitle: ''
+			},
+			animated: false
+		});
+	},
+
 	navigateToUrl(url, prevPageTitle) {
 		utils.promiseInternalUrlToArray(url)
 		.then(appViewModel.getSpecific)

@@ -6,6 +6,7 @@ import customUi from './../shared/modules/ui';
 import navigation from './../shared/utils/navigation';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
+
 var contextObj = new Observable({
 	rek: language.splashREK,
 	listan: language.splashListan

@@ -10,8 +10,6 @@ application.onUncaughtError = function (error) {
     console.log('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
 };
 
-var appSettings = require('application-settings');
-
 
 // Load files from local file system instead of from the net
 // TODO: Change for production
@@ -22,9 +20,6 @@ global.REK.dev = {
 	//devServer: 'http://local.dev:5656',
 	clearImageFolder: false
 };
-
-
-//appSettings.setBoolean('develLocalFiles', false);
 
 
 var _properties = {

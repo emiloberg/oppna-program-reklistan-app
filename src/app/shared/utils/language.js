@@ -9,8 +9,14 @@ const language = {
 	splashREK: 'REK',
 	splashListan: 'LISTAN',
 	splashLoading: 'Laddar data',
-	mainmenuNews: 'NYHETER',
-	mainmenuResouceArticles: 'ÖVRIGT'
+	mainmenuHeadingNews: 'NYHETER',
+	mainmenuHeadingResourceArticles: 'ÖVRIGT',
+	mainmenuHeadingSettings: 'INSTÄLLNINGAR',
+	mainmenuLabelReloadData: 'Uppdatera data',
+	lastUpdated: 'Senast uppdaterad '
+	//downloadDataDialogOkText: 'All data är uppdaterad!',
+	//downloadDataDialogOkButton: 'Ok!',
+	//downloadDataDialogOkTitle: 'Uppdaterad!'
 };
 
 export default language;

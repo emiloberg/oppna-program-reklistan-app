@@ -11,6 +11,7 @@
   "dependencies": {
     "handlebars": "^3.0.3",
     "lunr": "^0.5.12",
+    "moment": "^2.10.6",
     "nativescript-social-share": "^1.1.0",
     "swag": "^0.7.0"
   }
