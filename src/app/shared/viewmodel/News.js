@@ -1,11 +1,16 @@
 'use strict';
 
+import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
 import {inspect} from './../utils/debug';
 import DataLoader from './../utils/DataLoader';
 
 
 let NEWS_LIST = new ObservableArray([]);
+let NEWS_OBJ = new Observable({
+	items: NEWS_LIST,
+	count: 0
+});
 
 const News = {
 	sort() {
@@ -35,19 +40,17 @@ const News = {
 
 		News.sort();
 
+		NEWS_OBJ.set('count', NEWS_LIST.length);
+
 		return NEWS_LIST;
 	},
 
 	get() {
-		return NEWS_LIST;
+		return NEWS_OBJ;
+	},
 
-		//return new Promise((resolve/*, reject*/) => {
-		//	if (NEWS_LIST.length > 0) {
-		//		resolve(NEWS_LIST);
-		//	} else {
-		//		resolve(DataLoader.loadNews([global.REK.news]));
-		//	}
-		//});
+	getNewsCount() {
+		return NEWS_LIST.length
 	},
 
 

@@ -77,11 +77,10 @@
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
                     <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="AspectFill" horizontalAlignment="center" />
-
-                    <StackLayout cssClass="mainmenu--heading">
+                    <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}"> <!-- TODO JOBBA HÄR! SE TILL ATT HEADING BARA SYNS OM DET FINNS NEWS-->
                         <Label text="{{ text.newsHeading }}" textWrap="true" cssClass="mainmenu--heading--label" />
                     </StackLayout>
-                    <Repeater items="{{ news }}">
+                    <Repeater items="{{ news.items }}">
                         <Repeater.itemsLayout>
                             <StackLayout cssClass="mainmenu--news--wrapper" />
                         </Repeater.itemsLayout>

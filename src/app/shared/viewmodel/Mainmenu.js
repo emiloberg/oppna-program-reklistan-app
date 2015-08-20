@@ -26,17 +26,16 @@ let enterDebugLastTap = 0;
 const DEBUG_MODE_MAX_MS = 2000;
 const DEBUG_MODE_TAPS = 5;
 
-//var RESOURCE_ARTICLES = new ObservableArray(apa);
-var MAIN_MENU_DATA = new Observable({
+let MAIN_MENU_DATA = new Observable({
 	resourceArticles: ResourceArticles.get(),
 	vgrLogoImage: Images.mainmenuVGRLogo,
 	text: {
 		newsHeading: language.mainmenuNews,
 		resourceHeading: language.mainmenuResouceArticles
-	}
+	},
+	news: News.get()
 });
 
-MAIN_MENU_DATA.news = News.get();
 
 
 const Mainmenu = {
@@ -65,7 +64,10 @@ const Mainmenu = {
 		// Setup curve
 		curve = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseIn : new android.view.animation.AccelerateInterpolator(1);
 
-		News.loadIfNeeded();
+		setTimeout(function () {
+			News.loadIfNeeded();
+		}, 0);
+
 
 		return MAIN_MENU_DATA;
 	},
