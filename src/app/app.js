@@ -100,6 +100,7 @@ global.REK.news = {
 	download: true
 };
 
+global.REK.preferences.maxNews = 5;
 
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 
