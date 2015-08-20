@@ -13,7 +13,7 @@ let actionBar;
 let dataList;
 let curPageName;
 
-function navigatingTo(args) {
+function loaded(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
@@ -64,7 +64,7 @@ function adviceTap() {
 	dataList.selectedIndex = 1;
 }
 
-module.exports.navigatingTo = navigatingTo;
+module.exports.loaded = loaded;
 module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
 module.exports.menuItemTap = menuItemTap;

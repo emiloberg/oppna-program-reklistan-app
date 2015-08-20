@@ -18,7 +18,7 @@ let curPageName;
 let wv;
 let navContext;
 
-function navigatingTo(args) {
+function loaded(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
@@ -137,7 +137,7 @@ function setTab(index) {
 	}
 }
 
-module.exports.navigatingTo = navigatingTo;
+module.exports.loaded = loaded;
 module.exports.drugsTap = function drugsTap() { setTab(0); };
 module.exports.adviceTap = function adviceTap() { setTab(1); };
 module.exports.backTap = navigation.back;

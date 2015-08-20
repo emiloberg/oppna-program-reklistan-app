@@ -9,7 +9,7 @@ import {shareText} from 'nativescript-social-share';
 var dialogs = require("ui/dialogs");
 import {device, screen} from 'platform';
 
-function navigatingTo(args) {
+function loaded(args) {
 	customUi.setViewDefaults();
 	let page = args.object;
 	let navContext = page.navigationContext;
@@ -50,7 +50,7 @@ function downloadData() {
 	frameModule.topmost().navigate('views/download-data');
 }
 
-module.exports.navigatingTo = navigatingTo;
+module.exports.loaded = loaded;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, '', ['back']);

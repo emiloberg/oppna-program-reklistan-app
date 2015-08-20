@@ -26,7 +26,7 @@ var searchInput = new Observable({
 });
 
 
-function navigatingTo(args) {
+function loaded(args) {
 	page = args.object;
 	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
 
@@ -83,7 +83,7 @@ function searchItemTap(args) {
 
 
 module.exports.searchItemTap = searchItemTap;
-module.exports.navigatingTo = navigatingTo;
+module.exports.loaded = loaded;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, curPageName, ['back', 'menu']);

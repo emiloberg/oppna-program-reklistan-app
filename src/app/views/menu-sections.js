@@ -16,8 +16,7 @@ let actionBar;
 let dataList;
 let curPageName = language.appTitle;
 
-
-function navigatingTo(args) {
+function loaded(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 
@@ -28,9 +27,7 @@ function navigatingTo(args) {
 	let elPageContent = page.getViewById('pagecontent');
 	dataList = appViewModel.appViewModel.getMainDataList();
 	elPageContent.bindingContext = dataList;
-}
 
-function loaded(args) {
 	const elMenu = page.getViewById('menuwrapper');
 	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
 
@@ -62,7 +59,6 @@ function adviceTap() {
 
 
 module.exports.loaded = loaded;
-module.exports.navigatingTo = navigatingTo;
 module.exports.drugsTap = drugsTap;
 module.exports.adviceTap = adviceTap;
 module.exports.menuItemTap = menuItemTap;
