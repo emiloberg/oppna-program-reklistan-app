@@ -8,7 +8,9 @@ const language = {
 	searchPlaceholder: 'Sök...',
 	splashREK: 'REK',
 	splashListan: 'LISTAN',
-	splashLoading: 'Laddar data'
+	splashLoading: 'Laddar data',
+	mainmenuNews: 'NYHETER',
+	mainmenuResouceArticles: 'ÖVRIGT'
 };
 
 export default language;

@@ -170,51 +170,110 @@ Page {
 }
 
 
-.mainmenu {
-    margin: 12;
-}
+/*.mainmenu--list-item {*/
+    /*background-color: #ffffff;*/
+    /*padding: 6;*/
+    /*margin-left: 12;*/
+    /*/!*margin-right: 6;*!/*/
+    /*/!*margin-bottom: 1;*!/*/
+/*}*/
+
+/*.mainmenu--list-item--label {*/
+    /*/!*color: #4B5757;*!/*/
+    /*color: #111111;*/
+    /*font-size: 12;*/
+/*}*/
+
+/*.mainmenu--list-item--lead {*/
+    /*color: #4B5757;*/
+    /*font-size: 10;*/
+/*}*/
+
+/*.mainmenu--menu {*/
+    /*/!*background-color: #F1F3F3;*!/*/
+    /*background-color: #851A31;*/
+/*}*/
+
+
+/*.mainmenu--side-divider {*/
+    /*background-color: #dadcdc;*/
+/*}*/
+
+
+
+
+
+
+
 
 .mainmenu--list-item {
-    /*background-color: #F1F3F3;*/
-    padding: 6;
+    margin: 6 12;
 }
 
 .mainmenu--list-item--label {
-    color: #4B5757;
-    font-size: 13;
+    /*color: #F9FAFB;*/
+    color: #d4d5d6;
+    font-size: 12;
+    font-weight: bold;
+}
+
+.mainmenu--list-item--lead {
+    color: #acadae;
+    font-size: 10;
+}
+
+.mainmenu--menu {
+    background-color: #2B3441;
+    /*background-color: #232523;*/
+    /*background-color: #2A2A2A;*/
+}
+
+
+.mainmenu--side-divider {
+    background-color: #8f8f8f;
+    /*background-color: #2A2A2A;*/
 }
 
 .mainmenu--list-item--divider {
-    background-color: #F1F3F3;
+    background-color: #3B4550;
+    /*background-color: #1B1D1B;*/
+    /*background-color: #454647;*/
 }
 
 .mainmenu--heading {
-    font-size: 14;
+    background-color: #3B4550;
+    /*background-color: #1B1D1B;*/
+    /*background-color: #454647;*/
+}
+
+.mainmenu--heading--label {
+    /*color: #ffffff;*/
+    color: #d4d5d6;
+    padding: 6 12;
     font-weight: bold;
-    color: #4B5757;
-    margin-bottom: 6;
+    font-size: 10;
+    text-align: center;
 }
 
 
 
-.mainmenu--menu {
-    background-color: #F1F3F3;
+
+.mainmenu--resource--wrapper {
+    /*margin-top: 24;*/
 }
 
-.mainmenu--menu--button {
-    color: #ffffff;
+.mainmenu--news--wrapper {
+    /*margin-top: 12;*/
 }
-
-.mainmenu--side-divider {
-    background-color: #dadcdc;
-}
-
 
 .mainmenu--vgrlogo {
-    margin: 10 0;
+    margin: 10 0 20 0;
 }
 
 .mainmenu--resource--icon {
     margin-top: 3;
     margin-left: 3;
 }
+
+
+
