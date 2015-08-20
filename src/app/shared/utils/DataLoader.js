@@ -17,6 +17,9 @@ import REKError from './Errors';
 
 const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
 
+
+let hasLoadedNewServerData = false;
+
 /**
  * Loads a resource (json/handlebars/css file), from local storage if available, else load
  * from the interwebs. If `download` param is set to true; force download from the net.
@@ -77,7 +80,7 @@ function saveResourceFile(filename, content) {
 	let localFile = DOCUMENTS_FOLDER.getFile(filename);
 	localFile.writeText(content)
 		.then(() => {
-			debug('Sucess saved file ' + filename);
+			debug('Success saved file ' + filename);
 		}, (error) => {
 			//Silent error
 			debug(error, 'error');
@@ -117,8 +120,7 @@ function downloadResource(resource, isJson) {
 				}
 
 				if (resource.name !== 'news') { // Set the last updated to now for everything but news.
-					debug('Setting last updated data');
-					Metadata.setDataUpdatedNow();
+					hasLoadedNewServerData = true;
 				}
 
 				return {
@@ -199,6 +201,7 @@ const DataLoader = {
 
 
 	loadViewModel(spec) {
+		hasLoadedNewServerData = false;
 		return loadFiles(spec.templates, 'registerTemplate')
 
 		// Fetch Support JSONs
@@ -314,9 +317,15 @@ const DataLoader = {
 		}))
 		.then(dataLists => new RekDataList('REKListan', dataLists))
 		.then(dataLists => {
-			loadFiles(spec.css, 'registerCss');
+			loadFiles(spec.css, 'registerCss'); // TODO: This is runned async and it shouldn't.
 			return dataLists;
-		});
+		})
+		.then(dataLists => {
+			if (hasLoadedNewServerData === true) {
+				Metadata.setDataUpdatedNow();
+			}
+			return dataLists;
+		})
 	}
 };
 export default DataLoader;

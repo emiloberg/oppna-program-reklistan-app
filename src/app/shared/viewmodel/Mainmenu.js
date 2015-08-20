@@ -58,7 +58,7 @@ const Mainmenu = {
 		elMenu = menu;
 
 		// Make sure main content takes all available space
-		elMainContent.width = deviceWidth ;
+		elMainContent.width = deviceWidth;
 		elMainContent.height = deviceHeight;
 
 		// Push menu off screen

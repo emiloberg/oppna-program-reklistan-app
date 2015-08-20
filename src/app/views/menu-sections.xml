@@ -126,6 +126,22 @@
         </GridLayout>
         <!-- /MENU -->
 
+
+        <!-- MESSAGE -->
+        <!--<StackLayout left="0" top="0" id="appmessage" tap="{{ messagetap }}" cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">-->
+            <!--<Label text="{{ message }}" textWrap="true" cssClass="appmessage&#45;&#45;label" />-->
+        <!--</StackLayout>-->
+
+        <StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">
+            <Label text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
+            <GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">
+                <Label col="0" text="{{ messageDownloadDataUpdateLater }}" tap="{{ hideMessageTap }}" cssClass="appmessage--button" />
+                <Label col="1" text="{{ messageDownloadDataUpdateNow }}" tap="{{ downloadDataTap }}" cssClass="appmessage--button--primary" />
+            </GridLayout>
+        </StackLayout>
+        <!-- /MESSAGE -->
+
     </AbsoluteLayout>
 
 </Page>
+

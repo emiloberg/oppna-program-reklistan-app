@@ -96,6 +96,11 @@ global.REK.news = {
 };
 
 global.REK.preferences.maxNews = 5;
+global.REK.preferences.warnOldData = 20; //Warn about old data when it's x seconds old.
+// 1 hour = 3600
+// 1 day = 86400
+// 1 week = 604 800
+// 2 weeks = 1 209 600
 
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 

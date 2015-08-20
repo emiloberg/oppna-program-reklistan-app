@@ -7,6 +7,7 @@ import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
+import AppMessage from './../shared/viewmodel/AppMessage';
 import navigation from './../shared/utils/navigation';
 const frameModule = require('ui/frame');
 
@@ -32,6 +33,9 @@ function navigatingTo(args) {
 function loaded(args) {
 	const elMenu = page.getViewById('menuwrapper');
 	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+
+	let elAppMessage = page.getViewById('appmessage');
+	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 }
 
 function menuItemTap(args) {

@@ -13,10 +13,10 @@ const language = {
 	mainmenuHeadingResourceArticles: 'ÖVRIGT',
 	mainmenuHeadingSettings: 'INSTÄLLNINGAR',
 	mainmenuLabelReloadData: 'Uppdatera data',
-	lastUpdated: 'Senast uppdaterad '
-	//downloadDataDialogOkText: 'All data är uppdaterad!',
-	//downloadDataDialogOkButton: 'Ok!',
-	//downloadDataDialogOkTitle: 'Uppdaterad!'
+	lastUpdated: 'Senast uppdaterad ',
+	messageDownloadDataMessage: 'Datan börjar bli gammal. Den var senast uppdaterad ',
+	messageDownloadDataUpdateNow: 'Uppdatera nu',
+	messageDownloadDataUpdateLater: 'Senare'
 };
 
 export default language;
