@@ -8,6 +8,7 @@ var frameModule = require('ui/frame');
 import {shareText} from 'nativescript-social-share';
 var dialogs = require("ui/dialogs");
 import {device, screen} from 'platform';
+var appversion = require("nativescript-appversion");
 
 function loaded(args) {
 	customUi.setViewDefaults();
@@ -23,27 +24,29 @@ function loaded(args) {
 }
 
 function shareLog() {
+	appversion.getVersionName().then(function(v) {
+		const now = new Date();
 
-	const now = new Date();
+		let logStr = `
+		Date: ${now}
 
-	let logStr = `
-	Date: ${now}
+		AppVersion: ${v}
 
-	Device model: ${device.model}
-	Device type: ${device.deviceType}
-	OS: ${device.os}
-	OS version: ${device.osVersion}
-	SDK Version: ${device.sdkVersion}
-	Language: ${device.language}
+		Device model: ${device.model}
+		Device type: ${device.deviceType}
+		OS: ${device.os}
+		OS version: ${device.osVersion}
+		SDK Version: ${device.sdkVersion}
+		Language: ${device.language}
 
-	Screen width: ${screen.mainScreen.widthPixels}
-	Screen height: ${screen.mainScreen.heightPixels}
-	Screen scale: ${screen.mainScreen.scale}
+		Screen width: ${screen.mainScreen.widthPixels}
+		Screen height: ${screen.mainScreen.heightPixels}
+		Screen scale: ${screen.mainScreen.scale}
+		`;
 
-	`;
-
-	logStr = logStr + debug.getDebugLog().get('log').join('\n');
-	shareText(logStr);
+		logStr = logStr + debug.getDebugLog().get('log').join('\n');
+		shareText(logStr);
+	});
 }
 
 function downloadData() {
