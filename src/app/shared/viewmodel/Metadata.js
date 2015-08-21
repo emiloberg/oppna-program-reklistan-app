@@ -19,6 +19,8 @@ const Metadata = {
 	setDataUpdated(now, sendMessage = true) {
 		let friendly;
 		if (now === 0) {
+			friendly = 'not set'
+		} else {
 			friendly = moment(now).fromNow();
 		}
 		debug('Setting last updated data to ' + now);

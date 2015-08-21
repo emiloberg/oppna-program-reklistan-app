@@ -7,6 +7,7 @@ import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {inspect} from './../utils/debug';
 import navigation from './../utils/navigation';
 import Metadata from './Metadata';
+import Mainmenu from './Mainmenu';
 
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
@@ -39,6 +40,7 @@ const AppMessage = {
 		elAppMessage.width = deviceWidth;
 
 		// Set "Update your data now message" if it's old.
+		// TODO: Om användaren klickat "senare" så måste vi vänta ett tag innan vi frågar hen igen.
 		if(((new Date().getTime() - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
 			AppMessage.setUpdateDataMessage();
 		}
@@ -59,10 +61,7 @@ const AppMessage = {
 
 
 		if (type === 'info') {
-			timeoutId = setTimeout(function () {
-				APP_MESSAGE.set('type', '');
-				APP_MESSAGE.set('message', '');
-			}, 3000)
+			timeoutId = setTimeout(AppMessage.removeMessages, 3000)
 		}
 	},
 
@@ -74,6 +73,7 @@ const AppMessage = {
 
 	removeMessages() {
 		clearTimeout(timeoutId);
+		Mainmenu.hide();
 		APP_MESSAGE.set('type', '');
 		APP_MESSAGE.set('message', '');
 	}

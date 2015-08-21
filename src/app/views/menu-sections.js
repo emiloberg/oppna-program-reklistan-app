@@ -17,6 +17,7 @@ let dataList;
 let curPageName = language.appTitle;
 
 function loaded(args) {
+
 	customUi.setViewDefaults();
 	page = args.object;
 

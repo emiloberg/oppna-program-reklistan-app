@@ -2,7 +2,6 @@
 
 var eyes = require('./../../thirdparty/eyes');
 var fs = require('file-system');
-//import Metadata from './../viewmodel/Metadata';
 
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';

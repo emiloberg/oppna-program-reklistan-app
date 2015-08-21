@@ -53,7 +53,6 @@ function shareLog() {
 
 
 function removeLocalCache() {
-	//Metadata.removeDataUpdated();
 	Metadata.removeDataUpdated();
 	return removeLocalFolder('rekcache');
 }

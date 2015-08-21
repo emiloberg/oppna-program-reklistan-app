@@ -1,27 +1,33 @@
 'use strict';
 
-var frameModule = require('ui/frame');
-var initApp = require('./../shared/utils/appInit');
+const frameModule = require('ui/frame');
+const initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
 import navigation from './../shared/utils/navigation';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
+import {debug} from './../shared/utils/debug';
 
-var contextObj = new Observable({
+let contextObj = new Observable({
 	rek: language.splashREK,
 	listan: language.splashListan
 });
 
-var pageLoaded = function(args) {
+let page;
+
+const pageLoaded = function(args) {
 	customUi.setViewDefaults();
 
-	//frameModule.topmost().navigate('views/dummy');
-
-
-	var page = args.object;
+	page = args.object;
 	page.bindingContext = contextObj;
 
+	loadData();
+};
+
+function loadData() {
 	contextObj.set('loadingCount', 0);
+	contextObj.set('error', '');
+	contextObj.set('errorTryAgain', '');
 
 	let loadingInterval = setInterval(function () {
 		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1 ;
@@ -32,25 +38,25 @@ var pageLoaded = function(args) {
 	.then(function () {
 		clearInterval(loadingInterval);
 		contextObj.set('loadingCount', 0);
-//		navigation.navigateToUrl('advice/Diabetes/Diabetes_typ_2_behandlingsalgoritm_for_VGR', 'Previous page');
-//		navigation.navigateToUrl('advice/Alkohol_och_Tobak/Avvanjningsstod_for_tobak', 'Previous page');
 		frameModule.topmost().navigate('views/menu-sections');
-// 		frameModule.topmost().navigate('views/search');
-//		frameModule.topmost().navigate('views/dummy3');
-//		frameModule.topmost().navigate('views/dummy4');
-//		frameModule.topmost().navigate('views/dummy4');
 	})
 	.catch(function (e) {
+		debug('Could not load data during initial load');
+		debug(JSON.stringify(e));
+
 		clearInterval(loadingInterval);
 		contextObj.set('loadingCount', 0);
-		console.dir(e.message);
-		console.log('ERROR');
-		contextObj.set('error', e.message);
+
+		if (e === 'NO_NETWORK') {
+			contextObj.set('error', language.downloadDataInitial);
+		} else {
+			contextObj.set('error', language.downloadDataInitial);
+		}
+
+		contextObj.set('errorTryAgain', language.downloadDataTryAgain);
 	});
-
-};
-
-
+}
 
 exports.pageLoaded = pageLoaded;
+exports.errorTryAgain = loadData;
 

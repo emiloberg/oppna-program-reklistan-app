@@ -62,8 +62,8 @@ const navigation = {
 			moduleName: 'views/download-data',
 			context: {
 				prevPageTitle: ''
-			},
-			animated: false
+			}
+			//animated: false
 		});
 	},
 

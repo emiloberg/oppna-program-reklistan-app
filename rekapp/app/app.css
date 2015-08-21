@@ -159,47 +159,26 @@ Page {
 .splash--error {
     font-size: 13;
     color: #ffffff;
-    margin-top: 20
+    margin: 20 10 10 10;
+    text-align: center;
+    font-weight: bold;
 }
 
+.splash--error--go-back {
+    margin: 20 10 10 10;
+    padding: 10;
+    background-color: #ffffff;
+    color: #3B4550;
+    font-size: 13;
+    text-align: center;
+    font-weight: bold;
+}
 
 
 .developer--log--logitem {
     margin: 3 12;
     font-size: 10;
 }
-
-
-/*.mainmenu--list-item {*/
-    /*background-color: #ffffff;*/
-    /*padding: 6;*/
-    /*margin-left: 12;*/
-    /*/!*margin-right: 6;*!/*/
-    /*/!*margin-bottom: 1;*!/*/
-/*}*/
-
-/*.mainmenu--list-item--label {*/
-    /*/!*color: #4B5757;*!/*/
-    /*color: #111111;*/
-    /*font-size: 12;*/
-/*}*/
-
-/*.mainmenu--list-item--lead {*/
-    /*color: #4B5757;*/
-    /*font-size: 10;*/
-/*}*/
-
-/*.mainmenu--menu {*/
-    /*/!*background-color: #F1F3F3;*!/*/
-    /*background-color: #851A31;*/
-/*}*/
-
-
-/*.mainmenu--side-divider {*/
-    /*background-color: #dadcdc;*/
-/*}*/
-
-
 
 
 

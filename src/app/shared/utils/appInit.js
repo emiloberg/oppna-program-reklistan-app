@@ -20,6 +20,7 @@ function init(forceDownloadStr = '') {
 	debug('Forcing download: ' + forceDownload);
 
 	const sourceSpec = {
+		forceDownload: forceDownload,
 		supportJson: [{
 			name: 'resources',
 			localFileName: 'resources.json',

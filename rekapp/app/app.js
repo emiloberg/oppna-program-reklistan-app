@@ -16,6 +16,7 @@ global.REK = {};
 global.REK.dev = {
 	server: 'dev',
 	devServer: 'http://labs.emiloberg.se/rekdata',
+	//devServer: 'http://10.255.255.1', // Fake server to test network lost
 	//devServer: 'http://local.dev:5656',
 	clearImageFolder: false
 };

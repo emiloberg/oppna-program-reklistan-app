@@ -14,6 +14,7 @@ const utils = require('./utils');
 import {inspect, debug} from './debug';
 import RemoteImages from './remoteimages';
 import REKError from './Errors';
+import * as connectivity from 'connectivity';
 
 const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
 
@@ -88,6 +89,18 @@ function saveResourceFile(filename, content) {
 		});
 }
 
+function checkConnectivity(forceDownload) {
+	return new Promise((resolve, reject) => {
+		if (forceDownload && connectivity.getConnectionType() === connectivity.connectionType.none) {
+			inspect('NETWORK FAIL');
+			reject('NO_NETWORK');
+		} else {
+			resolve();
+		}
+	});
+}
+
+
 /**
  * Download a resource (json/handlebars/css file) from the interwebs.
  *
@@ -100,7 +113,11 @@ function saveResourceFile(filename, content) {
  * @returns {Promise}
  */
 function downloadResource(resource, isJson) {
-	return http.request({url: resource.url, method: 'GET'})
+	return http.request({
+			url: resource.url,
+			method: 'GET',
+			timeout: 15 * 1000
+		})
 		.then(data => {
 			if (data.statusCode >= 200 && data.statusCode < 300) {
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
@@ -199,10 +216,14 @@ const DataLoader = {
 		});
 	},
 
-
 	loadViewModel(spec) {
 		hasLoadedNewServerData = false;
-		return loadFiles(spec.templates, 'registerTemplate')
+
+		// Check connectivity
+		return checkConnectivity(spec.forceDownload)
+
+		// Get templates
+		.then(() => loadFiles(spec.templates, 'registerTemplate'))
 
 		// Fetch Support JSONs
 		.then(() => loadResources(spec.supportJson, true))
