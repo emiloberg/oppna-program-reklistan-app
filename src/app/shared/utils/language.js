@@ -15,6 +15,7 @@ const language = {
 	mainmenuLabelReloadData: 'Uppdatera data',
 	mainmenuLabelFooter: 'REK-listan v',
 	lastUpdated: 'Senast uppdaterad ',
+	dataIsUpdated: 'Datan är uppdaterad',
 	messageDownloadDataMessage: 'Datan börjar bli gammal. Den var senast uppdaterad ',
 	messageDownloadDataUpdateNow: 'Uppdatera nu',
 	messageDownloadDataUpdateLater: 'Senare',

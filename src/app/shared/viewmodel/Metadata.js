@@ -30,7 +30,7 @@ const Metadata = {
 		settingsSetNumber('dataLastUpdated', now);
 
 		if (sendMessage === true) {
-			AppMessage.setMessage('Datan är uppdaterad', 'info');
+			AppMessage.setMessage(language.dataIsUpdated, 'info');
 		}
 	},
 
