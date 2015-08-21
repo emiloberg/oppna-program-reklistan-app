@@ -77,7 +77,7 @@
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
 
-                    <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="AspectFill" horizontalAlignment="center" />
+                    <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
 
                     <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}"> <!-- TODO JOBBA HÄR! SE TILL ATT HEADING BARA SYNS OM DET FINNS NEWS-->
                         <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
@@ -120,6 +120,8 @@
                         <Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
                     </StackLayout>
 
+                    <Label text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
+
                 </StackLayout>
             </ScrollView>
 
@@ -128,10 +130,6 @@
 
 
         <!-- MESSAGE -->
-        <!--<StackLayout left="0" top="0" id="appmessage" tap="{{ messagetap }}" cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">-->
-            <!--<Label text="{{ message }}" textWrap="true" cssClass="appmessage&#45;&#45;label" />-->
-        <!--</StackLayout>-->
-
         <StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">
             <Label text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
             <GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">

@@ -14,7 +14,7 @@ import navigation from './../utils/navigation';
 import language from './../utils/language';
 import Metadata from './Metadata'
 const utils = require('./../utils/utils');
-
+var appversion = require("nativescript-appversion");
 
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
@@ -39,13 +39,17 @@ let MAIN_MENU_DATA = new Observable({
 		mainmenuLabelReloadData: language.mainmenuLabelReloadData
 	},
 	news: News.get(),
-	//dataLastUpdated: language.lastUpdated + utils.epochToFriendlyStamp(settingsGetNumber('dataLastUpdated', 0))
-	//dataLastUpdated: language.lastUpdated + moment(settingsGetNumber('dataLastUpdated', 0)).fromNow()
-	metadata: Metadata.get()
+	metadata: Metadata.get(),
+	footer: ''
+});
+
+appversion.getVersionName().then(function(v) {
+	MAIN_MENU_DATA.set('footer', language.mainmenuLabelFooter + v);
 });
 
 
 const Mainmenu = {
+
 	/**
 	 * Setup menu on every page.
 	 *
@@ -53,31 +57,35 @@ const Mainmenu = {
 	 * @param menu Menu element
 	 * @return Main menu observable object
 	 */
-	setup(mainContent, menu) {
+		setup(mainContent, menu) {
 		elMainContent = mainContent;
 		elMenu = menu;
 
+		// iOS appbar is not included when we get deviceHeight, therefor we need include it.
+		let potentialIOSBar = elMenu.ios ? 20 : 0;
+
 		// Make sure main content takes all available space
+		elMainContent.height = deviceHeight - potentialIOSBar;
 		elMainContent.width = deviceWidth;
-		elMainContent.height = deviceHeight;
+
+		// Make sure menu takes all available space
+		elMenu.height = deviceHeight - potentialIOSBar;
+		elMenu.width = deviceWidth;
 
 		// Push menu off screen
 		AbsoluteLayout.setLeft(elMenu, deviceWidth);
 
-		// Make sure menu takes all available space
-		elMenu.width = deviceWidth ;
-		elMenu.height = deviceHeight;
-
 		// Setup curve
 		curve = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseIn : new android.view.animation.AccelerateInterpolator(1);
 
+		// Load News
 		setTimeout(function () {
 			News.loadIfNeeded();
 		}, 0);
 
-
 		return MAIN_MENU_DATA;
 	},
+
 
 	/**
 	 * Show Menu

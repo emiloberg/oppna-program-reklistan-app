@@ -13,6 +13,7 @@ const language = {
 	mainmenuHeadingResourceArticles: 'ÖVRIGT',
 	mainmenuHeadingSettings: 'INSTÄLLNINGAR',
 	mainmenuLabelReloadData: 'Uppdatera data',
+	mainmenuLabelFooter: 'REK-listan v',
 	lastUpdated: 'Senast uppdaterad ',
 	messageDownloadDataMessage: 'Datan börjar bli gammal. Den var senast uppdaterad ',
 	messageDownloadDataUpdateNow: 'Uppdatera nu',

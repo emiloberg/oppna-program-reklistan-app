@@ -258,7 +258,7 @@ Page {
 
 
 .mainmenu--vgrlogo {
-    margin: 10 0 20 0;
+    margin: 10 10 20 10;
 }
 
 .mainmenu--resource--icon {
@@ -266,7 +266,12 @@ Page {
     margin-left: 3;
 }
 
-
+.mainmenu--footer {
+    margin-top: 20;
+    color: #acadae;
+    font-size: 9;
+    text-align: center;
+}
 
 
 
@@ -305,3 +310,4 @@ Page {
     padding-right: 24;
     background-color: #3B4550;
 }
+
