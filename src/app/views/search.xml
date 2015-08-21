@@ -12,7 +12,9 @@
                             <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
                             <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
                         </StackLayout>
-                        <Image col="1" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
+                        <StackLayout col="1" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+                            <Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />
+                        </StackLayout>
                     </GridLayout>
                     <StackLayout cssClass="head--divider" height="2"></StackLayout>
                 </StackLayout>

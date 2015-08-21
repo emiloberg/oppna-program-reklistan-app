@@ -8,12 +8,13 @@
         <GridLayout row="0" id="actionbar" rows="auto, auto, *">
             <!-- Tabs: Back, search and menu -->
             <StackLayout row="0" orientation="vertical">
-                <GridLayout id="head--action-bar" columns="*" orientation="horizontal">
-                    <Image tap="backTap" cssClass="head--icon" col="0" src="{{iconClose}}" width="24" heigth="24" horizontalAlignment="right"/>
+                <GridLayout id="head--action-bar" columns="*" rows="auto" orientation="horizontal">
+                    <StackLayout col="0" row="0" tap="backTap" verticalAlignment="center" horizontalAlignment="right" width="48" height="48">
+                        <Image cssClass="head--icon" src="{{iconClose}}" width="24" heigth="24" horizontalAlignment="right" stretch="aspectFit"/>
+                    </StackLayout>
                 </GridLayout>
                 <StackLayout cssClass="head--divider" height="2"></StackLayout>
             </StackLayout>
-
         </GridLayout>
 
         <!-- Needs to be GridLayout or WebView does not work ( https://github.com/NativeScript/NativeScript/issues/224 ) -->

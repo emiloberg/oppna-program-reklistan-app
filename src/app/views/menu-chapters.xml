@@ -12,8 +12,12 @@
                             <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
                             <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
                         </StackLayout>
-                        <Image col="1" tap="searchTap" cssClass="head--margin" src="{{iconSearch}}" width="24" heigth="24" />
-                        <Image col="2" tap="menuTap" cssClass="head--margin" src="{{iconMenu}}" width="24" heigth="24" />
+                        <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+                            <Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />
+                        </StackLayout>
+                        <StackLayout col="2" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+                            <Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />
+                        </StackLayout>
                     </GridLayout>
                     <StackLayout cssClass="head--divider" height="2"></StackLayout>
                 </StackLayout>
