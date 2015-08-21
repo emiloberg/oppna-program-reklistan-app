@@ -39,14 +39,13 @@ let MAIN_MENU_DATA = new Observable({
 		mainmenuLabelReloadData: language.mainmenuLabelReloadData
 	},
 	news: News.get(),
-	metadata: Metadata.get(),
+	metadata: Metadata.getMetadata(),
 	footer: ''
 });
 
 appversion.getVersionName().then(function(v) {
 	MAIN_MENU_DATA.set('footer', language.mainmenuLabelFooter + v);
 });
-
 
 const Mainmenu = {
 

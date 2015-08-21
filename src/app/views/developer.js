@@ -8,7 +8,9 @@ var frameModule = require('ui/frame');
 import {shareText} from 'nativescript-social-share';
 var dialogs = require("ui/dialogs");
 import {device, screen} from 'platform';
-var appversion = require("nativescript-appversion");
+var appversion = require('nativescript-appversion');
+var fs = require('file-system');
+import Metadata from './../shared/viewmodel/Metadata';
 
 function loaded(args) {
 	customUi.setViewDefaults();
@@ -49,18 +51,47 @@ function shareLog() {
 	});
 }
 
-function downloadData() {
-	frameModule.topmost().navigate('views/download-data');
+
+function removeLocalCache() {
+	//Metadata.removeDataUpdated();
+	Metadata.removeDataUpdated();
+	return removeLocalFolder('rekcache');
 }
+
+function removeLocalImages() {
+	return removeLocalFolder('images');
+}
+
+function removeLocalFiles() {
+	return removeLocalFolder('images')
+		.then(function() {
+			return removeLocalCache();
+		})
+}
+
+function removeLocalFolder(folder) {
+	return new Promise((resolve/*, reject*/) => {
+		const fsFolder = fs.knownFolders.documents().getFolder(folder);
+		fsFolder.clear()
+			.then(function () {
+				debug.debug('Removed local folder: ' + folder);
+				resolve();
+			}, function () {
+				debug.debug('Could not remove local folder: ' + folder, 'error');
+				resolve();
+			});
+	});
+}
+
+
 
 module.exports.loaded = loaded;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, '', ['back']);
 };
-module.exports.removeLocalFilesTap = debug.removeLocalFiles;
-module.exports.removeLocalImagesTap = debug.removeLocalImages;
-module.exports.removeLocalCacheTap = debug.removeLocalCache;
+module.exports.removeLocalFilesTap = removeLocalFiles;
+module.exports.removeLocalImagesTap = removeLocalImages;
+module.exports.removeLocalCacheTap = removeLocalCache;
 module.exports.clearDebugLogTap = debug.clearDebugLog;
-module.exports.downloadData = downloadData;
 module.exports.shareLog = shareLog;

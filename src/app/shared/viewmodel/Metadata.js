@@ -17,7 +17,10 @@ let METADATA_OBJ = new Observable({
 
 const Metadata = {
 	setDataUpdated(now, sendMessage = true) {
-		const friendly = moment(now).fromNow();
+		let friendly;
+		if (now === 0) {
+			friendly = moment(now).fromNow();
+		}
 		debug('Setting last updated data to ' + now);
 		METADATA_OBJ.set('dataUpdated', now);
 		METADATA_OBJ.set('dataUpdatedStr', language.lastUpdated + friendly);
@@ -29,14 +32,18 @@ const Metadata = {
 		}
 	},
 
+	removeDataUpdated() {
+		Metadata.setDataUpdated(0, false);
+	},
+
 	setDataUpdatedNow() {
 		Metadata.setDataUpdated(new Date().getTime());
 	},
 
-	get() {
+	getMetadata() {
 		return METADATA_OBJ;
 	},
-
+	
 	getFriendlyDataUpdated() {
 		return METADATA_OBJ.get('dataUpdatedFriendly');
 	},

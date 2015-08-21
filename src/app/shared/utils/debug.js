@@ -2,6 +2,7 @@
 
 var eyes = require('./../../thirdparty/eyes');
 var fs = require('file-system');
+//import Metadata from './../viewmodel/Metadata';
 
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
@@ -56,33 +57,4 @@ export function clearDebugLog(){
 	while(DEBUG_LOG.length > 0) {
 		DEBUG_LOG.pop();
 	}
-}
-
-export function removeLocalCache() {
-	return removeLocalFolder('rekcache');
-}
-
-export function removeLocalImages() {
-	return removeLocalFolder('images');
-}
-
-export function removeLocalFiles() {
-	return removeLocalFolder('images')
-	.then(function() {
-		return removeLocalFolder('rekcache');
-	})
-}
-
-function removeLocalFolder(folder) {
-	return new Promise((resolve/*, reject*/) => {
-		const fsFolder = fs.knownFolders.documents().getFolder(folder);
-		fsFolder.clear()
-			.then(function () {
-				debug('Removed local folder: ' + folder);
-				resolve();
-			}, function () {
-				debug('Could not remove local folder: ' + folder, 'error');
-				resolve();
-			});
-	});
 }
