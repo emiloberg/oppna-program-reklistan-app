@@ -4,7 +4,7 @@
 const handlebars = require('handlebars/dist/handlebars');
 const swag = require('swag');
 const utils = require('./utils');
-import {inspect} from './debug';
+//import {inspect} from './debug';
 import RemoteImages from './remoteimages';
 
 

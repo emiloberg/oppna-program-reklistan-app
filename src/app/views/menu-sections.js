@@ -1,7 +1,5 @@
 'use strict';
 
-import {inspect} from './../shared/utils/debug';
-
 let appViewModel = require('./../shared/viewmodel/RekAppViewModel');
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';

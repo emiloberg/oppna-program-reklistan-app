@@ -1,6 +1,5 @@
 'use strict';
 
-import {inspect} from './../utils/debug';
 import Images from './../utils/images';
 import Mainmenu from './../viewmodel/Mainmenu';
 import navigation from './../utils/navigation';

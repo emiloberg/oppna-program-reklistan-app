@@ -1,6 +1,6 @@
 'use strict';
 
-import {inspect} from './../utils/debug';
+//import {inspect} from './../utils/debug';
 
 let RESOURCE_ARTICLES = [];
 

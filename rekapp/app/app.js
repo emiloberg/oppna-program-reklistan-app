@@ -32,7 +32,7 @@ var _properties = {
 	locale: 'sv_SE'
 };
 
-if (global.REK.dev.server = 'dev') {
+if (global.REK.dev.server === 'dev') {
 
 	global.REK.preferences = {
 		host: global.REK.dev.devServer

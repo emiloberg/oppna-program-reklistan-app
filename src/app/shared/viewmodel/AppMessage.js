@@ -4,7 +4,7 @@ import {screen} from 'platform';
 import {Observable} from 'data/observable';
 import language from './../utils/language';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {inspect} from './../utils/debug';
+//import {inspect} from './../utils/debug';
 import navigation from './../utils/navigation';
 import Metadata from './Metadata';
 import Mainmenu from './Mainmenu';
@@ -61,7 +61,7 @@ const AppMessage = {
 
 
 		if (type === 'info') {
-			timeoutId = setTimeout(AppMessage.removeMessages, 3000)
+			timeoutId = setTimeout(AppMessage.removeMessages, 3000);
 		}
 	},
 

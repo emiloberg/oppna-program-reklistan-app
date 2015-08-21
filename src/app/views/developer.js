@@ -4,9 +4,7 @@ import * as debug from './../shared/utils/debug';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-var frameModule = require('ui/frame');
 import {shareText} from 'nativescript-social-share';
-var dialogs = require("ui/dialogs");
 import {device, screen} from 'platform';
 var appversion = require('nativescript-appversion');
 var fs = require('file-system');
@@ -65,7 +63,7 @@ function removeLocalFiles() {
 	return removeLocalFolder('images')
 		.then(function() {
 			return removeLocalCache();
-		})
+		});
 }
 
 function removeLocalFolder(folder) {

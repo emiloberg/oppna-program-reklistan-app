@@ -6,7 +6,6 @@ import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
 import * as debug from './../shared/utils/debug';
-import * as dialog from 'ui/dialogs';
 var contextObj = new Observable({
 	rek: language.splashREK,
 	listan: language.splashListan,
@@ -28,7 +27,7 @@ var pageLoaded = function(args) {
 	contextObj.set('loadingCount', 0);
 
 	let loadingInterval = setInterval(function () {
-		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1 ;
+		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1;
 		contextObj.set('loadingCount', curLoadingCount);
 	}, 200);
 

@@ -19,7 +19,7 @@ const Metadata = {
 	setDataUpdated(now, sendMessage = true) {
 		let friendly;
 		if (now === 0) {
-			friendly = 'not set'
+			friendly = 'not set';
 		} else {
 			friendly = moment(now).fromNow();
 		}
@@ -45,7 +45,7 @@ const Metadata = {
 	getMetadata() {
 		return METADATA_OBJ;
 	},
-	
+
 	getFriendlyDataUpdated() {
 		return METADATA_OBJ.get('dataUpdatedFriendly');
 	},

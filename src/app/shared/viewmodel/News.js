@@ -55,7 +55,7 @@ const News = {
 	},
 
 	getNewsCount() {
-		return NEWS_LIST.length
+		return NEWS_LIST.length;
 	},
 
 

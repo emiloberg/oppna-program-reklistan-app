@@ -50,7 +50,7 @@ export default class RekDataList extends Observable {
 		let filteredItems = this._allItems.filter(item =>
 			item.hasType(this._selectedIndex));
 		if (this._sort) {
-			filteredItems = filteredItems.sort((o1, o2) => 
+			filteredItems = filteredItems.sort((o1, o2) =>
 				o1.getOrder(this._selectedIndex) - o2.getOrder(this._selectedIndex));
 		}
 		return filteredItems;

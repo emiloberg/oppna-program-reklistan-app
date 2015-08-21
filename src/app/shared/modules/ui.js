@@ -1,3 +1,5 @@
+/*global UIColor */
+
 'use strict';
 
 let frameModule = require('ui/frame');
@@ -29,34 +31,8 @@ let customUi = {
 
 		setColor: function() {
 			if (applicationModule.ios) {
-				/*global UIColor, NSDictionary, NSForegroundColorAttributeName */
-				//frameModule.topmost().ios.navBarVisibility = 'auto';
-
-
 				var controller = frameModule.topmost().ios.controller;
-
 				controller.navigationBarHidden = true;
-
-				//var navigationItem = controller.visibleViewController.navigationItem;
-				//navigationItem.setHidesBackButtonAnimated(true, false);
-
-				var navBar = controller.navigationBar;
-//				navBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.35, 0.90, 0.0, 1.0);
-//				navBar.barStyle = UIStatusBarStyleBlackTranslucent;
-
-
-
-
-
-//				application.statusBarStyle = UIStatusBarStyleBlackTranslucent. –
-
-
-				//navBar.tintColor = UIColor.blackColor();
-				//
-				//navBar.titleTextAttributes = NSDictionary.alloc().initWithObjectsForKeys(
-				//	[UIColor.blackColor()],
-				//	[NSForegroundColorAttributeName]
-				//);
 			}
 		}
 	},

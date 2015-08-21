@@ -1,14 +1,9 @@
 'use strict';
 
 import {inspect} from './../shared/utils/debug';
-
-import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-import {android, ios} from 'application';
-
-//const frameModule = require('ui/frame');
 
 function loaded(args) {
 	customUi.setViewDefaults();

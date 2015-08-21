@@ -1,3 +1,5 @@
+/* global UIViewAnimationCurve, android */
+
 'use strict';
 
 import {screen} from 'platform';
@@ -5,16 +7,14 @@ import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {Animation} from 'ui/animation';
 import {SwipeDirection} from 'ui/gestures';
 import {Observable} from 'data/observable';
-import {ObservableArray} from 'data/observable-array';
 import ResourceArticles from './ResourceArticles';
 import News from './News';
-import {inspect, debug} from './../utils/debug';
+//import {inspect, debug} from './../utils/debug';
 import Images from './../utils/images';
 import navigation from './../utils/navigation';
 import language from './../utils/language';
-import Metadata from './Metadata'
-const utils = require('./../utils/utils');
-var appversion = require("nativescript-appversion");
+import Metadata from './Metadata';
+var appversion = require('nativescript-appversion');
 
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
@@ -141,12 +141,12 @@ const Mainmenu = {
 
 		menuAnimation.play().finished
 			.then(function () {
-				if(cb && typeof cb == 'function') {
+				if(cb && typeof cb === 'function') {
 					cb(null, 'Done');
 				}
 			})
 			.catch(function (err) {
-				if(cb && typeof cb == 'function') {
+				if(cb && typeof cb === 'function') {
 					cb(err);
 				}
 			});
@@ -166,7 +166,7 @@ const Mainmenu = {
 		const curTime = new Date().getTime();
 		if ((curTime - enterDebugLastTap) > DEBUG_MODE_MAX_MS) {
 			enterDebugLastTap = curTime;
-			enterDebugTapCounter = 1
+			enterDebugTapCounter = 1;
 		} else {
 			enterDebugTapCounter += 1;
 		}

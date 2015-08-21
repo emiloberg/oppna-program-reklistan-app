@@ -2,7 +2,6 @@
 
 // Todo, hide search button and maybe menu button and maybe back button
 
-import {inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import SearchResultItem from './../shared/model/SearchResultItem';
 import search from './../shared/viewmodel/Search';

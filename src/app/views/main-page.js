@@ -3,7 +3,6 @@
 const frameModule = require('ui/frame');
 const initApp = require('./../shared/utils/appInit');
 import customUi from './../shared/modules/ui';
-import navigation from './../shared/utils/navigation';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
 import {debug} from './../shared/utils/debug';
@@ -30,7 +29,7 @@ function loadData() {
 	contextObj.set('errorTryAgain', '');
 
 	let loadingInterval = setInterval(function () {
-		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1 ;
+		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1;
 		contextObj.set('loadingCount', curLoadingCount);
 	}, 200);
 

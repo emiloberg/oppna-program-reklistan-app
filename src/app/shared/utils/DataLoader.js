@@ -126,14 +126,14 @@ function downloadResource(resource, isJson) {
 						.then(function () {
 							// Success removing the file.
 							debug('Removed local file ' + resource.localFileName);
-							saveResourceFile(resource.localFileName, data.content.toString())
+							saveResourceFile(resource.localFileName, data.content.toString());
 						}, function (err) {
 							debug('Could not remove local file ' + resource.localFileName, 'error');
 							debug(err);
-							saveResourceFile(resource.localFileName, data.content.toString())
+							saveResourceFile(resource.localFileName, data.content.toString());
 						});
 				} else {
-					saveResourceFile(resource.localFileName, data.content.toString())
+					saveResourceFile(resource.localFileName, data.content.toString());
 				}
 
 				if (resource.name !== 'news') { // Set the last updated to now for everything but news.
@@ -203,10 +203,10 @@ const DataLoader = {
 					date: '2010-01-01'
 				};
 				article.fields.forEach(field => {
-					fieldOut[field.name] = field.value
+					fieldOut[field.name] = field.value;
 				});
 
-				if (fieldOut.medium.indexOf('both') > 0  || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
+				if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
 					return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
 				} else {
 					return undefined;
@@ -241,7 +241,7 @@ const DataLoader = {
 							sortOrder: 0
 						};
 						article.fields.forEach(field => {
-							fieldOut[field.name] = field.value
+							fieldOut[field.name] = field.value;
 						});
 						return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
 					});
@@ -346,7 +346,7 @@ const DataLoader = {
 				Metadata.setDataUpdatedNow();
 			}
 			return dataLists;
-		})
+		});
 	}
 };
 export default DataLoader;

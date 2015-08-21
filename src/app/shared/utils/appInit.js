@@ -3,7 +3,7 @@
 import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
 import search from '../viewmodel/Search';
-import {inspect, saveFile, debug} from './debug';
+import {debug} from './debug';
 //
 //import fs from 'file-system';
 //const DOCUMENTS_FOLDER = fs.knownFolders.documents();

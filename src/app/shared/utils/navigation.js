@@ -7,9 +7,7 @@ const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 const Mainmenu = require('./../viewmodel/Mainmenu');
 const utils = require('./../utils/utils');
-import {inspect} from './../utils/debug';
-const dialogs = require('ui/dialogs');
-
+//import {inspect} from './../utils/debug';
 
 const navigation = {
 	swipe(args, pageTitle, allowedGestures = ['back', 'search', 'menu']) {
@@ -33,15 +31,6 @@ const navigation = {
 	toSearch(prevPageTitle) {
 		frameModule.topmost().navigate({
 			moduleName: 'views/search',
-			context: {
-				prevPageTitle: prevPageTitle
-			}
-		});
-	},
-
-	toMenu(prevPageTitle) {
-		frameModule.topmost().navigate({
-			moduleName: 'views/mainmenu',
 			context: {
 				prevPageTitle: prevPageTitle
 			}

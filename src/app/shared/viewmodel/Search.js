@@ -1,6 +1,6 @@
 'use strict';
 
-import {inspect} from './../utils/debug';
+//import {inspect} from './../utils/debug';
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 
 const utils = require('./../utils/utils');
@@ -38,7 +38,7 @@ const search = {
 
 		});
 	},
-	
+
 	search(searchStr) {
 		return new Promise(function (resolve/*, reject*/) {
 			let ret = SEARCHINDEX.search(searchStr).map(ref => {

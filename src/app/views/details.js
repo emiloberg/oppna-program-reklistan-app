@@ -31,10 +31,10 @@ function loaded(args) {
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar(curPageName, '', 0, 'none', 'normal', 'useLastPageTitle');
 		htmlData = `
-        <div class="mobile-container">
-        <div class="screen active">
-        <div class="section-details">
-        	${navContext.data.body}
+		<div class="mobile-container">
+		<div class="screen active">
+		<div class="section-details">
+		${navContext.data.body}
 		</div>
 		</div>
 		</div>`;
