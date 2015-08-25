@@ -117,6 +117,8 @@ Page {
     color: #4B5757;
     margin-top: 12;
     text-align: center;
+    padding-left: 12;
+    padding-right: 12;
 }
 
 .head--title-bar--label-no-tabs {
@@ -126,6 +128,8 @@ Page {
     margin-top: 12;
     margin-bottom: 12;
     text-align: center;
+    padding-left: 12;
+    padding-right: 12;
 }
 
 #start-page {
