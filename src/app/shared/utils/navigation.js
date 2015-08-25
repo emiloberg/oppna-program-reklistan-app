@@ -5,7 +5,7 @@
 const gestures = require('ui/gestures');
 const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
-const Mainmenu = require('./../viewmodel/Mainmenu');
+import Mainmenu  from './../viewmodel/Mainmenu';
 const utils = require('./../utils/utils');
 //import {inspect} from './../utils/debug';
 
