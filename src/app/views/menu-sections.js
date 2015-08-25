@@ -15,7 +15,6 @@ let dataList;
 let curPageName = language.appTitle;
 
 function loaded(args) {
-
 	customUi.setViewDefaults();
 	page = args.object;
 
@@ -25,6 +24,7 @@ function loaded(args) {
 
 	let elPageContent = page.getViewById('pagecontent');
 	dataList = appViewModel.appViewModel.getMainDataList();
+	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
 	elPageContent.bindingContext = dataList;
 
 	const elMenu = page.getViewById('menuwrapper');

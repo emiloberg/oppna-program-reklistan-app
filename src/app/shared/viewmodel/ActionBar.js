@@ -4,6 +4,7 @@ import language from './../utils/language';
 import {Observable} from 'data/observable';
 
 let lastPageTitle = '';
+let lastSetSelectedIndex = 0;
 
 export default class ActionBar extends Observable {
 	/**
@@ -19,7 +20,8 @@ export default class ActionBar extends Observable {
 		this._iconMenu = Images.menu;
 		this._pageTitle = pageTitle;
 		this._backTitle = (useLastPageTitle === 'useLastPageTitle') ? lastPageTitle : backTitle;
-		this._selectedIndex = selectedIndex;
+		//this._selectedIndex = selectedIndex;
+		this._selectedIndex = lastSetSelectedIndex;
 		this._enabledTabs = enabledTabs;
 		this._txtDrugs = language.drugs;
 		this._txtAdvice = language.advice;
@@ -33,6 +35,7 @@ export default class ActionBar extends Observable {
 
 	set selectedIndex(index) {
 		if (this._selectedIndex !== index) {
+			lastSetSelectedIndex = index;
 			this._selectedIndex = index;
 			this.notify({
 				object: this,

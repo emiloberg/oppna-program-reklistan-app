@@ -28,8 +28,15 @@ function loaded(args) {
 	let elActionBar = page.getViewById('actionbar');
 	let htmlData;
 
+	wv = page.getViewById('detailsWV');
+	wv.off(webViewModule.WebView.loadStartedEvent);
+	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
+		interjectLink(event);
+	});
+
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar(curPageName, '', 0, 'none', 'normal', 'useLastPageTitle');
+		elActionBar.bindingContext = actionBar;
 		htmlData = `
 		<div class="mobile-container">
 		<div class="screen active">
@@ -38,6 +45,7 @@ function loaded(args) {
 		</div>
 		</div>
 		</div>`;
+
 	} else { // Is drugs/advice article
 
 		let enabledTabs = '';
@@ -49,21 +57,15 @@ function loaded(args) {
 			enabledTabs = 'advice';
 		}
 		actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
+		elActionBar.bindingContext = actionBar;
 		htmlData = navContext.data.getContent(navContext.selectedIndex);
+
+		setTab(actionBar.get('selectedIndex'));
 	}
-
-	elActionBar.bindingContext = actionBar;
-
-	wv = page.getViewById('detailsWV');
-	wv.off(webViewModule.WebView.loadStartedEvent);
-	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
-		interjectLink(event);
-	});
 
 	showVW(htmlData);
 
 	inspect('Navigating to: details');
-
 }
 
 function interjectLink(event) {
@@ -107,7 +109,6 @@ function interjectLink(event) {
 	} else if (linkObj.external) {
 		navigation.navigateToExternalUrl(linkObj.url);
 	}
-
 
 }
 

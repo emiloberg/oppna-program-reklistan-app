@@ -35,7 +35,10 @@ function loaded(args) {
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
+	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
+
 	let elPageContent = page.getViewById('pagecontent');
+
 	dataList.selectedIndex = navContext.selectedIndex;
 	elPageContent.bindingContext = dataList;
 
