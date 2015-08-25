@@ -6,6 +6,7 @@ import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
+import AppMessage from './../shared/viewmodel/AppMessage';
 const frameModule = require('ui/frame');
 
 let page;
@@ -41,6 +42,12 @@ function loaded(args) {
 
 	dataList.selectedIndex = navContext.selectedIndex;
 	elPageContent.bindingContext = dataList;
+
+	const elMenu = page.getViewById('menuwrapper');
+	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+
+	const elAppMessage = page.getViewById('appmessage');
+	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 
 	inspect('Navigating to: ' + dataList.id);
 }
@@ -83,3 +90,5 @@ module.exports.hideMenuTap = Mainmenu.hide;
 module.exports.swipeMenu = function(args) {
 	Mainmenu.swipe(args);
 };
+module.exports.logoTap = Mainmenu.logoTap;
+module.exports.reloadDataTap = Mainmenu.reloadDataTap;

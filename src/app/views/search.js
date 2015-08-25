@@ -10,6 +10,7 @@ import {ObservableArray} from 'data/observable-array';
 import language from './../shared/utils/language';
 import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
+import AppMessage from './../shared/viewmodel/AppMessage';
 
 let page;
 let curPageName = language.searchTitle;
@@ -48,6 +49,12 @@ function loaded(args) {
 
 	let pagecontent = page.getViewById('pagecontent');
 	pagecontent.bindingContext = pageContent;
+
+	const elMenu = page.getViewById('menuwrapper');
+	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+
+	const elAppMessage = page.getViewById('appmessage');
+	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 }
 
 
@@ -92,3 +99,5 @@ module.exports.hideMenuTap = Mainmenu.hide;
 module.exports.swipeMenu = function(args) {
 	Mainmenu.swipe(args);
 };
+module.exports.logoTap = Mainmenu.logoTap;
+module.exports.reloadDataTap = Mainmenu.reloadDataTap;

@@ -30,7 +30,7 @@ function loaded(args) {
 	const elMenu = page.getViewById('menuwrapper');
 	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
 
-	let elAppMessage = page.getViewById('appmessage');
+	const elAppMessage = page.getViewById('appmessage');
 	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 }
 

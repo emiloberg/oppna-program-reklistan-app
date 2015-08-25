@@ -8,6 +8,7 @@ import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {android, ios} from 'application';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
+import AppMessage from './../shared/viewmodel/AppMessage';
 
 const webViewModule = require('ui/web-view');
 //const frameModule = require('ui/frame');
@@ -33,6 +34,12 @@ function loaded(args) {
 	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
 		interjectLink(event);
 	});
+
+	const elMenu = page.getViewById('menuwrapper');
+	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+
+	const elAppMessage = page.getViewById('appmessage');
+	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar(curPageName, '', 0, 'none', 'normal', 'useLastPageTitle');
@@ -153,3 +160,5 @@ module.exports.hideMenuTap = Mainmenu.hide;
 module.exports.swipeMenu = function(args) {
 	Mainmenu.swipe(args);
 };
+module.exports.logoTap = Mainmenu.logoTap;
+module.exports.reloadDataTap = Mainmenu.reloadDataTap;
