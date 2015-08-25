@@ -38,6 +38,8 @@ if (global.REK.dev.server === 'dev') {
 		host: global.REK.dev.devServer
 	};
 
+	//const cacheBuster = new Date().getTime();
+
 	global.REK.urls = {
 		drugs: global.REK.dev.devServer + '/drugs.json',
 		advice: global.REK.dev.devServer + '/advice.json',
@@ -48,27 +50,29 @@ if (global.REK.dev.server === 'dev') {
 		hbsResources: global.REK.dev.devServer + '/resources.hbs',
 		css: global.REK.dev.devServer + '/custom.css'
 	};
+
+	// TODO: Check if we can add the cacheBuster to the urls.
 } else {
-	global.REK.preferences = {
-		host: _properties.host
-	};
+		global.REK.preferences = {
+			host: _properties.host
+		};
 
-	global.REK.urls = {
-		drugs: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.drugsStructureId + '/locale/' + _properties.locale,
+		global.REK.urls = {
+			drugs: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.drugsStructureId + '/locale/' + _properties.locale,
 
-		advice: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.adviceStructureId + '/locale/' + _properties.locale,
+			advice: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.adviceStructureId + '/locale/' + _properties.locale,
 
-		resources: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.resourcesStructureId + '/locale/' + _properties.locale,
+			resources: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.resourcesStructureId + '/locale/' + _properties.locale,
 
-		news: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.newsStructureId + '/locale/' + _properties.locale,
+			news: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' + 'company-id/' + _properties.companyId + '/group-name/' + _properties.groupName + '/ddm-structure-id/' + _properties.newsStructureId + '/locale/' + _properties.locale,
 
-		hbsDrugs: _properties.host + '/reklistan-theme/handlebars/details-drugs.hbs',
-		hbsAdvice: _properties.host + '/reklistan-theme/handlebars/details-advice.hbs',
-		hbsResources: _properties.host + '/reklistan-theme/handlebars/resources.hbs',
+			hbsDrugs: _properties.host + '/reklistan-theme/handlebars/details-drugs.hbs',
+			hbsAdvice: _properties.host + '/reklistan-theme/handlebars/details-advice.hbs',
+			hbsResources: _properties.host + '/reklistan-theme/handlebars/resources.hbs',
 
-		css: _properties.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210'
-	};
-}
+			css: _properties.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210'
+		};
+	}
 
 global.REK.news = {
 	name: 'news',
@@ -78,7 +82,7 @@ global.REK.news = {
 };
 
 global.REK.preferences.maxNews = 5;
-global.REK.preferences.warnOldData = 20; //Warn about old data when it's x seconds old.
+global.REK.preferences.warnOldData = 1209600; //Warn about old data when it's x seconds old.
 // 1 hour = 3600
 // 1 day = 86400
 // 1 week = 604 800

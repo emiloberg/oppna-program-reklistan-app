@@ -4,13 +4,6 @@ import DataLoader from './DataLoader';
 import {appViewModel} from '../viewmodel/RekAppViewModel';
 import search from '../viewmodel/Search';
 import {debug} from './debug';
-//
-//import fs from 'file-system';
-//const DOCUMENTS_FOLDER = fs.knownFolders.documents();
-
-
-
-//var file = documents.getFile("NewFileToCreate.txt");
 
 function init(forceDownloadStr = '') {
 
@@ -66,10 +59,6 @@ function init(forceDownloadStr = '') {
 		appViewModel.setMainDataList(list);
 		search.addToIndex(list);
 	});
-	//.catch(err => {
-	//	console.log(err);
-	//	console.log('FEL I INIT()');
-	//});
 }
 
 module.exports.init = init;

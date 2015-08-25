@@ -40,6 +40,8 @@ if (global.REK.dev.server === 'dev') {
 		host: global.REK.dev.devServer
 	};
 
+	//const cacheBuster = new Date().getTime();
+
 	global.REK.urls = {
 		drugs: global.REK.dev.devServer + '/drugs.json',
 		advice: global.REK.dev.devServer + '/advice.json',
@@ -50,6 +52,8 @@ if (global.REK.dev.server === 'dev') {
 		hbsResources: global.REK.dev.devServer + '/resources.hbs',
 		css: global.REK.dev.devServer + '/custom.css'
 	};
+
+	// TODO: Check if we can add the cacheBuster to the urls.
 
 } else {
 	global.REK.preferences = {
@@ -97,7 +101,7 @@ global.REK.news = {
 };
 
 global.REK.preferences.maxNews = 5;
-global.REK.preferences.warnOldData = 20; //Warn about old data when it's x seconds old.
+global.REK.preferences.warnOldData = 1209600; //Warn about old data when it's x seconds old.
 // 1 hour = 3600
 // 1 day = 86400
 // 1 week = 604 800
