@@ -36,11 +36,9 @@ function loaded(args) {
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
-	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
-
 	let elPageContent = page.getViewById('pagecontent');
 
-	dataList.selectedIndex = navContext.selectedIndex;
+	dataList.selectedIndex = actionBar.get('selectedIndex');
 	elPageContent.bindingContext = dataList;
 
 	const elMenu = page.getViewById('menuwrapper');
@@ -49,7 +47,7 @@ function loaded(args) {
 	const elAppMessage = page.getViewById('appmessage');
 	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 
-	inspect('Navigating to: ' + dataList.id);
+	switchTab(actionBar.get('selectedIndex'));
 }
 
 function menuItemTap(args) {
@@ -64,19 +62,18 @@ function menuItemTap(args) {
 	});
 }
 
-function drugsTap() {
-	actionBar.selectedIndex = 0;
-	dataList.selectedIndex = 0;
-}
-
-function adviceTap() {
-	actionBar.selectedIndex = 1;
-	dataList.selectedIndex = 1;
+function switchTab(index) {
+	actionBar.set('selectedIndex', index);
+	dataList.set('selectedIndex', index);
 }
 
 module.exports.loaded = loaded;
-module.exports.drugsTap = drugsTap;
-module.exports.adviceTap = adviceTap;
+module.exports.drugsTap = function() {
+	switchTab(0);
+};
+module.exports.adviceTap = function() {
+	switchTab(1);
+};
 module.exports.menuItemTap = menuItemTap;
 module.exports.backTap = navigation.back;
 module.exports.swipe = function(args) {

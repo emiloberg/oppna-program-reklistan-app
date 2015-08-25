@@ -71,8 +71,6 @@ function loaded(args) {
 	}
 
 	showVW(htmlData);
-
-	inspect('Navigating to: details');
 }
 
 function interjectLink(event) {

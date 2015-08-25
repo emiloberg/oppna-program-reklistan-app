@@ -46,20 +46,18 @@ function menuItemTap(args) {
     });
 }
 
-function drugsTap() {
-	actionBar.selectedIndex = 0;
-	dataList.selectedIndex = 0;
+function switchTab(index) {
+	actionBar.set('selectedIndex', index);
+	dataList.set('selectedIndex', index);
 }
-
-function adviceTap() {
-	actionBar.selectedIndex = 1;
-	dataList.selectedIndex = 1;
-}
-
 
 module.exports.loaded = loaded;
-module.exports.drugsTap = drugsTap;
-module.exports.adviceTap = adviceTap;
+module.exports.drugsTap = function() {
+	switchTab(0);
+};
+module.exports.adviceTap = function() {
+	switchTab(1);
+};
 module.exports.menuItemTap = menuItemTap;
 module.exports.swipe = function(args) {
 	navigation.swipe(args, curPageName, ['search', 'menu']);
