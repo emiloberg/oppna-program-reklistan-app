@@ -112,9 +112,10 @@ function checkConnectivity(forceDownload) {
  * @param {boolean} isJson Is JSON and therefor parse
  * @returns {Promise}
  */
+
 function downloadResource(resource, isJson) {
 	return http.request({
-			url: resource.url,
+			url: resource.url + '?buster=' + new Date().getTime(),
 			method: 'GET',
 			timeout: 15 * 1000
 		})
