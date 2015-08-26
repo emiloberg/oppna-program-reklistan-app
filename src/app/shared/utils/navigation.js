@@ -7,6 +7,7 @@ const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 import Mainmenu  from './../viewmodel/Mainmenu';
 const utils = require('./../utils/utils');
+import AppMessage from './../viewmodel/AppMessage'
 //import {inspect} from './../utils/debug';
 
 const navigation = {
@@ -78,12 +79,7 @@ const navigation = {
 			});
 		})
 		.catch(function (err) {
-			console.log(err);
-			// Todo, something with the error
-			//dialogs.alert('FEL 2').then(function() {
-			//	console.log('Dialog closed!');
-			//});
-
+			AppMessage.setMessage(err.message ? err.message : err, 'info');
 		});
 	},
 

@@ -23,7 +23,8 @@ const language = {
 	downloadDataNoConnection: 'Ingen internetanslutning!\n\nFörsök igen när du har tillgång till internet.',
 	downloadDataErrorGoBack: 'Okay, gå tillbaka',
 	downloadDataUnknownError: 'Kunde inte ladda data.\n\nKontrollera att du har tillgång till internet, eller försök igen lite senare.',
-	downloadDataTryAgain: 'Försök igen'
+	downloadDataTryAgain: 'Försök igen',
+	errorPageNotFound: 'Innehållet kan inte hittas'
 };
 
 export default language;

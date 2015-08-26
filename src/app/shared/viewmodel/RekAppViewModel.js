@@ -2,6 +2,8 @@
 
 //import {inspect} from './../utils/debug';
 
+import language from './../utils/language'
+
 let MAIN_DATA_LIST;
 
 const TABTYPES = ['drugs', 'advice'];
@@ -37,12 +39,12 @@ export const appViewModel = {
 		if (filtered.length === 1) {
 			filtered = filtered[0];
 		} else {
-			throw new Error('Page not found, error 1');
+			throw new Error(language.errorPageNotFound);
 		}
 
 		// Check if section exist for asked type
 		if (filtered.hasType(askedTypeId) !== true) {
-			throw new Error('Page not found, error 3');
+			throw new Error(language.errorPageNotFound);
 		}
 
 		if (askedChapter === undefined) {
@@ -59,12 +61,12 @@ export const appViewModel = {
 		if (filtered.length === 1) {
 			filtered = filtered[0];
 		} else {
-			throw new Error('Page not found, error 4');
+			throw new Error(language.errorPageNotFound);
 		}
 
 		// Check if chapter exist for asked type
 		if (filtered.hasType(askedTypeId) !== true) {
-			throw new Error('Page not found, error 5');
+			throw new Error(language.errorPageNotFound);
 		}
 
 		return {
