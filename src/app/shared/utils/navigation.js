@@ -57,7 +57,9 @@ const navigation = {
 	},
 
 	navigateToUrl(url, prevPageTitle) {
-		utils.promiseInternalUrlToArray(url)
+		return new Promise(function (resolve) {
+			resolve(utils.internalUrlToArray(url));
+		})
 		.then(appViewModel.getSpecific)
 		.then(function (specific) {
 			let moduleName;

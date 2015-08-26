@@ -114,26 +114,6 @@ function makeUrlSafe(str /*, dontURIEncode*/) {
 	return ret;
 }
 
-// TODO: Convert caller to use non-promised function
-function promiseInternalUrlToArray(url) {
-	return new Promise(function (resolve/*, reject*/) {
-		let slugs = url.split('/');
-
-		if (slugs.length < 1 || slugs.length > 3) {
-			throw new Error('Not a correct URL');
-		}
-
-		if (slugs.length === 1) {
-			slugs.push(undefined);
-			slugs.push(undefined);
-		} else if (slugs.length === 2) {
-			slugs.push(undefined);
-		}
-		resolve(slugs);
-	});
-}
-
-
 function internalUrlToArray(url) {
 
 		let slugs = url.split('/');
@@ -177,7 +157,6 @@ function epochToFriendlyStamp(timestamp) {
 
 
 module.exports.makeUrlSafe = makeUrlSafe;
-module.exports.promiseInternalUrlToArray = promiseInternalUrlToArray;
 module.exports.internalUrlToArray = internalUrlToArray;
 module.exports.getLastSlugFromPath = getLastSlugFromPath;
 module.exports.epochToFriendlyStamp = epochToFriendlyStamp;
