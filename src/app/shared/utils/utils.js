@@ -131,14 +131,6 @@ function internalUrlToArray(url) {
 		return slugs;
 }
 
-function getLastSlugFromPath(path) {
-	if (path.indexOf('/') > -1) {
-		let paths = path.split('/');
-		return paths[paths.length - 1];
-	}
-
-	return path;
-}
 
 
 function epochToFriendlyStamp(timestamp) {
@@ -158,5 +150,4 @@ function epochToFriendlyStamp(timestamp) {
 
 module.exports.makeUrlSafe = makeUrlSafe;
 module.exports.internalUrlToArray = internalUrlToArray;
-module.exports.getLastSlugFromPath = getLastSlugFromPath;
 module.exports.epochToFriendlyStamp = epochToFriendlyStamp;

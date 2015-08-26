@@ -11,19 +11,6 @@ let pending = 0;
 let knownImages = {};
 const maxSimultaneousDownloadThreads = 5;
 
-
-/**
- * Clear the image folder
- */
-const clearImageFolder = () => {
-	IMAGE_FOLDER.clear().then(function () {
-		return true;
-	}, function (error) {
-		return new Error(error);
-	});
-};
-
-
 /**
  * Read file system and create a collection of known images
  * Must be run before images are downloaded.
@@ -127,7 +114,6 @@ const imageFolderPath = () => {
 const RemoteImages = {
 	queueImageForDownload,
 	initKnownImages,
-	clearImageFolder,
 	imageFolderPath
 };
 

@@ -42,7 +42,6 @@ const AppMessage = {
 		elAppMessage.width = deviceWidth;
 
 		// Set "Update your data now message" if it's old.
-		// TODO: Om användaren klickat "senare" så måste vi vänta ett tag innan vi frågar hen igen.
 		const now = new Date().getTime();
 		if(((now - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
 			if(((now - askDataDownloadLaterTimestamp) / 1000 ) > global.REK.preferences.askLaterGracePeriod) {
