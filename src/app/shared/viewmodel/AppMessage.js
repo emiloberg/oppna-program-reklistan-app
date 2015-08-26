@@ -12,13 +12,15 @@ import Mainmenu from './Mainmenu';
 const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
 const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
+let askDataDownloadLaterTimestamp = 0;
+
 let APP_MESSAGE = new Observable({
 	message: '',
 	type: '',
 	messageDownloadDataUpdateNow: language.messageDownloadDataUpdateNow,
 	messageDownloadDataUpdateLater: language.messageDownloadDataUpdateLater,
 	hideMessageTap: function() {
-		AppMessage.removeMessages();
+		AppMessage.downloadDataLater();
 	},
 	downloadDataTap: function() {
 		AppMessage.removeMessages();
@@ -41,8 +43,11 @@ const AppMessage = {
 
 		// Set "Update your data now message" if it's old.
 		// TODO: Om användaren klickat "senare" så måste vi vänta ett tag innan vi frågar hen igen.
-		if(((new Date().getTime() - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
-			AppMessage.setUpdateDataMessage();
+		const now = new Date().getTime();
+		if(((now - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
+			if(((now - askDataDownloadLaterTimestamp) / 1000 ) > global.REK.preferences.askLaterGracePeriod) {
+				AppMessage.setUpdateDataMessage();
+			}
 		}
 
 
@@ -76,6 +81,11 @@ const AppMessage = {
 		Mainmenu.hide();
 		APP_MESSAGE.set('type', '');
 		APP_MESSAGE.set('message', '');
+	},
+
+	downloadDataLater() {
+		askDataDownloadLaterTimestamp = new Date().getTime();
+		AppMessage.removeMessages();
 	}
 };
 
