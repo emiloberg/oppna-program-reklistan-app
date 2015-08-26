@@ -1,7 +1,5 @@
 'use strict';
 
-// Todo, hide search button and maybe menu button and maybe back button
-
 import ActionBar from './../shared/viewmodel/ActionBar';
 import SearchResultItem from './../shared/model/SearchResultItem';
 import search from './../shared/viewmodel/Search';

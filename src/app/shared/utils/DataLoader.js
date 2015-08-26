@@ -243,6 +243,9 @@ const DataLoader = {
 						article.fields.forEach(field => {
 							fieldOut[field.name] = field.value;
 						});
+
+						//TODO Add a check here to only include articles which are made for "mobile" or are marked "both".
+
 						return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
 					});
 					ResourceArticles.addAll(resourceArticles);

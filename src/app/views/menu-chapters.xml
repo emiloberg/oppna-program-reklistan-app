@@ -80,7 +80,7 @@
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
                     <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
-                    <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}"> <!-- TODO JOBBA HÄR! SE TILL ATT HEADING BARA SYNS OM DET FINNS NEWS-->
+                    <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
                         <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
                     </StackLayout>
                     <Repeater items="{{ news.items }}">
