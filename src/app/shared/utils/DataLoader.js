@@ -112,7 +112,6 @@ function checkConnectivity(forceDownload) {
  * @param {boolean} isJson Is JSON and therefor parse
  * @returns {Promise}
  */
-
 function downloadResource(resource, isJson) {
 	return http.request({
 			url: resource.url + '?buster=' + new Date().getTime(),
@@ -254,6 +253,9 @@ const DataLoader = {
 			});
 		})
 
+		// Load CSS
+		.then(() => loadFiles(spec.css, 'registerCss'))
+
 		// Load Data JSON
 		.then(() => loadResources(spec.json, true))
 		.then(resources => resources.map(resource => {
@@ -341,10 +343,6 @@ const DataLoader = {
 			return new RekDataList(section.title, contentSections, true, section.id);
 		}))
 		.then(dataLists => new RekDataList('REKListan', dataLists))
-		.then(dataLists => {
-			loadFiles(spec.css, 'registerCss'); // TODO: This is runned async and it shouldn't.
-			return dataLists;
-		})
 		.then(dataLists => {
 			if (hasLoadedNewServerData === true) {
 				Metadata.setDataUpdatedNow();
