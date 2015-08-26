@@ -238,15 +238,18 @@ const DataLoader = {
 							title: article.title,
 							body: '',
 							externallink: '',
-							sortOrder: 0
+							sortOrder: 0,
+							medium: 'mobile' // This field is added later on, therefor if article is not updated with the new field, set default to display anyways.
 						};
 						article.fields.forEach(field => {
 							fieldOut[field.name] = field.value;
 						});
 
-						//TODO Add a check here to only include articles which are made for "mobile" or are marked "both".
-
-						return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
+						if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
+							return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
+						} else {
+							return undefined;
+						}
 					});
 					ResourceArticles.addAll(resourceArticles);
 				}

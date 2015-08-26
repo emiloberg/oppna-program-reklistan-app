@@ -24,7 +24,9 @@ const ResourceArticles = {
 		}
 
 		list.forEach(article => {
-			RESOURCE_ARTICLES.push(article);
+			if (typeof article !== 'undefined') {
+				RESOURCE_ARTICLES.push(article);
+			}
 		});
 
 		ResourceArticles.sort();
