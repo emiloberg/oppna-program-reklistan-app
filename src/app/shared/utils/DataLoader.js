@@ -15,6 +15,7 @@ import {inspect, debug} from './debug';
 import RemoteImages from './remoteimages';
 import REKError from './Errors';
 import * as connectivity from 'connectivity';
+import * as appSettings from 'application-settings';
 
 const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
 
@@ -38,38 +39,38 @@ function loadResources(resources, isJson) {
 	return Promise.all(resources.map(resource => {
 		const localFilePath = fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName);
 		if (resource.download) { // If force download
-			debug('Get from server (force download): ' + utils.getLastSlugFromPath(resource.url));
+			debug('Get from server (force download): ' + resource.localFileName);
 			return downloadResource(resource, isJson);
 		} else {
-			if(fs.File.exists(localFilePath)) { // If file exist
-				debug('Get from local: ' + utils.getLastSlugFromPath(resource.url));
+			if (fs.File.exists(localFilePath)) { // If file exist
+				debug('Get from local: ' + resource.localFileName);
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
 				try {
 					return localFile.readText()
-					.then(function (content) {
-						let outStr;
-						try {
-							outStr = (isJson) ? JSON.parse(content) : content;
-							let dataOut = {
-								name: resource.name,
-								data: outStr,
-								loadedFrom: 'local'
-							};
-							debug('Success get from local: ' + utils.getLastSlugFromPath(resource.url));
-							return Promise.resolve(dataOut);
-						} catch(err) {
-							debug('ERROR get from local, will download instead: ' + utils.getLastSlugFromPath(resource.url), 'error');
-							return downloadResource(resource, isJson);
-						}
-					}, function () {
-						throw 'Could not read file';
-					});
+						.then(function (content) {
+							let outStr;
+							try {
+								outStr = (isJson) ? JSON.parse(content) : content;
+								let dataOut = {
+									name: resource.name,
+									data: outStr,
+									loadedFrom: 'local'
+								};
+								debug('Success get from local: ' + resource.localFileName);
+								return Promise.resolve(dataOut);
+							} catch (err) {
+								debug('ERROR get from local, will download instead: ' + resource.localFileName, 'error');
+								return downloadResource(resource, isJson);
+							}
+						}, function () {
+							throw 'Could not read file';
+						});
 				} catch (error) {
-					debug('ERROR parsing local, will download instead: ' + utils.getLastSlugFromPath(resource.url), 'error');
+					debug('ERROR parsing local, will download instead: ' + resource.localFileName, 'error');
 					return downloadResource(resource, isJson);
 				}
 			} else { // If not file exists, download it
-				debug('Get from server: ' + utils.getLastSlugFromPath(resource.url));
+				debug('Get from server: ' + resource.localFileName);
 				return downloadResource(resource, isJson);
 			}
 		}
@@ -114,10 +115,10 @@ function checkConnectivity(forceDownload) {
  */
 function downloadResource(resource, isJson) {
 	return http.request({
-			url: resource.url + '?buster=' + new Date().getTime(),
-			method: 'GET',
-			timeout: 15 * 1000
-		})
+		url: resource.url + '?buster=' + new Date().getTime(),
+		method: 'GET',
+		timeout: 15 * 1000
+	})
 		.then(data => {
 			if (data.statusCode >= 200 && data.statusCode < 300) {
 				let localFile = DOCUMENTS_FOLDER.getFile(resource.localFileName);
@@ -158,14 +159,14 @@ function downloadResource(resource, isJson) {
 
 function loadFiles(resources, registerWith) {
 	return loadResources(resources, false)
-	.then(templates => {
-		return templates;
-	})
-	.then(templates => {
-		templates.forEach(template => {
-			templatesModel[registerWith](template.name, template.data);
+		.then(templates => {
+			return templates;
+		})
+		.then(templates => {
+			templates.forEach(template => {
+				templatesModel[registerWith](template.name, template.data);
+			});
 		});
-	});
 }
 
 function mergeArrays(target, source, locator, merger) {
@@ -186,34 +187,148 @@ function mergeArrays(target, source, locator, merger) {
 	return target;
 }
 
+
+function createDataLocation(locations, forceDownload) {
+
+	const urlPart1 = `${global.REK.preferences.host}/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/${locations.companyId}/group-name/${locations.groupName}/ddm-structure-id/`;
+	const urlPart2 = `/locale/${locations.locale}`;
+
+	global.REK.news = {
+		name:          'news',
+		localFileName: 'news.json',
+		url:           urlPart1 + locations.newsStructureId + urlPart2,
+		download:      true
+	};
+
+	const dataLocation = {
+		forceDownload: forceDownload,
+		supportJson:   [{
+			name:          'resources',
+			localFileName: 'resources.json',
+			url:           urlPart1 + locations.resourcesStructureId + urlPart2,
+			download:      forceDownload
+		}],
+
+		json: [{
+			name:          'drugs',
+			localFileName: 'drugs.json',
+			url:           urlPart1 + locations.drugsStructureId + urlPart2,
+			download:      forceDownload
+		}, {
+			name:          'advice',
+			localFileName: 'advice.json',
+			url:           urlPart1 + locations.adviceStructureId + urlPart2,
+			download:      forceDownload
+		}],
+
+		templates: [{
+			name:          'drugs',
+			localFileName: 'details-drugs.hbs',
+			url:           global.REK.preferences.host + '/reklistan-theme/handlebars/details-drugs.hbs',
+			download:      forceDownload
+		}, {
+			name:          'advice',
+			localFileName: 'details-advice.hbs',
+			url:           global.REK.preferences.host + '/reklistan-theme/handlebars/details-advice.hbs',
+			download:      forceDownload
+		}],
+
+		css: [{
+			name:          'custom',
+			localFileName: 'custom.css',
+			url:           global.REK.preferences.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210',
+			download:      forceDownload
+		}]
+	};
+
+	debug('dataLocation\n' + JSON.stringify(dataLocation, null, '  '));
+
+	return dataLocation;
+}
+
+
 const DataLoader = {
+
+	getDataLocation(forceDownload) {
+		return new Promise((resolve, reject) => {
+			let dataLocation = {
+				companyId:            appSettings.getNumber('companyId', 0),
+				groupName:            appSettings.getString('groupName', ''),
+				drugsStructureId:     appSettings.getNumber('drugsStructureId', 0),
+				adviceStructureId:    appSettings.getNumber('adviceStructureId', 0),
+				resourcesStructureId: appSettings.getNumber('resourcesStructureId', 0),
+				newsStructureId:      appSettings.getNumber('newsStructureId', 0),
+				locale:               appSettings.getString('locale', '')
+			};
+
+			const hasAllData = Object.keys(dataLocation).every(key => {
+				return (dataLocation[key] !== '' && dataLocation[key] !== 0);
+			});
+
+			if (hasAllData && !forceDownload) {
+				debug('Got local dataLocation');
+				resolve(createDataLocation(dataLocation, forceDownload));
+			} else {
+				debug('Getting from server server dataLocation');
+				http.request({
+					url: global.REK.urlDataLocation + '?buster=' + new Date().getTime(),
+					method: 'GET',
+					timeout: 15 * 1000
+				})
+				.then(data => {
+					try {
+						dataLocation = data.content.toJSON();
+						appSettings.setNumber('companyId', dataLocation.companyId);
+						appSettings.setString('groupName', dataLocation.groupName);
+						appSettings.setNumber('drugsStructureId', dataLocation.drugsStructureId);
+						appSettings.setNumber('adviceStructureId', dataLocation.adviceStructureId);
+						appSettings.setNumber('resourcesStructureId', dataLocation.resourcesStructureId);
+						appSettings.setNumber('newsStructureId', dataLocation.newsStructureId);
+						appSettings.setString('locale', dataLocation.locale);
+						debug('Success get from server dataLocation');
+						resolve(createDataLocation(dataLocation, forceDownload));
+					} catch (err){
+						debug('Fail reading dataLocation got from server', 'error');
+						debug(err);
+						reject('Fail reading dataLocation got from server')
+					}
+				})
+				.catch((err) => {
+					debug('Fail getting from server dataLocation', 'error');
+					debug(err);
+					reject('Fail getting from server dataLocation')
+				});
+			}
+		});
+	},
+
 
 	loadNews(spec) {
 		debug('Start Loading News');
 		return loadResources(spec, true)
-		.then(allNews => {
-			const newsArticles = allNews[0].data.map(article => {
-				let fieldOut = {
-					uuid: article.uuid,
-					title: article.title,
-					body: '',
-					externallink: '',
-					medium: '',
-					lead: '',
-					date: '2010-01-01'
-				};
-				article.fields.forEach(field => {
-					fieldOut[field.name] = field.value;
-				});
+			.then(allNews => {
+				const newsArticles = allNews[0].data.map(article => {
+					let fieldOut = {
+						uuid: article.uuid,
+						title: article.title,
+						body: '',
+						externallink: '',
+						medium: '',
+						lead: '',
+						date: '2010-01-01'
+					};
+					article.fields.forEach(field => {
+						fieldOut[field.name] = field.value;
+					});
 
-				if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
-					return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
-				} else {
-					return undefined;
-				}
+					if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
+						return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
+					} else {
+						return undefined;
+					}
+				});
+				return News.addAll(newsArticles);
 			});
-			return News.addAll(newsArticles);
-		});
 	},
 
 	loadViewModel(spec) {
@@ -222,136 +337,129 @@ const DataLoader = {
 		// Check connectivity
 		return checkConnectivity(spec.forceDownload)
 
-		// Get templates
-		.then(() => loadFiles(spec.templates, 'registerTemplate'))
+			// Get templates
+			.then(() => loadFiles(spec.templates, 'registerTemplate'))
 
-		// Fetch Support JSONs
-		.then(() => loadResources(spec.supportJson, true))
+			// Fetch Support JSONs
+			.then(() => loadResources(spec.supportJson, true))
 
-		// Mangle and populate support JSONs
-		.then(supportResources => {
-			supportResources.forEach(resource => {
-				if(resource.name === 'resources') { // Resource Articles
-					const resourceArticles = resource.data.map(article => {
-						let fieldOut = {
-							uuid: article.uuid,
-							title: article.title,
-							body: '',
-							externallink: '',
-							sortOrder: 0,
-							medium: 'mobile' // This field is added later on, therefor if article is not updated with the new field, set default to display anyways.
-						};
-						article.fields.forEach(field => {
-							fieldOut[field.name] = field.value;
-						});
-
-						if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
-							return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
-						} else {
-							return undefined;
-						}
-					});
-					ResourceArticles.addAll(resourceArticles);
-				}
-			});
-		})
-
-		// Load CSS
-		.then(() => loadFiles(spec.css, 'registerCss'))
-
-		// Load Data JSON
-		.then(() => loadResources(spec.json, true))
-		.then(resources => resources.map(resource => {
-			return resource.data.map(section => {
-				return {
-					title: section.title,
-					id: utils.makeUrlSafe(section.title),
-					items: section.fields.map((field, fieldIndex) => {
-						if (field.value) { // has heading
-							const content = {};
-							content[resource.name] = templatesModel.processTemplate(resource.name, {
-								fields: [field], // hbs template is expecting content in fields[].
-								isMobile: true
+			// Mangle and populate support JSONs
+			.then(supportResources => {
+				supportResources.forEach(resource => {
+					if (resource.name === 'resources') { // Resource Articles
+						const resourceArticles = resource.data.map(article => {
+							let fieldOut = {
+								uuid: article.uuid,
+								title: article.title,
+								body: '',
+								externallink: '',
+								sortOrder: 0,
+								medium: 'mobile' // This field is added later on, therefor if article is not updated with the new field, set default to display anyways.
+							};
+							article.fields.forEach(field => {
+								fieldOut[field.name] = field.value;
 							});
 
-							const order = {};
-							order[resource.name] = fieldIndex;
-							return {
-								title: field.value,
-								content: content,
-								order: order,
-								id: utils.makeUrlSafe(field.value)
-							};
-						} else {
-							return null;
-						}
-					})
-					.filter(item => item !== null) // remove entries without headings (empty ones)
-				};
-			});
-		}))
-		.then(trees => trees.reduce((target, source) =>
-				mergeArrays(target, source,
-					(haystack, needle) =>
-						haystack.map(e => e.title).indexOf(needle.title),
-					(targetItem, sourceItem) => {
-						mergeArrays(targetItem.items, sourceItem.items,
-							(haystack, needle) =>
-								haystack.map(e => e.title).indexOf(needle.title),
-							(innerTargetItem, innerSourceItem) => {
-								Object.keys(innerSourceItem.content).forEach(key => {
-									innerTargetItem.content[key] = innerSourceItem.content[key];
-									innerTargetItem.order[key] = innerSourceItem.order[key];
+							if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
+								return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
+							} else {
+								return undefined;
+							}
+						});
+						ResourceArticles.addAll(resourceArticles);
+					}
+				});
+			})
+
+			// Load CSS
+			.then(() => loadFiles(spec.css, 'registerCss'))
+
+			// Load Data JSON
+			.then(() => loadResources(spec.json, true))
+			.then(resources => resources.map(resource => {
+				return resource.data.map(section => {
+					return {
+						title: section.title,
+						id: utils.makeUrlSafe(section.title),
+						items: section.fields.map((field, fieldIndex) => {
+							if (field.value) { // has heading
+								const content = {};
+								content[resource.name] = templatesModel.processTemplate(resource.name, {
+									fields: [field], // hbs template is expecting content in fields[].
+									isMobile: true
+								});
+
+								const order = {};
+								order[resource.name] = fieldIndex;
+								return {
+									title: field.value,
+									content: content,
+									order: order,
+									id: utils.makeUrlSafe(field.value)
+								};
+							} else {
+								return null;
+							}
+						})
+							.filter(item => item !== null) // remove entries without headings (empty ones)
+					};
+				});
+			}))
+			.then(trees => trees.reduce((target, source) =>
+					mergeArrays(target, source,
+						(haystack, needle) =>
+							haystack.map(e => e.title).indexOf(needle.title),
+						(targetItem, sourceItem) => {
+							mergeArrays(targetItem.items, sourceItem.items,
+								(haystack, needle) =>
+									haystack.map(e => e.title).indexOf(needle.title),
+								(innerTargetItem, innerSourceItem) => {
+									Object.keys(innerSourceItem.content).forEach(key => {
+										innerTargetItem.content[key] = innerSourceItem.content[key];
+										innerTargetItem.order[key] = innerSourceItem.order[key];
+									});
+								}
+							);
+						})
+				)
+			)
+			.then(mergedData => {
+				RemoteImages.initKnownImages();
+				return mergedData;
+			})
+			.then(mergedData => {
+				mergedData
+					.map(section => section.items)
+					.reduce((a, b) => a.concat(b), [])
+					.map(item => item.content)
+					.forEach(contentSection => {
+						Object.keys(contentSection).forEach(key => {
+							// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
+							const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
+							let match;
+							while (match = reSrc.exec(contentSection[key])) {  //eslint-disable-line
+								RemoteImages.queueImageForDownload({
+									url: global.REK.preferences.host + match[1],
+									filename: utils.makeUrlSafe(match[1])
 								});
 							}
-						);
-				})
-			)
-		)
-		.then(mergedData => {
-			if (global.REK.dev.clearImageFolder) {
-				debug('Clearing Image Folder');
-				RemoteImages.clearImageFolder();
-			}
-			return mergedData;
-		})
-		.then(mergedData => {
-			RemoteImages.initKnownImages();
-			return mergedData;
-		})
-		.then(mergedData => {
-			mergedData
-				.map(section => section.items)
-				.reduce((a, b) => a.concat(b), [])
-				.map(item => item.content)
-				.forEach(contentSection => {
-					Object.keys(contentSection).forEach(key => {
-						// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
-						const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
-						let match;
-						while (match = reSrc.exec(contentSection[key])) {  //eslint-disable-line
-							RemoteImages.queueImageForDownload({
-								url: global.REK.preferences.host + match[1],
-								filename: utils.makeUrlSafe(match[1])
-							});
-						}
+						});
 					});
-				});
-			return mergedData;
-		})
-		.then(mergedData => mergedData.map(section => {
-			const contentSections = section.items.map(
-				item => new ContentItem(item.title, item.content, item.order, item.id));
+				return mergedData;
+			})
+			.then(mergedData => mergedData.map(section => {
+				const contentSections = section.items.map(
+						item => new ContentItem(item.title, item.content, item.order, item.id));
 
-			return new RekDataList(section.title, contentSections, true, section.id);
-		}))
-		.then(dataLists => new RekDataList('REKListan', dataLists))
-		.then(dataLists => {
-			if (hasLoadedNewServerData === true) {
-				Metadata.setDataUpdatedNow();
-			}
-			return dataLists;
-		});
+				return new RekDataList(section.title, contentSections, true, section.id);
+			}))
+			.then(dataLists => new RekDataList('REKListan', dataLists))
+			.then(dataLists => {
+				if (hasLoadedNewServerData === true) {
+					Metadata.setDataUpdatedNow();
+				}
+				return dataLists;
+			});
 	}
 };
 export default DataLoader;

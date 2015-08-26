@@ -9,6 +9,7 @@ import {device, screen} from 'platform';
 var appversion = require('nativescript-appversion');
 var fs = require('file-system');
 import Metadata from './../shared/viewmodel/Metadata';
+import * as appSettings from 'application-settings';
 
 function loaded(args) {
 	customUi.setViewDefaults();
@@ -80,6 +81,17 @@ function removeLocalFolder(folder) {
 	});
 }
 
+function removeDataLocation() {
+	appSettings.setNumber('companyId', 0);
+	appSettings.setString('groupName', '');
+	appSettings.setNumber('drugsStructureId', 0);
+	appSettings.setNumber('adviceStructureId', 0);
+	appSettings.setNumber('resourcesStructureId', 0);
+	appSettings.setNumber('newsStructureId', 0);
+	appSettings.setString('locale', '');
+	debug.debug('Removed dataLocation');
+}
+
 
 
 module.exports.loaded = loaded;
@@ -90,5 +102,6 @@ module.exports.swipe = function(args) {
 module.exports.removeLocalFilesTap = removeLocalFiles;
 module.exports.removeLocalImagesTap = removeLocalImages;
 module.exports.removeLocalCacheTap = removeLocalCache;
+module.exports.removeDataLocationTap = removeDataLocation;
 module.exports.clearDebugLogTap = debug.clearDebugLog;
 module.exports.shareLog = shareLog;

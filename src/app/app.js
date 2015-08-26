@@ -7,106 +7,29 @@ application.mainModule = 'views/main-page';
 application.cssFile = './app.css';
 
 application.onUncaughtError = function (error) {
-    console.log('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
+    debug.debug('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
+};
+
+const _host = 'http://local.dev:8080';
+
+global.REK = {
+	urlDataLocation: _host + '/reklistan-theme/resources/appdata.json',
+	preferences: {
+		host: _host,
+		maxNews: 5,
+		warnOldData: 1209600, // Warn about old data when it's x seconds old.
+		askLaterGracePeriod: 86400 // When user clicks "download later", how long to ask before next ask.
+	}
 };
 
 
-// Load files from local file system instead of from the net
-// TODO: Change for production
-global.REK = {};
-global.REK.dev = {
-	server: 'dev',
-	devServer: 'http://labs.emiloberg.se/rekdata',
-	//devServer: 'http://10.255.255.1', // Fake server to test network lost
-	//devServer: 'http://local.dev:5656',
-	clearImageFolder: false
-};
-
-
-var _properties = {
-	host: 'http://local.dev:8080',
-	companyId: 10155,
-	groupName: 'Guest',
-	drugsStructureId: 11571,
-	adviceStructureId: 12602,
-	resourcesStructureId: 14304,
-	newsStructureId: 19302,
-	locale: 'sv_SE'
-};
-
-if (global.REK.dev.server === 'dev') {
-
-	global.REK.preferences = {
-		host: global.REK.dev.devServer
-	};
-
-	//const cacheBuster = new Date().getTime();
-
-	global.REK.urls = {
-		drugs: global.REK.dev.devServer + '/drugs.json',
-		advice: global.REK.dev.devServer + '/advice.json',
-		resources: global.REK.dev.devServer + '/resources.json',
-		news: global.REK.dev.devServer + '/news.json',
-		hbsDrugs: global.REK.dev.devServer + '/details-drugs.hbs',
-		hbsAdvice: global.REK.dev.devServer + '/details-advice.hbs',
-		hbsResources: global.REK.dev.devServer + '/resources.hbs',
-		css: global.REK.dev.devServer + '/custom.css'
-	};
-
-	// TODO: Check if we can add the cacheBuster to the urls.
-
-} else {
-	global.REK.preferences = {
-		host: _properties.host
-	};
-
-	global.REK.urls = {
-		drugs: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
-		'company-id/' + _properties.companyId +
-		'/group-name/' + _properties.groupName +
-		'/ddm-structure-id/' + _properties.drugsStructureId +
-		'/locale/' + _properties.locale,
-
-		advice: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
-		'company-id/' + _properties.companyId +
-		'/group-name/' + _properties.groupName +
-		'/ddm-structure-id/' + _properties.adviceStructureId +
-		'/locale/' + _properties.locale,
-
-		resources: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
-		'company-id/' + _properties.companyId +
-		'/group-name/' + _properties.groupName +
-		'/ddm-structure-id/' + _properties.resourcesStructureId +
-		'/locale/' + _properties.locale,
-
-		news: _properties.host + '/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/' +
-		'company-id/' + _properties.companyId +
-		'/group-name/' + _properties.groupName +
-		'/ddm-structure-id/' + _properties.newsStructureId +
-		'/locale/' + _properties.locale,
-
-		hbsDrugs: _properties.host + '/reklistan-theme/handlebars/details-drugs.hbs',
-		hbsAdvice: _properties.host + '/reklistan-theme/handlebars/details-advice.hbs',
-		hbsResources: _properties.host + '/reklistan-theme/handlebars/resources.hbs',
-
-		css: _properties.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210'
-	};
-}
-
-global.REK.news = {
-	name: 'news',
-	localFileName: 'news.json',
-	url: global.REK.urls.news,
-	download: true
-};
-
-global.REK.preferences.maxNews = 5;
-global.REK.preferences.warnOldData = 1209600; //Warn about old data when it's x seconds old.
-global.REK.preferences.askLaterGracePeriod = 86400;
 // 1 hour = 3600
 // 1 day = 86400
 // 1 week = 604 800
 // 2 weeks = 1 209 600
+
+
+
 
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 

@@ -38,6 +38,7 @@
                                 <Button text="Remove all local files" tap="removeLocalFilesTap" />
                                 <Button text="Remove images" tap="removeLocalImagesTap" />
                                 <Button text="Remove cache" tap="removeLocalCacheTap" />
+                                <Button text="Remove dataLocation" tap="removeDataLocationTap" />
                                 <Button text="Clear Log" tap="clearDebugLogTap" />
                             </StackLayout>
                         </TabViewItem.view>
