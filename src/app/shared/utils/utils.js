@@ -1,6 +1,7 @@
 'use strict';
 
 //import {inspect} from './debug';
+import RemoteImages from './remoteimages';
 
 const defaultDiacriticsRemovalap = [
 	{'base': 'A', 'letters': '\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F'},
@@ -147,7 +148,59 @@ function epochToFriendlyStamp(timestamp) {
 	return formattedTime;
 }
 
+/**
+ * Rewrites html elements to something NativeScript can understand
+ *
+ * Prefixing links with
+ * 		rek:// for internal links,
+ * 		rekhttps:// for externa https links
+ * 		rekhttp:// for externa http links
+ * 		rekmail:// for mailto links
+ *
+ * Setting image src to file://... internal urls. Also setting
+ * the original url in 'data-remotesrc' property, to be able to fetch
+ * it and download the links in other function.
+ *
+ * @param {string} html
+ * @returns {string}
+ */
+function rewriteHTML(html) {
+
+	// Convert markdown links to html links
+	html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="\$2">\$1</a>');
+
+	// Convert links
+	const reInteralLinks = new RegExp(/href=([\"\'])#\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reInteralLinks, 'href="rek://$2"');
+
+	const reExternalHttpsLinks = new RegExp(/href=([\"\'])https\:\/\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reExternalHttpsLinks, 'href="rekhttps://$2"');
+
+	const reExternalHttpLinks = new RegExp(/href=([\"\'])http\:\/\/([^\"\']+)([\"\'])/gi);
+	html = html.replace(reExternalHttpLinks, 'href="rekhttp://$2"');
+
+	const reMailLinks = new RegExp(/href=([\"\'])mailto\:([^\"\']+)([\"\'])/gi);
+	html = html.replace(reMailLinks, 'href="rekmail://$2"');
+
+	// Convert image path
+	const reImages = new RegExp(/src=[\"\']([^\"\']+)[\"\']/gi);
+	html = html.replace(reImages, function (match, capture) {
+		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
+	});
+
+	// Convert {{replaceable}} with icon
+	html = html.replace(/\{\{replaceable\}\}/g, '<span class="replaceable">&#8860;</span>');
+
+	// Convert {{child}} with icon
+	html = html.replace(/\{\{child\}\}/g, '<img src="/reklistan-theme/images/theme/child.png" class="child-icon">');
+	// TODO: Change this so that the image is actually showing.
+
+
+	return html;
+}
+
 
 module.exports.makeUrlSafe = makeUrlSafe;
 module.exports.internalUrlToArray = internalUrlToArray;
 module.exports.epochToFriendlyStamp = epochToFriendlyStamp;
+module.exports.rewriteHTML = rewriteHTML;

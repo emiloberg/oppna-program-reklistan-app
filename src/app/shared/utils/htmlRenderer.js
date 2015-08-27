@@ -5,8 +5,6 @@ const handlebars = require('handlebars/dist/handlebars');
 const swag = require('swag');
 const utils = require('./utils');
 //import {inspect} from './debug';
-import RemoteImages from './remoteimages';
-
 
 (function registerHelpers() {
 
@@ -29,21 +27,15 @@ import RemoteImages from './remoteimages';
 	});
 
 	/**
-	 * Parse the text and do some replacing
+	 * Stub. In the web version we do the markdownify on-the-fly. Here in the app version
+	 * we're doing it elsewhere (utils/utils.js/rewriteHTML()). For the same handlebars
+	 * template to work at both app och web we still need this helper stub here.
 	 *
 	 * Usage:
 	 * {{markdownify variable}}
 	 */
 	handlebars.registerHelper('markdownify', function (context) {
 		var text = context || '';
-
-		// Convert markdown links to html links
-		text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="\$2">\$1</a>');
-
-		// Convert {{replaceable}} with icon
-		text = text.replace(/\{\{replaceable\}\}/g, '<span class="replaceable">&#8860;</span>');
-		text = text.replace(/\{\{child\}\}/g, '<img src="/reklistan-theme/images/theme/child.png" class="child-icon">');
-
 		return new handlebars.SafeString(text);
 	});
 })();
@@ -58,7 +50,7 @@ export const templatesModel = {
 	},
 
 	processTemplate(templateName, templateContext) {
-		return rewriteHTML(TEMPLATES[templateName](templateContext));
+		return utils.rewriteHTML(TEMPLATES[templateName](templateContext));
 	},
 
 	registerCss(cssName, cssContent) {
@@ -71,41 +63,6 @@ export const templatesModel = {
 };
 
 
-/**
- * Rewrites html elements to something NativeScript can understand
- *
- * Prefixing links with
- * 		rek:// for internal links,
- * 		rekhttps:// for externa https links
- * 		rekhttp:// for externa http links
- * 		rekmail:// for mailto links
- *
- * Setting image src to file://... internal urls. Also setting
- * the original url in 'data-remotesrc' property, to be able to fetch
- * it and download the links in other function.
- *
- * @param {string} html
- * @returns {string}
- */
-function rewriteHTML(html) {
-	const reInteralLinks = new RegExp(/href=([\"\'])#\/([^\"\']+)([\"\'])/gi);
-	html = html.replace(reInteralLinks, 'href="rek://$2"');
 
-	const reExternalHttpsLinks = new RegExp(/href=([\"\'])https\:\/\/([^\"\']+)([\"\'])/gi);
-	html = html.replace(reExternalHttpsLinks, 'href="rekhttps://$2"');
-
-	const reExternalHttpLinks = new RegExp(/href=([\"\'])http\:\/\/([^\"\']+)([\"\'])/gi);
-	html = html.replace(reExternalHttpLinks, 'href="rekhttp://$2"');
-
-	const reMailLinks = new RegExp(/href=([\"\'])mailto\:([^\"\']+)([\"\'])/gi);
-	html = html.replace(reMailLinks, 'href="rekmail://$2"');
-
-	const reImages = new RegExp(/src=[\"\']([^\"\']+)[\"\']/gi);
-	html = html.replace(reImages, function (match, capture) {
-		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + utils.makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
-	});
-
-	return html;
-}
 
 

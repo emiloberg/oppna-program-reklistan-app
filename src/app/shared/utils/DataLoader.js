@@ -10,8 +10,8 @@ import ResourceArticles from '../viewmodel/ResourceArticles';
 import Metadata from '../viewmodel/Metadata';
 import News from '../viewmodel/News';
 import {templatesModel} from './htmlRenderer';
-const utils = require('./utils');
-import {inspect, debug} from './debug';
+import * as utils from './utils';
+import {debug} from './debug';
 import RemoteImages from './remoteimages';
 import REKError from './Errors';
 import * as connectivity from 'connectivity';
@@ -93,7 +93,6 @@ function saveResourceFile(filename, content) {
 function checkConnectivity(forceDownload) {
 	return new Promise((resolve, reject) => {
 		if (forceDownload && connectivity.getConnectionType() === connectivity.connectionType.none) {
-			inspect('NETWORK FAIL');
 			reject('NO_NETWORK');
 		} else {
 			resolve();
@@ -321,6 +320,8 @@ const DataLoader = {
 						fieldOut[field.name] = field.value;
 					});
 
+					fieldOut.body = utils.rewriteHTML(fieldOut.body);
+
 					if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
 						return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
 					} else {
@@ -359,6 +360,8 @@ const DataLoader = {
 							article.fields.forEach(field => {
 								fieldOut[field.name] = field.value;
 							});
+
+							fieldOut.body = utils.rewriteHTML(fieldOut.body);
 
 							if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
 								return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
