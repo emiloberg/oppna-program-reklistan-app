@@ -52,6 +52,16 @@ export default class RekDataList extends Observable {
 		if (this._sort) {
 			filteredItems = filteredItems.sort((o1, o2) =>
 				o1.getOrder(this._selectedIndex) - o2.getOrder(this._selectedIndex));
+		} else {
+			filteredItems = filteredItems.sort(function (a, b) {
+				if (a.title > b.title) {
+					return 1;
+				}
+				if (a.title < b.title) {
+					return -1;
+				}
+				return 0;
+			});
 		}
 		return filteredItems;
 	}
