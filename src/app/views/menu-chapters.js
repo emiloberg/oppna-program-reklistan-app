@@ -1,6 +1,6 @@
 'use strict';
 
-import {inspect} from './../shared/utils/debug';
+//import {inspect} from './../shared/utils/debug';
 
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
@@ -22,7 +22,6 @@ function loaded(args) {
 	dataList = navContext.data;
 	curPageName = navContext.data.title;
 
-
 	let enabledTabs = '';
 	if (dataList.hasType(0) && dataList.hasType(1)) {
 		enabledTabs = 'both';
@@ -32,7 +31,12 @@ function loaded(args) {
 		enabledTabs = 'advice';
 	}
 
-	actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
+	actionBar = new ActionBar({
+		pageTitle: curPageName,
+		backTitle: navContext.prevPageTitle,
+		enabledTabs: enabledTabs,
+		selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
+	});
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
@@ -56,7 +60,6 @@ function menuItemTap(args) {
 		moduleName: 'views/details',
 		context: {
 			data: section,
-			selectedIndex: dataList.selectedIndex,
 			prevPageTitle: curPageName
 		}
 	});

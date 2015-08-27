@@ -2,35 +2,56 @@
 import Images from './../utils/images';
 import language from './../utils/language';
 import {Observable} from 'data/observable';
+//import {inspect} from './../utils/debug';
 
 let lastPageTitle = '';
 let lastSetSelectedIndex = 0;
 
 export default class ActionBar extends Observable {
+
 	/**
-	 * @param {string} pageTitle Current page title.
-	 * @param {string} backTitle Title of back button.
-	 * @param {number} selectedIndex 0 for drugs and 1 for advice.
-	 * @param {string} enabledTabs One of: [both, drugs, advice, none].
+	 * Creates a new ActionBar
+	 *
+	 * @param {object} [options={}]
+	 * @param {string} [options.pageTitle=] Current page title
+	 * @param {string} [options.backTitle=] Previous page title
+	 * @param {string} [options.enabledTabs=both] 'both', 'drugs' or 'advice'
+	 * @param {string} [options.barType=normal] 'normal' or 'onlyClose'
+	 * @param {boolean} [options.useLastPageTitle=false] Use last page title instead of pageTitle
+	 * @param {number} [options.selectedIndex] Using last selected index if left unset
 	 */
-	constructor(pageTitle, backTitle, selectedIndex, enabledTabs = 'both', ActionBarType = 'normal', useLastPageTitle = '') {
+	constructor(options = {}) {
+
+		let params = {
+			pageTitle: '',
+			backTitle: '',
+			enabledTabs: 'both',
+			barType: 'normal',
+			useLastPageTitle: false,
+			selectedIndex: lastSetSelectedIndex
+		};
+		params = Object.assign(params, options);
+
+		if(params.selectedIndex === undefined) {
+			params.selectedIndex = lastSetSelectedIndex;
+		}
+
 		super();
 		this._iconBack = Images.left;
 		this._iconSearch = Images.search;
 		this._iconMenu = Images.menu;
-		this._pageTitle = pageTitle;
-		this._backTitle = (useLastPageTitle === 'useLastPageTitle') ? lastPageTitle : backTitle;
-		//this._selectedIndex = selectedIndex;
-		this._selectedIndex = lastSetSelectedIndex;
-		this._enabledTabs = enabledTabs;
+		this._pageTitle = params.pageTitle;
+		this._backTitle = params.useLastPageTitle ? lastPageTitle : params.backTitle;
+		this._selectedIndex = params.selectedIndex;
+		this._enabledTabs = params.enabledTabs;
 		this._txtDrugs = language.drugs;
 		this._txtAdvice = language.advice;
 
-		if (ActionBarType) {
+		if (params.barType === 'normal') {
 			this._iconClose = Images.close;
 		}
 
-		lastPageTitle = pageTitle;
+		lastPageTitle = params.pageTitle;
 	}
 
 	set selectedIndex(index) {

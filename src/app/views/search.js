@@ -33,7 +33,11 @@ function loaded(args) {
 		prevPageTitle = page.navigationContext.prevPageTitle || '';
 	}
 
-	let actionBar = new ActionBar(curPageName, prevPageTitle, 0, 'none');
+	let actionBar = new ActionBar({
+		pageTitle: curPageName,
+		backTitle: prevPageTitle,
+		enabledTabs: 'none'
+	});
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 

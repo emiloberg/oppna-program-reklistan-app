@@ -14,9 +14,8 @@ import * as appSettings from 'application-settings';
 function loaded(args) {
 	customUi.setViewDefaults();
 	let page = args.object;
-	let navContext = page.navigationContext;
 
-	let actionBar = new ActionBar('', navContext.prevPageTitle, 0);
+	let actionBar = new ActionBar();
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 

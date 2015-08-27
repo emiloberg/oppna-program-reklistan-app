@@ -1,6 +1,6 @@
 'use strict';
 
-import {inspect} from './../shared/utils/debug';
+//import {inspect} from './../shared/utils/debug';
 
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
@@ -11,7 +11,6 @@ import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 
 const webViewModule = require('ui/web-view');
-//const frameModule = require('ui/frame');
 
 let page;
 let actionBar;
@@ -42,7 +41,11 @@ function loaded(args) {
 	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
-		actionBar = new ActionBar(curPageName, '', 0, 'none', 'normal', 'useLastPageTitle');
+		actionBar = new ActionBar({
+			pageTitle: curPageName,
+			useLastPageTitle: true,
+			enabledTabs: 'none'
+		});
 		elActionBar.bindingContext = actionBar;
 		htmlData = `
 		<div class="mobile-container">
@@ -63,9 +66,15 @@ function loaded(args) {
 		} else if (navContext.data.hasType(1)) {
 			enabledTabs = 'advice';
 		}
-		actionBar = new ActionBar(curPageName, navContext.prevPageTitle, navContext.selectedIndex, enabledTabs);
+
+		actionBar = new ActionBar({
+			pageTitle: curPageName,
+			backTitle: navContext.prevPageTitle,
+			enabledTabs: enabledTabs,
+			selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
+		});
 		elActionBar.bindingContext = actionBar;
-		htmlData = navContext.data.getContent(navContext.selectedIndex);
+		htmlData = navContext.data.getContent(actionBar.get('selectedIndex'));
 
 		setTab(actionBar.get('selectedIndex'));
 	}
@@ -136,7 +145,7 @@ function showVW(htmlContent) {
 
 
 function setTab(index) {
-	if (navContext.selectedIndex !== index) {
+	if (actionBar.get('selectedIndex') !== index) {
 		actionBar.selectedIndex = index;
 		navContext.selectedIndex = index;
 		showVW(navContext.data.getContent(index));

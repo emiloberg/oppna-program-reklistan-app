@@ -1,13 +1,13 @@
 'use strict';
 
-//import {inspect} from './../utils/debug';
 
 const gestures = require('ui/gestures');
 const frameModule = require('ui/frame');
 import {appViewModel} from './../viewmodel/RekAppViewModel';
-import Mainmenu  from './../viewmodel/Mainmenu';
+import Mainmenu from './../viewmodel/Mainmenu';
 const utils = require('./../utils/utils');
-import AppMessage from './../viewmodel/AppMessage'
+import AppMessage from './../viewmodel/AppMessage';
+
 //import {inspect} from './../utils/debug';
 
 const navigation = {
@@ -69,6 +69,7 @@ const navigation = {
 			} else if (specific.itemType === 'chapter') {
 				moduleName = 'views/menu-chapters';
 			}
+
 			frameModule.topmost().navigate({
 				moduleName: moduleName,
 				context: {

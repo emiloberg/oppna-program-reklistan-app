@@ -18,7 +18,10 @@ function loaded(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 
-	actionBar = new ActionBar(curPageName, 'Förra sidan', 0);
+	actionBar = new ActionBar({
+		pageTitle: curPageName,
+		selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
+	});
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
@@ -40,7 +43,7 @@ function menuItemTap(args) {
         moduleName: 'views/menu-chapters',
         context: {
 			data: section,
-			selectedIndex: dataList.selectedIndex,
+			//selectedIndex: dataList.selectedIndex,
 			prevPageTitle: curPageName
 		}
     });
