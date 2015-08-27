@@ -79,7 +79,7 @@
             <StackLayout col="1" cssClass="mainmenu--side-divider"></StackLayout>
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
-                    <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
+                    <Image cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
                     <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
                         <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
                     </StackLayout>
@@ -124,7 +124,7 @@
 
         <!-- MESSAGE -->
         <StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">
-            <Label text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
+            <Label tap="logoTap" text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
             <GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">
                 <Label col="0" text="{{ messageDownloadDataUpdateLater }}" tap="{{ hideMessageTap }}" cssClass="appmessage--button" />
                 <Label col="1" text="{{ messageDownloadDataUpdateNow }}" tap="{{ downloadDataTap }}" cssClass="appmessage--button--primary" />

@@ -56,7 +56,7 @@
             <StackLayout col="1" cssClass="mainmenu--side-divider"></StackLayout>
             <ScrollView col="2" cssClass="mainmenu--menu">
                 <StackLayout>
-                    <Image tap="logoTap" cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
+                    <Image cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
                     <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
                         <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
                     </StackLayout>
@@ -92,7 +92,7 @@
                         <Label text="{{ text.mainmenuLabelReloadData }}" textWrap="true" cssClass="mainmenu--list-item--label" />
                         <Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
                     </StackLayout>
-                    <Label text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
+                    <Label tap="logoTap" text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
                 </StackLayout>
             </ScrollView>
         </GridLayout>
