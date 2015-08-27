@@ -10,7 +10,7 @@ application.onUncaughtError = function (error) {
     debug.debug('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
 };
 
-const _host = 'http://local.dev:8080';
+const _host = 'http://local.dev:8080'; // TODO: Change for production
 
 global.REK = {
 	urlDataLocation: _host + '/reklistan-theme/resources/appdata.json',
@@ -22,16 +22,8 @@ global.REK = {
 	}
 };
 
-
-// 1 hour = 3600
-// 1 day = 86400
-// 1 week = 604 800
-// 2 weeks = 1 209 600
-
-
-
-
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 
 application.start();
 
+//TODO: Figure out why "Sjuksköterskor med förskrivnignsrätt" isn't responsive

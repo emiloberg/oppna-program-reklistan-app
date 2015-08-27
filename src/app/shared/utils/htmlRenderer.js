@@ -4,7 +4,6 @@
 const handlebars = require('handlebars/dist/handlebars');
 const swag = require('swag');
 const utils = require('./utils');
-//import {inspect} from './debug';
 
 (function registerHelpers() {
 
@@ -43,6 +42,7 @@ const utils = require('./utils');
 
 let CSS = {};
 let TEMPLATES = {};
+let IN_APP_RESOURCES = {};
 
 export const templatesModel = {
 	registerTemplate(templateName, templateContent) {
@@ -59,10 +59,13 @@ export const templatesModel = {
 
 	getCss(cssName) {
 		return CSS[cssName];
+	},
+
+	registerInAppResource(name, content) {
+		IN_APP_RESOURCES[name] = content;
+	},
+
+	getInAppResource(name) {
+		return IN_APP_RESOURCES[name];
 	}
 };
-
-
-
-
-

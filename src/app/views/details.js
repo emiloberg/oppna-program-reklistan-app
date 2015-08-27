@@ -50,7 +50,7 @@ function loaded(args) {
 		htmlData = `
 		<div class="mobile-container">
 		<div class="screen active">
-		<div class="section-details">
+		<div class="section-details section-details-generic">
 		${navContext.data.body}
 		</div>
 		</div>
@@ -83,7 +83,6 @@ function loaded(args) {
 }
 
 function interjectLink(event) {
-
 	let linkObj = {
 		url: '',
 		internal: false,
@@ -126,6 +125,7 @@ function interjectLink(event) {
 
 }
 
+// TODO: Include the JavaScript to make the responsive tables work
 function showVW(htmlContent) {
 	wv.src = `<!DOCTYPE html>
 		<html lang="en">
@@ -133,11 +133,15 @@ function showVW(htmlContent) {
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, user-scalable=0;" />
 			<title>REKListan</title>
+			<script>
+			${templatesModel.getInAppResource('jquery')}
+			${templatesModel.getInAppResource('details-js')}
+			</script>
 			<style>
 			${templatesModel.getCss('custom')}
 			</style>
 		</head>
-		<body style="background-color: #ffffff;">
+		<body style="background-color: #ffffff;" class="is-mobile is-mobile-small">
 			${htmlContent}
 		</body>
 		</html>`;
