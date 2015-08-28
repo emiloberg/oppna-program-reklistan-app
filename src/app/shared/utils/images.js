@@ -45,7 +45,8 @@ const Images = {
 	search: getImage('action', 'ic_search'),
 	external: getImage('action', 'ic_launch'),
 	advice: getImage('custom', 'advice'),
-	mainmenuVGRLogo: getImage('fixed', 'vgrlogo')
+	mainmenuVGRLogo: getImage('fixed', 'vgrlogo'),
+	rekLogo: getImage('fixed', 'rekapp')
 };
 
 export default Images;

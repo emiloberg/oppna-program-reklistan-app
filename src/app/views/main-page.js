@@ -6,10 +6,10 @@ import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
 import {debug} from './../shared/utils/debug';
+import Images from './../shared/utils/images';
 
 let contextObj = new Observable({
-	rek: language.splashREK,
-	listan: language.splashListan
+	rekLogo: Images.rekLogo
 });
 
 const pageLoaded = function(args) {

@@ -6,11 +6,11 @@ import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
 import * as debug from './../shared/utils/debug';
+import Images from './../shared/utils/images';
 var contextObj = new Observable({
-	rek: language.splashREK,
-	listan: language.splashListan,
 	error: '',
-	errorGoBack: ''
+	errorGoBack: '',
+	rekLogo: Images.rekLogo
 });
 
 var pageLoaded = function(args) {

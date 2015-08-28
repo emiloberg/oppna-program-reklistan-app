@@ -6,8 +6,6 @@ const language = {
 	appTitle: 'REK-listan',
 	searchTitle: 'Sök',
 	searchPlaceholder: 'Sök...',
-	splashREK: 'REK',
-	splashListan: 'LISTAN',
 	splashLoading: 'Laddar data',
 	mainmenuHeadingNews: 'NYHETER',
 	mainmenuHeadingResourceArticles: 'ÖVRIGT',

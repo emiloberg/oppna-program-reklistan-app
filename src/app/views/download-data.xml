@@ -1,7 +1,6 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded" id="start-page">
     <StackLayout horizontalAlignment="center" verticalAlignment="center">
-        <Label horizontalAlignment="center" cssClass="splash--rek" text="{{ rek }}" />
-        <Label horizontalAlignment="center" cssClass="splash--listan" text="{{ listan }}" />
+        <Image cssClass="splash--logo" src="{{rekLogo}}" stretch="aspectFit" horizontalAlignment="center" />
         <Label textWrap="true" cssClass="splash--error" text="{{ error }}" visibility="{{ error ? 'visible' : 'collapsed' }}" />
         <Label cssClass="splash--error--go-back" text="{{ errorGoBack }}" tap="errorGoBack" visibility="{{ errorGoBack ? 'visible' : 'collapsed' }}" />
         <StackLayout orientation="horizontal">

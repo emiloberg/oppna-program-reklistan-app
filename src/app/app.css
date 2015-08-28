@@ -99,6 +99,11 @@ Page {
     background-color: #851A31;
 }
 
+.splash--logo {
+    width: 150;
+    height: 150;
+}
+
 .splash--rek {
     color: #ffffff;
     font-weight: bold;
