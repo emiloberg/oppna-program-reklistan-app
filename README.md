@@ -1,12 +1,18 @@
-# oppna-program-rekapp
+# oppna-program-reklistan-app
 
 Work in progress!
 
 ### Installation (for development)
 
 ```
+# Clone this repo
+git clone https://github.com/emiloberg/oppna-program-reklistan-app.git
+
 # Install Dev dependencies (gulp etc)
 npm install
+
+# Generate images of different resoultions from source files
+gulp images
 
 # Cd to the actual app dir
 cd rekapp
@@ -19,7 +25,67 @@ tns platform add ios
 tns platform add android
 ```
 
-When developing, run:
+#### Modify the app settings
+Disable landscape mode by
+
+Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
+
+```
+<activity
+    android:name="com.tns.NativeScriptActivity"
+    android:label="@string/title_activity_kimera"
+    android:configChanges="keyboardHidden|orientation|screenSize">
+```
+
+into 
+
+```
+<activity
+    android:name="com.tns.NativeScriptActivity"
+    android:label="@string/title_activity_kimera"
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:screenOrientation="sensorPortrait">
+```
+
+Edit: `rekapp/platforms/ios/rekapp/` and change:
+
+```
+<key>UISupportedInterfaceOrientations</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationLandscapeLeft</string>
+	<string>UIInterfaceOrientationLandscapeRight</string>
+</array>
+<key>UISupportedInterfaceOrientations~ipad</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	<string>UIInterfaceOrientationLandscapeLeft</string>
+	<string>UIInterfaceOrientationLandscapeRight</string>
+</array>
+```
+
+into 
+
+```
+<key>UISupportedInterfaceOrientations</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+</array>
+<key>UISupportedInterfaceOrientations~ipad</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationPortraitUpsideDown</string>
+</array>
+```
+
+
+## Development
+This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
+
+Images in vector format in `src/app/images` gets converted into png images of different sizes (@2x, @3x, hdpi, etc) and copied to `rekapp/app/images` when `gulp images` is run. Images, already in png format, in `src/app/images-fixed` just gets copied to `rekapp/app/images` when the same gulp task is run.
+
+### When developing, run:
 
 ```
 # To start the emulator the first time
@@ -62,17 +128,3 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 
 ### Release for production
 In `app.js`, remember to set all appSettings to production mode. 
-
-### Note on Babel usage
-We're currently not including the Babel polyfill in the App runtime, which means that you cannot use these:
-
-|Feature | Requirements |
-|--------|--------------|
-|Abstract References | Symbol |
-|Array destructuring | Symbol |
-|Async functions, Generators | regenerator runtime |
-|Comprehensions | Array.from |
-|For Of | Symbol, prototype[Symbol.iterator] |
-|Spread | Array.from |
-
-
