@@ -1,7 +1,9 @@
+'use strict';
+
+//import {inspect} from './debug';
 import {fromFile as imageFromFile} from 'image-source';
 import {screen} from 'platform';
 import {android, ios} from 'application';
-//import {inspect} from './debug';
 
 const scaleFactor = screen.mainScreen.scale;
 

@@ -1,13 +1,13 @@
 'use strict';
 
-let appViewModel = require('./../shared/viewmodel/RekAppViewModel');
+import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import navigation from './../shared/utils/navigation';
-const frameModule = require('ui/frame');
+import * as frameModule from 'ui/frame';
 
 let page;
 let actionBar;
@@ -26,7 +26,7 @@ function loaded(args) {
 	elActionBar.bindingContext = actionBar;
 
 	let elPageContent = page.getViewById('pagecontent');
-	dataList = appViewModel.appViewModel.getMainDataList();
+	dataList = appViewModel.getMainDataList();
 	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
 	elPageContent.bindingContext = dataList;
 
@@ -43,7 +43,6 @@ function menuItemTap(args) {
         moduleName: 'views/menu-chapters',
         context: {
 			data: section,
-			//selectedIndex: dataList.selectedIndex,
 			prevPageTitle: curPageName
 		}
     });
@@ -55,23 +54,13 @@ function switchTab(index) {
 }
 
 module.exports.loaded = loaded;
-module.exports.drugsTap = function() {
-	switchTab(0);
-};
-module.exports.adviceTap = function() {
-	switchTab(1);
-};
+module.exports.drugsTap = function() { switchTab(0); };
+module.exports.adviceTap = function() { switchTab(1); };
 module.exports.menuItemTap = menuItemTap;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName, ['search', 'menu']);
-};
-module.exports.searchTap = function() {
-	navigation.toSearch(curPageName);
-};
+module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };
+module.exports.searchTap = function() { navigation.toSearch(curPageName); };
 module.exports.menuTap = Mainmenu.show;
 module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) {
-	Mainmenu.swipe(args);
-};
+module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
 module.exports.logoTap = Mainmenu.logoTap;
 module.exports.reloadDataTap = Mainmenu.reloadDataTap;

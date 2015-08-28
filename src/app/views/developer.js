@@ -6,8 +6,8 @@ import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {shareText} from 'nativescript-social-share';
 import {device, screen} from 'platform';
-var appversion = require('nativescript-appversion');
-var fs = require('file-system');
+import * as appVersion from 'nativescript-appversion';
+import * as fs from 'file-system';
 import Metadata from './../shared/viewmodel/Metadata';
 import * as appSettings from 'application-settings';
 
@@ -24,7 +24,7 @@ function loaded(args) {
 }
 
 function shareLog() {
-	appversion.getVersionName().then(function(v) {
+	appVersion.getVersionName().then(function(v) {
 		const now = new Date();
 
 		let logStr = `
@@ -49,7 +49,6 @@ function shareLog() {
 	});
 }
 
-
 function removeLocalCache() {
 	Metadata.removeDataUpdated();
 	return removeLocalFolder('rekcache');
@@ -67,7 +66,7 @@ function removeLocalFiles() {
 }
 
 function removeLocalFolder(folder) {
-	return new Promise((resolve/*, reject*/) => {
+	return new Promise((resolve) => {
 		const fsFolder = fs.knownFolders.documents().getFolder(folder);
 		fsFolder.clear()
 			.then(function () {
@@ -91,13 +90,9 @@ function removeDataLocation() {
 	debug.debug('Removed dataLocation');
 }
 
-
-
 module.exports.loaded = loaded;
 module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, '', ['back']);
-};
+module.exports.swipe = function(args) { navigation.swipe(args, '', ['back']); };
 module.exports.removeLocalFilesTap = removeLocalFiles;
 module.exports.removeLocalImagesTap = removeLocalImages;
 module.exports.removeLocalCacheTap = removeLocalCache;

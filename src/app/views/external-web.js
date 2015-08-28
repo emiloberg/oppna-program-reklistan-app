@@ -1,6 +1,6 @@
 'use strict';
 
-import {inspect} from './../shared/utils/debug';
+//import {debug} from './../shared/utils/debug';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
@@ -16,14 +16,8 @@ function loaded(args) {
 	let actionBar = new ActionBar();
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
-
-	inspect('Navigating to external web view');
-
 }
-
 
 module.exports.loaded = loaded;
 module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, '', ['back']);
-};
+module.exports.swipe = function(args) { navigation.swipe(args, '', ['back']); };

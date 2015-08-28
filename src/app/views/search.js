@@ -13,16 +13,15 @@ import AppMessage from './../shared/viewmodel/AppMessage';
 let page;
 let curPageName = language.searchTitle;
 let searchResults = new ObservableArray([]);
+let lastSearchWord = '';
 let pageContent = new Observable({
 	searchResults: searchResults
 });
-let lastSearchWord = '';
 
 var searchInput = new Observable({
 	searchPlaceholder: language.searchPlaceholder,
 	searchText: ''
 });
-
 
 function loaded(args) {
 	page = args.object;
@@ -59,18 +58,14 @@ function loaded(args) {
 	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
 }
 
-
 function doSearch(searchFor) {
 	const searchTerm = searchFor.trim();
-
 	if (searchTerm === lastSearchWord) {
 		return;
 	}
-
 	while(searchResults.length > 0) {
 		searchResults.pop();
 	}
-
 	if (searchTerm.length >= 3) {
 		search.search(searchTerm)
 		.then(results => {
@@ -78,17 +73,14 @@ function doSearch(searchFor) {
 				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
 		});
-
 		lastSearchWord = searchTerm;
 	}
 }
-
 
 function searchItemTap(args) {
 	var bc = args.view.bindingContext;
 	navigation.navigateToUrl(bc.url, curPageName);
 }
-
 
 module.exports.searchItemTap = searchItemTap;
 module.exports.loaded = loaded;

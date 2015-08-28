@@ -3,7 +3,6 @@
 const TYPENAMES = ['drugs', 'advice'];
 
 export default class ContentItem {
-
 	constructor(title, content, order, id) {
 		this._title = title;
 		this._content = content;

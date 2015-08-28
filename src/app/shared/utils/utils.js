@@ -103,26 +103,18 @@ function removeDiacritics (str) {
 	return str.replace(/[^\u0000-\u007E]/g, a => diacriticsMap[a] || a);
 }
 
-function makeUrlSafe(str /*, dontURIEncode*/) {
+function makeUrlSafe(str) {
 	let ret = str || '';
 	ret = ret.replace(/[ /?]/g, '_');
 	ret = removeDiacritics(ret);
-
-	//if (dontURIEncode === false) {
-	//	ret = encodeURIComponent(ret);
-	//}
-
 	return ret;
 }
 
 function internalUrlToArray(url) {
-
 		let slugs = url.split('/');
-
 		if (slugs.length < 1 || slugs.length > 3) {
 			throw new Error('Not a correct URL');
 		}
-
 		if (slugs.length === 1) {
 			slugs.push(undefined);
 			slugs.push(undefined);
@@ -131,8 +123,6 @@ function internalUrlToArray(url) {
 		}
 		return slugs;
 }
-
-
 
 function epochToFriendlyStamp(timestamp) {
 	const date = new Date(timestamp);
@@ -161,6 +151,10 @@ function epochToFriendlyStamp(timestamp) {
  * the original url in 'data-remotesrc' property, to be able to fetch
  * it and download the links in other function.
  *
+ * Replaces {{replaceable}} with icon
+ *
+ * Replaces {{child}} with icon
+ *
  * @param {string} html
  * @returns {string}
  */
@@ -188,17 +182,15 @@ function rewriteHTML(html) {
 		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
 	});
 
-	// Convert {{replaceable}} with icon
+	// Replaces {{replaceable}} with icon
 	html = html.replace(/\{\{replaceable\}\}/g, '<span class="replaceable">&#8860;</span>');
 
-	// Convert {{child}} with icon
+	// Replaces {{child}} with icon
 	html = html.replace(/\{\{child\}\}/g, '<img src="/reklistan-theme/images/theme/child.png" class="child-icon">');
 	// TODO: Change this so that the image is actually showing.
 
-
 	return html;
 }
-
 
 module.exports.makeUrlSafe = makeUrlSafe;
 module.exports.internalUrlToArray = internalUrlToArray;

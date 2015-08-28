@@ -1,12 +1,9 @@
 /*global UIColor */
-
 'use strict';
 
-let frameModule = require('ui/frame');
-let applicationModule = require('application');
+import * as frameModule from 'ui/frame';
 
 let customUi = {
-
 	setViewDefaults: function() {
 		var iosFrame = frameModule.topmost().ios;
 		if (iosFrame) {
@@ -14,8 +11,6 @@ let customUi = {
 			iosFrame.controller.view.window.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0.945, 0.953, 0.953, 1);
 		}
 	}
-
-
 };
 
 export default customUi;

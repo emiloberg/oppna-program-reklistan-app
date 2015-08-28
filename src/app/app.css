@@ -1,3 +1,8 @@
+/*$color-vgr-red:		rgb(133, 26, 49);   #851A31    0.52156862745, 0.10196078431, 0.19215686274*/
+/*$color-vgr-blue: 	    rgb(0, 82, 146);*/
+/*$color-vgr-green: 	rgb(096, 117, 57);*/
+/*$color-vgr-yellow: 	rgb(225, 168, 0);*/
+
 .title {
     font-size: 30;
     horizontal-align: center;
@@ -9,16 +14,9 @@ button {
     horizontal-align: center;
 }
 
-.message {
-    font-size: 20;
-    color: #284848;
-    horizontal-align: center;
-}
-
 Page {
     background-color: #ffffff;
 }
-
 
 .listviewLabel {
     margin: 8 16;
@@ -28,40 +26,6 @@ Page {
 
 .searchResultsListViewLabel {
     margin: 8 16;
-}
-
-
-.type-segmented-bar {
-    margin: 8 16;
-}
-
-/*.custom-tabs--tab-button {*/
-    /*background-color: #851A31;*/
-    /*color: #ffffff;*/
-    /*horizontal-align: stretch;*/
-/*}*/
-
-
-.custom-tabs--tab-button {
-    background-color: rgb(133, 26, 49);
-    color: #ff0000;
-}
-
-
-/*$color-vgr-red:		rgb(133, 26, 49);   #851A31    0.52156862745, 0.10196078431, 0.19215686274*/
-/*$color-vgr-blue: 	    rgb(0, 82, 146);*/
-/*$color-vgr-green: 	rgb(096, 117, 57);*/
-/*$color-vgr-yellow: 	rgb(225, 168, 0);*/
-
-
-
-
-.action-bar {
-    background: #ff0000;
-}
-
-.action-bar-title {
-    color: #005292;
 }
 
 #head--action-bar {
@@ -100,7 +64,6 @@ Page {
     margin: 12;
 }
 
-
 .head--action-bar--back {
     font-weight: bold;
     font-size: 12;
@@ -135,7 +98,6 @@ Page {
 #start-page {
     background-color: #851A31;
 }
-
 
 .splash--rek {
     color: #ffffff;
@@ -178,23 +140,16 @@ Page {
     font-weight: bold;
 }
 
-
 .developer--log--logitem {
     margin: 3 12;
     font-size: 10;
 }
-
-
-
-
-
 
 .mainmenu--list-item {
     margin: 6 12;
 }
 
 .mainmenu--list-item--label {
-    /*color: #F9FAFB;*/
     color: #d4d5d6;
     font-size: 13;
     font-weight: bold;
@@ -207,38 +162,28 @@ Page {
 
 .mainmenu--menu {
     background-color: #2B3441;
-    /*background-color: #232523;*/
-    /*background-color: #2A2A2A;*/
 }
 
 
 .mainmenu--side-divider {
     background-color: #8f8f8f;
-    /*background-color: #2A2A2A;*/
 }
 
 .mainmenu--list-item--divider {
     background-color: #3B4550;
-    /*background-color: #1B1D1B;*/
-    /*background-color: #454647;*/
 }
 
 .mainmenu--heading {
     background-color: #3B4550;
-    /*background-color: #1B1D1B;*/
-    /*background-color: #454647;*/
 }
 
 .mainmenu--heading--label {
-    /*color: #ffffff;*/
     color: #d4d5d6;
     padding: 6 12;
     font-weight: bold;
     font-size: 10;
     text-align: center;
 }
-
-
 
 .mainmenu--vgrlogo {
     margin: 10 10 20 10;
@@ -257,12 +202,9 @@ Page {
     text-align: center;
 }
 
-
-
 .appmessage {
     font-size: 12;
     height: 100;
-    /*background-color: #244123;*/
     background-color: #2B3441;
 }
 
@@ -274,16 +216,13 @@ Page {
     padding-right: 24;
     padding-top: 12;
     padding-bottom: 12;
-    /*background-color: #008fa1;*/
 }
-
 
 .appmessage--button {
     color: #d4d5d6;
     text-align: center;
     padding-left: 24;
     padding-right: 24;
-    /*background-color: #14171b;*/
 }
 
 .appmessage--button--primary {
@@ -294,4 +233,3 @@ Page {
     padding-right: 24;
     background-color: #3B4550;
 }
-

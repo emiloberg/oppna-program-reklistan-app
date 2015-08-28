@@ -1,14 +1,12 @@
 'use strict';
 
-
-const gestures = require('ui/gestures');
-const frameModule = require('ui/frame');
+//import {inspect} from './../utils/debug';
+import * as gestures from 'ui/gestures';
+import * as frameModule from 'ui/frame';
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 import Mainmenu from './../viewmodel/Mainmenu';
-const utils = require('./../utils/utils');
+import * as utils from './../utils/utils';
 import AppMessage from './../viewmodel/AppMessage';
-
-//import {inspect} from './../utils/debug';
 
 const navigation = {
 	swipe(args, pageTitle, allowedGestures = ['back', 'search', 'menu']) {
@@ -53,7 +51,6 @@ const navigation = {
 			context: {
 				prevPageTitle: ''
 			}
-			//animated: false
 		});
 	},
 
@@ -92,7 +89,6 @@ const navigation = {
 			}
 		});
 	}
-
 
 };
 

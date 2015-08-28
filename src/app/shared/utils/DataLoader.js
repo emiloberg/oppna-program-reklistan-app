@@ -18,8 +18,6 @@ import * as connectivity from 'connectivity';
 import * as appSettings from 'application-settings';
 
 const DOCUMENTS_FOLDER = fs.knownFolders.documents().getFolder('rekcache');
-
-
 let hasLoadedNewServerData = false;
 
 /**
@@ -35,7 +33,6 @@ let hasLoadedNewServerData = false;
  * @returns {Promise}
  */
 function loadResources(resources, isJson) {
-
 	return Promise.all(resources.map(resource => {
 		const localFilePath = fs.path.join(DOCUMENTS_FOLDER.path, resource.localFileName);
 		if (resource.download) { // If force download
@@ -77,7 +74,6 @@ function loadResources(resources, isJson) {
 	}));
 }
 
-
 function saveResourceFile(filename, content) {
 	let localFile = DOCUMENTS_FOLDER.getFile(filename);
 	localFile.writeText(content)
@@ -99,7 +95,6 @@ function checkConnectivity(forceDownload) {
 		}
 	});
 }
-
 
 /**
  * Download a resource (json/handlebars/css file) from the interwebs.
@@ -186,9 +181,7 @@ function mergeArrays(target, source, locator, merger) {
 	return target;
 }
 
-
 function createDataLocation(locations, forceDownload) {
-
 	const urlPart1 = `${global.REK.preferences.host}/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/${locations.companyId}/group-name/${locations.groupName}/ddm-structure-id/`;
 	const urlPart2 = `/locale/${locations.locale}`;
 
@@ -252,9 +245,7 @@ function createDataLocation(locations, forceDownload) {
 	return dataLocation;
 }
 
-
 const DataLoader = {
-
 	getDataLocation(forceDownload) {
 		return new Promise((resolve, reject) => {
 			let dataLocation = {
@@ -296,18 +287,17 @@ const DataLoader = {
 					} catch (err){
 						debug('Fail reading dataLocation got from server', 'error');
 						debug(err);
-						reject('Fail reading dataLocation got from server')
+						reject('Fail reading dataLocation got from server');
 					}
 				})
 				.catch((err) => {
 					debug('Fail getting from server dataLocation', 'error');
 					debug(err);
-					reject('Fail getting from server dataLocation')
+					reject('Fail getting from server dataLocation');
 				});
 			}
 		});
 	},
-
 
 	loadNews(spec) {
 		debug('Start Loading News');
@@ -414,7 +404,7 @@ const DataLoader = {
 								return null;
 							}
 						})
-							.filter(item => item !== null) // remove entries without headings (empty ones)
+						.filter(item => item !== null) // remove entries without headings (empty ones)
 					};
 				});
 			}))
@@ -475,5 +465,5 @@ const DataLoader = {
 			});
 	}
 };
-export default DataLoader;
 
+export default DataLoader;

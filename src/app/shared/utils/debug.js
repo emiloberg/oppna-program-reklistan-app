@@ -1,8 +1,7 @@
 'use strict';
 
-var eyes = require('./../../thirdparty/eyes');
-var fs = require('file-system');
-
+import * as eyes from './../../thirdparty/eyes';
+import * as fs from 'file-system';
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
 
@@ -11,20 +10,16 @@ var DEBUG_OBJ = new Observable({
 	log: DEBUG_LOG
 });
 
-
 export function inspect(something) {
 	console.log(eyes.inspect(something));
 	return something;
 }
 
-
 export function saveFile(filename, content) {
 	var root = '/tmp/';
 	var path = fs.path.join(root, filename);
 	var file = fs.File.fromPath(path);
-
 	file.writeText(content).then(function () {
-
 	}, function () {
 		throw new Error('Could not write file!');
 	});

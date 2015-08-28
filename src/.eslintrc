@@ -17,6 +17,7 @@
         "no-underscore-dangle": 0,
         "eol-last": 1,
         "no-trailing-spaces": 1,
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "key-spacing": 0
     }    
 }

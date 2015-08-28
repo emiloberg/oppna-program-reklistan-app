@@ -1,3 +1,5 @@
+'use strict';
+
 class HTTPGENERIC extends Error {
 	constructor(msg = '') {
 		super();
@@ -11,4 +13,3 @@ const REKError = {
 };
 
 export default REKError;
-

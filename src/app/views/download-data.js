@@ -1,7 +1,7 @@
 'use strict';
 
-var frameModule = require('ui/frame');
-var initApp = require('./../shared/utils/appInit');
+import * as frameModule from 'ui/frame';
+import * as initApp from './../shared/utils/appInit';
 import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
@@ -31,29 +31,28 @@ var pageLoaded = function(args) {
 		contextObj.set('loadingCount', curLoadingCount);
 	}, 200);
 
-
 	return initApp.init('force')
-	.then(function () {
-		debug.debug('All done. Manual refresh of data successful!');
-		clearInterval(loadingInterval);
-		contextObj.set('loadingCount', 0);
-		frameModule.topmost().goBack();
-	})
-	.catch(function (e) {
-		debug.debug('Could not manually refresh data');
-		debug.debug(JSON.stringify(e));
+		.then(function () {
+			debug.debug('All done. Manual refresh of data successful!');
+			clearInterval(loadingInterval);
+			contextObj.set('loadingCount', 0);
+			frameModule.topmost().goBack();
+		})
+		.catch(function (e) {
+			debug.debug('Could not manually refresh data');
+			debug.debug(JSON.stringify(e));
 
-		clearInterval(loadingInterval);
-		contextObj.set('loadingCount', 0);
+			clearInterval(loadingInterval);
+			contextObj.set('loadingCount', 0);
 
-		if (e === 'NO_NETWORK') {
-			contextObj.set('error', language.downloadDataNoConnection);
-		} else {
-			contextObj.set('error', language.downloadDataUnknownError);
-		}
+			if (e === 'NO_NETWORK') {
+				contextObj.set('error', language.downloadDataNoConnection);
+			} else {
+				contextObj.set('error', language.downloadDataUnknownError);
+			}
 
-		contextObj.set('errorGoBack', language.downloadDataErrorGoBack);
-	});
+			contextObj.set('errorGoBack', language.downloadDataErrorGoBack);
+		});
 
 };
 

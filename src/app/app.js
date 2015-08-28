@@ -1,6 +1,5 @@
 'use strict';
 var application = require('application');
-
 var debug = require('./shared/utils/debug');
 
 application.mainModule = 'views/main-page';
@@ -10,7 +9,7 @@ application.onUncaughtError = function (error) {
     debug.debug('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
 };
 
-const _host = 'http://local.dev:8080'; // TODO: Change for production
+var _host = 'http://local.dev:8080'; // TODO: Change for production
 
 global.REK = {
 	urlDataLocation: _host + '/reklistan-theme/resources/appdata.json',
@@ -25,5 +24,3 @@ global.REK = {
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 
 application.start();
-
-//TODO: Figure out why "Sjuksköterskor med förskrivnignsrätt" isn't responsive

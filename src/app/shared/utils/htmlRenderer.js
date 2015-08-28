@@ -1,9 +1,13 @@
 'use strict';
 
 
-const handlebars = require('handlebars/dist/handlebars');
-const swag = require('swag');
-const utils = require('./utils');
+import * as handlebars from 'handlebars/dist/handlebars';
+import * as swag from 'swag';
+import * as utils from './utils';
+
+let CSS = {};
+let TEMPLATES = {};
+let IN_APP_RESOURCES = {};
 
 (function registerHelpers() {
 
@@ -17,11 +21,6 @@ const utils = require('./utils');
 	 *
 	 */
 	handlebars.registerHelper('urlencode', function (context) {
-		//var ret = context || '';
-		//ret = ret.replace(/ /g, '_');
-		//ret = removeDiacritics(ret);
-		//ret = encodeURIComponent(ret);
-
 		return new handlebars.SafeString(utils.makeUrlSafe(context));
 	});
 
@@ -38,11 +37,6 @@ const utils = require('./utils');
 		return new handlebars.SafeString(text);
 	});
 })();
-
-
-let CSS = {};
-let TEMPLATES = {};
-let IN_APP_RESOURCES = {};
 
 export const templatesModel = {
 	registerTemplate(templateName, templateContent) {

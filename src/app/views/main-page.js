@@ -1,24 +1,20 @@
 'use strict';
 
-const frameModule = require('ui/frame');
-const initApp = require('./../shared/utils/appInit');
+import * as frameModule from 'ui/frame';
+import * as initApp from './../shared/utils/appInit';
 import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
-import {debug, inspect} from './../shared/utils/debug';
-import {templatesModel} from './../shared/utils/htmlRenderer.js';
-import * as fs from 'file-system';
+import {debug} from './../shared/utils/debug';
 
 let contextObj = new Observable({
 	rek: language.splashREK,
 	listan: language.splashListan
 });
 
-let page;
-
 const pageLoaded = function(args) {
 	customUi.setViewDefaults();
-	page = args.object;
+	let page = args.object;
 	page.bindingContext = contextObj;
 	loadData();
 };

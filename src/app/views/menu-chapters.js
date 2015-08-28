@@ -1,13 +1,12 @@
 'use strict';
 
 //import {inspect} from './../shared/utils/debug';
-
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
-const frameModule = require('ui/frame');
+import * as frameModule from 'ui/frame';
 
 let page;
 let actionBar;
@@ -82,24 +81,14 @@ function switchTab(index) {
 }
 
 module.exports.loaded = loaded;
-module.exports.drugsTap = function() {
-	switchTab(0);
-};
-module.exports.adviceTap = function() {
-	switchTab(1);
-};
+module.exports.drugsTap = function() { switchTab(0); };
+module.exports.adviceTap = function() { switchTab(1); };
 module.exports.menuItemTap = menuItemTap;
 module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName);
-};
-module.exports.searchTap = function() {
-	navigation.toSearch(curPageName);
-};
+module.exports.swipe = function(args) { navigation.swipe(args, curPageName); };
+module.exports.searchTap = function() { navigation.toSearch(curPageName); };
 module.exports.menuTap = Mainmenu.show;
 module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) {
-	Mainmenu.swipe(args);
-};
+module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
 module.exports.logoTap = Mainmenu.logoTap;
 module.exports.reloadDataTap = Mainmenu.reloadDataTap;

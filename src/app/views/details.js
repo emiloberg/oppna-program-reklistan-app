@@ -1,7 +1,6 @@
 'use strict';
 
 //import {inspect} from './../shared/utils/debug';
-
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
@@ -9,8 +8,7 @@ import navigation from './../shared/utils/navigation';
 import {android, ios} from 'application';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
-
-const webViewModule = require('ui/web-view');
+import * as webViewModule from 'ui/web-view';
 
 let page;
 let actionBar;
@@ -78,7 +76,6 @@ function loaded(args) {
 			selectedIndex = forceSelectedIndex;
 		}
 
-
 		actionBar = new ActionBar({
 			pageTitle: curPageName,
 			backTitle: navContext.prevPageTitle,
@@ -88,12 +85,10 @@ function loaded(args) {
 		elActionBar.bindingContext = actionBar;
 
 		htmlData = navContext.data.getContent(actionBar.get('selectedIndex'));
-
 		htmlData = `<div class="mobile-details mobile-details-${enabledTabs}">${htmlData}</div>`;
 
 		setTab(actionBar.get('selectedIndex'));
 	}
-
 	showVW(htmlData);
 }
 
@@ -140,7 +135,6 @@ function interjectLink(event) {
 
 }
 
-// TODO: Include the JavaScript to make the responsive tables work
 function showVW(htmlContent) {
 	wv.src = `<!DOCTYPE html>
 		<html lang="en">
@@ -174,16 +168,10 @@ module.exports.loaded = loaded;
 module.exports.drugsTap = function drugsTap() { setTab(0); };
 module.exports.adviceTap = function adviceTap() { setTab(1); };
 module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName);
-};
-module.exports.searchTap = function() {
-	navigation.toSearch(curPageName);
-};
+module.exports.swipe = function(args) { navigation.swipe(args, curPageName); };
+module.exports.searchTap = function() { navigation.toSearch(curPageName); };
 module.exports.menuTap = Mainmenu.show;
 module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) {
-	Mainmenu.swipe(args);
-};
+module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
 module.exports.logoTap = Mainmenu.logoTap;
 module.exports.reloadDataTap = Mainmenu.reloadDataTap;

@@ -3,11 +3,9 @@
 import Images from './../utils/images';
 import Mainmenu from './../viewmodel/Mainmenu';
 import navigation from './../utils/navigation';
-
-const frameModule = require('ui/frame');
+import * as frameModule from 'ui/frame';
 
 export default class ResourceArticle {
-
 	constructor(uuid, title, body, externalLink, sortOrder) {
 		this._uuid = uuid;
 		this._title = title;
@@ -34,7 +32,6 @@ export default class ResourceArticle {
 
 	navigateToResourceArticle(args) {
 		Mainmenu.hide(function() {
-
 			if(args.view.bindingContext.isExternal) {
 				navigation.navigateToExternalUrl(args.view.bindingContext.externalLink);
 			} else {

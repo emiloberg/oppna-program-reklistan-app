@@ -4,11 +4,8 @@
 import Mainmenu from './../viewmodel/Mainmenu';
 import navigation from './../utils/navigation';
 import * as frameModule from 'ui/frame';
-//const frameModule = require('ui/frame');
-
 
 export default class NewsArticle {
-
 	constructor(uuid, title, body, externalLink, lead, date) {
 		this._uuid = uuid;
 		this._title = title;

@@ -3,7 +3,6 @@
 import Images from './../utils/images';
 
 export default class SearchResultItem {
-
 	constructor(chapter, section, url, type) {
 		this._chapter = chapter;
 		this._section = section;

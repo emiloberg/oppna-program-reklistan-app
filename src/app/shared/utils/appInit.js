@@ -6,7 +6,6 @@ import search from '../viewmodel/Search';
 import {debug} from './debug';
 
 function init(forceDownloadStr = '') {
-
 	let forceDownload = (forceDownloadStr === 'force');
 
 	debug('#### INITIALIZING APP ####');
@@ -21,4 +20,3 @@ function init(forceDownloadStr = '') {
 }
 
 module.exports.init = init;
-

@@ -2,7 +2,7 @@
 
 //import {inspect} from './../utils/debug';
 
-import language from './../utils/language'
+import language from './../utils/language';
 
 let MAIN_DATA_LIST;
 

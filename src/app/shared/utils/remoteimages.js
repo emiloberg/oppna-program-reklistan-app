@@ -1,6 +1,8 @@
+'use strict';
+
+//import {inspect, debug} from './debug';
 import http from 'http';
 import fs from 'file-system';
-//import {inspect, debug} from './debug';
 import {debug} from './debug';
 
 const IMAGE_FOLDER = fs.knownFolders.documents().getFolder('images');
@@ -31,7 +33,6 @@ const initKnownImages = () => {
 	});
 };
 
-
 /**
  * Check if image is already on disk and if not, will add it to  the queue of files
  * to be downloaded.
@@ -50,7 +51,6 @@ const queueImageForDownload = (spec) => {
 		}
 	}
 };
-
 
 /**
  * Download an image
@@ -82,7 +82,6 @@ const _downloadNextImage = (spec) => {
 		});
 };
 
-
 /**
  * Save image to disk
  * @param filename
@@ -101,7 +100,6 @@ const saveImage = (filename, image) => {
 	});
 };
 
-
 /**
  * Get the image folder path.
  *
@@ -118,4 +116,3 @@ const RemoteImages = {
 };
 
 export default RemoteImages;
-
