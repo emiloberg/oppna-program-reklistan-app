@@ -58,22 +58,35 @@ function loaded(args) {
 
 	} else { // Is drugs/advice article
 
+		let forceSelectedIndex = -1;
+
 		let enabledTabs = '';
 		if (navContext.data.hasType(0) && navContext.data.hasType(1)) {
 			enabledTabs = 'both';
 		} else if (navContext.data.hasType(0)) {
 			enabledTabs = 'drugs';
+			forceSelectedIndex = 0;
 		} else if (navContext.data.hasType(1)) {
 			enabledTabs = 'advice';
+			forceSelectedIndex = 1;
 		}
+
+		let selectedIndex = page.navigationContext ? page.navigationContext.selectedIndex : undefined;
+		// If the data only exists for one selectedIndex, then we force it to show that selectedIndex
+		// no matter if we got another selectedIndex in the navContext/lastSelectedIndex.
+		if (forceSelectedIndex > -1) {
+			selectedIndex = forceSelectedIndex;
+		}
+
 
 		actionBar = new ActionBar({
 			pageTitle: curPageName,
 			backTitle: navContext.prevPageTitle,
 			enabledTabs: enabledTabs,
-			selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
+			selectedIndex: selectedIndex
 		});
 		elActionBar.bindingContext = actionBar;
+
 		htmlData = navContext.data.getContent(actionBar.get('selectedIndex'));
 
 		htmlData = `<div class="mobile-details mobile-details-${enabledTabs}">${htmlData}</div>`;

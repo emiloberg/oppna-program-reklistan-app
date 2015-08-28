@@ -22,20 +22,31 @@ function loaded(args) {
 	dataList = navContext.data;
 	curPageName = navContext.data.title;
 
+	let forceSelectedIndex = -1;
+
 	let enabledTabs = '';
 	if (dataList.hasType(0) && dataList.hasType(1)) {
 		enabledTabs = 'both';
 	} else if (dataList.hasType(0)) {
 		enabledTabs = 'drugs';
+		forceSelectedIndex = 0;
 	} else if (dataList.hasType(1)) {
 		enabledTabs = 'advice';
+		forceSelectedIndex = 1;
+	}
+
+	let selectedIndex = page.navigationContext ? page.navigationContext.selectedIndex : undefined;
+	// If the data only exists for one selectedIndex, then we force it to show that selectedIndex
+	// no matter if we got another selectedIndex in the navContext/lastSelectedIndex.
+	if (forceSelectedIndex > -1) {
+		selectedIndex = forceSelectedIndex;
 	}
 
 	actionBar = new ActionBar({
 		pageTitle: curPageName,
 		backTitle: navContext.prevPageTitle,
 		enabledTabs: enabledTabs,
-		selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
+		selectedIndex: selectedIndex
 	});
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
