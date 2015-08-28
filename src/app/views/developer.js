@@ -1,7 +1,6 @@
 'use strict';
 
 import * as debug from './../shared/utils/debug';
-import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
 import {shareText} from 'nativescript-social-share';
@@ -12,7 +11,6 @@ import Metadata from './../shared/viewmodel/Metadata';
 import * as appSettings from 'application-settings';
 
 function loaded(args) {
-	customUi.setViewDefaults();
 	let page = args.object;
 
 	let actionBar = new ActionBar();
