@@ -52,5 +52,29 @@ function loadData() {
 	});
 }
 
+let enterDebugTapCounter = 0;
+let enterDebugLastTap = 0;
+const DEBUG_MODE_MAX_MS = 2000;
+const DEBUG_MODE_TAPS = 5;
+function develTap() {
+	const curTime = new Date().getTime();
+	if ((curTime - enterDebugLastTap) > DEBUG_MODE_MAX_MS) {
+		enterDebugLastTap = curTime;
+		enterDebugTapCounter = 1;
+	} else {
+		enterDebugTapCounter += 1;
+	}
+
+	if (enterDebugTapCounter > DEBUG_MODE_TAPS) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/developer',
+			context: {
+				prevPageTitle: ''
+			}
+		});
+	}
+}
+
 exports.pageLoaded = pageLoaded;
 exports.errorTryAgain = loadData;
+module.exports.develTap = develTap;
