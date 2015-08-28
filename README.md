@@ -1,8 +1,14 @@
 # oppna-program-reklistan-app
 
-Work in progress!
+iOS and Android app to help medical professionals in Region Västra Götaland, Sweden, to prescribe drugs. 
 
-### Installation (for development)
+It fetches data via JSON from the companion website [http://reklistan.vgregion.se](http://reklistan.vgregion.se) and stores in the app for offline usage. Built with [NativeScript](https://www.nativescript.org/). The backend site which supplies the data is built with [Liferay](https://www.liferay.com/).
+
+[![Screenshot of YouTube video](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/35e55b55a632632e430ec191ff9cc030b4058b6a/docs/youtube-screenshot.png)](https://www.youtube.com/watch?v=9GeqZmPBxm4)
+
+[Watch video demonstration (43 seconds)](https://www.youtube.com/watch?v=9GeqZmPBxm4)
+
+## Installation (for development)
 
 ```
 # Clone this repo
@@ -25,7 +31,7 @@ tns platform add ios
 tns platform add android
 ```
 
-#### Modify the app settings
+### Modify the app settings
 Disable landscape mode by
 
 Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
