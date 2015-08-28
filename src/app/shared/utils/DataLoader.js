@@ -237,6 +237,13 @@ function createDataLocation(locations, forceDownload) {
 			localFileName: 'custom.css',
 			url:           global.REK.preferences.host + '/reklistan-theme/css/custom.css?browserId=other&themeId=reklistantheme_WAR_reklistantheme&languageId=en_US&b=6210',
 			download:      forceDownload
+		}],
+
+		inAppResources: [{
+			name:          'appDetailsJs',
+			localFileName: 'app-details.js',
+			url:           global.REK.preferences.host + '/reklistan-theme/resources/app-details.js',
+			download:      forceDownload
 		}]
 	};
 
@@ -337,6 +344,9 @@ const DataLoader = {
 
 		// Check connectivity
 		return checkConnectivity(spec.forceDownload)
+
+			// Get in-app resources
+			.then(() => loadFiles(spec.inAppResources, 'registerInAppResource'))
 
 			// Get templates
 			.then(() => loadFiles(spec.templates, 'registerTemplate'))

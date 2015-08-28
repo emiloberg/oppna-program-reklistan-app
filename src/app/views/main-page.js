@@ -20,26 +20,8 @@ const pageLoaded = function(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 	page.bindingContext = contextObj;
-	loadInAppResources();
 	loadData();
 };
-
-function loadInAppResources() {
-	readAndRegisterInAppResources('jquery', 'jquery.js');
-	readAndRegisterInAppResources('details-js', 'details-js.js');
-}
-
-function readAndRegisterInAppResources(name, filename) {
-	var documents = fs.knownFolders.currentApp();
-	var myFile = documents.getFile('in-app-resources/' + filename);
-
-	myFile.readText()
-		.then(function (content) {
-			templatesModel.registerInAppResource(name, content);
-		}, function (error) {
-			debug('Could not read and register app resource: ' + name, 'error');
-		});
-}
 
 function loadData() {
 	contextObj.set('loadingCount', 0);

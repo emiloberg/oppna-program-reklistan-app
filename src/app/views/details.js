@@ -76,6 +76,8 @@ function loaded(args) {
 		elActionBar.bindingContext = actionBar;
 		htmlData = navContext.data.getContent(actionBar.get('selectedIndex'));
 
+		htmlData = `<div class="mobile-details mobile-details-${enabledTabs}">${htmlData}</div>`;
+
 		setTab(actionBar.get('selectedIndex'));
 	}
 
@@ -134,8 +136,7 @@ function showVW(htmlContent) {
 			<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, user-scalable=0;" />
 			<title>REKListan</title>
 			<script>
-			${templatesModel.getInAppResource('jquery')}
-			${templatesModel.getInAppResource('details-js')}
+			${templatesModel.getInAppResource('appDetailsJs')}
 			</script>
 			<style>
 			${templatesModel.getCss('custom')}
