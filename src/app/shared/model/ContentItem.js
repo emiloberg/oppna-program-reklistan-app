@@ -3,11 +3,12 @@
 const TYPENAMES = ['drugs', 'advice'];
 
 export default class ContentItem {
-	constructor(title, content, order, id) {
+	constructor(title, content, order, id, linkToArticle) {
 		this._title = title;
 		this._content = content;
 		this._order = order;
 		this._id = id;
+		this._linkToArticle = linkToArticle;
 	}
 
 	get title() {
@@ -16,6 +17,15 @@ export default class ContentItem {
 
 	get id() {
 		return this._id;
+	}
+
+	isLinkToArticle(typeNameOrId) {
+		let type = typeNameOrId;
+		if (typeof typeNameOrId === 'number') {
+			type = TYPENAMES[typeNameOrId];
+		}
+
+		return this._linkToArticle[type] ? this._content[type] : false;
 	}
 
 	getContent(typeNameOrId) {

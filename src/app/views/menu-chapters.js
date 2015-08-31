@@ -65,14 +65,19 @@ function loaded(args) {
 }
 
 function menuItemTap(args) {
-	var section = args.view.bindingContext;
-	frameModule.topmost().navigate({
-		moduleName: 'views/details',
-		context: {
-			data: section,
-			prevPageTitle: curPageName
-		}
-	});
+	const section = args.view.bindingContext;
+	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
+	if (linkToArticle) {
+		navigation.navigateToUrl(linkToArticle, curPageName);
+	} else {
+		frameModule.topmost().navigate({
+			moduleName: 'views/details',
+			context:    {
+				data:          section,
+				prevPageTitle: curPageName
+			}
+		});
+	}
 }
 
 function switchTab(index) {

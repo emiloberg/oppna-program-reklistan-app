@@ -181,6 +181,38 @@ function mergeArrays(target, source, locator, merger) {
 	return target;
 }
 
+/**
+ * Advice articles can be links to other articles,
+ * find out if this is one of those articles.
+ *
+ * returns false if it's a "normal" article, else it
+ * returns the "url" (e.g. advice/Fysisk_aktivitet/Fysisk_aktivitet_pa_recept_(FaR))
+ * to the article it links to.
+ *
+ * @param {object} content
+ * @returns {boolean|string}
+ */
+function findLinkToArticle(content) {
+	let foundLinkToArticle;
+	const hasLinkToArticle = content.children.some(field => {
+		if (field.name) {
+			if (field.name === 'linktoarticle') {
+				if (field.value.length > 0) {
+					foundLinkToArticle = field.value;
+					return true;
+				}
+			}
+		}
+		return false;
+	});
+
+	if (hasLinkToArticle) {
+		return foundLinkToArticle;
+	} else {
+		return false;
+	}
+}
+
 function createDataLocation(locations, forceDownload) {
 	const urlPart1 = `${global.REK.preferences.host}/api/jsonws/skinny-web.skinny/get-skinny-journal-articles/company-id/${locations.companyId}/group-name/${locations.groupName}/ddm-structure-id/`;
 	const urlPart2 = `/locale/${locations.locale}`;
@@ -386,11 +418,20 @@ const DataLoader = {
 						id: utils.makeUrlSafe(section.title),
 						items: section.fields.map((field, fieldIndex) => {
 							if (field.value) { // has heading
+								const linkToOtherArticle = findLinkToArticle(field);
 								const content = {};
-								content[resource.name] = templatesModel.processTemplate(resource.name, {
-									fields: [field], // hbs template is expecting content in fields[].
-									isMobile: true
-								});
+
+								if (linkToOtherArticle) {
+									content[resource.name] = linkToOtherArticle
+								} else {
+									content[resource.name] = templatesModel.processTemplate(resource.name, {
+										fields:   [field], // hbs template is expecting content in fields[].
+										isMobile: true
+									});
+								}
+
+								const linkObj = {};
+								linkObj[resource.name] = linkToOtherArticle ? true : false;
 
 								const order = {};
 								order[resource.name] = fieldIndex;
@@ -398,7 +439,8 @@ const DataLoader = {
 									title: field.value,
 									content: content,
 									order: order,
-									id: utils.makeUrlSafe(field.value)
+									id: utils.makeUrlSafe(field.value),
+									linkToArticle: linkObj
 								};
 							} else {
 								return null;
@@ -420,6 +462,7 @@ const DataLoader = {
 									Object.keys(innerSourceItem.content).forEach(key => {
 										innerTargetItem.content[key] = innerSourceItem.content[key];
 										innerTargetItem.order[key] = innerSourceItem.order[key];
+										innerTargetItem.linkToArticle[key] = innerSourceItem.linkToArticle[key];
 									});
 								}
 							);
@@ -451,9 +494,9 @@ const DataLoader = {
 				return mergedData;
 			})
 			.then(mergedData => mergedData.map(section => {
-				const contentSections = section.items.map(
-						item => new ContentItem(item.title, item.content, item.order, item.id));
-
+				const contentSections = section.items.map(item => {
+					return new ContentItem(item.title, item.content, item.order, item.id, item.linkToArticle);
+				});
 				return new RekDataList(section.title, contentSections, true, section.id);
 			}))
 			.then(dataLists => new RekDataList('REKListan', dataLists))

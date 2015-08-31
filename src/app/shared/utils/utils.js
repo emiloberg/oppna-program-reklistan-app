@@ -111,17 +111,23 @@ function makeUrlSafe(str) {
 }
 
 function internalUrlToArray(url) {
-		let slugs = url.split('/');
-		if (slugs.length < 1 || slugs.length > 3) {
-			throw new Error('Not a correct URL');
-		}
-		if (slugs.length === 1) {
-			slugs.push(undefined);
-			slugs.push(undefined);
-		} else if (slugs.length === 2) {
-			slugs.push(undefined);
-		}
-		return slugs;
+
+	// Clean user input of #/ and anything before that.
+	if (url.indexOf('#/') > -1) {
+		url = url.substring(url.indexOf('#/') + 2);
+	}
+
+	let slugs = url.split('/');
+	if (slugs.length < 1 || slugs.length > 3) {
+		throw new Error('Not a correct URL');
+	}
+	if (slugs.length === 1) {
+		slugs.push(undefined);
+		slugs.push(undefined);
+	} else if (slugs.length === 2) {
+		slugs.push(undefined);
+	}
+	return slugs;
 }
 
 function epochToFriendlyStamp(timestamp) {
