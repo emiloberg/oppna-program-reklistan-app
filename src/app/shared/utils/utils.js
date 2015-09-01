@@ -2,6 +2,7 @@
 
 //import {inspect} from './debug';
 import RemoteImages from './remoteimages';
+import fs from 'file-system';
 
 const defaultDiacriticsRemovalap = [
 	{'base': 'A', 'letters': '\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F'},
@@ -183,17 +184,22 @@ function rewriteHTML(html) {
 	html = html.replace(reMailLinks, 'href="rekmail://$2"');
 
 	// Convert image path
+	const CHILD_ICON = fs.path.join(fs.knownFolders.currentApp().path, 'images') + '/child.png';
 	const reImages = new RegExp(/src=[\"\']([^\"\']+)[\"\']/gi);
 	html = html.replace(reImages, function (match, capture) {
-		return 'src="file://' + RemoteImages.imageFolderPath() + '/' + makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
+		// If it's the theme-built-in icon for child, then replace it with the high res image included in the app.
+		if(capture === '/reklistan-theme/images/theme/child.png') {
+			return 'src="file://' + CHILD_ICON + '"';
+		} else {
+			return 'src="file://' + RemoteImages.imageFolderPath() + '/' + makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
+		}
 	});
 
 	// Replaces {{replaceable}} with icon
 	html = html.replace(/\{\{replaceable\}\}/g, '<span class="replaceable">&#8860;</span>');
 
 	// Replaces {{child}} with icon
-	html = html.replace(/\{\{child\}\}/g, '<img src="/reklistan-theme/images/theme/child.png" class="child-icon">');
-	// TODO: Change this so that the image is actually showing.
+	html = html.replace(/\{\{child\}\}/g, '<img src="file://' + CHILD_ICON + '" class="child-icon">');
 
 	return html;
 }
