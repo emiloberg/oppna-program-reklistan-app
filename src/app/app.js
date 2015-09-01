@@ -24,3 +24,5 @@ global.REK = {
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 
 application.start();
+
+// TODO: Test Android
