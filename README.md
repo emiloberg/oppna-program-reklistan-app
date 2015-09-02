@@ -32,7 +32,9 @@ tns platform add android
 ```
 
 ### Modify the app settings
-Disable landscape mode by
+Disable landscape mode and remove Android Title Bar by:
+
+#### Android
 
 Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
 
@@ -50,8 +52,11 @@ into
     android:name="com.tns.NativeScriptActivity"
     android:label="@string/title_activity_kimera"
     android:configChanges="keyboardHidden|orientation|screenSize"
-    android:screenOrientation="sensorPortrait">
+    android:screenOrientation="sensorPortrait"
+    android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 ```
+
+#### iOS
 
 Edit: `rekapp/platforms/ios/rekapp/` and change:
 
