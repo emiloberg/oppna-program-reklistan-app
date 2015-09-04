@@ -97,6 +97,24 @@ function checkConnectivity(forceDownload) {
 }
 
 /**
+ * Takes a html content, searches it for images (with 'data-remotesrc™ set)
+ * and queues all images for download.
+ *
+ * @param {string} content HTML content
+ */
+function findAndQueueImagesDownload(content) {
+	// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
+	const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
+	let match;
+	while (match = reSrc.exec(content)) {  //eslint-disable-line
+		RemoteImages.queueImageForDownload({
+			url: global.REK.preferences.host + match[1],
+			filename: utils.makeUrlSafe(match[1])
+		});
+	}
+}
+
+/**
  * Download a resource (json/handlebars/css file) from the interwebs.
  *
  * @param {Object} resource
@@ -350,6 +368,7 @@ const DataLoader = {
 					});
 
 					fieldOut.body = utils.rewriteHTML(fieldOut.body);
+					findAndQueueImagesDownload(fieldOut.body);
 
 					if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
 						return new NewsArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.lead, fieldOut.date);
@@ -366,6 +385,9 @@ const DataLoader = {
 
 		// Check connectivity
 		return checkConnectivity(spec.forceDownload)
+
+			// Init known images
+			.then(() => RemoteImages.initKnownImages())
 
 			// Get in-app resources
 			.then(() => loadFiles(spec.inAppResources, 'registerInAppResource'))
@@ -394,6 +416,7 @@ const DataLoader = {
 							});
 
 							fieldOut.body = utils.rewriteHTML(fieldOut.body);
+							findAndQueueImagesDownload(fieldOut.body);
 
 							if (fieldOut.medium.indexOf('both') > 0 || fieldOut.medium.indexOf('mobile') > 0) { // Only include news targeted to mobile.
 								return new ResourceArticle(fieldOut.uuid, fieldOut.title, fieldOut.body, fieldOut.externallink, fieldOut.sortOrder);
@@ -469,10 +492,8 @@ const DataLoader = {
 						})
 				)
 			)
-			.then(mergedData => {
-				RemoteImages.initKnownImages();
-				return mergedData;
-			})
+
+			// Download all Drugs/Advice images
 			.then(mergedData => {
 				mergedData
 					.map(section => section.items)
@@ -480,15 +501,7 @@ const DataLoader = {
 					.map(item => item.content)
 					.forEach(contentSection => {
 						Object.keys(contentSection).forEach(key => {
-							// Getting the data-remotesrc value. This is the original url set in htmlRenderer.
-							const reSrc = /data\-remotesrc=[\"\']([^\"\']+)[\"\']/g;
-							let match;
-							while (match = reSrc.exec(contentSection[key])) {  //eslint-disable-line
-								RemoteImages.queueImageForDownload({
-									url: global.REK.preferences.host + match[1],
-									filename: utils.makeUrlSafe(match[1])
-								});
-							}
+							findAndQueueImagesDownload(contentSection[key]);
 						});
 					});
 				return mergedData;
