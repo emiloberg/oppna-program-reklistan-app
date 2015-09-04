@@ -9,7 +9,7 @@ application.onUncaughtError = function (error) {
     debug.debug('Application error: ' + error.name + '; ' + error.message + '; ' + error.nativeError);
 };
 
-var _host = 'http://local.dev:8080'; // TODO: Change for production
+var _host = 'https://reklistan.vgregion.se'; // NB: No trailing slash
 
 global.REK = {
 	urlDataLocation: _host + '/reklistan-theme/resources/appdata.json',
