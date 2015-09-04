@@ -34,7 +34,6 @@ const News = {
 		list.every(article => {
 			if (typeof article !== 'undefined') {
 				if (added >= global.REK.preferences.maxNews) {
-					inspect('Breaking because ' + added + ' is equal or larger than ' + global.REK.preferences.maxNews );
 					return false;
 				}
 				NEWS_LIST.push(article);
