@@ -133,13 +133,21 @@ gulp.task('watchFullIOS', function(callback) {
 
 gulp.task('watchFullAndroid', function(callback) {
     gulp.watch(watchedFiles, function () {
-            runSequence(
-                '_clean',
-                '_compile',
-                '_emulateAndroid',
-                callback);
+        runSequence(
+            '_clean',
+            '_compile',
+            '_emulateAndroid',
+            callback);
         }
     );
+});
+
+gulp.task('fullAndroid', function(callback) {
+    runSequence(
+        '_clean',
+        '_compile',
+        '_emulateAndroid',
+        callback);
 });
 
 gulp.task('lint', function () {
