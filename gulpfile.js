@@ -283,7 +283,8 @@ gulp.task('_compile', function() {
     var js = gulp.src(babelSrc)
         .pipe(debug({title: 'Compiling:      '}))
         .pipe(babel({
-            stage: 1
+            stage: 1,
+            plugins: ['object-assign']
          }))
         .pipe(gulp.dest(destination));
 
