@@ -8,7 +8,7 @@ It fetches data via JSON from the companion website [http://reklistan.vgregion.s
 
 [Watch video demonstration (43 seconds)](https://www.youtube.com/watch?v=9GeqZmPBxm4)
 
-## Installation (for development)
+## Installation
 
 ```
 # Clone this repo
@@ -30,66 +30,6 @@ npm install
 tns platform add ios
 tns platform add android
 ```
-
-### Modify the app settings
-Disable landscape mode and remove Android Title Bar by:
-
-#### Android
-
-Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
-
-```
-<activity
-    android:name="com.tns.NativeScriptActivity"
-    android:label="@string/title_activity_kimera"
-    android:configChanges="keyboardHidden|orientation|screenSize">
-```
-
-into 
-
-```
-<activity
-    android:name="com.tns.NativeScriptActivity"
-    android:label="@string/title_activity_kimera"
-    android:configChanges="keyboardHidden|orientation|screenSize"
-    android:screenOrientation="sensorPortrait"
-    android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-```
-
-#### iOS
-
-Edit: `rekapp/platforms/ios/rekapp/` and change:
-
-```
-<key>UISupportedInterfaceOrientations</key>
-<array>
-	<string>UIInterfaceOrientationPortrait</string>
-	<string>UIInterfaceOrientationLandscapeLeft</string>
-	<string>UIInterfaceOrientationLandscapeRight</string>
-</array>
-<key>UISupportedInterfaceOrientations~ipad</key>
-<array>
-	<string>UIInterfaceOrientationPortrait</string>
-	<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	<string>UIInterfaceOrientationLandscapeLeft</string>
-	<string>UIInterfaceOrientationLandscapeRight</string>
-</array>
-```
-
-into 
-
-```
-<key>UISupportedInterfaceOrientations</key>
-<array>
-	<string>UIInterfaceOrientationPortrait</string>
-</array>
-<key>UISupportedInterfaceOrientations~ipad</key>
-<array>
-	<string>UIInterfaceOrientationPortrait</string>
-	<string>UIInterfaceOrientationPortraitUpsideDown</string>
-</array>
-```
-
 
 ## Development
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
@@ -135,6 +75,68 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 * Javascript files in `src/thirdparty` gets moved from `src` to `rekapp` _without_ compilation.
 * To install app dependencies, run `npm install [package] --save` from the `rekapp` folder. The NativeScript build process will copy them  to the correct places in the app. They may be required in the normal way (`let theModules = require('theModule')`)
 
+
+
+### Changes to app settings
+These changes are done to the iOS/Android app settings.
+
+Disable landscape mode and remove Android Title Bar by:
+
+#### Android
+
+Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
+
+```
+<activity
+    android:name="com.tns.NativeScriptActivity"
+    android:label="@string/title_activity_kimera"
+    android:configChanges="keyboardHidden|orientation|screenSize">
+```
+
+into 
+
+```
+<activity
+    android:name="com.tns.NativeScriptActivity"
+    android:label="@string/title_activity_kimera"
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:screenOrientation="sensorPortrait"
+    android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+```
+
+#### iOS
+
+Edit: `rekapp/platforms/ios/rekapp/rekapp-Info.plist` and change:
+
+```
+<key>UISupportedInterfaceOrientations</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationLandscapeLeft</string>
+	<string>UIInterfaceOrientationLandscapeRight</string>
+</array>
+<key>UISupportedInterfaceOrientations~ipad</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	<string>UIInterfaceOrientationLandscapeLeft</string>
+	<string>UIInterfaceOrientationLandscapeRight</string>
+</array>
+```
+
+into 
+
+```
+<key>UISupportedInterfaceOrientations</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+</array>
+<key>UISupportedInterfaceOrientations~ipad</key>
+<array>
+	<string>UIInterfaceOrientationPortrait</string>
+	<string>UIInterfaceOrientationPortraitUpsideDown</string>
+</array>
+```
 
 
 ### Release for production
