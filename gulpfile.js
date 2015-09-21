@@ -251,7 +251,9 @@ gulp.task('_watchFullIOS', function(cb) {
 
 gulp.task('_emulateAndroid', function(cb) {
     //▶ tns emulate android --geny Nexus-5
-    var child = spawn('tns', ['emulate', 'android', '--geny', androidEmulator], {cwd: process.cwd() + '/' + pathToStartAppFrom});
+    //var child = spawn('tns', ['emulate', 'android', '--geny', androidEmulator], {cwd: process.cwd() + '/' + pathToStartAppFrom});
+    //tns deploy android --device 1
+    var child = spawn('tns', ['deploy', 'android', '--device', '1'], {cwd: process.cwd() + '/' + pathToStartAppFrom});
     var stdout = '';
     var stderr = '';
 
