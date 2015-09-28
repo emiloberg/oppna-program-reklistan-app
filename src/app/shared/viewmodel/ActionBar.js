@@ -7,6 +7,10 @@ import {Observable} from 'data/observable';
 let lastPageTitle = '';
 let lastSetSelectedIndex = 0;
 
+export function getLastPageTitle() {
+	return lastPageTitle;
+}
+
 export default class ActionBar extends Observable {
 
 	/**

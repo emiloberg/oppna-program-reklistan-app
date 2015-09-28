@@ -5,6 +5,7 @@ rekapp/app/views
 rekapp/app/thirdparty
 rekapp/app/dev-resources
 rekapp/app/images
+rekapp/app/components
 rekapp/lib
 rekapp/app/app.css
 rekapp/app/app.js

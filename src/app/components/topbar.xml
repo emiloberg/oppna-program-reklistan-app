@@ -1,0 +1,53 @@
+<GridLayout row="0" col="0" id="actionbar" rows="auto, auto, *">
+    <!-- Tabs: Back, search and menu -->
+    <StackLayout row="0" orientation="vertical">
+        <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
+            <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+                <Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />
+            </StackLayout>
+            <StackLayout col="2" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+                <Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />
+            </StackLayout>
+        </GridLayout>
+        <StackLayout cssClass="head--divider" height="2"></StackLayout>
+    </StackLayout>
+
+    <StackLayout row="1">
+        <!-- Tabs: Page title -->
+        <StackLayout id="head--title-bar">
+            <Label textWrap="true" horizontalAlignment="center" cssClass="head--title-bar--label" text="{{ pageTitle }}" />
+        </StackLayout>
+
+        <!-- Tabs: Both -->
+        <GridLayout id="head--tab-bar" columns="*, *" rows="*" visibility="{{ enabledTabs === 'both' ? 'visible' : 'collapsed' }}">
+            <StackLayout tap="{{ drugsTap }}" col="0" orientation="vertical" verticalAlignment="center">
+                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                <StackLayout cssClass="{{ selectedIndex === 0 ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
+            </StackLayout>
+            <StackLayout tap="{{ adviceTap}} " col="1" orientation="vertical" verticalAlignment="center">
+                <Label cssClass="head--tab-bar--label" col="1" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                <StackLayout cssClass="{{ selectedIndex === 1 ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
+            </StackLayout>
+        </GridLayout>
+
+        <!-- Tabs: Only drugs -->
+        <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ enabledTabs === 'drugs' ? 'visible' : 'collapsed' }}">
+            <StackLayout col="0" orientation="vertical" verticalAlignment="center">
+                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+            </StackLayout>
+        </GridLayout>
+
+        <!-- Tabs: Only advice -->
+        <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ enabledTabs === 'advice' ? 'visible' : 'collapsed' }}">
+            <StackLayout col="0" orientation="vertical" verticalAlignment="center">
+                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
+            </StackLayout>
+        </GridLayout>
+
+    </StackLayout>
+
+</GridLayout>
+
+

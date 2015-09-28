@@ -1,12 +1,12 @@
 'use strict';
 
 //import {inspect} from './../shared/utils/debug';
-import customUi from './../shared/modules/ui';
+//import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
-import navigation from './../shared/utils/navigation';
-import Mainmenu from './../shared/viewmodel/Mainmenu';
-import AppMessage from './../shared/viewmodel/AppMessage';
-import * as frameModule from 'ui/frame';
+//import navigation from './../shared/utils/navigation';
+//import Mainmenu from './../shared/viewmodel/Mainmenu';
+//import AppMessage from './../shared/viewmodel/AppMessage';
+//import * as frameModule from 'ui/frame';
 
 let page;
 let actionBar;
@@ -14,9 +14,9 @@ let dataList;
 let curPageName;
 
 function loaded(args) {
-	customUi.setViewDefaults();
+	//customUi.setViewDefaults();
 	page = args.object;
-	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
+	//Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
 	let navContext = page.navigationContext;
 	dataList = navContext.data;
 	curPageName = navContext.data.title;
@@ -47,53 +47,53 @@ function loaded(args) {
 		enabledTabs: enabledTabs,
 		selectedIndex: selectedIndex
 	});
-	let elActionBar = page.getViewById('actionbar');
-	elActionBar.bindingContext = actionBar;
+	//let elActionBar = page.getViewById('actionbar');
+	//elActionBar.bindingContext = actionBar;
 
 	let elPageContent = page.getViewById('pagecontent');
 
 	dataList.selectedIndex = actionBar.get('selectedIndex');
 	elPageContent.bindingContext = dataList;
 
-	const elMenu = page.getViewById('menuwrapper');
-	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
-
-	const elAppMessage = page.getViewById('appmessage');
-	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
-
-	switchTab(actionBar.get('selectedIndex'));
+	//const elMenu = page.getViewById('menuwrapper');
+	//elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+	//
+	//const elAppMessage = page.getViewById('appmessage');
+	//elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
+	//
+	//switchTab(actionBar.get('selectedIndex'));
 }
 
-function menuItemTap(args) {
-	const section = args.view.bindingContext;
-	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
-	if (linkToArticle) {
-		navigation.navigateToUrl(linkToArticle, curPageName);
-	} else {
-		frameModule.topmost().navigate({
-			moduleName: 'views/details',
-			context:    {
-				data:          section,
-				prevPageTitle: curPageName
-			}
-		});
-	}
-}
-
-function switchTab(index) {
-	actionBar.set('selectedIndex', index);
-	dataList.set('selectedIndex', index);
-}
-
+//function menuItemTap(args) {
+//	const section = args.view.bindingContext;
+//	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
+//	if (linkToArticle) {
+//		navigation.navigateToUrl(linkToArticle, curPageName);
+//	} else {
+//		frameModule.topmost().navigate({
+//			moduleName: 'views/details',
+//			context:    {
+//				data:          section,
+//				prevPageTitle: curPageName
+//			}
+//		});
+//	}
+//}
+//
+//function switchTab(index) {
+//	actionBar.set('selectedIndex', index);
+//	dataList.set('selectedIndex', index);
+//}
+//
 module.exports.loaded = loaded;
-module.exports.drugsTap = function() { switchTab(0); };
-module.exports.adviceTap = function() { switchTab(1); };
-module.exports.menuItemTap = menuItemTap;
-module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) { navigation.swipe(args, curPageName); };
-module.exports.searchTap = function() { navigation.toSearch(curPageName); };
-module.exports.menuTap = Mainmenu.show;
-module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
-module.exports.logoTap = Mainmenu.logoTap;
-module.exports.reloadDataTap = Mainmenu.reloadDataTap;
+//module.exports.drugsTap = function() { switchTab(0); };
+//module.exports.adviceTap = function() { switchTab(1); };
+//module.exports.menuItemTap = menuItemTap;
+//module.exports.backTap = navigation.back;
+//module.exports.swipe = function(args) { navigation.swipe(args, curPageName); };
+//module.exports.searchTap = function() { navigation.toSearch(curPageName); };
+//module.exports.menuTap = Mainmenu.show;
+//module.exports.hideMenuTap = Mainmenu.hide;
+//module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
+//module.exports.logoTap = Mainmenu.logoTap;
+//module.exports.reloadDataTap = Mainmenu.reloadDataTap;

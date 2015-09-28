@@ -1,64 +1,64 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded">
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true">
 
-    <AbsoluteLayout>
+    <!--<AbsoluteLayout>-->
 
-        <GridLayout id="maincontent" left="0" top="0" rows="auto, *" swipe="swipe">
+        <!--<GridLayout id="maincontent" left="0" top="0" rows="auto, *" swipe="swipe">-->
 
-            <GridLayout row="0" id="actionbar" rows="auto, auto, *">
-                <!-- Tabs: Back, search and menu -->
-                <StackLayout row="0" orientation="vertical">
-                    <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
-                        <StackLayout col="0" tap="backTap" orientation="horizontal">
-                            <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
-                            <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
-                        </StackLayout>
-                        <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
-                            <Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />
-                        </StackLayout>
-                        <StackLayout col="2" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
-                            <Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />
-                        </StackLayout>
-                    </GridLayout>
-                    <StackLayout cssClass="head--divider" height="2"></StackLayout>
-                </StackLayout>
+            <!--<GridLayout row="0" id="actionbar" rows="auto, auto, *">-->
+                <!--&lt;!&ndash; Tabs: Back, search and menu &ndash;&gt;-->
+                <!--<StackLayout row="0" orientation="vertical">-->
+                    <!--<GridLayout id="head&#45;&#45;action-bar" columns="*, 48, 48" orientation="horizontal">-->
+                        <!--<StackLayout col="0" tap="backTap" orientation="horizontal">-->
+                            <!--<Image cssClass="head&#45;&#45;icon" col="0" src="{{iconBack}}" width="12" heigth="12" />-->
+                            <!--<Label col="1" text="{{backTitle}}" cssClass="head&#45;&#45;action-bar&#45;&#45;back" />-->
+                        <!--</StackLayout>-->
+                        <!--<StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">-->
+                            <!--<Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />-->
+                        <!--</StackLayout>-->
+                        <!--<StackLayout col="2" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">-->
+                            <!--<Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />-->
+                        <!--</StackLayout>-->
+                    <!--</GridLayout>-->
+                    <!--<StackLayout cssClass="head&#45;&#45;divider" height="2"></StackLayout>-->
+                <!--</StackLayout>-->
 
-                <StackLayout row="1">
-                    <!-- Tabs: Page title -->
-                    <StackLayout id="head--title-bar">
-                        <Label textWrap="true" horizontalAlignment="center" cssClass="head--title-bar--label" text="{{pageTitle}}" />
-                    </StackLayout>
+                <!--<StackLayout row="1">-->
+                    <!--&lt;!&ndash; Tabs: Page title &ndash;&gt;-->
+                    <!--<StackLayout id="head&#45;&#45;title-bar">-->
+                        <!--<Label textWrap="true" horizontalAlignment="center" cssClass="head&#45;&#45;title-bar&#45;&#45;label" text="{{pageTitle}}" />-->
+                    <!--</StackLayout>-->
 
-                    <!-- Tabs: Both -->
-                    <GridLayout id="head--tab-bar" columns="*, *" rows="*" visibility="{{ (enabledTabs === 'both') ? 'visible' : 'collapsed' }}">
-                        <StackLayout tap="drugsTap" col="0" orientation="vertical" verticalAlignment="center">
-                            <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
-                            <StackLayout cssClass="{{ (selectedIndex === 0) ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
-                        </StackLayout>
-                        <StackLayout tap="adviceTap" col="1" orientation="vertical" verticalAlignment="center">
-                            <Label cssClass="head--tab-bar--label" col="1" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
-                            <StackLayout cssClass="{{ (selectedIndex === 1) ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
-                        </StackLayout>
-                    </GridLayout>
+                    <!--&lt;!&ndash; Tabs: Both &ndash;&gt;-->
+                    <!--<GridLayout id="head&#45;&#45;tab-bar" columns="*, *" rows="*" visibility="{{ (enabledTabs === 'both') ? 'visible' : 'collapsed' }}">-->
+                        <!--<StackLayout tap="drugsTap" col="0" orientation="vertical" verticalAlignment="center">-->
+                            <!--<Label cssClass="head&#45;&#45;tab-bar&#45;&#45;label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />-->
+                            <!--<StackLayout cssClass="{{ (selectedIndex === 0) ? 'head&#45;&#45;tab-bar&#45;&#45;border-active' : 'head&#45;&#45;tab-bar&#45;&#45;border-noactive' }}" height="2"></StackLayout>-->
+                        <!--</StackLayout>-->
+                        <!--<StackLayout tap="adviceTap" col="1" orientation="vertical" verticalAlignment="center">-->
+                            <!--<Label cssClass="head&#45;&#45;tab-bar&#45;&#45;label" col="1" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />-->
+                            <!--<StackLayout cssClass="{{ (selectedIndex === 1) ? 'head&#45;&#45;tab-bar&#45;&#45;border-active' : 'head&#45;&#45;tab-bar&#45;&#45;border-noactive' }}" height="2"></StackLayout>-->
+                        <!--</StackLayout>-->
+                    <!--</GridLayout>-->
 
-                    <!-- Tabs: Only drugs -->
-                    <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'drugs') ? 'visible' : 'collapsed' }}">
-                        <StackLayout col="0" orientation="vertical" verticalAlignment="center">
-                            <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
-                            <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
-                        </StackLayout>
-                    </GridLayout>
+                    <!--&lt;!&ndash; Tabs: Only drugs &ndash;&gt;-->
+                    <!--<GridLayout id="head&#45;&#45;tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'drugs') ? 'visible' : 'collapsed' }}">-->
+                        <!--<StackLayout col="0" orientation="vertical" verticalAlignment="center">-->
+                            <!--<Label cssClass="head&#45;&#45;tab-bar&#45;&#45;label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />-->
+                            <!--<StackLayout cssClass="head&#45;&#45;tab-bar&#45;&#45;border-active" height="2"></StackLayout>-->
+                        <!--</StackLayout>-->
+                    <!--</GridLayout>-->
 
-                    <!-- Tabs: Only advice -->
-                    <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'advice') ? 'visible' : 'collapsed' }}">
-                        <StackLayout col="0" orientation="vertical" verticalAlignment="center">
-                            <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
-                            <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
-                        </StackLayout>
-                    </GridLayout>
+                    <!--&lt;!&ndash; Tabs: Only advice &ndash;&gt;-->
+                    <!--<GridLayout id="head&#45;&#45;tab-bar" columns="*" rows="*" visibility="{{ (enabledTabs === 'advice') ? 'visible' : 'collapsed' }}">-->
+                        <!--<StackLayout col="0" orientation="vertical" verticalAlignment="center">-->
+                            <!--<Label cssClass="head&#45;&#45;tab-bar&#45;&#45;label" col="0" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />-->
+                            <!--<StackLayout cssClass="head&#45;&#45;tab-bar&#45;&#45;border-active" height="2"></StackLayout>-->
+                        <!--</StackLayout>-->
+                    <!--</GridLayout>-->
 
-                </StackLayout>
+                <!--</StackLayout>-->
 
-            </GridLayout>
+            <!--</GridLayout>-->
 
             <StackLayout id="pagecontent" row="1">
 
@@ -71,67 +71,67 @@
                 <!-- /PAGE CONTENT -->
 
             </StackLayout>
-        </GridLayout>
+        <!--</GridLayout>-->
 
-        <!-- MENU -->
-        <GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
-            <StackLayout col="0" tap="hideMenuTap"></StackLayout>
-            <StackLayout col="1" cssClass="mainmenu--side-divider"></StackLayout>
-            <ScrollView col="2" cssClass="mainmenu--menu">
-                <StackLayout>
-                    <Image cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
-                    <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
-                        <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <Repeater items="{{ news.items }}">
-                        <Repeater.itemTemplate>
-                            <StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToNewsArticle }}">
-                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                                    <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
-                                </StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
-                            </StackLayout>
-                        </Repeater.itemTemplate>
-                    </Repeater>
-                    <StackLayout cssClass="mainmenu--heading">
-                        <Label text="{{ text.mainmenuHeadingResourceArticles }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <Repeater items="{{ resourceArticles }}">
-                        <Repeater.itemTemplate>
-                            <StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
-                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                                    <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
-                                </StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
-                            </StackLayout>
-                        </Repeater.itemTemplate>
-                    </Repeater>
-                    <StackLayout cssClass="mainmenu--heading">
-                        <Label text="{{ text.mainmenuHeadingSettings }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <StackLayout cssClass="mainmenu--list-item" tap="reloadDataTap">
-                        <Label text="{{ text.mainmenuLabelReloadData }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                        <Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
-                    </StackLayout>
-                    <Label text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
-                </StackLayout>
-            </ScrollView>
-        </GridLayout>
-        <!-- /MENU -->
+        <!--&lt;!&ndash; MENU &ndash;&gt;-->
+        <!--<GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">-->
+            <!--<StackLayout col="0" tap="hideMenuTap"></StackLayout>-->
+            <!--<StackLayout col="1" cssClass="mainmenu&#45;&#45;side-divider"></StackLayout>-->
+            <!--<ScrollView col="2" cssClass="mainmenu&#45;&#45;menu">-->
+                <!--<StackLayout>-->
+                    <!--<Image cssClass="mainmenu&#45;&#45;vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />-->
+                    <!--<StackLayout cssClass="mainmenu&#45;&#45;heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">-->
+                        <!--<Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu&#45;&#45;heading&#45;&#45;label" />-->
+                    <!--</StackLayout>-->
+                    <!--<Repeater items="{{ news.items }}">-->
+                        <!--<Repeater.itemTemplate>-->
+                            <!--<StackLayout>-->
+                                <!--<StackLayout cssClass="mainmenu&#45;&#45;list-item" tap="{{ navigateToNewsArticle }}">-->
+                                    <!--<Label text="{{ title }}" textWrap="true" cssClass="mainmenu&#45;&#45;list-item&#45;&#45;label" />-->
+                                    <!--<Label text="{{ lead }}" textWrap="true" cssClass="mainmenu&#45;&#45;list-item&#45;&#45;lead" />-->
+                                <!--</StackLayout>-->
+                                <!--<StackLayout cssClass="mainmenu&#45;&#45;list-item&#45;&#45;divider" height="1"></StackLayout>-->
+                            <!--</StackLayout>-->
+                        <!--</Repeater.itemTemplate>-->
+                    <!--</Repeater>-->
+                    <!--<StackLayout cssClass="mainmenu&#45;&#45;heading">-->
+                        <!--<Label text="{{ text.mainmenuHeadingResourceArticles }}" cssClass="mainmenu&#45;&#45;heading&#45;&#45;label" />-->
+                    <!--</StackLayout>-->
+                    <!--<Repeater items="{{ resourceArticles }}">-->
+                        <!--<Repeater.itemTemplate>-->
+                            <!--<StackLayout>-->
+                                <!--<StackLayout cssClass="mainmenu&#45;&#45;list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">-->
+                                    <!--<Label text="{{ title }}" textWrap="true" cssClass="mainmenu&#45;&#45;list-item&#45;&#45;label" />-->
+                                    <!--<Image cssClass="mainmenu&#45;&#45;resource&#45;&#45;icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />-->
+                                <!--</StackLayout>-->
+                                <!--<StackLayout cssClass="mainmenu&#45;&#45;list-item&#45;&#45;divider" height="1"></StackLayout>-->
+                            <!--</StackLayout>-->
+                        <!--</Repeater.itemTemplate>-->
+                    <!--</Repeater>-->
+                    <!--<StackLayout cssClass="mainmenu&#45;&#45;heading">-->
+                        <!--<Label text="{{ text.mainmenuHeadingSettings }}" cssClass="mainmenu&#45;&#45;heading&#45;&#45;label" />-->
+                    <!--</StackLayout>-->
+                    <!--<StackLayout cssClass="mainmenu&#45;&#45;list-item" tap="reloadDataTap">-->
+                        <!--<Label text="{{ text.mainmenuLabelReloadData }}" textWrap="true" cssClass="mainmenu&#45;&#45;list-item&#45;&#45;label" />-->
+                        <!--<Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu&#45;&#45;list-item&#45;&#45;lead" />-->
+                    <!--</StackLayout>-->
+                    <!--<Label text="{{ footer }}" textWrap="true" cssClass="mainmenu&#45;&#45;footer" />-->
+                <!--</StackLayout>-->
+            <!--</ScrollView>-->
+        <!--</GridLayout>-->
+        <!--&lt;!&ndash; /MENU &ndash;&gt;-->
 
 
-        <!-- MESSAGE -->
-        <StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">
-            <Label tap="logoTap" text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
-            <GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">
-                <Label col="0" text="{{ messageDownloadDataUpdateLater }}" tap="{{ hideMessageTap }}" cssClass="appmessage--button" />
-                <Label col="1" text="{{ messageDownloadDataUpdateNow }}" tap="{{ downloadDataTap }}" cssClass="appmessage--button--primary" />
-            </GridLayout>
-        </StackLayout>
-        <!-- /MESSAGE -->
+        <!--&lt;!&ndash; MESSAGE &ndash;&gt;-->
+        <!--<StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">-->
+            <!--<Label tap="logoTap" text="{{ message }}" textWrap="true" cssClass="appmessage&#45;&#45;label" horizontalAlignment="center" />-->
+            <!--<GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">-->
+                <!--<Label col="0" text="{{ messageDownloadDataUpdateLater }}" tap="{{ hideMessageTap }}" cssClass="appmessage&#45;&#45;button" />-->
+                <!--<Label col="1" text="{{ messageDownloadDataUpdateNow }}" tap="{{ downloadDataTap }}" cssClass="appmessage&#45;&#45;button&#45;&#45;primary" />-->
+            <!--</GridLayout>-->
+        <!--</StackLayout>-->
+        <!--&lt;!&ndash; /MESSAGE &ndash;&gt;-->
 
-    </AbsoluteLayout>
+    <!--</AbsoluteLayout>-->
 
 </Page>

@@ -27,11 +27,13 @@ const navigation = {
 		frameModule.topmost().goBack();
 	},
 
+	// TODO: Make Search load page Title form ActionBar.getLastPageTitle()
 	toSearch(prevPageTitle) {
 		frameModule.topmost().navigate({
 			moduleName: 'views/search',
 			context: {
-				prevPageTitle: prevPageTitle
+				//prevPageTitle: prevPageTitle
+				prevPageTitle: 'SearchASDF'
 			}
 		});
 	},

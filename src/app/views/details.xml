@@ -1,4 +1,4 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded">
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true">
 
     <AbsoluteLayout>
 
