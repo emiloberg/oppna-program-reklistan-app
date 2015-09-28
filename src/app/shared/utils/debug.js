@@ -52,3 +52,36 @@ export function clearDebugLog(){
 		DEBUG_LOG.pop();
 	}
 }
+
+
+let TIMER = {};
+
+export function time(timeName = 'default'){
+	TIMER[timeName] = new Date().getTime();
+}
+
+function printTime(action, timeName, message) {
+	let ms = new Date().getTime() - TIMER[timeName];
+	ms = String("     " + ms).slice(-5);
+
+	if (timeName === 'default') {
+		timeName = '';
+	} else {
+		timeName = ` (${timeName}) `;
+	}
+
+	if (message) {
+		message = ` - ${message}`
+	}
+
+	console.log(`${action}${timeName}${ms}ms${message}`);
+}
+
+export function timePeek(message = '', timeName = 'default') {
+	printTime('Time Peek', timeName, message);
+}
+
+export function timeEnd(message = '', timeName = 'default') {
+	printTime('Time End ', timeName, message);
+}
+
