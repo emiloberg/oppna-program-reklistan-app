@@ -73,6 +73,7 @@ Page {
     font-weight: bold;
     font-size: 12;
     color: #879c9c;
+    vertical-align: center;
 }
 
 #head--title-bar {
