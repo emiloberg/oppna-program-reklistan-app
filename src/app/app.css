@@ -200,8 +200,8 @@ Page {
 }
 
 .mainmenu--footer {
-    margin-top: 20;
-    margin-bottom: 10;
+    padding-top: 20;
+    padding-bottom: 10;
     color: #acadae;
     font-size: 9;
     text-align: center;

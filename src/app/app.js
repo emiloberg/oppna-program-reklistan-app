@@ -26,3 +26,4 @@ debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
 application.start();
 
 // TODO: Test Android
+// TODO: Check if customUi.setViewDefaults(); is needed everywhere....

@@ -26,8 +26,8 @@ let curveOut;
 let enterDebugTapCounter = 0;
 let enterDebugLastTap = 0;
 
-const DEBUG_MODE_MAX_MS = 2000;
-const DEBUG_MODE_TAPS = 5;
+const DEBUG_MODE_MAX_MS = 5000;
+const DEBUG_MODE_TAPS = 3;
 
 let MAIN_MENU_DATA = new Observable({
 	resourceArticles: ResourceArticles.get(),
