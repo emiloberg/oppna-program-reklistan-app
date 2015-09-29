@@ -53,7 +53,12 @@ Page {
 .head--tab-bar--label {
     font-size: 14;
     color: #4B5757;
+}
+
+.head--tab-bar--label--wrapper {
     height: 46;
+    horizontal-align: center;
+    vertical-align: center;
 }
 
 .head--icon {

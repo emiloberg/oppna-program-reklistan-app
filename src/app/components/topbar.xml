@@ -25,11 +25,15 @@
         <!-- Tabs: Both -->
         <GridLayout id="head--tab-bar" columns="*, *" rows="*" visibility="{{ enabledTabs === 'both' ? 'visible' : 'collapsed' }}">
             <StackLayout tap="{{ drugsTap }}" col="0" orientation="vertical" verticalAlignment="center">
-                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--label--wrapper">
+                    <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" />
+                </StackLayout>
                 <StackLayout cssClass="{{ selectedIndex === 0 ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
             </StackLayout>
             <StackLayout tap="{{ adviceTap}} " col="1" orientation="vertical" verticalAlignment="center">
-                <Label cssClass="head--tab-bar--label" col="1" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--label--wrapper">
+                    <Label cssClass="head--tab-bar--label" col="1" row="0" text="{{ txtAdvice }}" />
+                </StackLayout>
                 <StackLayout cssClass="{{ selectedIndex === 1 ? 'head--tab-bar--border-active' : 'head--tab-bar--border-noactive' }}" height="2"></StackLayout>
             </StackLayout>
         </GridLayout>
@@ -37,7 +41,9 @@
         <!-- Tabs: Only drugs -->
         <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ enabledTabs === 'drugs' ? 'visible' : 'collapsed' }}">
             <StackLayout col="0" orientation="vertical" verticalAlignment="center">
-                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--label--wrapper">
+                    <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtDrugs }}" />
+                </StackLayout>
                 <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
             </StackLayout>
         </GridLayout>
@@ -45,7 +51,9 @@
         <!-- Tabs: Only advice -->
         <GridLayout id="head--tab-bar" columns="*" rows="*" visibility="{{ enabledTabs === 'advice' ? 'visible' : 'collapsed' }}">
             <StackLayout col="0" orientation="vertical" verticalAlignment="center">
-                <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtAdvice }}" horizontalAlignment="center" />
+                <StackLayout cssClass="head--tab-bar--label--wrapper">
+                    <Label cssClass="head--tab-bar--label" col="0" row="0" text="{{ txtAdvice }}" />
+                </StackLayout>
                 <StackLayout cssClass="head--tab-bar--border-active" height="2"></StackLayout>
             </StackLayout>
         </GridLayout>
