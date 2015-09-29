@@ -2,6 +2,10 @@
     <!-- Tabs: Back, search and menu -->
     <StackLayout row="0" orientation="vertical">
         <GridLayout id="head--action-bar" columns="*, 48, 48" orientation="horizontal">
+            <StackLayout col="0" tap="backTap" orientation="horizontal" visibility="{{ backTitle ? 'visible' : 'collapsed' }}">
+                <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
+                <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
+            </StackLayout>
             <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
                 <Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />
             </StackLayout>
