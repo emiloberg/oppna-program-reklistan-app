@@ -1,8 +1,5 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true">
-
-
     <GridLayout rows="auto, *" swipe="swipe">
-
         <GridLayout row="0" id="actionbar" rows="auto, auto, *">
             <!-- Tabs: Back, search and menu -->
             <StackLayout row="0" orientation="vertical">
@@ -15,14 +12,9 @@
             </StackLayout>
         </GridLayout>
 
-        <!-- Needs to be GridLayout or WebView does not work ( https://github.com/NativeScript/NativeScript/issues/224 ) -->
-        <GridLayout id="pagecontent" row="1">
+        <!-- PAGE CONTENT -->
+        <WebView row="1" id="externalWV" />
+        <!-- /PAGE CONTENT -->
 
-            <!-- PAGE CONTENT -->
-            <WebView id="externalWV" />
-            <!-- /PAGE CONTENT -->
-
-        </GridLayout>
     </GridLayout>
-
 </Page>
