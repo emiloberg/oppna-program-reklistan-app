@@ -1,6 +1,5 @@
 'use strict';
 
-import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';

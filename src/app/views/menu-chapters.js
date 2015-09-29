@@ -1,6 +1,5 @@
 'use strict';
 
-import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
@@ -42,7 +41,6 @@ function init(args) {
 	elMenuWrapper.height = deviceHeight;
 	elMenuWrapper.width = deviceWidth;
 	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
-
 
 	// Nav context data
 	let navContext = page.navigationContext;
