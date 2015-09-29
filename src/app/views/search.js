@@ -57,7 +57,7 @@ function init(args) {
 		pageTitle: curPageName,
 		enabledTabs: 'none',
 		useLastPageTitle: true,
-		showSearchButton: false,
+		showSearchButton: false
 	});
 	elActionBar.bindingContext = actionBar;
 
