@@ -12,19 +12,7 @@ export function getLastPageTitle() {
 }
 
 export default class ActionBar extends Observable {
-
-	/**
-	 * Creates a new ActionBar
-	 *
-	 * @param {object} [options={}]
-	 * @param {string} [options.pageTitle=] Current page title
-	 * @param {string} [options.backTitle=] Previous page title
-	 * @param {string} [options.enabledTabs=both] 'both', 'drugs' or 'advice'
-	 * @param {string} [options.barType=normal] 'normal' or 'onlyClose'
-	 * @param {boolean} [options.useLastPageTitle=false] Use last page title instead of pageTitle
-	 * @param {boolean} [options.showSearchButton=true] Show search button
-	 * @param {number} [options.selectedIndex] Using last selected index if left unset
-	 */
+	
 	constructor({
 		pageTitle = '',
 		backTitle = '',

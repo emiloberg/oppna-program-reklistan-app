@@ -57,7 +57,7 @@ function init(args) {
 		pageTitle: curPageName,
 		enabledTabs: 'none',
 		useLastPageTitle: true,
-		showSearchButton: false
+		showSearchButton: false,
 	});
 	elActionBar.bindingContext = actionBar;
 
@@ -106,14 +106,6 @@ function searchItemTap(args) {
 
 module.exports.searchItemTap = searchItemTap;
 module.exports.loaded = loaded;
-module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName, ['back', 'menu']);
-};
-module.exports.menuTap = Mainmenu.show;
-module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) {
-	Mainmenu.swipe(args);
-};
-module.exports.logoTap = Mainmenu.logoTap;
-module.exports.reloadDataTap = Mainmenu.reloadDataTap;
+//module.exports.swipe = function(args) {
+//	navigation.swipe(args, curPageName, ['back', 'menu']);
+//};
