@@ -1,42 +1,77 @@
 'use strict';
 
-//import {inspect} from './../shared/utils/debug';
-import {templatesModel} from './../shared/utils/htmlRenderer';
-import customUi from './../shared/modules/ui';
+import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
+import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
-import navigation from './../shared/utils/navigation';
-import {android, ios} from 'application';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
+import * as frameModule from 'ui/frame';
 import * as webViewModule from 'ui/web-view';
+import {android, ios} from 'application';
+import {templatesModel} from './../shared/utils/htmlRenderer';
+import navigation from './../shared/utils/navigation';
+import * as gridLayout from 'ui/layouts/grid-layout';
+
+import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
+import {screen} from 'platform';
+const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
+const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
+
 
 let page;
 let actionBar;
+let dataList;
 let curPageName;
 let wv;
 let navContext;
 
 function loaded(args) {
-	customUi.setViewDefaults();
+	//if (!page) {
+	init(args);
+	//}
+}
+
+function init(args) {
 	page = args.object;
-	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
+
+	let htmlData;
+
+	// Elements
+	const elPageWrapper = page.getViewById('pagewrapper');
+	const elPageContent = page.getViewById('pagecontent');
+	const elActionBar = page.getViewById('actionbar');
+	const elAppMessage = page.getViewById('appmessage');
+	const elMenuWrapper = page.getViewById('menuwrapper');
+
+	// Set size of absolute positioned items.
+	elPageWrapper.height = deviceHeight;
+	elPageWrapper.width = deviceWidth;
+	elPageContent.height = deviceHeight;
+	elPageContent.width = deviceWidth;
+	elMenuWrapper.height = deviceHeight;
+	elMenuWrapper.width = deviceWidth;
+	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
+
+	// Nav context data
 	navContext = page.navigationContext;
 	curPageName = navContext.data.title;
 
-	let elActionBar = page.getViewById('actionbar');
-	let htmlData;
+	// Menu
+	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
 
-	wv = page.getViewById('detailsWV');
+	// App Message
+	elAppMessage.bindingContext = AppMessage.get();
+
+	// Setup WebView
+	wv = new webViewModule.WebView();
 	wv.off(webViewModule.WebView.loadStartedEvent);
 	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
 		interjectLink(event);
 	});
-
-	const elMenu = page.getViewById('menuwrapper');
-	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
-
-	const elAppMessage = page.getViewById('appmessage');
-	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
+	var grid = page.getViewById("pagecontent");
+	gridLayout.GridLayout.setColumn(wv, 0);
+	gridLayout.GridLayout.setRow(wv, 1);
+	grid.addChild(wv);
 
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar({
@@ -44,6 +79,8 @@ function loaded(args) {
 			useLastPageTitle: true,
 			enabledTabs: 'none'
 		});
+		actionBar.drugsTap = function() { switchTab(0); };
+		actionBar.adviceTap = function() { switchTab(1); };
 		elActionBar.bindingContext = actionBar;
 		htmlData = `
 		<div class="mobile-container">
@@ -56,8 +93,9 @@ function loaded(args) {
 
 	} else { // Is drugs/advice article
 
+		// If the data only exists for one selectedIndex, then we force it to show that selectedIndex
+		// no matter if we got another selectedIndex in the navContext/lastSelectedIndex.
 		let forceSelectedIndex = -1;
-
 		let enabledTabs = '';
 		if (navContext.data.hasType(0) && navContext.data.hasType(1)) {
 			enabledTabs = 'both';
@@ -68,10 +106,7 @@ function loaded(args) {
 			enabledTabs = 'advice';
 			forceSelectedIndex = 1;
 		}
-
 		let selectedIndex = page.navigationContext ? page.navigationContext.selectedIndex : undefined;
-		// If the data only exists for one selectedIndex, then we force it to show that selectedIndex
-		// no matter if we got another selectedIndex in the navContext/lastSelectedIndex.
 		if (forceSelectedIndex > -1) {
 			selectedIndex = forceSelectedIndex;
 		}
@@ -82,14 +117,34 @@ function loaded(args) {
 			enabledTabs: enabledTabs,
 			selectedIndex: selectedIndex
 		});
+		actionBar.drugsTap = function() { switchTab(0); };
+		actionBar.adviceTap = function() { switchTab(1); };
 		elActionBar.bindingContext = actionBar;
 
 		htmlData = navContext.data.getContent(actionBar.get('selectedIndex'));
 		htmlData = `<div class="mobile-details mobile-details-${enabledTabs}">${htmlData}</div>`;
 
-		setTab(actionBar.get('selectedIndex'));
+		switchTab(actionBar.get('selectedIndex'));
 	}
+
 	showVW(htmlData);
+
+}
+
+function menuItemTap(args) {
+	const section = args.view.bindingContext;
+	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
+	if (linkToArticle) {
+		navigation.navigateToUrl(linkToArticle, curPageName);
+	} else {
+		frameModule.topmost().navigate({
+			moduleName: 'views/details',
+			context: {
+				data: section,
+				prevPageTitle: curPageName
+			}
+		});
+	}
 }
 
 function interjectLink(event) {
@@ -112,12 +167,12 @@ function interjectLink(event) {
 		type: 'external',
 		prefix: 'http://'
 	}]
-	.forEach(linkType => {
-		if (event.url.indexOf(linkType.protocol) === 0) {
-			linkObj.url = linkType.prefix + event.url.substr(linkType.protocol.length);
-			linkObj[linkType.type] = true;
-		}
-	});
+		.forEach(linkType => {
+			if (event.url.indexOf(linkType.protocol) === 0) {
+				linkObj.url = linkType.prefix + event.url.substr(linkType.protocol.length);
+				linkObj[linkType.type] = true;
+			}
+		});
 
 	if (linkObj.internal || linkObj.external) {
 		if (ios) {
@@ -136,6 +191,7 @@ function interjectLink(event) {
 }
 
 function showVW(htmlContent) {
+	console.log('SHOWING VW');
 	wv.src = `<!DOCTYPE html>
 		<html lang="en">
 		<head>
@@ -156,7 +212,7 @@ function showVW(htmlContent) {
 }
 
 
-function setTab(index) {
+function switchTab(index) {
 	if (actionBar.get('selectedIndex') !== index) {
 		actionBar.selectedIndex = index;
 		navContext.selectedIndex = index;
@@ -164,14 +220,7 @@ function setTab(index) {
 	}
 }
 
+
 module.exports.loaded = loaded;
-module.exports.drugsTap = function drugsTap() { setTab(0); };
-module.exports.adviceTap = function adviceTap() { setTab(1); };
-module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) { navigation.swipe(args, curPageName); };
-module.exports.searchTap = function() { navigation.toSearch(curPageName); };
-module.exports.menuTap = Mainmenu.show;
-module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
-module.exports.logoTap = Mainmenu.logoTap;
-module.exports.reloadDataTap = Mainmenu.reloadDataTap;
+module.exports.menuItemTap = menuItemTap;
+////module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };

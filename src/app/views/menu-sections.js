@@ -1,5 +1,5 @@
-//'use strict';
-//
+'use strict';
+
 import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
@@ -8,7 +8,6 @@ import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import * as frameModule from 'ui/frame';
-
 
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {screen} from 'platform';
@@ -22,10 +21,9 @@ let dataList;
 let curPageName = language.appTitle;
 
 function loaded(args) {
-
-	if (!page) {
+	//if (!page) {
 		init(args);
-	}
+	//}
 }
 
 function init(args) {
@@ -66,9 +64,7 @@ function init(args) {
 	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
 
 	// App Message
-	let appMessage = AppMessage.get();
-	//AppMessage.setMessage('Hej på dig igen!', 'updateData');
-	elAppMessage.bindingContext = appMessage;
+	elAppMessage.bindingContext = AppMessage.get();
 
 }
 

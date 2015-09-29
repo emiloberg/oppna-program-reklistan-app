@@ -12,5 +12,5 @@
             <app:appMessage />
         </GridLayout>
         <app:sidemenu />
-     </AbsoluteLayout>
+    </AbsoluteLayout>
 </Page>
