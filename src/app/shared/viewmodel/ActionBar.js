@@ -22,40 +22,38 @@ export default class ActionBar extends Observable {
 	 * @param {string} [options.enabledTabs=both] 'both', 'drugs' or 'advice'
 	 * @param {string} [options.barType=normal] 'normal' or 'onlyClose'
 	 * @param {boolean} [options.useLastPageTitle=false] Use last page title instead of pageTitle
+	 * @param {boolean} [options.showSearchButton=true] Show search button
 	 * @param {number} [options.selectedIndex] Using last selected index if left unset
 	 */
-	constructor(options = {}) {
-
-		let params = {
-			pageTitle: '',
-			backTitle: '',
-			enabledTabs: 'both',
-			barType: 'normal',
-			useLastPageTitle: false,
-			selectedIndex: lastSetSelectedIndex
-		};
-		params = Object.assign(params, options);
-
-		if(params.selectedIndex === undefined) {
-			params.selectedIndex = lastSetSelectedIndex;
+	constructor({
+		pageTitle = '',
+		backTitle = '',
+		enabledTabs = 'both',
+		barType = 'normal',
+		useLastPageTitle = false,
+		showSearchButton = true,
+		selectedIndex = lastSetSelectedIndex
+	}) {
+		if(selectedIndex === undefined) {
+			selectedIndex = lastSetSelectedIndex;
 		}
 
 		super();
 		this._iconBack = Images.left;
-		this._iconSearch = Images.search;
+		this._iconSearch = showSearchButton ? Images.search : null;
 		this._iconMenu = Images.menu;
-		this._pageTitle = params.pageTitle;
-		this._backTitle = params.useLastPageTitle ? lastPageTitle : params.backTitle;
-		this._selectedIndex = params.selectedIndex;
-		this._enabledTabs = params.enabledTabs;
+		this._pageTitle = pageTitle;
+		this._backTitle = useLastPageTitle ? lastPageTitle : backTitle;
+		this._selectedIndex = selectedIndex;
+		this._enabledTabs = enabledTabs;
 		this._txtDrugs = language.drugs;
 		this._txtAdvice = language.advice;
 
-		if (params.barType === 'normal') {
+		if (barType === 'normal') {
 			this._iconClose = Images.close;
 		}
 
-		lastPageTitle = params.pageTitle;
+		lastPageTitle = pageTitle;
 	}
 
 	set selectedIndex(index) {

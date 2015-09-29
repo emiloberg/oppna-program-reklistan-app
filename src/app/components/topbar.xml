@@ -6,7 +6,7 @@
                 <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
                 <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
             </StackLayout>
-            <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
+            <StackLayout col="1" tap="searchTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48" visibility="{{ iconSearch ? 'visible' : 'collapsed' }}">
                 <Image src="{{iconSearch}}" width="24" heigth="24" stretch="aspectFit" />
             </StackLayout>
             <StackLayout col="2" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">

@@ -9,6 +9,11 @@ import language from './../shared/utils/language';
 import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
+import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
+import {screen} from 'platform';
+import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
+const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
 let page;
 let curPageName = language.searchTitle;
@@ -24,20 +29,36 @@ var searchInput = new Observable({
 });
 
 function loaded(args) {
-	page = args.object;
-	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
+	//if (!page) {
+	init(args);
+	//}
+}
 
-	let prevPageTitle = '';
-	if ('navigationContext' in page) {
-		prevPageTitle = page.navigationContext.prevPageTitle || '';
-	}
+function init(args) {
+	page = args.object;
+
+	// Elements
+	const elPageWrapper = page.getViewById('pagewrapper');
+	const elPageContent = page.getViewById('pagecontent');
+	const elActionBar = page.getViewById('actionbar');
+	const elAppMessage = page.getViewById('appmessage');
+	const elMenuWrapper = page.getViewById('menuwrapper');
+
+	// Set size of absolute positioned items.
+	elPageWrapper.height = deviceHeight;
+	elPageWrapper.width = deviceWidth;
+	elPageContent.height = deviceHeight;
+	elPageContent.width = deviceWidth;
+	elMenuWrapper.height = deviceHeight;
+	elMenuWrapper.width = deviceWidth;
+	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
 
 	let actionBar = new ActionBar({
 		pageTitle: curPageName,
-		backTitle: prevPageTitle,
-		enabledTabs: 'none'
+		enabledTabs: 'none',
+		useLastPageTitle: true,
+		showSearchButton: false
 	});
-	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
 	let searchBar = page.getViewById('searchbar');
@@ -48,14 +69,15 @@ function loaded(args) {
 		doSearch(event.value);
 	});
 
-	let pagecontent = page.getViewById('pagecontent');
-	pagecontent.bindingContext = pageContent;
+	// Menu
+	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
 
-	const elMenu = page.getViewById('menuwrapper');
-	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+	// App Message
+	elAppMessage.bindingContext = AppMessage.get();
 
-	const elAppMessage = page.getViewById('appmessage');
-	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
+	// Page content
+	elPageContent.bindingContext = pageContent;
+
 }
 
 function doSearch(searchFor) {
@@ -63,6 +85,7 @@ function doSearch(searchFor) {
 	if (searchTerm === lastSearchWord) {
 		return;
 	}
+	lastSearchWord = searchTerm;
 	while(searchResults.length > 0) {
 		searchResults.pop();
 	}
@@ -72,8 +95,7 @@ function doSearch(searchFor) {
 			results.forEach(result => {
 				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
-		});
-		lastSearchWord = searchTerm;
+		})
 	}
 }
 
