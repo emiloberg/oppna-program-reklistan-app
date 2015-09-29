@@ -31,6 +31,25 @@ tns platform add ios
 tns platform add android
 ```
 
+## Hacks
+
+#### Web-view
+In: 
+`/rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js`, the line
+
+```
+this._android.loadData(src, "text/html", null);
+```
+is replaced with
+
+```
+this._android.loadData(src, "text/html; charset=utf-8", "utf-8");
+```
+
+so that webview understands UTF-8 characters. There's a [PR sent to NativeScript](https://github.com/NativeScript/NativeScript/pull/845), but until that is merged, you need yo change this yourself.
+
+
+
 ## Development
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
 
