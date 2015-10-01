@@ -13,7 +13,7 @@ import * as appSettings from 'application-settings';
 function loaded(args) {
 	let page = args.object;
 
-	let actionBar = new ActionBar();
+	let actionBar = new ActionBar({ pageTitle: 'Debug' });
 	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
