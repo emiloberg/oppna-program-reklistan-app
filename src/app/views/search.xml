@@ -3,11 +3,10 @@
         <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0" >
             <app:topbar />
             <!-- PAGE CONTENT -->
-
-
+            
             <StackLayout row="1">
                 <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
-
+                <Label text="{{ noSearchResultsFound }}" cssClass="search--noSearchResults" visibility="{{ noSearchResultsFound ? 'visible' : 'collapsed' }}" />
                 <ListView itemTap="searchItemTap" items="{{ searchResults }}">
                     <ListView.itemTemplate>
                         <GridLayout columns="*, 48" row="auto">
@@ -25,7 +24,6 @@
                         </GridLayout>
                     </ListView.itemTemplate>
                 </ListView>
-
             </StackLayout>
 
             <!-- /PAGE CONTENT -->

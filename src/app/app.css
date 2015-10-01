@@ -28,6 +28,13 @@ Page {
     margin: 8 16;
 }
 
+.search--noSearchResults {
+    padding: 16;
+    color: #4B5757;
+    font-size: 14;
+    text-align: center;
+}
+
 #head--action-bar {
     background-color: #F1F3F3;
     height: 56;

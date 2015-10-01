@@ -6,6 +6,7 @@ const language = {
 	appTitle: 'REK-listan',
 	searchTitle: 'Sök',
 	searchPlaceholder: 'Sök...',
+	searchNoSearchResultsFound: 'Inga sökträffar hittades',
 	splashLoading: 'Laddar data',
 	mainmenuHeadingNews: 'NYHETER',
 	mainmenuHeadingResourceArticles: 'ÖVRIGT',

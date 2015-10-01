@@ -20,7 +20,8 @@ let curPageName = language.searchTitle;
 let searchResults = new ObservableArray([]);
 let lastSearchWord = '';
 let pageContent = new Observable({
-	searchResults: searchResults
+	searchResults: searchResults,
+	noSearchResultsFound: ''
 });
 let searchBar;
 
@@ -98,7 +99,13 @@ function doSearch(searchFor) {
 			results.forEach(result => {
 				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
-		})
+
+			if (results.length === 0) {
+				pageContent.noSearchResultsFound = language.searchNoSearchResultsFound;
+			} else {
+				pageContent.noSearchResultsFound = '';
+			}
+		});
 	}
 }
 
