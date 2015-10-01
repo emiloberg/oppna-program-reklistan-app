@@ -22,6 +22,7 @@ let lastSearchWord = '';
 let pageContent = new Observable({
 	searchResults: searchResults
 });
+let searchBar;
 
 var searchInput = new Observable({
 	searchPlaceholder: language.searchPlaceholder,
@@ -61,9 +62,8 @@ function init(args) {
 	});
 	elActionBar.bindingContext = actionBar;
 
-	let searchBar = page.getViewById('searchbar');
+	searchBar = page.getViewById('searchbar');
 	searchBar.bindingContext = searchInput;
-	searchBar.focus();
 
 	searchInput.on(Observable.propertyChangeEvent, function (event) {
 		doSearch(event.value);
@@ -77,6 +77,9 @@ function init(args) {
 
 	// Page content
 	elPageContent.bindingContext = pageContent;
+
+	// Set focus on input. Android doesn't seem to need it, but iOS do.
+	searchBar.focus();
 
 }
 
@@ -100,8 +103,15 @@ function doSearch(searchFor) {
 }
 
 function searchItemTap(args) {
-	var bc = args.view.bindingContext;
-	navigation.navigateToUrl(bc.url, curPageName);
+
+	// Hide soft keyboard
+	if (searchBar.android) {
+		searchBar.android.clearFocus();
+	} else if (searchBar.ios) {
+		searchBar.ios.endEditing(true);
+	}
+
+	navigation.navigateToUrl(args.view.bindingContext.url, curPageName);
 }
 
 module.exports.searchItemTap = searchItemTap;
