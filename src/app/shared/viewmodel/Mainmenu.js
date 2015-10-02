@@ -8,7 +8,7 @@ import {SwipeDirection} from 'ui/gestures';
 import {Observable} from 'data/observable';
 import ResourceArticles from './ResourceArticles';
 import News from './News';
-import {inspect, debug} from './../utils/debug';
+import {debug, time, timeEnd, timePeek, inspect} from './../utils/debug';
 import Images from './../utils/images';
 import navigation from './../utils/navigation';
 import language from './../utils/language';
@@ -46,6 +46,7 @@ let MAIN_MENU_DATA = new Observable({
 appversion.getVersionName().then(function(v) {
 	MAIN_MENU_DATA.set('footer', language.mainmenuLabelFooter + v);
 });
+
 
 const Mainmenu = {
 
@@ -91,6 +92,12 @@ const Mainmenu = {
 	 * Show Menu
 	 */
 	show() {
+
+		// If bindingContext isn't binded yet - silently exit.
+		if(typeof elMenu === "undefined" || typeof elMainContent === "undefined") {
+			return;
+		}
+
 		const animationsSetup = [
 			{
 				target: elMenu,

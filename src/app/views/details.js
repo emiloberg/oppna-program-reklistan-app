@@ -55,22 +55,22 @@ function init(args) {
 	navContext = page.navigationContext;
 	curPageName = navContext.data.title;
 
-	// Menu
-	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
-
-	// App Message
-	elAppMessage.bindingContext = AppMessage.get();
-
 	// Setup WebView
 	wv = new webViewModule.WebView();
 	wv.off(webViewModule.WebView.loadStartedEvent);
 	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
 		interjectLink(event);
 	});
-	var grid = page.getViewById("pagecontent");
-	gridLayout.GridLayout.setColumn(wv, 0);
-	gridLayout.GridLayout.setRow(wv, 1);
-	grid.addChild(wv);
+
+	// setTimeout as this takes ~300ms on an Android device and we don't want to
+	// block the ui while adding it.
+	// Todo: Maybe add some fade in
+	setTimeout(() => {
+		var grid = page.getViewById("pagecontent");
+		gridLayout.GridLayout.setColumn(wv, 0);
+		gridLayout.GridLayout.setRow(wv, 1);
+		grid.addChild(wv);
+	}, 0);
 
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar({
@@ -127,6 +127,16 @@ function init(args) {
 	}
 
 	showVW(htmlData);
+
+	// Menu
+	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
+	// and hopes that the user doesn't press the menu before that.
+	setTimeout(function() {
+		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	}, 1000);
+
+	// App Message
+	elAppMessage.bindingContext = AppMessage.get();
 
 }
 
@@ -190,7 +200,6 @@ function interjectLink(event) {
 }
 
 function showVW(htmlContent) {
-	console.log('SHOWING VW');
 	wv.src = `<!DOCTYPE html>
 		<html lang="en">
 		<head>

@@ -61,7 +61,11 @@ function init(args) {
 	elPageContent.bindingContext = dataList;
 
 	// Menu
-	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
+	// and hopes that the user doesn't press the menu before that.
+	setTimeout(function() {
+		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	}, 1000);
 
 	// App Message
 	elAppMessage.bindingContext = AppMessage.get();
