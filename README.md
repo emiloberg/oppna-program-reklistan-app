@@ -99,9 +99,16 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 ### Changes to app settings
 These changes are done to the iOS/Android app settings.
 
-Disable landscape mode and remove Android Title Bar by:
+#### Set Android Permissions
+Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
 
-#### Android
+```
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```
+
+#### Disable landscape mode and remove Android Title Bar by:
+
+##### Android
 
 Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
 
@@ -123,7 +130,7 @@ into
     android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 ```
 
-#### iOS
+##### iOS
 
 Edit: `rekapp/platforms/ios/rekapp/rekapp-Info.plist` and change:
 
