@@ -70,9 +70,6 @@ function init(args) {
 		doSearch(event.value);
 	});
 
-	// Menu
-	elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
-
 	// App Message
 	elAppMessage.bindingContext = AppMessage.get();
 
@@ -81,6 +78,13 @@ function init(args) {
 
 	// Set focus on input. Android doesn't seem to need it, but iOS do.
 	searchBar.focus();
+
+	// Menu
+	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
+	// and hopes that the user doesn't press the menu before that.
+	setTimeout(function() {
+		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	}, 1000);
 
 }
 
