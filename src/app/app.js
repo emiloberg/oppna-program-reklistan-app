@@ -1,8 +1,17 @@
 'use strict';
 var application = require('application');
 var debug = require('./shared/utils/debug');
+import * as frameModule from 'ui/frame';
 
-application.mainModule = 'views/main-page';
+//application.mainModule = 'views/menu-sections';
+application.mainEntry = {
+	moduleName: 'views/download-data',
+	context: {
+		downloadType: 'init'
+	},
+	backstackVisible: false
+	//animated: false
+};
 application.cssFile = './app.css';
 
 application.onUncaughtError = function (error) {

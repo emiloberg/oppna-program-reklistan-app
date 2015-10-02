@@ -10,53 +10,120 @@ import Images from './../shared/utils/images';
 var contextObj = new Observable({
 	error: '',
 	errorGoBack: '',
-	rekLogo: Images.rekLogo
+	errorTryAgain: '',
+	rekLogo: Images.rekLogo,
+	loadingCount: 0
 });
+var downloadType = 'manual';
+var loadingInterval;
 
 var pageLoaded = function(args) {
 	customUi.setViewDefaults();
 
-	debug('User initialized reload of data');
-
-	contextObj.set('error', '');
-	contextObj.set('errorGoBack', '');
-
 	var page = args.object;
 	page.bindingContext = contextObj;
 
-	contextObj.set('loadingCount', 0);
 
-	let loadingInterval = setInterval(function () {
+	if (page.navigationContext) {
+		downloadType = page.navigationContext.downloadType === 'init' ? 'init' : 'manual';
+	}
+
+	debug(`Started ${downloadType} download of data`);
+
+
+	var forceDownload = downloadType === 'manual' ? 'force' : '';
+	loadData(forceDownload);
+};
+
+function loadData(forceDownload) {
+
+	contextObj.set('loadingCount', 0);
+	contextObj.set('error', '');
+	contextObj.set('errorGoBack', '');
+	contextObj.set('errorTryAgain', '');
+
+	loadingInterval = setInterval(function () {
 		let curLoadingCount = contextObj.get('loadingCount') > 5 ? 0 : contextObj.get('loadingCount') + 1;
 		contextObj.set('loadingCount', curLoadingCount);
 	}, 200);
 
-	return initApp.init('force')
+	setTimeout(function() {
+		runInit(forceDownload);
+	}, 120);
+
+}
+
+function runInit(forceDownload) {
+	initApp.init(forceDownload)
 		.then(function () {
-			debug('All done. Manual refresh of data successful!');
+			debug(`All done, ${downloadType} refresh of data successful!`);
 			clearInterval(loadingInterval);
 			contextObj.set('loadingCount', 0);
-			frameModule.topmost().goBack();
+			global.dataIsLoaded = true;
+			frameModule.topmost().navigate({
+				moduleName: 'views/menu-sections',
+				context: {}
+				//animated: false
+			});
 		})
 		.catch(function (e) {
-			debug('Could not manually refresh data');
+			debug('Could not ${downloadType} download data');
 			debug(JSON.stringify(e));
 
 			clearInterval(loadingInterval);
 			contextObj.set('loadingCount', 0);
 
-			if (e === 'NO_NETWORK') {
-				contextObj.set('error', language.downloadDataNoConnection);
+			let txtErrorNoNetwork = '';
+			let txtErrorUnknown = '';
+			let txtButtonGoBack = '';
+			let txtButtonTryAgain = '';
+
+			if (downloadType === 'manual') {
+				txtErrorNoNetwork = language.downloadDataNoConnection;
+				txtErrorUnknown = language.downloadDataUnknownError;
+				txtButtonGoBack = language.downloadDataErrorGoBack;
 			} else {
-				contextObj.set('error', language.downloadDataUnknownError);
+				txtErrorNoNetwork = language.downloadDataInitial;
+				txtErrorUnknown = language.downloadDataInitial;
+				txtButtonTryAgain = language.downloadDataTryAgain;
 			}
 
-			contextObj.set('errorGoBack', language.downloadDataErrorGoBack);
-		});
+			if (e === 'NO_NETWORK') {
+				contextObj.set('error', txtErrorNoNetwork);
+			} else {
+				contextObj.set('error', txtErrorUnknown);
+			}
 
-};
+			contextObj.set('errorGoBack', txtButtonGoBack);
+			contextObj.set('errorTryAgain', txtButtonTryAgain);
+		});
+}
+
+let enterDebugTapCounter = 0;
+let enterDebugLastTap = 0;
+const DEBUG_MODE_MAX_MS = 5000;
+const DEBUG_MODE_TAPS = 3;
+function develTap() {
+	const curTime = new Date().getTime();
+	if ((curTime - enterDebugLastTap) > DEBUG_MODE_MAX_MS) {
+		enterDebugLastTap = curTime;
+		enterDebugTapCounter = 1;
+	} else {
+		enterDebugTapCounter += 1;
+	}
+
+	if (enterDebugTapCounter > DEBUG_MODE_TAPS) {
+		frameModule.topmost().navigate({
+			moduleName: 'views/developer',
+			context: {
+				prevPageTitle: ''
+			}
+		});
+	}
+}
+
 
 exports.pageLoaded = pageLoaded;
-exports.errorGoBack = function() {
-	frameModule.topmost().goBack();
-};
+exports.develTap = develTap;
+exports.errorTryAgain = loadData;
+//exports.errorGoBack = frameModule.topmost().goBack;
