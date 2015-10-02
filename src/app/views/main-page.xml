@@ -1,4 +1,4 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded" id="start-page" xmlns:app="components" actionBarHidden="true">
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded" id="start-page" actionBarHidden="true">
     <StackLayout horizontalAlignment="center" verticalAlignment="center">
         <Image tap="develTap" cssClass="splash--logo" src="{{rekLogo}}" stretch="aspectFit" horizontalAlignment="center" />
         <Label textWrap="true" cssClass="splash--error" text="{{ error }}" visibility="{{ error ? 'visible' : 'collapsed' }}" />
