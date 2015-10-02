@@ -23,7 +23,8 @@ const language = {
 	downloadDataErrorGoBack: 'Okay, gå tillbaka',
 	downloadDataUnknownError: 'Kunde inte ladda data.\n\nKontrollera att du har tillgång till internet, eller försök igen lite senare.',
 	downloadDataTryAgain: 'Försök igen',
-	errorPageNotFound: 'Innehållet kan inte hittas'
+	errorPageNotFound: 'Innehållet kan inte hittas',
+	externalLinkSlug: ' (extern)'
 };
 
 export default language;

@@ -4,7 +4,7 @@
     <StackLayout row="0" col="1" cssClass="mainmenu--side-divider"></StackLayout>
     <ScrollView row="0" col="2" cssClass="mainmenu--menu">
         <StackLayout>
-            <Image cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
+            <Image cssClass="mainmenu--vgrlogo" src="{{ vgrLogoImage }}" stretch="aspectFit" horizontalAlignment="center" />
             <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
                 <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
             </StackLayout>
@@ -27,7 +27,6 @@
                     <StackLayout>
                         <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
                             <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                            <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
                         </StackLayout>
                         <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
                     </StackLayout>
@@ -44,4 +43,4 @@
         </StackLayout>
     </ScrollView>
 </GridLayout>
-        <!-- /MENU -->
+<!-- /MENU -->
