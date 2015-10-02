@@ -21,7 +21,7 @@ export default class ActionBar extends Observable {
 		useLastPageTitle = false,
 		showSearchButton = true,
 		selectedIndex = lastSetSelectedIndex
-	}) {
+	} = {}) {
 		if(selectedIndex === undefined) {
 			selectedIndex = lastSetSelectedIndex;
 		}
