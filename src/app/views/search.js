@@ -39,6 +39,7 @@ function loaded(args) {
 function init(args) {
 	page = args.object;
 
+
 	// Elements
 	const elPageWrapper = page.getViewById('pagewrapper');
 	const elPageContent = page.getViewById('pagecontent');
@@ -114,19 +115,21 @@ function doSearch(searchFor) {
 }
 
 function searchItemTap(args) {
+	hideKeyboard();
+	navigation.navigateToUrl(args.view.bindingContext.url, curPageName);
+}
 
-	// Hide soft keyboard
+function hideKeyboard() {
 	if (searchBar.android) {
 		searchBar.android.clearFocus();
 	} else if (searchBar.ios) {
 		searchBar.ios.endEditing(true);
 	}
-
-	navigation.navigateToUrl(args.view.bindingContext.url, curPageName);
 }
 
 module.exports.searchItemTap = searchItemTap;
 module.exports.loaded = loaded;
+module.exports.navigatingFrom = hideKeyboard;
 //module.exports.swipe = function(args) {
 //	navigation.swipe(args, curPageName, ['back', 'menu']);
 //};

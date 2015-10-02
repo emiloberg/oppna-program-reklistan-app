@@ -1,4 +1,4 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true">
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true" navigatingFrom="navigatingFrom">
     <AbsoluteLayout id="pagewrapper">
         <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0" >
             <app:topbar />
