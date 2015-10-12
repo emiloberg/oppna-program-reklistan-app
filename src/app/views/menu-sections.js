@@ -3,11 +3,17 @@
 import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
+import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
-import navigation from './../shared/utils/navigation';
 import * as frameModule from 'ui/frame';
+
+import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
+import {screen} from 'platform';
+const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
+const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
+
 
 let page;
 let actionBar;
@@ -15,26 +21,55 @@ let dataList;
 let curPageName = language.appTitle;
 
 function loaded(args) {
+	//if (!page) {
+		init(args);
+	//}
+}
+
+function init(args) {
 	customUi.setViewDefaults();
 	page = args.object;
 
+	// Elements
+	const elPageWrapper = page.getViewById('pagewrapper');
+	const elPageContent = page.getViewById('pagecontent');
+	const elActionBar = page.getViewById('actionbar');
+	const elAppMessage = page.getViewById('appmessage');
+	const elMenuWrapper = page.getViewById('menuwrapper');
+
+	// Set size of absolute positioned items.
+	elPageWrapper.height = deviceHeight;
+	elPageWrapper.width = deviceWidth;
+	elPageContent.height = deviceHeight;
+	elPageContent.width = deviceWidth;
+	elMenuWrapper.height = deviceHeight;
+	elMenuWrapper.width = deviceWidth;
+	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
+
+	// Action bar
 	actionBar = new ActionBar({
 		pageTitle: curPageName,
 		selectedIndex: page.navigationContext ? page.navigationContext.selectedIndex : undefined
 	});
-	let elActionBar = page.getViewById('actionbar');
+	actionBar.drugsTap = function() { switchTab(0); };
+	actionBar.adviceTap = function() { switchTab(1); };
 	elActionBar.bindingContext = actionBar;
 
-	let elPageContent = page.getViewById('pagecontent');
+	// listView list
 	dataList = appViewModel.getMainDataList();
 	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
 	elPageContent.bindingContext = dataList;
 
-	const elMenu = page.getViewById('menuwrapper');
-	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+	// Menu
+	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
+	// and hopes that the user doesn't press the menu before that.
+	setTimeout(function() {
+		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	}, 1000);
 
-	const elAppMessage = page.getViewById('appmessage');
-	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
+	// App Message
+	elAppMessage.bindingContext = AppMessage.get();
+
 }
 
 function menuItemTap(args) {
@@ -54,13 +89,5 @@ function switchTab(index) {
 }
 
 module.exports.loaded = loaded;
-module.exports.drugsTap = function() { switchTab(0); };
-module.exports.adviceTap = function() { switchTab(1); };
 module.exports.menuItemTap = menuItemTap;
-module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };
-module.exports.searchTap = function() { navigation.toSearch(curPageName); };
-module.exports.menuTap = Mainmenu.show;
-module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) { Mainmenu.swipe(args); };
-module.exports.logoTap = Mainmenu.logoTap;
-module.exports.reloadDataTap = Mainmenu.reloadDataTap;
+////module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };

@@ -1,14 +1,15 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded" id="start-page">
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded" id="start-page" actionBarHidden="true">
     <StackLayout horizontalAlignment="center" verticalAlignment="center">
-        <Image cssClass="splash--logo" src="{{rekLogo}}" stretch="aspectFit" horizontalAlignment="center" />
+        <Image tap="develTap" cssClass="splash--logo" src="{{rekLogo}}" stretch="aspectFit" horizontalAlignment="center" />
         <Label textWrap="true" cssClass="splash--error" text="{{ error }}" visibility="{{ error ? 'visible' : 'collapsed' }}" />
         <Label cssClass="splash--error--go-back" text="{{ errorGoBack }}" tap="errorGoBack" visibility="{{ errorGoBack ? 'visible' : 'collapsed' }}" />
+        <Label cssClass="splash--error--go-back" text="{{ errorTryAgain }}" tap="errorTryAgain" visibility="{{ errorTryAgain ? 'visible' : 'collapsed' }}" />
         <StackLayout orientation="horizontal">
-            <Label text="•" cssClass="{{ (loadingCount &gt; 0) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}" />
-            <Label text="•" cssClass="{{ (loadingCount &gt; 1) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
-            <Label text="•" cssClass="{{ (loadingCount &gt; 2) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
-            <Label text="•" cssClass="{{ (loadingCount &gt; 3) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
-            <Label text="•" cssClass="{{ (loadingCount &gt; 4) ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
+            <Label text="•" cssClass="{{ loadingCount &gt; 0 ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}" />
+            <Label text="•" cssClass="{{ loadingCount &gt; 1 ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
+            <Label text="•" cssClass="{{ loadingCount &gt; 2 ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
+            <Label text="•" cssClass="{{ loadingCount &gt; 3 ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
+            <Label text="•" cssClass="{{ loadingCount &gt; 4 ? 'splash--loading-bullet--active' : 'splash--loading-bullet' }}"  />
         </StackLayout>
     </StackLayout>
 </Page>

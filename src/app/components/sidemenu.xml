@@ -1,0 +1,46 @@
+<!-- MENU -->
+<GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
+    <StackLayout row="0" col="0" tap="hideMenuTap"></StackLayout>
+    <StackLayout row="0" col="1" cssClass="mainmenu--side-divider"></StackLayout>
+    <ScrollView row="0" col="2" cssClass="mainmenu--menu">
+        <StackLayout>
+            <Image cssClass="mainmenu--vgrlogo" src="{{ vgrLogoImage }}" stretch="aspectFit" horizontalAlignment="center" />
+            <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
+                <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
+            </StackLayout>
+            <Repeater items="{{ news.items }}">
+                <Repeater.itemTemplate>
+                    <StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToNewsArticle }}">
+                            <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                            <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" visibility="{{ lead ? 'visible' : 'collapsed' }}" />
+                        </StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                    </StackLayout>
+                </Repeater.itemTemplate>
+            </Repeater>
+            <StackLayout cssClass="mainmenu--heading">
+                <Label text="{{ text.mainmenuHeadingResourceArticles }}" cssClass="mainmenu--heading--label" />
+            </StackLayout>
+            <Repeater items="{{ resourceArticles }}">
+                <Repeater.itemTemplate>
+                    <StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
+                            <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                        </StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                    </StackLayout>
+                </Repeater.itemTemplate>
+            </Repeater>
+            <StackLayout cssClass="mainmenu--heading">
+                <Label text="{{ text.mainmenuHeadingSettings }}" cssClass="mainmenu--heading--label" />
+            </StackLayout>
+            <StackLayout cssClass="mainmenu--list-item" tap="reloadDataTap">
+                <Label text="{{ text.mainmenuLabelReloadData }}" textWrap="true" cssClass="mainmenu--list-item--label" />
+                <Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
+            </StackLayout>
+            <Label tap="logoTap" text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
+        </StackLayout>
+    </ScrollView>
+</GridLayout>
+<!-- /MENU -->

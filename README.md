@@ -31,6 +31,25 @@ tns platform add ios
 tns platform add android
 ```
 
+## Hacks
+
+#### Web-view
+In: 
+`/rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js`, the line
+
+```
+this._android.loadData(src, "text/html", null);
+```
+is replaced with
+
+```
+this._android.loadData(src, "text/html; charset=utf-8", "utf-8");
+```
+
+so that webview understands UTF-8 characters. There's a [PR sent to NativeScript](https://github.com/NativeScript/NativeScript/pull/845), but until that is merged, you need yo change this yourself.
+
+
+
 ## Development
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
 
@@ -80,9 +99,16 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 ### Changes to app settings
 These changes are done to the iOS/Android app settings.
 
-Disable landscape mode and remove Android Title Bar by:
+#### Set Android Permissions
+Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
 
-#### Android
+```
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```
+
+#### Disable landscape mode and remove Android Title Bar by:
+
+##### Android
 
 Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
 
@@ -104,7 +130,7 @@ into
     android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 ```
 
-#### iOS
+##### iOS
 
 Edit: `rekapp/platforms/ios/rekapp/rekapp-Info.plist` and change:
 

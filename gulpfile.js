@@ -66,6 +66,7 @@ var mocha = require('gulp-mocha');
 var mergeStream = require('merge-stream');
 var del = require('del');
 var eslint = require('gulp-eslint');
+var watch = require('gulp-watch');
 
 
 // Image Dependencies
@@ -75,6 +76,21 @@ var lazypipe = require('lazypipe');
 var clone = require('gulp-clone');
 var cheerio = require('gulp-cheerio');
 var rimraf = require('gulp-rimraf');
+
+
+gulp.task('watchForNSWatch', function() {
+    watch(babelSrc)
+    .pipe(debug({title: 'Compiling JS:'}))
+    .pipe(babel({
+        stage: 1,
+        plugins: ['object-assign']
+    }))
+    .pipe(gulp.dest(destination));
+
+    watch(resources)
+    .pipe(debug({title: 'Moving Resource:'}))
+    .pipe(gulp.dest(destination));
+});
 
 
 

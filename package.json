@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "This small gulp script will monitor the source files of a NativeScript project and when a file is changed it'll rebuild and reload the emulator.",
   "main": "gulpfile.js",
-  "dependencies": {},
+
   "devDependencies": {
     "babel-core": "^5.8.23",
     "babel-plugin-object-assign": "^1.2.1",
@@ -24,7 +24,8 @@
     "lazypipe": "^0.2.3",
     "merge-stream": "^0.1.7",
     "mocha": "^2.2.4",
-    "run-sequence": "^1.1.0"
+    "run-sequence": "^1.1.0",
+    "gulp-watch": "^4.3.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

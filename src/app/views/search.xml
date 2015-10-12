@@ -1,33 +1,13 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded">
-
-    <AbsoluteLayout>
-
-        <GridLayout id="maincontent" left="0" top="0" rows="auto, *" swipe="swipe">
-
-            <GridLayout row="0" id="actionbar" rows="auto, auto, *">
-                <!-- Tabs: Back, search and menu -->
-                <StackLayout row="0" orientation="vertical">
-                    <GridLayout id="head--action-bar" columns="*, 48" orientation="horizontal">
-                        <StackLayout col="0" tap="backTap" orientation="horizontal">
-                            <Image cssClass="head--icon" col="0" src="{{iconBack}}" width="12" heigth="12" />
-                            <Label col="1" text="{{backTitle}}" cssClass="head--action-bar--back" />
-                        </StackLayout>
-                        <StackLayout col="1" tap="menuTap" verticalAlignment="center" horizontalAlignment="center" width="48" height="48">
-                            <Image src="{{iconMenu}}" width="24" heigth="24" stretch="aspectFit" />
-                        </StackLayout>
-                    </GridLayout>
-                    <StackLayout cssClass="head--divider" height="2"></StackLayout>
-                </StackLayout>
-
-                <StackLayout row="1">
-                    <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
-                </StackLayout>
-
-            </GridLayout>
-            <GridLayout id="pagecontent" row="1">
-
-                <!-- PAGE CONTENT -->
-                <ListView row="1" itemTap="searchItemTap" items="{{ searchResults }}">
+<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true" navigatingFrom="navigatingFrom">
+    <AbsoluteLayout id="pagewrapper">
+        <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0" >
+            <app:topbar />
+            <!-- PAGE CONTENT -->
+            
+            <StackLayout row="1">
+                <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
+                <Label text="{{ noSearchResultsFound }}" cssClass="search--noSearchResults" visibility="{{ noSearchResultsFound ? 'visible' : 'collapsed' }}" />
+                <ListView itemTap="searchItemTap" items="{{ searchResults }}">
                     <ListView.itemTemplate>
                         <GridLayout columns="*, 48" row="auto">
                             <Label col="0" row="0" textWrap="true" cssClass="searchResultsListViewLabel">
@@ -40,76 +20,15 @@
                                     </FormattedString>
                                 </Label.formattedText>
                             </Label>
-                            <Image col="1" row="0" cssClass="list--icon" src="{{icon}}" width="24" heigth="24" horizontalAlignment="right" />
+                            <Image col="1" row="0" cssClass="list--icon" src="{{icon}}" width="18" heigth="18" horizontalAlignment="right" />
                         </GridLayout>
                     </ListView.itemTemplate>
                 </ListView>
-                <!-- /PAGE CONTENT -->
+            </StackLayout>
 
-            </GridLayout>
+            <!-- /PAGE CONTENT -->
+            <app:appMessage />
         </GridLayout>
-
-
-        <!-- MENU -->
-        <GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
-            <StackLayout col="0" tap="hideMenuTap"></StackLayout>
-            <StackLayout col="1" cssClass="mainmenu--side-divider"></StackLayout>
-            <ScrollView col="2" cssClass="mainmenu--menu">
-                <StackLayout>
-                    <Image cssClass="mainmenu--vgrlogo" src="{{vgrLogoImage}}" stretch="aspectFit" horizontalAlignment="center" />
-                    <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
-                        <Label text="{{ text.mainmenuHeadingNews }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <Repeater items="{{ news.items }}">
-                        <Repeater.itemTemplate>
-                            <StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToNewsArticle }}">
-                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                                    <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
-                                </StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
-                            </StackLayout>
-                        </Repeater.itemTemplate>
-                    </Repeater>
-                    <StackLayout cssClass="mainmenu--heading">
-                        <Label text="{{ text.mainmenuHeadingResourceArticles }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <Repeater items="{{ resourceArticles }}">
-                        <Repeater.itemTemplate>
-                            <StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
-                                    <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                                    <Image cssClass="mainmenu--resource--icon" src="{{ icon }}" height="10" width="10" stretch="aspectFit" verticalAlignment="top" />
-                                </StackLayout>
-                                <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
-                            </StackLayout>
-                        </Repeater.itemTemplate>
-                    </Repeater>
-                    <StackLayout cssClass="mainmenu--heading">
-                        <Label text="{{ text.mainmenuHeadingSettings }}" cssClass="mainmenu--heading--label" />
-                    </StackLayout>
-                    <StackLayout cssClass="mainmenu--list-item" tap="reloadDataTap">
-                        <Label text="{{ text.mainmenuLabelReloadData }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                        <Label text="{{ metadata.dataUpdatedStr }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
-                    </StackLayout>
-                    <Label tap="logoTap" text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
-                </StackLayout>
-            </ScrollView>
-        </GridLayout>
-        <!-- /MENU -->
-
-
-        <!-- MESSAGE -->
-        <StackLayout left="0" top="0" id="appmessage"  cssClass="appmessage" verticalAlignment="center" visibility="{{ (message) ? 'visible' : 'collapsed' }}">
-            <Label text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
-            <GridLayout columns="*, *" rows="*" visibility="{{ (type === 'updateData') ? 'visible' : 'collapsed' }}">
-                <Label col="0" text="{{ messageDownloadDataUpdateLater }}" tap="{{ hideMessageTap }}" cssClass="appmessage--button" />
-                <Label col="1" text="{{ messageDownloadDataUpdateNow }}" tap="{{ downloadDataTap }}" cssClass="appmessage--button--primary" />
-            </GridLayout>
-        </StackLayout>
-        <!-- /MESSAGE -->
-
+        <app:sidemenu />
     </AbsoluteLayout>
-
 </Page>
-

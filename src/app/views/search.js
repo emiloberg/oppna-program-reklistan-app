@@ -9,14 +9,21 @@ import language from './../shared/utils/language';
 import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
+import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
+import {screen} from 'platform';
+import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
+const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
 let page;
 let curPageName = language.searchTitle;
 let searchResults = new ObservableArray([]);
 let lastSearchWord = '';
 let pageContent = new Observable({
-	searchResults: searchResults
+	searchResults: searchResults,
+	noSearchResultsFound: ''
 });
+let searchBar;
 
 var searchInput = new Observable({
 	searchPlaceholder: language.searchPlaceholder,
@@ -24,38 +31,62 @@ var searchInput = new Observable({
 });
 
 function loaded(args) {
-	page = args.object;
-	Mainmenu.setup(page.getViewById('maincontent'), page.getViewById('menuwrapper'));
+	//if (!page) {
+	init(args);
+	//}
+}
 
-	let prevPageTitle = '';
-	if ('navigationContext' in page) {
-		prevPageTitle = page.navigationContext.prevPageTitle || '';
-	}
+function init(args) {
+	page = args.object;
+
+
+	// Elements
+	const elPageWrapper = page.getViewById('pagewrapper');
+	const elPageContent = page.getViewById('pagecontent');
+	const elActionBar = page.getViewById('actionbar');
+	const elAppMessage = page.getViewById('appmessage');
+	const elMenuWrapper = page.getViewById('menuwrapper');
+
+	// Set size of absolute positioned items.
+	elPageWrapper.height = deviceHeight;
+	elPageWrapper.width = deviceWidth;
+	elPageContent.height = deviceHeight;
+	elPageContent.width = deviceWidth;
+	elMenuWrapper.height = deviceHeight;
+	elMenuWrapper.width = deviceWidth;
+	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
 
 	let actionBar = new ActionBar({
 		pageTitle: curPageName,
-		backTitle: prevPageTitle,
-		enabledTabs: 'none'
+		enabledTabs: 'none',
+		useLastPageTitle: true,
+		showSearchButton: false
 	});
-	let elActionBar = page.getViewById('actionbar');
 	elActionBar.bindingContext = actionBar;
 
-	let searchBar = page.getViewById('searchbar');
+	searchBar = page.getViewById('searchbar');
 	searchBar.bindingContext = searchInput;
-	searchBar.focus();
 
 	searchInput.on(Observable.propertyChangeEvent, function (event) {
 		doSearch(event.value);
 	});
 
-	let pagecontent = page.getViewById('pagecontent');
-	pagecontent.bindingContext = pageContent;
+	// App Message
+	elAppMessage.bindingContext = AppMessage.get();
 
-	const elMenu = page.getViewById('menuwrapper');
-	elMenu.bindingContext = Mainmenu.setup(page.getViewById('maincontent'), elMenu);
+	// Page content
+	elPageContent.bindingContext = pageContent;
 
-	const elAppMessage = page.getViewById('appmessage');
-	elAppMessage.bindingContext = AppMessage.setup(elAppMessage);
+	// Set focus on input. Android doesn't seem to need it, but iOS do.
+	searchBar.focus();
+
+	// Menu
+	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
+	// and hopes that the user doesn't press the menu before that.
+	setTimeout(function() {
+		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
+	}, 1000);
+
 }
 
 function doSearch(searchFor) {
@@ -63,6 +94,7 @@ function doSearch(searchFor) {
 	if (searchTerm === lastSearchWord) {
 		return;
 	}
+	lastSearchWord = searchTerm;
 	while(searchResults.length > 0) {
 		searchResults.pop();
 	}
@@ -72,26 +104,32 @@ function doSearch(searchFor) {
 			results.forEach(result => {
 				searchResults.push(new SearchResultItem(result.chapter, result.section, result.url, result.tabIndex));
 			});
+
+			if (results.length === 0) {
+				pageContent.noSearchResultsFound = language.searchNoSearchResultsFound;
+			} else {
+				pageContent.noSearchResultsFound = '';
+			}
 		});
-		lastSearchWord = searchTerm;
 	}
 }
 
 function searchItemTap(args) {
-	var bc = args.view.bindingContext;
-	navigation.navigateToUrl(bc.url, curPageName);
+	hideKeyboard();
+	navigation.navigateToUrl(args.view.bindingContext.url, curPageName);
+}
+
+function hideKeyboard() {
+	if (searchBar.android) {
+		searchBar.android.clearFocus();
+	} else if (searchBar.ios) {
+		searchBar.ios.endEditing(true);
+	}
 }
 
 module.exports.searchItemTap = searchItemTap;
 module.exports.loaded = loaded;
-module.exports.backTap = navigation.back;
-module.exports.swipe = function(args) {
-	navigation.swipe(args, curPageName, ['back', 'menu']);
-};
-module.exports.menuTap = Mainmenu.show;
-module.exports.hideMenuTap = Mainmenu.hide;
-module.exports.swipeMenu = function(args) {
-	Mainmenu.swipe(args);
-};
-module.exports.logoTap = Mainmenu.logoTap;
-module.exports.reloadDataTap = Mainmenu.reloadDataTap;
+module.exports.navigatingFrom = hideKeyboard;
+//module.exports.swipe = function(args) {
+//	navigation.swipe(args, curPageName, ['back', 'menu']);
+//};
