@@ -13,7 +13,7 @@
                     <StackLayout>
                         <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToNewsArticle }}">
                             <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
-                            <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" />
+                            <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" visibility="{{ lead ? 'visible' : 'collapsed' }}" />
                         </StackLayout>
                         <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
                     </StackLayout>
