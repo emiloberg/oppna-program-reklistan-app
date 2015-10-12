@@ -26,6 +26,7 @@ Page {
 
 .searchResultsListViewLabel {
     margin: 8 16;
+    vertical-align: center;
 }
 
 .search--noSearchResults {
