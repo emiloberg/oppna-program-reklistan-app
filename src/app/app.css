@@ -237,18 +237,23 @@ Page {
     padding-bottom: 12;
 }
 
-.appmessage--button {
-    color: #d4d5d6;
-    text-align: center;
-    padding-left: 24;
-    padding-right: 24;
+.appmessage--button--primary--wrapper {
+    background-color: #3B4550;
 }
 
-.appmessage--button--primary {
+.appmessage--button--label {
     color: #d4d5d6;
-    font-weight: bold;
     text-align: center;
     padding-left: 24;
     padding-right: 24;
-    background-color: #3B4550;
+    vertical-align: center;
+}
+
+.appmessage--button--primary--label {
+    color: #d4d5d6;
+    text-align: center;
+    padding-left: 24;
+    padding-right: 24;
+    vertical-align: center;
+    font-weight: bold
 }

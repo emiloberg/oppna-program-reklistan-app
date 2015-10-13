@@ -1,11 +1,11 @@
 <StackLayout row="2" col="0" id="appmessage"  cssClass="appmessage" visibility="{{ message ? 'visible' : 'collapsed' }}" navigatedTo="navto">
     <Label text="{{ message }}" textWrap="true" cssClass="appmessage--label" horizontalAlignment="center" />
     <GridLayout columns="*, *" rows="*" visibility="{{ type === 'updateData' ? 'visible' : 'collapsed' }}">
-        <GridLayout col="0" row="0" columns="*" rows="*" cssClass="appmessage--button--wrapper" tap="{{ hideMessageTap }}" >
-            <Label col="0" row="0" text="{{ messageDownloadDataUpdateLater }}" cssClass="appmessage--button" />
+        <GridLayout col="0" row="0" columns="*" rows="*" tap="{{ hideMessageTap }}" >
+            <Label col="0" row="0" text="{{ messageDownloadDataUpdateLater }}" cssClass="appmessage--button--label" />
         </GridLayout>
         <GridLayout col="1" row="0" columns="*" rows="*" cssClass="appmessage--button--primary--wrapper" tap="{{ downloadDataTap }}" >
-            <Label col="0" row="0" text="{{ messageDownloadDataUpdateNow }}" cssClass="appmessage--button--primary" />
+            <Label col="0" row="0" text="{{ messageDownloadDataUpdateNow }}" cssClass="appmessage--button--primary--label" />
         </GridLayout>
     </GridLayout>
 </StackLayout>
