@@ -3,6 +3,8 @@ var application = require('application');
 var debug = require('./shared/utils/debug');
 import * as frameModule from 'ui/frame';
 
+import AppMessage from './shared/viewmodel/AppMessage';
+
 //application.mainModule = 'views/menu-sections';
 application.mainEntry = {
 	moduleName: 'views/download-data',
@@ -26,11 +28,19 @@ global.REK = {
 		host: _host,
 		maxNews: 5,
 		warnOldData: 1209600, // Warn about old data when it's x seconds old.
-		askLaterGracePeriod: 86400 // When user clicks "download later", how long to ask before next ask.
+		askLaterGracePeriod: 86400, // When user clicks "download later", how long to ask before next ask.
+		checkOldDataEvery: 30 // How often to check for old data.
 	}
 };
 
 debug.debug('#### APP SETTINGS\n' + JSON.stringify(global.REK, null, '  '));
+
+/**
+ * Setup check to see if the data is old.
+ */
+setInterval(function() {
+	AppMessage.checkOldData();
+}, (global.REK.preferences.checkOldDataEvery * 1000));
 
 application.start();
 

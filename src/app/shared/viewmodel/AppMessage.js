@@ -31,31 +31,14 @@ let APP_MESSAGE = new Observable({
 let timeoutId;
 
 const AppMessage = {
-	setup(/*elAppMessage*/) {
-
-		//// Set to float on bottom
-		//// iOS appbar is not included when we get deviceHeight, therefor we need include it.
-		//let potentialIOSBar = elAppMessage.ios ? 20 : 0;
-		//AbsoluteLayout.setTop(elAppMessage, deviceHeight - elAppMessage.height - potentialIOSBar);
-		//
-		//// Set width to 100 %
-		//elAppMessage.width = deviceWidth;
-
-		// Set "Update your data now message" if it's old.
-
-
-
-		// TODO: Move this method below to somewhere else (a setInterval?) and change all
-		// AppMessage.setup to appMessage.get();
-		//const now = new Date().getTime();
-		//if(((now - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
-		//	if(((now - askDataDownloadLaterTimestamp) / 1000 ) > global.REK.preferences.askLaterGracePeriod) {
-		//		AppMessage.setUpdateDataMessage();
-		//	}
-		//}
-
-
-		return APP_MESSAGE;
+	checkOldData() {
+		console.log('Checking old data' + new Date().getTime());
+		const now = new Date().getTime();
+		if(((now - Metadata.getDataUpdated()) / 1000 ) > global.REK.preferences.warnOldData) {
+			if (((now - askDataDownloadLaterTimestamp) / 1000 ) > global.REK.preferences.askLaterGracePeriod) {
+				AppMessage.setUpdateDataMessage();
+			}
+		}
 	},
 
 	get() {
