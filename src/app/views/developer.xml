@@ -15,35 +15,19 @@
             </StackLayout>
         </GridLayout>
 
-        <GridLayout id="pagecontent" row="1">
-            <TabView>
-                <TabView.items>
-                    <TabViewItem title="Log">
-                        <TabViewItem.view>
-                            <StackLayout>
-                                <Button text="Skicka log" tap="shareLog" />
-                                <ListView id="log" items="{{ log }}">
-                                    <ListView.itemTemplate>
-                                        <Label cssClass="developer--log--logitem" textWrap="true" text="{{ $value }}" />
-                                    </ListView.itemTemplate>
-                                </ListView>
-                            </StackLayout>
-                        </TabViewItem.view>
-                    </TabViewItem>
-                    <TabViewItem title="Helpers">
-                        <TabViewItem.view>
-                            <StackLayout>
-                                <Button text="Remove all local files" tap="removeLocalFilesTap" />
-                                <Button text="Remove images" tap="removeLocalImagesTap" />
-                                <Button text="Remove cache" tap="removeLocalCacheTap" />
-                                <Button text="Remove dataLocation" tap="removeDataLocationTap" />
-                                <Button text="Clear Log" tap="clearDebugLogTap" />
-                            </StackLayout>
-                        </TabViewItem.view>
-                    </TabViewItem>
-                </TabView.items>
-            </TabView>
-        </GridLayout>
+        <WrapLayout row="1">
+            <Button cssClass="dev-button" text="Clear All Files" tap="removeLocalFilesTap" />
+            <Button cssClass="dev-button" text="Clear Images" tap="removeLocalImagesTap" />
+            <Button cssClass="dev-button" text="Clear Cache" tap="removeLocalCacheTap" />
+            <Button cssClass="dev-button" text="Clear DataLocation" tap="removeDataLocationTap" />
+            <Button cssClass="dev-button" text="Clear Log" tap="clearDebugLogTap" />
+            <Button cssClass="dev-button" text="Send log" tap="shareLog" />
+            <ListView id="log" items="{{ log }}">
+                <ListView.itemTemplate>
+                    <Label cssClass="developer--log--logitem" textWrap="true" text="{{ $value }}" />
+                </ListView.itemTemplate>
+            </ListView>
+        </WrapLayout>
     </GridLayout>
 
 </Page>

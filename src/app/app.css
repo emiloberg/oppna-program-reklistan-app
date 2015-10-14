@@ -164,6 +164,13 @@ Page {
     font-size: 10;
 }
 
+.dev-button {
+    margin: 5;
+    padding: 2 5;
+    background-color: #3B4550;
+    color: #d4d5d6;
+}
+
 .mainmenu--list-item {
     margin: 9 12;
 }
