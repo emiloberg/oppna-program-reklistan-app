@@ -61,13 +61,21 @@ function init(args) {
 
 	// setTimeout as this takes ~300ms on an Android device and we don't want to
 	// block the ui while adding it.
-	// Todo: Maybe add some fade in
-	setTimeout(() => {
-		var grid = page.getViewById("pagecontent");
+	if (android) {
+		setTimeout(() => {
+			// Todo: Maybe add some fade in
+			displayWebView();
+		}, 0);
+	} else {
+		displayWebView();
+	}
+
+	function displayWebView() {
+		const grid = page.getViewById('pagecontent');
 		gridLayout.GridLayout.setColumn(wv, 0);
 		gridLayout.GridLayout.setRow(wv, 1);
 		grid.addChild(wv);
-	}, 0);
+	}
 
 	if(navContext.type === 'plainArticle') { // Is a plain article, e.g. resource article
 		actionBar = new ActionBar({
