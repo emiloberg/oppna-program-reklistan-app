@@ -10,12 +10,9 @@ import {android, ios} from 'application';
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import navigation from './../shared/utils/navigation';
 import * as gridLayout from 'ui/layouts/grid-layout';
+import screenDimensions from './../shared/utils/screenDimensions'
 
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {screen} from 'platform';
-const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
-const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
-
 
 let page;
 let actionBar;
@@ -43,13 +40,13 @@ function init(args) {
 	const elMenuWrapper = page.getViewById('menuwrapper');
 
 	// Set size of absolute positioned items.
-	elPageWrapper.height = deviceHeight;
-	elPageWrapper.width = deviceWidth;
-	elPageContent.height = deviceHeight;
-	elPageContent.width = deviceWidth;
-	elMenuWrapper.height = deviceHeight;
-	elMenuWrapper.width = deviceWidth;
-	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
+	elPageWrapper.height = screenDimensions.height;
+	elPageWrapper.width = screenDimensions.width;
+	elPageContent.height = screenDimensions.height;
+	elPageContent.width = screenDimensions.width;
+	elMenuWrapper.height = screenDimensions.height;
+	elMenuWrapper.width = screenDimensions.width;
+	AbsoluteLayout.setLeft(elMenuWrapper, screenDimensions.width);
 
 	// Nav context data
 	navContext = page.navigationContext;

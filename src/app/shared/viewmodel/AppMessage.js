@@ -1,16 +1,12 @@
 'use strict';
 
-import {screen} from 'platform';
+
 import {Observable} from 'data/observable';
 import language from './../utils/language';
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 //import {inspect} from './../utils/debug';
 import navigation from './../utils/navigation';
 import Metadata from './Metadata';
 import Mainmenu from './Mainmenu';
-
-const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
-const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
 
 let askDataDownloadLaterTimestamp = 0;
 

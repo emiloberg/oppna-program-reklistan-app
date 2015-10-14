@@ -7,10 +7,7 @@ import AppMessage from './../shared/viewmodel/AppMessage';
 import * as frameModule from 'ui/frame';
 
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {screen} from 'platform';
-const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
-const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
-
+import screenDimensions from './../shared/utils/screenDimensions'
 
 let page;
 let actionBar;
@@ -34,13 +31,13 @@ function init(args) {
 	const elMenuWrapper = page.getViewById('menuwrapper');
 
 	// Set size of absolute positioned items.
-	elPageWrapper.height = deviceHeight;
-	elPageWrapper.width = deviceWidth;
-	elPageContent.height = deviceHeight;
-	elPageContent.width = deviceWidth;
-	elMenuWrapper.height = deviceHeight;
-	elMenuWrapper.width = deviceWidth;
-	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
+	elPageWrapper.height = screenDimensions.height;
+	elPageWrapper.width = screenDimensions.width;
+	elPageContent.height = screenDimensions.height;
+	elPageContent.width = screenDimensions.width;
+	elMenuWrapper.height = screenDimensions.height;
+	elMenuWrapper.width = screenDimensions.width;
+	AbsoluteLayout.setLeft(elMenuWrapper, screenDimensions.width);
 
 	// Nav context data
 	let navContext = page.navigationContext;

@@ -10,10 +10,8 @@ import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {screen} from 'platform';
 import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
-const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
-const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
+import screenDimensions from './../shared/utils/screenDimensions'
 
 let page;
 let curPageName = language.searchTitle;
@@ -48,13 +46,13 @@ function init(args) {
 	const elMenuWrapper = page.getViewById('menuwrapper');
 
 	// Set size of absolute positioned items.
-	elPageWrapper.height = deviceHeight;
-	elPageWrapper.width = deviceWidth;
-	elPageContent.height = deviceHeight;
-	elPageContent.width = deviceWidth;
-	elMenuWrapper.height = deviceHeight;
-	elMenuWrapper.width = deviceWidth;
-	AbsoluteLayout.setLeft(elMenuWrapper, deviceWidth);
+	elPageWrapper.height = screenDimensions.height;
+	elPageWrapper.width = screenDimensions.width;
+	elPageContent.height = screenDimensions.height;
+	elPageContent.width = screenDimensions.width;
+	elMenuWrapper.height = screenDimensions.height;
+	elMenuWrapper.width = screenDimensions.width;
+	AbsoluteLayout.setLeft(elMenuWrapper, screenDimensions.width);
 
 	let actionBar = new ActionBar({
 		pageTitle: curPageName,
