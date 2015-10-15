@@ -2,7 +2,7 @@
 'use strict';
 
 import {Animation} from 'ui/animation';
-import {SwipeDirection} from 'ui/gestures';
+const gestures = require('ui/gestures');
 import {Observable} from 'data/observable';
 import ResourceArticles from './ResourceArticles';
 import News from './News';
@@ -146,7 +146,7 @@ const Mainmenu = {
 	},
 
 	swipe(args) {
-		if (args.direction === SwipeDirection.right) {
+		if (args.direction === gestures.SwipeDirection.right) {
 			Mainmenu.hide();
 		}
 

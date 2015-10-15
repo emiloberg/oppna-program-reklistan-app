@@ -1,7 +1,8 @@
 'use strict';
 
 //import {inspect} from './../utils/debug';
-import * as gestures from 'ui/gestures';
+
+const gestures = require('ui/gestures');
 import * as frameModule from 'ui/frame';
 import {appViewModel} from './../viewmodel/RekAppViewModel';
 import Mainmenu from './../viewmodel/Mainmenu';
