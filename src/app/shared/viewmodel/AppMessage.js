@@ -6,7 +6,6 @@ import language from './../utils/language';
 //import {inspect} from './../utils/debug';
 import navigation from './../utils/navigation';
 import Metadata from './Metadata';
-import Mainmenu from './Mainmenu';
 
 let askDataDownloadLaterTimestamp = 0;
 

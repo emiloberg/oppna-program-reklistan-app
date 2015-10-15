@@ -3,12 +3,12 @@
 import {appViewModel} from './../shared/viewmodel/RekAppViewModel';
 import customUi from './../shared/modules/ui';
 import language from './../shared/utils/language';
-import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+//import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import * as frameModule from 'ui/frame';
-import screenDimensions from './../shared/utils/screenDimensions'
+import screenDimensions from './../shared/utils/screenDimensions';
 
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 

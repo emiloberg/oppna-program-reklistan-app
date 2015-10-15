@@ -445,7 +445,7 @@ const DataLoader = {
 								const content = {};
 
 								if (linkToOtherArticle) {
-									content[resource.name] = linkToOtherArticle
+									content[resource.name] = linkToOtherArticle;
 								} else {
 									content[resource.name] = templatesModel.processTemplate(resource.name, {
 										fields:   [field], // hbs template is expecting content in fields[].

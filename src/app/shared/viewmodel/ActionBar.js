@@ -12,7 +12,7 @@ export function getLastPageTitle() {
 }
 
 export default class ActionBar extends Observable {
-	
+
 	constructor({
 		pageTitle = '',
 		backTitle = '',

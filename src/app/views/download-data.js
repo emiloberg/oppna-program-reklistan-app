@@ -5,7 +5,7 @@ import * as initApp from './../shared/utils/appInit';
 import customUi from './../shared/modules/ui';
 import {Observable} from 'data/observable';
 import language from './../shared/utils/language';
-import {debug, inspect} from './../shared/utils/debug';
+import {debug} from './../shared/utils/debug';
 import Images from './../shared/utils/images';
 var contextObj = new Observable({
 	error: '',

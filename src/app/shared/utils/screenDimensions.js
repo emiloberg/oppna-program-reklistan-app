@@ -1,6 +1,6 @@
 'use strict';
 import {screen} from 'platform';
-import {android, ios} from 'application';
+import {ios} from 'application';
 
 const screenDimensions = {
 	width: screen.mainScreen.widthDIPs,

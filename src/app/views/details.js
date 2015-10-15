@@ -1,6 +1,6 @@
 'use strict';
 
-import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+//import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
@@ -10,13 +10,11 @@ import {android, ios} from 'application';
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import navigation from './../shared/utils/navigation';
 import * as gridLayout from 'ui/layouts/grid-layout';
-import screenDimensions from './../shared/utils/screenDimensions'
-
+import screenDimensions from './../shared/utils/screenDimensions';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 
 let page;
 let actionBar;
-let dataList;
 let curPageName;
 let wv;
 let navContext;

@@ -1,22 +1,18 @@
 
 'use strict';
 
-import {screen} from 'platform';
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 import {Animation} from 'ui/animation';
 import {SwipeDirection} from 'ui/gestures';
 import {Observable} from 'data/observable';
 import ResourceArticles from './ResourceArticles';
 import News from './News';
-import {debug, time, timeEnd, timePeek, inspect} from './../utils/debug';
+import {debug /*, time, timeEnd, timePeek, inspect*/} from './../utils/debug';
 import Images from './../utils/images';
 import navigation from './../utils/navigation';
 import language from './../utils/language';
 import Metadata from './Metadata';
 var appversion = require('nativescript-appversion');
-
-const deviceWidth = screen.mainScreen.widthPixels / screen.mainScreen.scale;
-const deviceHeight = screen.mainScreen.heightPixels / screen.mainScreen.scale;
+import screenDimensions from './../utils/screenDimensions';
 
 let elMenu;
 let elMainContent;
@@ -61,21 +57,8 @@ const Mainmenu = {
 		elMenu = menu;
 		elMainContent = mainContent;
 
-		//// iOS appbar is not included when we get deviceHeight, therefor we need include it.
-		//let potentialIOSBar = elMenu.ios ? 20 : 0;
-		//
-		//// Make sure main content takes all available space
-		//elMainContent.height = deviceHeight - potentialIOSBar;
-		//elMainContent.width = deviceWidth;
-		//
-		//// Make sure menu takes all available space
-		//elMenu.height = deviceHeight - potentialIOSBar;
-		//elMenu.width = deviceWidth;
-		//
-		//// Push menu off screen
-		//AbsoluteLayout.setLeft(elMenu, deviceWidth);
-		//
 		// Setup curve
+		/*global UIViewAnimationCurve,android*/
 		curveIn = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseOut : new android.view.animation.DecelerateInterpolator(1);
 		curveOut = elMenu.ios ? UIViewAnimationCurve.UIViewAnimationCurveEaseIn : new android.view.animation.AccelerateInterpolator(1);
 
@@ -94,14 +77,14 @@ const Mainmenu = {
 	show() {
 
 		// If bindingContext isn't binded yet - silently exit.
-		if(typeof elMenu === "undefined" || typeof elMainContent === "undefined") {
+		if(typeof elMenu === 'undefined' || typeof elMainContent === 'undefined') {
 			return;
 		}
 
 		const animationsSetup = [
 			{
 				target: elMenu,
-				translate: { x: -deviceWidth, y: 0 },
+				translate: { x: -screenDimensions.width, y: 0 },
 				duration: 350,
 				delay: 0,
 				iterations: 1,
@@ -131,7 +114,7 @@ const Mainmenu = {
 		const animationsSetup = [
 			{
 				target: elMenu,
-				translate: { x: deviceWidth, y: 0 },
+				translate: { x: screenDimensions.width, y: 0 },
 				duration: 350,
 				delay: 0,
 				iterations: 1,

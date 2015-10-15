@@ -27,13 +27,13 @@ export function saveFile(filename, content) {
 
 export function debug(msg, type = 'info') {
 	const currentdate = new Date();
-	const time = '[' +
+	const curTime = '[' +
 		(currentdate.getHours() < 10 ? '0' : '') + currentdate.getHours() + ':' +
 		(currentdate.getMinutes() < 10 ? '0' : '') + currentdate.getMinutes() + ':' +
 		(currentdate.getSeconds() < 10 ? '0' : '') + currentdate.getSeconds() +
 		'] ';
 
-	msg = time + msg;
+	msg = curTime + msg;
 
 	if (type === 'error') {
 		msg = '## [ERROR] ' + msg;
@@ -62,7 +62,7 @@ export function time(timeName = 'default'){
 
 function printTime(action, timeName, message) {
 	let ms = new Date().getTime() - TIMER[timeName];
-	ms = String("     " + ms).slice(-5);
+	ms = String('     ' + ms).slice(-5);
 
 	if (timeName === 'default') {
 		timeName = '';
@@ -71,7 +71,7 @@ function printTime(action, timeName, message) {
 	}
 
 	if (message) {
-		message = ` - ${message}`
+		message = ` - ${message}`;
 	}
 
 	console.log(`${action}${timeName}${ms}ms${message}`);

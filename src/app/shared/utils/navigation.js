@@ -15,7 +15,7 @@ const navigation = {
 		}
 
 		if (allowedGestures.indexOf('search') > -1 && args.direction === gestures.SwipeDirection.down) {
-			navigation.toSearch(pageTitle);
+			navigation.toSearch();
 		}
 
 		if (allowedGestures.indexOf('menu') > -1 && args.direction === gestures.SwipeDirection.left) {
@@ -27,14 +27,9 @@ const navigation = {
 		frameModule.topmost().goBack();
 	},
 
-	// TODO: Make Search load page Title form ActionBar.getLastPageTitle()
-	toSearch(prevPageTitle) {
+	toSearch() {
 		frameModule.topmost().navigate({
-			moduleName: 'views/search',
-			context: {
-				//prevPageTitle: prevPageTitle
-				prevPageTitle: 'SearchASDF'
-			}
+			moduleName: 'views/search'
 		});
 	},
 

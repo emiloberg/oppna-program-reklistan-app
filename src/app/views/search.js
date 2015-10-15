@@ -10,8 +10,8 @@ import navigation from './../shared/utils/navigation';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
-import screenDimensions from './../shared/utils/screenDimensions'
+//import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+import screenDimensions from './../shared/utils/screenDimensions';
 
 let page;
 let curPageName = language.searchTitle;

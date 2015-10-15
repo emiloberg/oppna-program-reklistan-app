@@ -1,7 +1,6 @@
 'use strict';
 var application = require('application');
 var debug = require('./shared/utils/debug');
-import * as frameModule from 'ui/frame';
 
 import AppMessage from './shared/viewmodel/AppMessage';
 

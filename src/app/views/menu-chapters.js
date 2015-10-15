@@ -1,13 +1,14 @@
 'use strict';
 
-import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+//import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import * as frameModule from 'ui/frame';
 
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import screenDimensions from './../shared/utils/screenDimensions'
+import screenDimensions from './../shared/utils/screenDimensions';
+import navigation from './../shared/utils/navigation';
 
 let page;
 let actionBar;

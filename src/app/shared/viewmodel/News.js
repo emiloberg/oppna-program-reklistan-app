@@ -2,7 +2,7 @@
 
 import {Observable} from 'data/observable';
 import {ObservableArray} from 'data/observable-array';
-import {inspect} from './../utils/debug';
+//import {inspect} from './../utils/debug';
 import DataLoader from './../utils/DataLoader';
 
 
