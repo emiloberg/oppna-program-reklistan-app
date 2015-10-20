@@ -14,7 +14,7 @@
                                 <Label.formattedText>
                                     <FormattedString>
                                         <FormattedString.spans>
-                                            <Span text="{{ chapter }}" fontSize="16" />
+                                            <Span text="{{ chapter }}" fontSize="16" foregroundColor="#131313" />
                                             <Span text="{{ ' (' + section + ')'}}" fontSize="14" foregroundColor="#879c9c" />
                                         </FormattedString.spans>
                                     </FormattedString>
