@@ -31,6 +31,8 @@ tns platform add ios
 tns platform add android
 ```
 
+Then [change the Android and iOS app settings according to the details below](#changes-to-app-settings).
+
 ## Hacks
 
 #### Web-view
@@ -100,7 +102,8 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 These changes are done to the iOS/Android app settings.
 
 #### Set Android Permissions
-Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
+
+Edit: `rekapp/platforms/android/src/main/AndroidManifest.xml` and add:
 
 ```
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -110,7 +113,7 @@ Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
 
 ##### Android
 
-Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
+Edit: `rekapp/platforms/android/src/main/AndroidManifest.xml` and change
 
 ```
 <activity
@@ -163,7 +166,3 @@ into
 	<string>UIInterfaceOrientationPortraitUpsideDown</string>
 </array>
 ```
-
-
-### Release for production
-In `app.js`, remember to set all appSettings to production mode. 
