@@ -67,7 +67,7 @@ function runInit(forceDownload) {
 			});
 		})
 		.catch(function (e) {
-			debug('Could not ${downloadType} download data');
+			debug(`Could not ${downloadType} download data`);
 			debug(JSON.stringify(e));
 
 			clearInterval(loadingInterval);
