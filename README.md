@@ -31,24 +31,7 @@ tns platform add ios
 tns platform add android
 ```
 
-## Hacks
-
-#### Web-view
-In: 
-`/rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js`, the line
-
-```
-this._android.loadData(src, "text/html", null);
-```
-is replaced with
-
-```
-this._android.loadData(src, "text/html; charset=utf-8", "utf-8");
-```
-
-so that webview understands UTF-8 characters. There's a [PR sent to NativeScript](https://github.com/NativeScript/NativeScript/pull/845), but until that is merged, you need yo change this yourself.
-
-
+Then [change the Android and iOS app settings according to the details below](#changes-to-app-settings).
 
 ## Development
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
@@ -100,7 +83,8 @@ Currently, NativeScript does unfortunately not display `console.log` or exceptio
 These changes are done to the iOS/Android app settings.
 
 #### Set Android Permissions
-Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
+
+Edit: `rekapp/platforms/android/src/main/AndroidManifest.xml` and add:
 
 ```
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -110,7 +94,7 @@ Edit: `rekapp/platforms/android/AndroidManifest.xml` and add:
 
 ##### Android
 
-Edit: `rekapp/platforms/android/AndroidManifest.xml` and change
+Edit: `rekapp/platforms/android/src/main/AndroidManifest.xml` and change
 
 ```
 <activity
@@ -163,7 +147,3 @@ into
 	<string>UIInterfaceOrientationPortraitUpsideDown</string>
 </array>
 ```
-
-
-### Release for production
-In `app.js`, remember to set all appSettings to production mode. 

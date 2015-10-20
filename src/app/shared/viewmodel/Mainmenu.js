@@ -2,7 +2,7 @@
 'use strict';
 
 import {Animation} from 'ui/animation';
-import {SwipeDirection} from 'ui/gestures';
+const gestures = require('ui/gestures');
 import {Observable} from 'data/observable';
 import ResourceArticles from './ResourceArticles';
 import News from './News';
@@ -101,10 +101,7 @@ const Mainmenu = {
 		];
 		const menuAnimation = new Animation(animationsSetup, false);
 
-		menuAnimation.play().finished
-			.catch(function (e) {
-				debug(e.message, 'error');
-			});
+		menuAnimation.play();
 	},
 
 	/**
@@ -131,7 +128,7 @@ const Mainmenu = {
 		];
 		const menuAnimation = new Animation(animationsSetup, false);
 
-		menuAnimation.play().finished
+		menuAnimation.play()
 			.then(function () {
 				if(cb && typeof cb === 'function') {
 					cb(null, 'Done');
@@ -146,7 +143,7 @@ const Mainmenu = {
 	},
 
 	swipe(args) {
-		if (args.direction === SwipeDirection.right) {
+		if (args.direction === gestures.SwipeDirection.right) {
 			Mainmenu.hide();
 		}
 
