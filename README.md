@@ -33,6 +33,23 @@ tns platform add android
 
 Then [change the Android and iOS app settings according to the details below](#changes-to-app-settings).
 
+## Hacks
+
+Currently the WebView isn't can't show pre-downloaded images on Android. There's [an open GitHub issue]([https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963)) which solves this. 
+
+In the meantime, after `npm install`, manually patch file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` Line 84 and replace
+
+```
+this._android.loadData(src, "text/html; charset=utf-8", "utf-8");
+```
+
+with
+
+```
+var baseUrl = "file:///" + require("file-system").knownFolders.documents().path + '/';
+this._android.loadDataWithBaseURL(baseUrl, src, "text/html; charset=utf-8", "utf-8", null);
+```
+
 ## Development
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
 
