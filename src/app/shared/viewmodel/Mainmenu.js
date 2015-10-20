@@ -101,10 +101,7 @@ const Mainmenu = {
 		];
 		const menuAnimation = new Animation(animationsSetup, false);
 
-		menuAnimation.play().finished
-			.catch(function (e) {
-				debug(e.message, 'error');
-			});
+		menuAnimation.play();
 	},
 
 	/**
@@ -131,7 +128,7 @@ const Mainmenu = {
 		];
 		const menuAnimation = new Animation(animationsSetup, false);
 
-		menuAnimation.play().finished
+		menuAnimation.play()
 			.then(function () {
 				if(cb && typeof cb === 'function') {
 					cb(null, 'Done');
