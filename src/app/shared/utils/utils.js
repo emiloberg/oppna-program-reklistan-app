@@ -192,6 +192,7 @@ function rewriteHTML(html) {
 		if(capture === '/reklistan-theme/images/theme/child.png') {
 			return 'src="file://' + CHILD_ICON + '"';
 		} else {
+			// TODO, remove this if once https://github.com/NativeScript/NativeScript/issues/963 is solved.
 			if (android) {
 				return 'src="images/' + makeUrlSafe(capture) + '" data-remotesrc="' + capture + '"';
 			} else {
