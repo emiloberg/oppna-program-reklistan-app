@@ -13,6 +13,8 @@ import * as gridLayout from 'ui/layouts/grid-layout';
 import screenDimensions from './../shared/utils/screenDimensions';
 import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 
+var email = require("nativescript-email");
+
 let page;
 let actionBar;
 let curPageName;
@@ -160,6 +162,7 @@ function menuItemTap(args) {
 }
 
 function interjectLink(event) {
+	let isNavigation = false;
 	let linkObj = {
 		url: '',
 		internal: false,
@@ -179,12 +182,13 @@ function interjectLink(event) {
 		type: 'external',
 		prefix: 'http://'
 	}]
-		.forEach(linkType => {
-			if (event.url.indexOf(linkType.protocol) === 0) {
-				linkObj.url = linkType.prefix + event.url.substr(linkType.protocol.length);
-				linkObj[linkType.type] = true;
-			}
-		});
+	.forEach(linkType => {
+		if (event.url.indexOf(linkType.protocol) === 0) {
+			linkObj.url = linkType.prefix + event.url.substr(linkType.protocol.length);
+			linkObj[linkType.type] = true;
+			isNavigation = true;
+		}
+	});
 
 	if (linkObj.internal || linkObj.external) {
 		if (ios) {
@@ -194,10 +198,27 @@ function interjectLink(event) {
 		}
 	}
 
-	if (linkObj.internal) {
-		navigation.navigateToUrl(linkObj.url, curPageName);
-	} else if (linkObj.external) {
-		navigation.navigateToExternalUrl(linkObj.url);
+	if (isNavigation) {
+		if (linkObj.internal) {
+			navigation.navigateToUrl(linkObj.url, curPageName);
+		} else if (linkObj.external) {
+			navigation.navigateToExternalUrl(linkObj.url);
+		}
+	}
+
+	// Check if mail url
+	var reSrc = /rekmail:([^\?]+)/gi;
+	var match = reSrc.exec(event.url);
+	if (match) {
+		email.available().then(function(avail) {
+			if (avail) {
+				email.compose({
+					subject: 'Från REKlistan',
+					body: '',
+					to: [match[1]]
+				});
+			}
+		});
 	}
 
 }

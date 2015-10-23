@@ -182,7 +182,7 @@ function rewriteHTML(html) {
 	html = html.replace(reExternalHttpLinks, 'href="rekhttp://$2"');
 
 	const reMailLinks = new RegExp(/href=([\"\'])mailto\:([^\"\']+)([\"\'])/gi);
-	html = html.replace(reMailLinks, 'href="rekmail://$2"');
+	html = html.replace(reMailLinks, 'href="rekmail:$2"');
 
 	// Convert image path
 	const CHILD_ICON = fs.path.join(fs.knownFolders.currentApp().path, 'images') + '/child.png';
