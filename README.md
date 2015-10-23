@@ -17,8 +17,17 @@ git clone https://github.com/emiloberg/oppna-program-reklistan-app.git
 # Install Dev dependencies (gulp etc)
 npm install
 
+# Check that you have gulp installed
+gulp -v
+
+# Install gulp if it wasn't installed
+npm install gulp -g
+
 # Generate images of different resoultions from source files
 gulp images
+
+# Build ES6 > ES5
+gulp _compile
 
 # Cd to the actual app dir
 cd rekapp
@@ -29,9 +38,17 @@ npm install
 # Add iOS and Android Platforms
 tns platform add ios
 tns platform add android
-```
 
-Then [change the Android and iOS app settings according to the details below](#changes-to-app-settings).
+## cd back to the root dir
+cd ..
+
+## Copy iOS/Android app settings files to the platforms folders.
+cp ./resources/app-settings/AndroidManifest.xml ./rekapp/platforms/android/src/main/
+cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
+
+## Follow the instructions under the heading 'Hacks' below.
+
+```
 
 ## Hacks
 
@@ -133,7 +150,33 @@ into
 
 ##### iOS
 
-Edit: `rekapp/platforms/ios/rekapp/rekapp-Info.plist` and change:
+Edit: `rekapp/platforms/ios/rekapp/rekapp-Info.plist` 
+
+To allow SSL Connections on iOS9+. Add as a child to the outermost `<dict>`:
+
+```
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
+```
+
+To change app name, change:
+
+```
+	<key>CFBundleDisplayName</key>
+	<string>${PRODUCT_NAME}</string>
+```
+
+into 
+
+```
+	<key>CFBundleDisplayName</key>
+	<string>REKlistan</string>
+```
+
+and then, to change allowed orientations, change:
 
 ```
 <key>UISupportedInterfaceOrientations</key>
