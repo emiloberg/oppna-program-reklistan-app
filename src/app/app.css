@@ -47,7 +47,7 @@ Page {
 }
 
 .head--tab-bar--border-active {
-    background-color: #851A31;
+    background-color: #005292;
 }
 
 .head--tab-bar--border-nonactive {
@@ -68,6 +68,7 @@ Page {
     horizontal-align: center;
     vertical-align: center;
 }
+
 
 .head--icon {
     margin: 12;
@@ -110,7 +111,7 @@ Page {
 }
 
 #start-page {
-    background-color: #851A31;
+    background-color: #005292;
 }
 
 .splash--logo {
@@ -133,7 +134,7 @@ Page {
 
 .splash--loading-bullet {
     font-size: 100;
-    color: #851A31;
+    color: #005292;
 }
 
 .splash--loading-bullet--active {
