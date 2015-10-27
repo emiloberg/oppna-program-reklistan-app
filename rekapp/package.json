@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "com.monator.vgr.rekapp",
+    "id": "se.vgregion.rekapp",
     "tns-ios": {
       "version": "1.4.0"
     },
