@@ -52,6 +52,8 @@ cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
 
 ## Hacks
 
+This can be removed once [https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963) is released.
+
 Currently the WebView isn't can't show pre-downloaded images on Android. There's [an open GitHub issue]([https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963)) which solves this. 
 
 In the meantime, after `npm install`, manually patch file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` Line 84 and replace
