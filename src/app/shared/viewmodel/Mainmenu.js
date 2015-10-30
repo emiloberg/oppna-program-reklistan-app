@@ -36,13 +36,15 @@ let MAIN_MENU_DATA = new Observable({
 	},
 	news: News.get(),
 	metadata: Metadata.getMetadata(),
-	footer: ''
+	footer: language.appTitle
 });
 
-appversion.getVersionName().then(function(v) {
-	MAIN_MENU_DATA.set('footer', language.mainmenuLabelFooter + v);
-});
 
+function setAppVersion() {
+	appversion.getVersionName().then(function (v) {
+		MAIN_MENU_DATA.set('footer', language.mainmenuLabelFooter + v);
+	});
+}
 
 const Mainmenu = {
 
@@ -66,6 +68,8 @@ const Mainmenu = {
 		setTimeout(function () {
 			News.loadIfNeeded();
 		}, 0);
+
+		setAppVersion();
 
 		return MAIN_MENU_DATA;
 	},
