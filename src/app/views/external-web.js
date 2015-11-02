@@ -21,10 +21,10 @@ function loaded(args) {
 	 * to figure out if it's a PDF or not, but for now, looking at
 	 * the url will suffice
 	 */
-	let normalizedUrl = url.toLowerCase();
 	if (android) {
-		if (normalizedUrl.endsWith('.pdf')) {
-			url = 'https://docs.google.com/gview?embedded=true&url=' + url;
+		var parsedURL = /^.*?\.pdf(?:\?.*)?$/i.exec(url);
+		if (parsedURL) {
+			url = 'https://docs.google.com/gview?embedded=true&url=' + encodeURIComponent(parsedURL[0]);
 		}
 	}
 
