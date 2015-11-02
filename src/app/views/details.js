@@ -1,6 +1,6 @@
 'use strict';
 
-//import {time, timeEnd, timePeek, inspect} from './../shared/utils/debug';
+//import {time, timeEnd, timePeek, inspect, saveFile} from './../shared/utils/debug';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
@@ -54,10 +54,8 @@ function init(args) {
 
 	// Setup WebView
 	wv = new webViewModule.WebView();
-	wv.off(webViewModule.WebView.loadStartedEvent);
-	wv.on(webViewModule.WebView.loadStartedEvent, function (event) {
-		interjectLink(event);
-	});
+	wv.removeEventListener(webViewModule.WebView.loadStartedEvent, interjectLink);
+	wv.on(webViewModule.WebView.loadStartedEvent, interjectLink);
 
 	// setTimeout as this takes ~300ms on an Android device and we don't want to
 	// block the ui while adding it.
@@ -162,6 +160,7 @@ function menuItemTap(args) {
 }
 
 function interjectLink(event) {
+
 	let isNavigation = false;
 	let linkObj = {
 		url: '',
@@ -199,6 +198,7 @@ function interjectLink(event) {
 	}
 
 	if (isNavigation) {
+		wv.removeEventListener(webViewModule.WebView.loadStartedEvent, interjectLink);
 		if (linkObj.internal) {
 			navigation.navigateToUrl(linkObj.url, curPageName);
 		} else if (linkObj.external) {
