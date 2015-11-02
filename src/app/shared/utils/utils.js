@@ -207,6 +207,10 @@ function rewriteHTML(html) {
 	// Replaces {{child}} with icon
 	html = html.replace(/\{\{child\}\}/g, '<img src="file://' + CHILD_ICON + '" class="child-icon">');
 
+	// Replace "replaceable icon" with SVG as some older Android can't render the unicode character
+	const svgReplaceable = '<svg width="12" height="12" style="width: 1em; height: 1em; enable-background:new 0 0 96 96;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 96 96" xml:space="preserve"><g><path style="fill:#005292;" d="M30.557,44.915h34.888v-8.229H30.557V44.915z M30.557,60.343h34.888v-8.228H30.557V60.343z M48,0 C21.49,0,0,21.49,0,48s21.49,48,48,48s48-21.49,48-48S74.51,0,48,0z M48,87.2C26.351,87.2,8.801,69.649,8.801,48S26.351,8.8,48,8.8 c21.65,0,39.2,17.551,39.2,39.2S69.65,87.2,48,87.2z"/></g></svg>';
+	html = html.replace(/<span class="replaceable">&#8860;<\/span>/g, svgReplaceable);
+
 	return html;
 }
 
