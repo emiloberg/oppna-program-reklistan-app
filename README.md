@@ -52,6 +52,29 @@ cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
 
 ## Hacks
 
+### WebView and rendering
+This can be removed once [https://github.com/NativeScript/NativeScript/issues/1038](https://github.com/NativeScript/NativeScript/issues/1038) is released.
+
+Currently, the WebView (used to display advices/drugs) isn't rendering correctly on older Android (probably <= 4.3).
+
+To solve this, after `npm install`, manually patch file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` Line 71 and 83 and replace
+
+Where it says something like:
+
+```
+this._android.loadDataWithBaseURL(baseUrl, content, "text/html; charset=utf-8", "utf-8", null);
+```
+
+Remove the `; charset=utf-8` part of the `"text/html; charset=utf-8"`, so that it reads:
+
+```
+this._android.loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
+```
+
+Do the same thing on line 71.
+
+
+### WebView and images
 This can be removed once [https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963) is released.
 
 Currently the WebView isn't can't show pre-downloaded images on Android. There's [an open GitHub issue]([https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963)) which solves this. 
@@ -66,7 +89,7 @@ with
 
 ```
 var baseUrl = "file:///" + require("file-system").knownFolders.documents().path + '/';
-this._android.loadDataWithBaseURL(baseUrl, src, "text/html; charset=utf-8", "utf-8", null);
+this._android.loadDataWithBaseURL(baseUrl, src, "text/html", "utf-8", null);
 ```
 
 ## Development
