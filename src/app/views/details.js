@@ -162,10 +162,12 @@ function menuItemTap(args) {
 function interjectLink(event) {
 
 	let isNavigation = false;
+	let isMail = false;
 	let linkObj = {
 		url: '',
 		internal: false,
-		external: false
+		external: false,
+		mail: false
 	};
 
 	[{
@@ -189,7 +191,15 @@ function interjectLink(event) {
 		}
 	});
 
-	if (linkObj.internal || linkObj.external) {
+	// Check if mail url
+	var regexMail = /rekmail:([^\?]+)/gi;
+	var mailMatch = regexMail.exec(event.url);
+	if (mailMatch) {
+		isMail = true;
+		linkObj.mail = mailMatch[0];
+	}
+
+	if (isNavigation || isMail) {
 		if (ios) {
 			event.object.ios.stopLoading();
 		} else if (android) {
@@ -206,16 +216,13 @@ function interjectLink(event) {
 		}
 	}
 
-	// Check if mail url
-	var reSrc = /rekmail:([^\?]+)/gi;
-	var match = reSrc.exec(event.url);
-	if (match) {
+	if (isMail) {
 		email.available().then(function(avail) {
 			if (avail) {
 				email.compose({
 					subject: 'Från REKlistan',
 					body: '',
-					to: [match[1]]
+					to: linkObj.mail
 				});
 			}
 		});
