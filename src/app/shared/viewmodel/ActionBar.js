@@ -41,7 +41,9 @@ export default class ActionBar extends Observable {
 			this._iconClose = Images.close;
 		}
 
-		lastPageTitle = pageTitle;
+		if (pageTitle.length > 0) {
+			lastPageTitle = pageTitle;
+		}
 	}
 
 	set selectedIndex(index) {
