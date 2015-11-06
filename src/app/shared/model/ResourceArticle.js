@@ -1,7 +1,6 @@
 'use strict';
 
 import language from './../utils/language';
-import Mainmenu from './../viewmodel/Mainmenu';
 import navigation from './../utils/navigation';
 import * as frameModule from 'ui/frame';
 
@@ -30,7 +29,7 @@ export default class ResourceArticle {
 	}
 
 	navigateToResourceArticle(args) {
-		Mainmenu.hide(function() {
+		// TODO: Hide menu if needed
 			if(args.view.bindingContext.isExternal) {
 				navigation.navigateToExternalUrl(args.view.bindingContext.externalLink);
 			} else {
@@ -42,6 +41,5 @@ export default class ResourceArticle {
 					}
 				});
 			}
-		});
 	}
 }

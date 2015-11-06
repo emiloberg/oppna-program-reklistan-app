@@ -4,16 +4,13 @@
 import ActionBar from './../shared/viewmodel/ActionBar';
 import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
-import * as frameModule from 'ui/frame';
 import * as webViewModule from 'ui/web-view';
 import {android, ios} from 'application';
 import {templatesModel} from './../shared/utils/htmlRenderer';
 import navigation from './../shared/utils/navigation';
 import * as gridLayout from 'ui/layouts/grid-layout';
-import screenDimensions from './../shared/utils/screenDimensions';
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
 
-var email = require("nativescript-email");
+var email = require('nativescript-email');
 
 let page;
 let actionBar;
@@ -22,9 +19,7 @@ let wv;
 let navContext;
 
 function loaded(args) {
-	//if (!page) {
 	init(args);
-	//}
 }
 
 function init(args) {
@@ -33,20 +28,9 @@ function init(args) {
 	let htmlData;
 
 	// Elements
-	const elPageWrapper = page.getViewById('pagewrapper');
-	const elPageContent = page.getViewById('pagecontent');
 	const elActionBar = page.getViewById('actionbar');
 	const elAppMessage = page.getViewById('appmessage');
 	const elMenuWrapper = page.getViewById('menuwrapper');
-
-	// Set size of absolute positioned items.
-	elPageWrapper.height = screenDimensions.height;
-	elPageWrapper.width = screenDimensions.width;
-	elPageContent.height = screenDimensions.height;
-	elPageContent.width = screenDimensions.width;
-	elMenuWrapper.height = screenDimensions.height;
-	elMenuWrapper.width = screenDimensions.width;
-	AbsoluteLayout.setLeft(elMenuWrapper, screenDimensions.width);
 
 	// Nav context data
 	navContext = page.navigationContext;
@@ -132,31 +116,11 @@ function init(args) {
 	showVW(htmlData);
 
 	// Menu
-	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
-	// and hopes that the user doesn't press the menu before that.
-	setTimeout(function() {
-		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
-	}, 1000);
+	elMenuWrapper.bindingContext = Mainmenu.get();
 
 	// App Message
 	elAppMessage.bindingContext = AppMessage.get();
 
-}
-
-function menuItemTap(args) {
-	const section = args.view.bindingContext;
-	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
-	if (linkToArticle) {
-		navigation.navigateToUrl(linkToArticle, curPageName);
-	} else {
-		frameModule.topmost().navigate({
-			moduleName: 'views/details',
-			context: {
-				data: section,
-				prevPageTitle: curPageName
-			}
-		});
-	}
 }
 
 function interjectLink(event) {
@@ -262,5 +226,4 @@ function switchTab(index) {
 
 
 module.exports.loaded = loaded;
-module.exports.menuItemTap = menuItemTap;
 ////module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };
