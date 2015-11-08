@@ -4,7 +4,6 @@
 import customUi from './../shared/modules/ui';
 import ActionBar from './../shared/viewmodel/ActionBar';
 import navigation from './../shared/utils/navigation';
-import {android} from 'application';
 
 function loaded(args) {
 	customUi.setViewDefaults();
@@ -21,11 +20,9 @@ function loaded(args) {
 	 * to figure out if it's a PDF or not, but for now, looking at
 	 * the url will suffice
 	 */
-	if (android) {
-		var parsedURL = /^.*?\.pdf(?:\?.*)?$/i.exec(url);
-		if (parsedURL) {
-			url = 'https://docs.google.com/gview?embedded=true&url=' + encodeURIComponent(parsedURL[0]);
-		}
+	var parsedURL = /^.*?\.pdf(?:\?.*)?$/i.exec(url);
+	if (parsedURL) {
+		url = 'https://docs.google.com/gview?embedded=true&url=' + encodeURIComponent(parsedURL[0]);
 	}
 
 	wv.src = url;
