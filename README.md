@@ -39,16 +39,61 @@ npm install
 tns platform add ios
 tns platform add android
 
-## cd back to the root dir
+# Tell Nativescript to prepare app (include all dependencies)
+tns prepare ios
+
+# cd back to the root dir
 cd ..
 
-## Copy iOS/Android app settings files to the platforms folders.
+# Copy iOS/Android app settings files to the platforms folders.
 cp ./resources/app-settings/AndroidManifest.xml ./rekapp/platforms/android/src/main/
 cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
 
-## Follow the instructions under the heading 'Hacks' below.
+# Follow the instructions under the heading 'Setting iOS app icons/launch images' below.
 
+# Follow the instructions under the heading 'Hacks' below.
 ```
+
+## Setting iOS app icons/launch images
+
+First time, after adding the ios platform by running `tns platform add` you need to add all app icons and launch images to the project. Do this by following this guide.
+
+1. From the root of the project start xcode by running `open rekapp/platforms/ios/rekapp.xcodeproj`
+2. In xcode, select _rekapp_ on the top left. Scroll down to _App Icons and Launch Images_, it should look like this:
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/general-default.png)
+
+3. Press _Use Asset Catalog_ next to _App Icons Source_. Press _Migrate_ in the dialog. The screens should now look like this:
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/general-asset-catalogs-created.png)
+
+4. Press the little gray arrow next to _App Icons Source [AppIcon]_.
+
+5. On the new screen, select both _AppIcon_ and _Brand Assets_, right click and select _Remove Selected Items_. The list should now be empty.
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/assets-remove-appicon-and-brand-assets.png)
+
+6. At the bottom of the screen, press the plus sign and select _Import..._
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/assets-import.png)
+	
+7. Select the three folders inside `resources/app-settings/Images.xcassets` and 
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/assets-import-select.png)
+	
+8. The screen should now look like this
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/assets-imported.png)
+	
+9. Press _rekapp_ in the leftmost column to return to the main screen
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/assets-return-to-main.png)
+
+10. Scroll down to _App Icons and Launch Images_ again. And set the 3 fields so that _App Icons Source_ = `AppIcon`, Launch Images Source = `LaunchImage` and clear out _Laynch Screen File_ (it should be empty). When all done, it should look like the screenshot below.
+
+	![Screenshot](https://raw.githubusercontent.com/emiloberg/oppna-program-reklistan-app/master/docs/setting-up-ios-icons/general-set-assets.png)
+
+All done!
 
 ## Hacks
 
