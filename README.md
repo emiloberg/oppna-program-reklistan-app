@@ -54,6 +54,86 @@ cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
 # Follow the instructions under the heading 'Hacks' below.
 ```
 
+## Re-preparing the app
+If you've already set up the project as described above, but want to rebuild the app (because source code has changed...) do:
+
+```
+# cd to/the/project/root
+
+# First checkout the code
+
+# Clean ES5 build and re-transpile ES6 > ES5
+gulp _clean && gulp _compile
+
+# cd to app directory
+cd rekapp
+
+# Install any dependencies which might have been added
+npm install
+
+# Prepare any dependencies which might have been added
+tns prepare ios
+tns prepare android
+
+# cd back to root directory
+cd ..
+
+# bump the version number of the platform you're building for.
+# open the corresponding file in your favourite editor.
+vi ./rekapp/platforms/android/src/main/AndroidManifest.xml
+vi ./rekapp/platforms/ios/rekapp/rekapp-Info.plist
+# Android:
+# Update android:versionCode="1" and android:versionName="1.0".
+# versionCode should be an integer bumped by 1. versionName should be
+# a semver string bumped depending on the type of release
+#
+# iOS
+# <key>CFBundleShortVersionString</key>
+# <string>1.0.0</string>
+# <key>CFBundleVersion</key>
+# <string>1.0.0</string>
+# Both CFBundleShortVersionString and CFBundleVersion should be the same
+# semver string bumped depending on the type of release
+```
+
+## Building the app and uploading to the App store
+
+### Android
+
+First, run through _Re-preparing the app_ as described above.
+
+Then, from app-root/rekapp, run:
+
+```
+tns build android --release --key-store-path /path/to/keystore/file.keystore --key-store-password KEYSTORE-PWD --key-store-alias VGR --key-store-alias-password KEYSTORE-PWD
+```
+
+Your compiled APK will be placed in.
+
+```
+rekapp/platforms/android/build/outputs/apk/rekapp-release.apk
+```
+
+Point your web browser to [https://play.google.com/apps/publish/](https://play.google.com/apps/publish/). Log in with license account. Select _REKlistan_, press _APK_ and the _Beta_ tab. Press _Upload APK for beta version_. Select the newley created apk and wait a few hours for Google to process it. Then you can release it to beta/production.
+
+### iOS
+
+First, run through _Re-preparing the app_ as described above.
+
+Then, from the app-root/rekapp, open XCode by running
+
+```
+open platforms/ios/rekapp.xcodeproj/
+```
+
+Select _Product_ > _Archive_. If the _Archive_ option is grayed out do the following: On the top of the XCode window you have a few build buttons (Play, Stop, etc). To the right of the stop icon it says _rekapp > [Some emulator]_. Press the emulator (this is the build destination) and select a non-emulator. There's probably a choice called something like _Generic iOS Device_ - select that. Now Archive should be enabled. Press it.
+
+App will now build. Wait half a minute and a window with all archived versions will now be shown. Press _Upload to App Store_. It'll take a while as Apple will do an automatic validation of the package (and tell you if something's wrong).
+
+Point your web browser to [https://itunesconnect.apple.com](https://itunesconnect.apple.com). Select _My Apps_ and _REKlistan_. To add the build as a new TestFlight (beta) version. Select _TestFlight_ and then _External Testing_. Click _Add build to test_, select the just created build and then fill out the form.
+
+Wait while (could be a couple of hours up to a few days!) while Apple screens the app. You're not getting a mail when they're done so you've to look in from time to time.
+
 ## Setting iOS app icons/launch images
 
 First time, after adding the ios platform by running `tns platform add` you need to add all app icons and launch images to the project. Do this by following this guide.
