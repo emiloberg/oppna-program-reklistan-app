@@ -29,7 +29,7 @@ var resources = [
 // These folders are cleaned every time a build is done.
 // This pattern should be all the folders you have in /app/src/
 var generatedSources = [
-    './rekapp/app/{shared,test,views,thirdparty,dev-resources}'
+    './rekapp/app/{components,shared,test,thirdparty,views}'
 ];
 
 // Destination to save files

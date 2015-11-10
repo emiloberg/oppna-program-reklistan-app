@@ -2,7 +2,6 @@
 
 //import {inspect} from './../utils/debug';
 import language from './../utils/language';
-import Mainmenu from './../viewmodel/Mainmenu';
 import navigation from './../utils/navigation';
 import * as frameModule from 'ui/frame';
 
@@ -34,8 +33,8 @@ export default class NewsArticle {
 	}
 
 	navigateToNewsArticle(args) {
-		Mainmenu.hide(function() {
 
+			// TODO: Hide menu if needed
 			if(args.view.bindingContext.isExternal) {
 				navigation.navigateToExternalUrl(args.view.bindingContext.externalLink);
 			} else {
@@ -47,6 +46,5 @@ export default class NewsArticle {
 					}
 				});
 			}
-		});
 	}
 }

@@ -1,16 +1,27 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="loaded" xmlns:app="components" actionBarHidden="true">
-    <AbsoluteLayout id="pagewrapper">
-        <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0" >
-            <app:topbar />
+<Page xmlns="http://www.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" loaded="loaded" xmlns:app="components" actionBarHidden="true">
+
+    <drawer:RadSideDrawer drawerLocation="Right" id="sideDrawer">
+        <drawer:RadSideDrawer.drawerTransition>
+            <drawer:RevealTransition />
+        </drawer:RadSideDrawer.drawerTransition>
+        <drawer:RadSideDrawer.mainContent>
+
             <!-- PAGE CONTENT -->
-            <ListView row="1" col="0" itemTap="menuItemTap" items="{{ items }}">
-                <ListView.itemTemplate>
-                    <Label textWrap="true" cssClass="listviewLabel" text="{{ title }}" />
-                </ListView.itemTemplate>
-            </ListView>
+            <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0">
+                <app:topbar/>
+                <ListView row="1" col="0" itemTap="listItemTap" items="{{ items }}">
+                    <ListView.itemTemplate>
+                        <Label textWrap="true" cssClass="listviewLabel" text="{{ title }}"/>
+                    </ListView.itemTemplate>
+                </ListView>
+                <app:appMessage />
+            </GridLayout>
             <!-- /PAGE CONTENT -->
-            <app:appMessage />
-        </GridLayout>
-        <app:sidemenu />
-    </AbsoluteLayout>
+
+        </drawer:RadSideDrawer.mainContent>
+        <drawer:RadSideDrawer.drawerContent>
+            <app:drawerContent />
+        </drawer:RadSideDrawer.drawerContent>
+    </drawer:RadSideDrawer>
+
 </Page>

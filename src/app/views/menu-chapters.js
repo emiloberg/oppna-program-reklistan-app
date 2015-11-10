@@ -6,8 +6,6 @@ import Mainmenu from './../shared/viewmodel/Mainmenu';
 import AppMessage from './../shared/viewmodel/AppMessage';
 import * as frameModule from 'ui/frame';
 
-import {AbsoluteLayout} from 'ui/layouts/absolute-layout';
-import screenDimensions from './../shared/utils/screenDimensions';
 import navigation from './../shared/utils/navigation';
 
 let page;
@@ -16,29 +14,17 @@ let dataList;
 let curPageName;
 
 function loaded(args) {
-	//if (!page) {
-		init(args);
-	//}
+	init(args);
 }
 
 function init(args) {
 	page = args.object;
 
 	// Elements
-	const elPageWrapper = page.getViewById('pagewrapper');
 	const elPageContent = page.getViewById('pagecontent');
 	const elActionBar = page.getViewById('actionbar');
 	const elAppMessage = page.getViewById('appmessage');
 	const elMenuWrapper = page.getViewById('menuwrapper');
-
-	// Set size of absolute positioned items.
-	elPageWrapper.height = screenDimensions.height;
-	elPageWrapper.width = screenDimensions.width;
-	elPageContent.height = screenDimensions.height;
-	elPageContent.width = screenDimensions.width;
-	elMenuWrapper.height = screenDimensions.height;
-	elMenuWrapper.width = screenDimensions.width;
-	AbsoluteLayout.setLeft(elMenuWrapper, screenDimensions.width);
 
 	// Nav context data
 	let navContext = page.navigationContext;
@@ -71,30 +57,23 @@ function init(args) {
 		enabledTabs: enabledTabs,
 		selectedIndex: selectedIndex
 	});
-
 	actionBar.drugsTap = function() { switchTab(0); };
 	actionBar.adviceTap = function() { switchTab(1); };
 	elActionBar.bindingContext = actionBar;
 
-	// listView list
-	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
-
-
-	elPageContent.bindingContext = dataList;
-
 	// Menu
-	// As this binding takes like 300ms for some reason, we bind it after the page has loaded
-	// and hopes that the user doesn't press the menu before that.
-	setTimeout(function() {
-		elMenuWrapper.bindingContext = Mainmenu.setup(elPageContent, elMenuWrapper);
-	}, 1000);
+	elMenuWrapper.bindingContext = Mainmenu.get();
 
 	// App Message
 	elAppMessage.bindingContext = AppMessage.get();
 
+	// Main data list
+	dataList.set('selectedIndex', actionBar.get('selectedIndex'));
+	elPageContent.bindingContext = dataList;
+
 }
 
-function menuItemTap(args) {
+function listItemTap(args) {
 	const section = args.view.bindingContext;
 	const linkToArticle = section.isLinkToArticle(actionBar.get('selectedIndex'));
 	if (linkToArticle) {
@@ -116,5 +95,5 @@ function switchTab(index) {
 }
 
 module.exports.loaded = loaded;
-module.exports.menuItemTap = menuItemTap;
+module.exports.listItemTap = listItemTap;
 ////module.exports.swipe = function(args) { navigation.swipe(args, curPageName, ['search', 'menu']); };

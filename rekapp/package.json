@@ -1,21 +1,22 @@
 {
-  "nativescript": {
-    "id": "se.vgregion.rekapp",
-    "tns-ios": {
-      "version": "1.4.0"
-    },
-    "tns-android": {
-      "version": "1.4.0"
-    }
-  },
-  "dependencies": {
-    "handlebars": "^3.0.3",
-    "lunr": "^0.5.12",
-    "moment": "^2.10.6",
-    "nativescript-appversion": "git+http://github.com/emiloberg/nativescript-appversion.git#4242fb579c5018c5e0a4ca8ccc9b43abd79c5a90",
-    "nativescript-email": "^1.1.1",
-    "nativescript-social-share": "^1.1.1",
-    "swag": "^0.7.0",
-    "tns-core-modules": "1.4.0"
-  }
+	"nativescript": {
+		"id": "se.vgregion.rekapp",
+		"tns-ios": {
+			"version": "1.4.1"
+		},
+		"tns-android": {
+			"version": "1.4.0"
+		}
+	},
+	"dependencies": {
+		"handlebars": "^3.0.3",
+		"lunr": "^0.5.12",
+		"moment": "^2.10.6",
+		"nativescript-appversion": "git+http://github.com/emiloberg/nativescript-appversion.git#4242fb579c5018c5e0a4ca8ccc9b43abd79c5a90",
+		"nativescript-email": "^1.1.1",
+		"nativescript-social-share": "^1.1.1",
+		"nativescript-telerik-ui": "^0.1.1",
+		"swag": "^0.7.0",
+		"tns-core-modules": "1.4.0"
+	}
 }

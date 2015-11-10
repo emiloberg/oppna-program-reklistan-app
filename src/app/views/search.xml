@@ -1,9 +1,14 @@
-<Page xmlns="http://www.nativescript.org/tns.xsd" navigatingTo="navigatingTo" loaded="loaded" xmlns:app="components" actionBarHidden="true" navigatingFrom="navigatingFrom">
-    <AbsoluteLayout id="pagewrapper">
+<Page xmlns="http://www.nativescript.org/tns.xsd" xmlns:drawer="nativescript-telerik-ui/sidedrawer" loaded="loaded" xmlns:app="components" actionBarHidden="true">
+
+<drawer:RadSideDrawer drawerLocation="Right" id="sideDrawer">
+    <drawer:RadSideDrawer.drawerTransition>
+        <drawer:RevealTransition />
+    </drawer:RadSideDrawer.drawerTransition>
+    <drawer:RadSideDrawer.mainContent>
+
+        <!-- PAGE CONTENT -->
         <GridLayout rows="auto, *, auto" columns="*" id="pagecontent" top="0" left="0" >
             <app:topbar />
-            <!-- PAGE CONTENT -->
-            
             <StackLayout row="1">
                 <SearchBar id="searchbar" textFieldHintColor="#ffffff" hint="{{searchPlaceholder}}" text="{{searchText}}" />
                 <Label text="{{ noSearchResultsFound }}" cssClass="search--noSearchResults" visibility="{{ noSearchResultsFound ? 'visible' : 'collapsed' }}" />
@@ -25,10 +30,14 @@
                     </ListView.itemTemplate>
                 </ListView>
             </StackLayout>
-
-            <!-- /PAGE CONTENT -->
             <app:appMessage />
         </GridLayout>
-        <app:sidemenu />
-    </AbsoluteLayout>
+        <!-- /PAGE CONTENT -->
+
+    </drawer:RadSideDrawer.mainContent>
+    <drawer:RadSideDrawer.drawerContent>
+        <app:drawerContent />
+    </drawer:RadSideDrawer.drawerContent>
+</drawer:RadSideDrawer>
+
 </Page>

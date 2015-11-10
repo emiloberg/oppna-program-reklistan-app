@@ -1,8 +1,5 @@
-<!-- MENU -->
-<GridLayout columns="80, 1, *" rows="*" left="0" top="0" id="menuwrapper" swipe="swipeMenu">
-    <StackLayout row="0" col="0" tap="hideMenuTap"></StackLayout>
-    <StackLayout row="0" col="1" cssClass="mainmenu--side-divider"></StackLayout>
-    <ScrollView row="0" col="2" cssClass="mainmenu--menu">
+<StackLayout>
+    <ScrollView row="0" col="2" cssClass="mainmenu--menu" id="menuwrapper">
         <StackLayout>
             <Image cssClass="mainmenu--vgrlogo" src="{{ vgrLogoImage }}" stretch="aspectFit" horizontalAlignment="center" />
             <StackLayout cssClass="mainmenu--heading" visibility="{{ news.count ? 'visible' : 'collapsed' }}">
@@ -15,7 +12,7 @@
                             <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
                             <Label text="{{ lead }}" textWrap="true" cssClass="mainmenu--list-item--lead" visibility="{{ lead ? 'visible' : 'collapsed' }}" />
                         </StackLayout>
-                        <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item--divider" height="1" />
                     </StackLayout>
                 </Repeater.itemTemplate>
             </Repeater>
@@ -28,7 +25,7 @@
                         <StackLayout cssClass="mainmenu--list-item" tap="{{ navigateToResourceArticle }}" orientation="horizontal">
                             <Label text="{{ title }}" textWrap="true" cssClass="mainmenu--list-item--label" />
                         </StackLayout>
-                        <StackLayout cssClass="mainmenu--list-item--divider" height="1"></StackLayout>
+                        <StackLayout cssClass="mainmenu--list-item--divider" height="1" />
                     </StackLayout>
                 </Repeater.itemTemplate>
             </Repeater>
@@ -42,5 +39,4 @@
             <Label tap="logoTap" text="{{ footer }}" textWrap="true" cssClass="mainmenu--footer" />
         </StackLayout>
     </ScrollView>
-</GridLayout>
-<!-- /MENU -->
+</StackLayout>
