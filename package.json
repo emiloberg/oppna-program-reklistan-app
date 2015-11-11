@@ -1,9 +1,8 @@
 {
-  "name": "nativescript-emulator-reload",
+  "name": "reklistan",
   "version": "1.0.1",
-  "description": "This small gulp script will monitor the source files of a NativeScript project and when a file is changed it'll rebuild and reload the emulator.",
+  "description": "",
   "main": "gulpfile.js",
-
   "devDependencies": {
     "babel-core": "^5.8.23",
     "babel-plugin-object-assign": "^1.2.1",
@@ -21,14 +20,30 @@
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.1.1",
     "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.3.5",
     "lazypipe": "^0.2.3",
     "merge-stream": "^0.1.7",
     "mocha": "^2.2.4",
+    "ncp": "^2.0.0",
+    "replace": "^0.3.0",
+    "rimraf": "^2.4.3",
     "run-sequence": "^1.1.0",
-    "gulp-watch": "^4.3.5"
+    "semver": "^5.0.3",
+    "validator": "^4.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "npm run prepare:full",
+    "prepare:full": "npm run internal:images && npm run internal:tns-platforms-add && npm run prepare",
+    "prepare": "gulp cleanCompile && npm run internal:npm-install && npm run internal:tns-prepare && npm run internal:bump-predefined && npm run internal:copy-hacks",
+    "bump": "node bump-version.js",
+    "ios:open": "open ./rekapp/platforms/ios/rekapp.xcodeproj",
+    "ios:emulate": "cd rekapp && tns emulate ios --device iPhone-6",
+    "internal:copy-hacks": "ncp ./resources/hack/web-view.android.js ./rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js",
+    "internal:npm-install": "cd rekapp && rimraf node_modules && npm install && cd ..",
+    "internal:tns-prepare": "cd rekapp && tns prepare ios && tns prepare android && cd ..",
+    "internal:tns-platforms-add": "cd rekapp && rimraf platforms && tns platform add ios && tns platform add android && cd ..",
+    "internal:bump-predefined": "npm run bump -- android 1 1.0 && npm run bump -- ios 1.0.0",
+    "internal:images": "gulp images"
   },
   "author": {
     "name": "Emil Oberg"
