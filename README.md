@@ -14,44 +14,10 @@ It fetches data via JSON from the companion website [http://reklistan.vgregion.s
 # Clone this repo
 git clone https://github.com/emiloberg/oppna-program-reklistan-app.git
 
-# Install Dev dependencies (gulp etc)
+# Install all dependencies and prepare the project, this will run for a while.
 npm install
-
-# Check that you have gulp installed
-gulp -v
-
-# Install gulp if it wasn't installed
-npm install gulp -g
-
-# Generate images of different resoultions from source files
-gulp images
-
-# Build ES6 > ES5
-gulp _compile
-
-# Cd to the actual app dir
-cd rekapp
-
-# Install App Dependencies
-npm install
-
-# Add iOS and Android Platforms
-tns platform add ios
-tns platform add android
-
-# Tell Nativescript to prepare app (include all dependencies)
-tns prepare ios
-
-# cd back to the root dir
-cd ..
-
-# Copy iOS/Android app settings files to the platforms folders.
-cp ./resources/app-settings/AndroidManifest.xml ./rekapp/platforms/android/src/main/
-cp ./resources/app-settings/rekapp-Info.plist ./rekapp/platforms/ios/rekapp/
 
 # Follow the instructions under the heading 'Setting iOS app icons/launch images' below.
-
-# Follow the instructions under the heading 'Hacks' below.
 ```
 
 ## Re-preparing the app
@@ -60,49 +26,26 @@ If you've already set up the project as described above, but want to rebuild the
 ```
 # cd to/the/project/root
 
-# First checkout the code
+# Checkout the code
 
-# Clean ES5 build and re-transpile ES6 > ES5
-gulp _clean && gulp _compile
+npm run prepare
 
-# cd to app directory
-cd rekapp
-
-# Install any dependencies which might have been added
-npm install
-
-# Prepare any dependencies which might have been added
-tns prepare ios
-tns prepare android
-
-# cd back to root directory
-cd ..
-
-# bump the version number of the platform you're building for.
-# open the corresponding file in your favourite editor.
-vi ./rekapp/platforms/android/src/main/AndroidManifest.xml
-vi ./rekapp/platforms/ios/rekapp/rekapp-Info.plist
-# Android:
-# Update android:versionCode="1" and android:versionName="1.0".
-# versionCode should be an integer bumped by 1. versionName should be
-# a semver string bumped depending on the type of release
-#
-# iOS
-# <key>CFBundleShortVersionString</key>
-# <string>1.0.0</string>
-# <key>CFBundleVersion</key>
-# <string>1.0.0</string>
-# Both CFBundleShortVersionString and CFBundleVersion should be the same
-# semver string bumped depending on the type of release
+# Build the app as described under 'Building the app'
 ```
 
-## Building the app and uploading to the App store
+## Building the app
 
 ### Android
 
 First, run through _Re-preparing the app_ as described above.
 
-Then, from app-root/rekapp, run:
+Then, bump the version number. From the root directory run:
+
+```
+npm run bump android <integer version code> <X.Y version name>
+```
+
+Then, from root/rekapp, run (after replacing the path and pwd in the command):
 
 ```
 tns build android --release --key-store-path /path/to/keystore/file.keystore --key-store-password KEYSTORE-PWD --key-store-alias VGR --key-store-alias-password KEYSTORE-PWD
@@ -119,6 +62,12 @@ Point your web browser to [https://play.google.com/apps/publish/](https://play.g
 ### iOS
 
 First, run through _Re-preparing the app_ as described above.
+
+Then, bump the version number. From the root directory run:
+
+```
+npm run bump ios <semver version code>
+```
 
 Then, from the app-root/rekapp, open XCode by running
 
@@ -177,12 +126,14 @@ All done!
 
 ## Hacks
 
+These hacks are installed automagically when `npm install`-ing the project. The text below if just documentation of the hacks and nothing you need to do manually.
+
 ### WebView and rendering
 This can be removed once [https://github.com/NativeScript/NativeScript/issues/1038](https://github.com/NativeScript/NativeScript/issues/1038) is released.
 
-Currently, the WebView (used to display advices/drugs) isn't rendering correctly on older Android (probably <= 4.3).
+Currently, the WebView (used to display advices/drugs) isn't rendering correctly on older Android (probably <= 4.3). 
 
-To solve this, after `npm install`, manually patch file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` Line 71 and 83 and replace
+To solve this, the file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` is patched at Line 71 and 83.
 
 Where it says something like:
 
@@ -190,13 +141,13 @@ Where it says something like:
 this._android.loadDataWithBaseURL(baseUrl, content, "text/html; charset=utf-8", "utf-8", null);
 ```
 
-Remove the `; charset=utf-8` part of the `"text/html; charset=utf-8"`, so that it reads:
+`; charset=utf-8` part of the `"text/html; charset=utf-8"` is removed, so that it reads:
 
 ```
 this._android.loadDataWithBaseURL(baseUrl, content, "text/html", "utf-8", null);
 ```
 
-Do the same thing on line 71.
+Same thing on line 71.
 
 
 ### WebView and images
@@ -204,13 +155,13 @@ This can be removed once [https://github.com/NativeScript/NativeScript/issues/96
 
 Currently the WebView isn't can't show pre-downloaded images on Android. There's [an open GitHub issue]([https://github.com/NativeScript/NativeScript/issues/963](https://github.com/NativeScript/NativeScript/issues/963)) which solves this. 
 
-In the meantime, after `npm install`, manually patch file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` Line 84 and replace
+The file `rekapp/node_modules/tns-core-modules/ui/web-view/web-view.android.js` is patched at Line 84.
 
 ```
 this._android.loadData(src, "text/html; charset=utf-8", "utf-8");
 ```
 
-with
+is replaced with
 
 ```
 var baseUrl = "file:///" + require("file-system").knownFolders.documents().path + '/';
@@ -221,6 +172,16 @@ this._android.loadDataWithBaseURL(baseUrl, src, "text/html", "utf-8", null);
 This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory and gets compiled into ES5 into the `/rekapp` directory.
 
 Images in vector format in `src/app/images` gets converted into png images of different sizes (@2x, @3x, hdpi, etc) and copied to `rekapp/app/images` when `gulp images` is run. Images, already in png format, in `src/app/images-fixed` just gets copied to `rekapp/app/images` when the same gulp task is run.
+
+### Automation
+The `npm install` and `npm run prepare` commands will run a whole lot of magic to prepare the app for you. Rather then describing all magic which happens here, take a look at the `root/package.json` file under the `scripts` section.
+
+### Never - ever - touch files in the rekapp/platforms folder
+These files are generated and will be overwritten.
+
+If you want to change the `AndroidManifest.xml`/`rekapp-Info.plist` files, edit them in `root/resources/app-settings` and run `tns run prepare` to copy them to the right place.
+
+If you want to change the hacks (as described above), edit them in `root/resources/hacks` and run `tns run prepare` to copy them to the right place. If you want to add/remove a hack; take a look at the `internal:copy-hacks` task in `root/package.json`.
 
 ### When developing, run:
 
