@@ -173,6 +173,16 @@ This is a ES2015/EcmaScript 6 app. All source files lives in the `src` directory
 
 Images in vector format in `src/app/images` gets converted into png images of different sizes (@2x, @3x, hdpi, etc) and copied to `rekapp/app/images` when `gulp images` is run. Images, already in png format, in `src/app/images-fixed` just gets copied to `rekapp/app/images` when the same gulp task is run.
 
+### Automation
+The `npm install` and `npm run prepare` commands will run a whole lot of magic to prepare the app for you. Rather then describing all magic which happens here, take a look at the `root/package.json` file under the `scripts` section.
+
+### Never - ever - touch files in the rekapp/platforms folder
+These files are generated and will be overwritten.
+
+If you want to change the `AndroidManifest.xml`/`rekapp-Info.plist` files, edit them in `root/resources/app-settings` and run `tns run prepare` to copy them to the right place.
+
+If you want to change the hacks (as described above), edit them in `root/resources/hacks` and run `tns run prepare` to copy them to the right place. If you want to add/remove a hack; take a look at the `internal:copy-hacks` task in `root/package.json`.
+
 ### When developing, run:
 
 ```
